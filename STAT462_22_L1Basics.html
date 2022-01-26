@@ -449,22 +449,23 @@ h2.title {
 <h3><span class="header-section-number">1.2.4</span> Lab challenge!</h3>
 <p>Everything above was for your own learning - you do not need to submit any of it. Now we will start the actual lab you will submit. Consider printing this out and checking off each step one by one.</p>
 <p><br></p>
-<div id="step-1-reopen-r-studio" class="section level4 unnumbered">
-<h4 class="unnumbered"><strong>STEP 1: Reopen R studio</strong></h4>
+<div id="reopen-r-studio" class="section level4 unnumbered">
+<h4 class="unnumbered">1: Reopen R studio</h4>
 <p>First, see if you remember how to close and re-open R studio. <br></p>
 <p>Save everything then close down R studio.To re-open, do not reopen R from the programmes folder or icon!</p>
-<p><strong>INSTEAD, GO TO THE LAB 1 FOLDER ON YOUR COMPUTER AND DOUBLE CLICK THE .RPROJ FILE CALLED STAT462-Lab1-Project!</strong>. This will get you straight back into your lab folder for you to carry on.</p>
+<p><strong>INSTEAD, GO TO THE LAB 1 FOLDER ON YOUR COMPUTER AND DOUBLE CLICK THE .RPROJ FILE CALLED STAT462-Lab1-Project!</strong>.</p>
+<p>This will get you straight back into your lab folder for you to carry on.</p>
 <p><br></p>
 </div>
-<div id="step-2-make-a-new-markdown-doc" class="section level4 unnumbered">
-<h4 class="unnumbered"><strong>STEP 2: Make a new Markdown doc</strong></h4>
+<div id="make-lab-markdown" class="section level4 unnumbered">
+<h4 class="unnumbered">2: Make lab-Markdown</h4>
 <p>Create a new <strong>RMarkdown document</strong> called <code>STAT462-Lab1-PSUID.Rmd</code>. e.g. for me <em>STAT462-Lab1-hlg5155.Rmd</em>. <br></p>
 <p>Delete all the text/code below line 11 (e.g. everything from “R Markdown onward”)</p>
 <p><br></p>
 </div>
-<div id="step-3-adding-paragraphs" class="section level4 unnumbered">
-<h4 class="unnumbered"><strong>STEP 3: Adding paragraphs</strong></h4>
-<p>You might find it easier to use the markdown visual text editor - I do!. <br> Click the “A” symbol at the top right to switch (instructions here:<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#46_Formatting_text">Tutorial 4.6</a>)</p>
+<div id="adding-paragraphs" class="section level4 unnumbered">
+<h4 class="unnumbered">3: Adding paragraphs</h4>
+<p>You might find it easier to use the markdown visual text editor. <br> Click the “A” symbol at the top right to switch (instructions here:<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#46_Formatting_text">Tutorial 4.6</a>)</p>
 <ul>
 <li><p>In the white text area, create a level 1 heading called <em>“Introduction to STAT-462”</em>. For a cheat sheet to help with this, move your mouse to the top of the page, click the help menu, then click Markdown Quick reference, or see <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#46_Formatting_text">Tutorial 4.6</a>.</p></li>
 <li><p>Leave a blank line, then use the STAT-462 syllabus to describe the course late policy in your own words (e.g. you’re writing about this in the white space).</p></li>
@@ -472,34 +473,27 @@ h2.title {
 </ul>
 <p><br></p>
 </div>
-<div id="step-4-code-showcase" class="section level4" number="1.2.4.1">
-<h4><span class="header-section-number">1.2.4.1</span> <strong>STEP 4: Code showcase</strong></h4>
+<div id="code-showcase" class="section level4" number="1.2.4.1">
+<h4><span class="header-section-number">1.2.4.1</span> 4: Code showcase</h4>
+<p><img src="Figures/Lab1_Basics_CodeChunk.png" width="954" /> &lt;br&lt;</p>
+<p>Leave another blank line and add a new Level 1 heading called <em>“Code Showcase”</em>. Add a blank line afterwards too. Create a code chunk (). Inside use R code to calculate the following <br><br></p>
 <ul>
-<li>Leave another blank line and add a new Level 1 heading called <em>“Code Showcase”</em>. Add a blank line afterwards too.</li>
+<li>103<sup>3</sup> (e.g <code>103*103*103</code>, or <code>103^3</code>) <br></li>
 </ul>
-<p><img src="Figures/Lab1_Basics_CodeChunk.png" width="954" /></p>
+<p>_ The co-sine of your age (google is your friend, google R function for cosine) <br></p>
 <ul>
-<li><p>Create a code chunk (). Inside use R code to calculate the following (Hint, you can either put these all in one code chunk, or have separate code chunks with them in. Just remember to leave blank lines between them)</p>
-<ul>
-<li><p>103<sup>3</sup> (e.g <code>103*103*103</code>, or <code>103^3</code>) <br><br></p></li>
-<li><p>The co-sine of your age (google is your friend, google R function for cosine) <br><br></p></li>
-<li><p>Use R code to work out how many characters are in <a href="https://www.bbcamerica.com/anglophenia/2015/09/how-to-pronounce-the-longest-place-name-in-the-u-k">the longest town name in Wales</a> <em>Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch</em>. <br><br></p>
+<li>Use R code to work out how many characters are in <a href="https://www.bbcamerica.com/anglophenia/2015/09/how-to-pronounce-the-longest-place-name-in-the-u-k">the longest town name in Wales</a> <em>Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch</em>. <br>
 <ul>
 <li>Hint 1, remember you can copy paste this into your code. <br></li>
 <li>Hint 2.. your tutorials and quote marks!<br></li>
 <li>Hint 3.. you can google any R command, try gooling R command for number of characters in a word.<br><br></li>
 </ul></li>
-<li><p>Create a sequence from 1000 to 2000, incrementing by 100 (e.g. 1000,1100,1200…). <br><br></p>
-<ul>
-<li>Hint, see what google says for R and sequences, or see <a href="http://www.simonqueenborough.info/R/basic/lessons/Sequences_of_Numbers.html">here</a>.</li>
-</ul></li>
-</ul></li>
-<li><p>Press “knit” at the top of the screen. If you haven’t made a mistake a pop up should appear with a html file and your edits. If you have a made a mistake, stop and fix before continuing.</p></li>
 </ul>
+<p>Press “knit” at the top of the screen. If you haven’t made a mistake a pop up should appear with a html file and your edits. If you have a made a mistake, stop and fix before continuing.</p>
 <p><br></p>
 </div>
-<div id="step-5-packages" class="section level4" number="1.2.4.2">
-<h4><span class="header-section-number">1.2.4.2</span> STEP 5: Packages</h4>
+<div id="packages" class="section level4" number="1.2.4.2">
+<h4><span class="header-section-number">1.2.4.2</span> 5. Packages</h4>
 <p>If you have run through the tutorials, you should have installed all the packages you need for this course.</p>
 <p><strong>IF NOT GO AND DO THE BULK INSTALL IN <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#22_R-Packages">Tutorial 2.2</a>]</strong></p>
 <p>You only need to <em>download</em> the packages once, but we still need to load them every time we need a command in that package (in the same way you only download your banking app once from the app store but need to press the icon every time you want to use it).</p>
@@ -507,6 +501,8 @@ h2.title {
 <li>Always INSTALL/DOWNLOAD packages using a menu or in the console</li>
 <li>Always LOAD packages in a code-chunk in your script (as we need to do tihs every time)</li>
 </ul>
+<div id="do-this-part-even-if-you-did-tutorial-2" class="section level5" number="1.2.4.2.1">
+<h5><span class="header-section-number">1.2.4.2.1</span> DO THIS PART EVEN IF YOU DID TUTORIAL 2!</h5>
 <p>Today we will be using commands from the skimr package, the ggplot2 package and the plotly package.</p>
 <p>Somewhere near the topc of your script, make a new code chunk and add this code. Remember to run the code chunk! (pressing the green arrow, or go to the run button on the top right and press Run All)</p>
 <pre class="r"><code>library(tidyverse)
@@ -514,24 +510,24 @@ library(skimr)
 library(ggplot2)
 library(plotly)
 library(ggpubr)</code></pre>
+<p><br></p>
 </div>
-<div id="step-6-data-analysis" class="section level4" number="1.2.4.3">
-<h4><span class="header-section-number">1.2.4.3</span> STEP 6: Data analysis</h4>
+</div>
+<div id="data-analysis" class="section level4" number="1.2.4.3">
+<h4><span class="header-section-number">1.2.4.3</span> 6: Data analysis</h4>
 <div id="a-load-summarise-the-data" class="section level5" number="1.2.4.3.1">
 <h5><span class="header-section-number">1.2.4.3.1</span> 6a Load &amp; summarise the data</h5>
 <p>Leave a blank line, and create a new level 1 heading called <em>Car Analysis</em>. Leave a blank line afterwards too. We’re going to work with a table of data that’s already pre-loaded into R inside the ggplot2 package.</p>
 <ol style="list-style-type: decimal">
-<li><p>Make sure you have run the library code chunk above without error, or it won’t work. <br><br></p></li>
+<li><p>Make sure you have run the library code chunk above without error, or it won’t work. <br></p></li>
 <li><p>Load the data using this command</p></li>
 </ol>
 <pre class="r"><code>data(mpg)</code></pre>
-<p><br><br></p>
+<p><br></p>
 <ol start="3" style="list-style-type: decimal">
-<li>Type the <code>?mpg</code> command in the console. This will bring up the help file. <br> <br></li>
+<li>Type the <code>?mpg</code> command in the console. This will bring up the help file. <br> Read the background of the dataset and briefly summarise it in your script (in the white space). Include the unit of analysis and a reasonable population this dataset could be used to explore. BE SPECIFIC AND READ THE HELP FILE CAREFULLY!</li>
 </ol>
-<p><br><br></p>
-<p>Read the background of the dataset and briefly summarise it in your file (in the white space). Include the unit of analysis and a reasonable population this dataset could be used to explore. BE SPECIFIC AND READ THE HELP FILE CAREFULLY!</p>
-<p><br> <br></p>
+<p><br></p>
 </div>
 <div id="b-summary-analysis" class="section level5" number="1.2.4.3.2">
 <h5><span class="header-section-number">1.2.4.3.2</span> 6b Summary analysis</h5>
@@ -551,11 +547,8 @@ skim(mpg)</code></pre>
 </ol>
 <p><br><br></p>
 </div>
-<div id="c-plots" class="section level5" number="1.2.4.3.3">
-<h5><span class="header-section-number">1.2.4.3.3</span> 6c Plots</h5>
-<p><br></p>
-<div id="boxplots" class="section level6" number="1.2.4.3.3.1">
-<h6><span class="header-section-number">1.2.4.3.3.1</span> Boxplots</h6>
+<div id="c-boxplots" class="section level5" number="1.2.4.3.3">
+<h5><span class="header-section-number">1.2.4.3.3</span> 6c Boxplots</h5>
 <p>Suppose I want to compare the miles per gallon of the car models being driven in cities for different classes of cars. We can make the comparison by making a side-by-side boxplot. Create a new code chunk. Use the code below to create the plot.</p>
 <p>To see the full plot, press the tiny “show in new window” button at the top right of the plot itself.</p>
 <pre class="r"><code># boxplot is the command.  You can have a command on several lines.
@@ -567,37 +560,14 @@ boxplot(cty~class,          # the miles per gallon column vs each type
 <ol start="4" style="list-style-type: decimal">
 <li><em>Briefly comment on what you can tell about the population/data from this plot.</em></li>
 </ol>
-<p><br><br></p>
-</div>
-<div id="scatterplots" class="section level6" number="1.2.4.3.3.2">
-<h6><span class="header-section-number">1.2.4.3.3.2</span> Scatterplots</h6>
-<ul>
-<li>Finally, let’s make your first plot. Among the variables in the mpg dataset are: <br><br>
-<ul>
-<li><code>displ</code>, a car’s engine size, in litres. <br></li>
-<li><code>hwy</code>, a car’s fuel efficiency on the highway, in miles per gallon (mpg). A car with a low fuel efficiency consumes more fuel than a car with a high fuel efficiency when they travel the same distance. <br></li>
-<li><code>class</code>, the class of car e.g. mini, SUV, pick up.. <br></li>
-</ul></li>
-</ul>
-<p>To make a nice looking interactive plot, let’s use the ggplot package rather than the basic r commands. Create a code chunk containing this code</p>
-<pre class="r"><code># ggplotly comes from the plotly package
-# Choose the dataset and tell R the columns to plot
-p &lt;- ggplot(data = mpg) +                  
-     geom_point(mapping = aes(x = displ, y = hwy, color = class)) 
-
-ggplotly(p)  # Plot interactively</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li><strong>As fully as possible using the plot, describe the relationship between car’s engine size and its fuel efficiency on the highway. Does your conclusions apply across the population?</strong></li>
-</ol>
-<p><br><br></p>
-</div>
+<p><br></p>
 </div>
 <div id="d-selecting-columns" class="section level5" number="1.2.4.3.4">
 <h5><span class="header-section-number">1.2.4.3.4</span> 6d Selecting columns</h5>
 <p>As we discussed above, the mpg table is loaded into R. But what if we want to access a specific column? This is where the $ symbol is useful. It means, “select the column named..”</p>
 <p>For example if you type <code>mpg$model</code> into the console, you will see that it just prints the data from the cyl column (number of cylinders) onto the screen. We could then apply a command to those numbers. For example <code>unique(mpg$model)</code> will find all the unique values in that column</p>
-<ol start="6" style="list-style-type: decimal">
-<li><strong>Create a new code chunk. Use the <code>median()</code> and <code>IQR()</code> commands to find the actual median and inter quartile range of the column containing highway miles per gallon</strong> Summarise your results in full sentences</li>
+<ol start="5" style="list-style-type: decimal">
+<li><strong>Create a new code chunk. Use the <code>median()</code> and <code>IQR()</code> commands to find the actual median and inter quartile range of the column containing highway miles per gallon. Summarise your results in full sentences</strong></li>
 </ol>
 </div>
 <div id="e-normality-testing" class="section level5" number="1.2.4.3.5">
@@ -608,12 +578,7 @@ ggplotly(p)  # Plot interactively</code></pre>
 ggqqplot(mpg$hwy,col=&quot;red&quot;)</code></pre>
 <pre class="r"><code># Shapiro Wilks test
 shapiro.test(mpg$hwy)</code></pre>
-<pre><code>## 
-##  Shapiro-Wilk normality test
-## 
-## data:  mpg$hwy
-## W = 0.95885, p-value = 2.999e-06</code></pre>
-<ol start="7" style="list-style-type: decimal">
+<ol start="6" style="list-style-type: decimal">
 <li><strong>Use the data above to assess whether the hwy variable in the mpg dataset is normally distributed. Write out a full hypothesis test in the text, using the R results to inform your conclusions</strong></li>
 </ol>
 <p>If you need help, see this tutorial (<a href="https://r4ds.had.co.nz/data-visualisation.html" class="uri">https://r4ds.had.co.nz/data-visualisation.html</a>).</p>
@@ -633,18 +598,18 @@ pnorm(14,mean=15.4,sd=2.4,lower.tail = TRUE)</code></pre>
 <pre class="r"><code>qnorm(.80,mean=15.4,sd=2.4)</code></pre>
 <pre><code>## [1] 17.41989</code></pre>
 <p>So the the answer is 17.42 years (remember the units!)</p>
-<ol start="8" style="list-style-type: decimal">
-<li><p><strong>Use R to find the probability below and write your conclusions in the text</strong> <br><br></p>
+<ol start="7" style="list-style-type: decimal">
+<li><p><strong>Use R to find the probability below and write your conclusions in the text</strong> <br></p>
 <ul>
-<li><p><em>If X ∼ N(5,2), then find P(X ≤ 4)</em> <br><br></p></li>
-<li><p><em>If X ∼ N(5,2), then find the value a such that P(X &lt; a) = 0.025</em> <br><br></p></li>
+<li><p><strong>If X ∼ N(5,2), then find P(X ≤ 4)</strong> <br></p></li>
+<li><p><strong>If X ∼ N(5,2), then find the value a such that P(X &lt; a) = 0.025</strong> <br></p></li>
 </ul></li>
 </ol>
-<p><br> <br> <br></p>
+<p><br></p>
 </div>
 </div>
-<div id="step-7-above-and-beyond" class="section level4" number="1.2.4.4">
-<h4><span class="header-section-number">1.2.4.4</span> STEP 7 Above and beyond</h4>
+<div id="above-beyond" class="section level4" number="1.2.4.4">
+<h4><span class="header-section-number">1.2.4.4</span> 7. Above &amp; beyond</h4>
 <p>Remember that an A is 94%, so you can ignore this section and still easily get an A.</p>
 <p>But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.</p>
 <p><strong>To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.</strong></p>
@@ -652,11 +617,11 @@ pnorm(14,mean=15.4,sd=2.4,lower.tail = TRUE)</code></pre>
 <li>You get 2/4 for doing something new in any way</li>
 <li>You get 4/4 for something really impressive or multiple small things.</li>
 </ul>
-<p>OR</p>
-<p>You get 4/4 for successfully answering this question fully in the text using R to help:</p>
-<p>**Records maintained by the your admin office indicate that amount of time elapsed between the submission of travel receipts and the final reimbursement of funds has approximately a normal distribution with a mean of 39 days and a standard deviation of 6 days. If you submitted your travel claim 55 days ago, what is the probability that it should have been returned by now? What might you conclude?*</p>
 <p>Please tell us in your R script what you did!</p>
 <p>Here in lab 1, maybe you added in different text formats to make your lab script more clear (bold/italic etc). Maybe you worked out how to add axis labels to ggplot (note, it’s a pain), maybe you used nested headings or sub-headings, or worked out how to add a table of contents.</p>
+<p>OR……..</p>
+<p>Alternatively, you get 4/4 for successfully answering this question fully in your script, using R to help:</p>
+<p><strong>Records maintained by the your admin office indicate that amount of time elapsed between the submission of travel receipts and the final reimbursement of funds has approximately a normal distribution with a mean of 39 days and a standard deviation of 6 days. If you submitted your travel claim 55 days ago, what is the probability that it should have been returned by now? What might you conclude?</strong></p>
 <p><br> <br></p>
 </div>
 </div>

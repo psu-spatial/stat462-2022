@@ -4,6 +4,26 @@ output: html_notebook
 ---
 
 
+<br>
+
+Your fir. Among the variables in the mpg dataset are: <br><br>
+    +  `displ`, a car’s engine size, in litres. <br>
+    +  `hwy`, a car’s fuel efficiency on the highway, in miles per gallon (mpg). A car with a low fuel efficiency consumes more fuel than a car with a high fuel efficiency when they travel the same distance. <br>
+    +  `class`, the class of car e.g. mini, SUV, pick up.. <br>
+ 
+To make a nice looking interactive plot, let's use the ggplot package rather than the basic r commands.  Create a code chunk containing this code
+
+```{r,  eval=FALSE}
+# ggplotly comes from the plotly package
+# Choose the dataset and tell R the columns to plot
+p <- ggplot(data = mpg) +                  
+     geom_point(mapping = aes(x = displ, y = hwy, color = class)) 
+
+ggplotly(p)  # Plot interactively
+```
+
+5. **As fully as possible using the plot, describe the relationship between car’s engine size and its fuel efficiency on the highway.  Does your conclusions apply across the population?**  
+
 ### Inline code {#Tut4Ec_inline}
 
 Follow these tutorial to see how to add inline code. e.g. answers to commands INSIDE your text
