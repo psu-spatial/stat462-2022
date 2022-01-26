@@ -379,7 +379,7 @@ Now we are going to download most of the packages you need for these labs so tha
 ```{r, warnings=FALSE, message=FALSE, eval=FALSE}
 install.packages(c("tidyverse","abind","car","corrplot","dismo",
                   "ggpubr","ggstatsplot","ggpubr","IMTest","MASS","nortest",
-                  "hrbrthemes", "ISLR","knitr", "kable","lattice","matlab",
+                  "hrbrthemes", "ISLR","knitr", "kableExtra","lattice","matlab",
                   "olsrr", "plotly","RColorBrewer","readxl","remotes",
                   "rmdformats","skimr", "stargazer",
                   "Stat2Data","tmap","units","viridis","yarrr"))
@@ -416,7 +416,7 @@ library("ggpubr")
 library("ggstatsplot")
 library("ggpubr")
 library("ISLR")
-library("kable")
+library("kableExtra")
 library("knitr")
 library("hrbrthemes")
 library("lattice")
