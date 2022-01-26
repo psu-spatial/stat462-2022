@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>T1_R_Basics.knit</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/vembedr-0.1.5/css/vembedr.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT-462 Labs</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="T1_R_Basics.html">Tutorials</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+</style>
+<div id="Tut1_WhatisR" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Accessing R &amp; Settings</h1>
+<p><em>What are R and R-Studio?</em> <br> <em>How do I transfer things to and from R-Studio cloud?</em> <br> <em>What is a package and how do I install them?</em></p>
+<p><br></p>
+<div id="what-are-r-and-r-studio" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> What are R and R-Studio?</h2>
+<p><strong>R</strong> is a free, open source statistical programming language. It is useful for data cleaning, analysis, and visualization. By a “programming language”, I mean it is a collection of commands that you can type into the computer in order to analyse and visualise data. The easiest way I find to think about R is that it is literally a language, like Spanish or Hindi, that is spoken by your computer. Learning R means learning vocabulary and grammar in order to communicate. It also means it will get easier with experience and practice..</p>
+<p>When you install R on your computer, you are essentially instantly teaching your computer to “speak in R” with some very basic Notepad-likesoftware where you can enter commands.</p>
+<p><br></p>
+<div class="figure" style="text-align: center">
+<img src="Figures/pg_Tut1_about_fig1.png" alt="*The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command*" width="80%" />
+<p class="caption">
+<em>The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command</em>
+</p>
+</div>
+<p><br></p>
+<p>More recently, <strong>R-studio</strong> has been designed as a piece of software to make it easier to programme in R. It’s Microsoft Word is compared to notepad with many more options. For example, you can easily see help files, run code, see your output and create outputs like this lab book! R-Studio also allows us to make interactive documents called R-Markdown files.</p>
+<p><br></p>
+<div class="figure" style="text-align: center">
+<img src="Figures/pg_Tut1_about_fig2.png" alt="*R-studio is much more sophisticated*" width="1424" />
+<p class="caption">
+<em>R-studio is much more sophisticated</em>
+</p>
+</div>
+<p><br></p>
+<p>To learn more about R studio, see here: <a href="https://www.rstudio.com/products/rstudio/" class="uri">https://www.rstudio.com/products/rstudio/</a> (1 minute video), or a slightly longer one here:</p>
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/SdMPh5uphO0" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+<p><br> <br></p>
+</div>
+<div id="accessing-r-r-studio" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Accessing R &amp; R-Studio</h2>
+<p>For this course you will need TWO pieces of software, one called R and one called R studio. You have four options:</p>
+<ul>
+<li>Installing on your own computer (free and recommended)</li>
+<li>R-Studio Cloud - you can access R studio online, but only a certain number of hours are free</li>
+<li>The Penn State TLT server: (Not recommended as often crashes and loses work)</li>
+<li>Lab computers (not recommended, they are out of date and R will fill up your U-Drive)</li>
+</ul>
+<p>More details here for each of them:</p>
+<p><br></p>
+<div id="Tut1Ba_Desktop" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> On your computer</h3>
+<p>R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.</p>
+<p class="comment">
+“<strong>Your R AND R-Studio MUST be up to date, or things wont’ work</strong>. R should be a minimum of 4.1.2 (2021-11-01) –”Bird Hippie” and R-studio a minimum of Version 2021.09.1”
+</p>
+<p class="comment">
+<strong>If you already have R and/or R-Studio, it is very important you update both of them to the most recent version. The easiest way to do this is to first uninstall both programmes, then re-install fresh.</strong> If you are worried this will affect another class, chat with Dr Greatrex before starting out.
+</p>
+<div id="to-install-r" class="section level4 unnumbered">
+<h4 class="unnumbered">To install R:</h4>
+<ol style="list-style-type: decimal">
+<li><p>On a windows machine, go to: <a href="https://cloud.r-project.org/bin/windows/base/" class="uri">https://cloud.r-project.org/bin/windows/base/</a> , download R v 4.1.1 and double click to install (click next through all the options)</p></li>
+<li><p>On a Mac, go to: <a href="https://cloud.r-project.org/bin/macosx/" class="uri">https://cloud.r-project.org/bin/macosx/</a> ,download the R v 4.1.1 package and double click to install (click next through all the options)</p></li>
+<li><p>On anything else: <a href="https://cloud.r-project.org/bin" class="uri">https://cloud.r-project.org/bin</a></p></li>
+</ol>
+</div>
+<div id="to-install-r-studio" class="section level4 unnumbered">
+<h4 class="unnumbered">To install R-Studio:</h4>
+<ol style="list-style-type: decimal">
+<li><p>Go to the website here: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a> and download the version for your operating system.</p>
+<p><em><strong>For Windows Users</strong>: Sometimes R asks you to download something called RTools. You can ignore this request as it is not relevant to our course. If you really want the warning to go away, you can download Rtools here <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> Follow the instructions closely and ask if you need support.</em></p></li>
+</ol>
+<p><br></p>
+</div>
+</div>
+<div id="Tut1Bb_Cloud" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> R-studio cloud</h3>
+<p>You can access both R and R-studio online without installing anything through R-studio cloud.</p>
+<p>This is a website where you can log into an online version of R. and I believe is free for the first 25hrs each month. To do this, make an account at <a href="https://rstudio.cloud/plans/free" class="uri">https://rstudio.cloud/plans/free</a>.</p>
+<p>You can also easily move files from the Cloud to your Desktop, so for example, you can work on the cloud during lab hours and on your desktop at home. Here’s how</p>
+<p><br></p>
+<div id="r-studio-cloud-to-your-computer" class="section level4 unnumbered">
+<h4 class="unnumbered">R-Studio Cloud to your computer</h4>
+<ol style="list-style-type: decimal">
+<li>On your computer, go to your STAT462 folder (or make one!)</li>
+<li>Make a subfolder named for that lab e.g. <em>Lab 1</em></li>
+<li>On your browser, open your project in R-studio cloud</li>
+<li>In the files quadrant/tab, select the checkbox of all the files.</li>
+<li>Click Export. This will zip them into a folder. Save that into your lab folder</li>
+<li>Unzip. Double click the project.RProj file to reopen your lab on your computer</li>
+</ol>
+<p><br></p>
+<p><img src="Figures/pg_Tut1_about_fig3.png" width="1358" style="display: block; margin: auto;" /></p>
+</div>
+<div id="your-computer-to-r-studio-cloud" class="section level4 unnumbered">
+<h4 class="unnumbered">Your computer to R-Studio Cloud</h4>
+<ol style="list-style-type: decimal">
+<li>On your browser, in R studio cloud make a new project and name it something relevant</li>
+<li>Click the upload button</li>
+<li>Navigate to the lab folder on your computer. Choose ONLY the .Rmd file(s) and any input data as appropriate (RStudio-Cloud will make the rest)</li>
+<li>Click on the .Rmd file name in the files in RStudio and you’re good to go</li>
+</ol>
+<p><br></p>
+<p><img src="Figures/pg_Tut1_about_fig4.png" width="1453" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p><img src="Figures/pg_Tut1_about_fig5.png" width="70%" /></p>
+<p><br></p>
+<p><img src="Figures/pg_Tut1_about_fig6.png" width="70%" /></p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="Tut1Bc_Campus" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Lab computers/TLT server</h3>
+<p>There is a free version of R studio cloud hosted by Penn State, that you can access here: <a href="https://lat.tlt.psu.edu/home/remoteaccess/oss-web-apps/" class="uri">https://lat.tlt.psu.edu/home/remoteaccess/oss-web-apps/</a> . However, to access off campus you will need a VPN and it can be buggy and crash. Be warned and talk to Dr G first.</p>
+<p>The lab computers should have a recent version of R, but often the code “packages” you will later install fill up your U-drive. Equally, the version of R outside the lab room is going to be out of date and will likely cause issues. Be warned</p>
+<p><em>If you go down these routes, proceed with care and talk to Dr Greatrex first</em></p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="Tut2A_Settings" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Getting started</h2>
+<p>Everything in this tutorial is a one-off to get R and R-studio set up.</p>
+<p><strong>IMPORTANT! In an easy to access place on your computer, make a folder called STAT-462. This is where ALL your labs are going to live</strong></p>
+<div id="on-your-own-computer" class="section level4 unnumbered">
+<h4 class="unnumbered">On your own computer</h4>
+<p><strong>Now everything is installed, open R-studio (NOT R!)</strong>.</p>
+<p><br></p>
+<p><img src="Figures/pg_Tut2_startup_fig1.png" width="80%" style="display: block; margin: auto;" /> <br></p>
+</div>
+<div id="on-r-studio-cloud" class="section level4 unnumbered">
+<h4 class="unnumbered">On R-studio Cloud</h4>
+<p>Create a new project (button on the top right).</p>
+<p><br></p>
+<p><img src="Figures/pg_Tut2_startup_fig1cloud.png" width="80%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="looking-around-r-studio" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Looking around R-studio</h3>
+<p>You will be greeted by three panels:</p>
+<ul>
+<li>The interactive R console (entire left)</li>
+<li>Environment/History (tabbed in upper right)</li>
+<li>Files/Plots/Packages/Help/Viewer (tabbed in lower right)</li>
+</ul>
+<p><br></p>
+<p><img src="Figures/pg_Tut2_startup_fig2.png" width="889" style="display: block; margin: auto;" /></p>
+<p><br></p>
+If you wish to learn more about what these windows do, have a look at this resource, from the Pirates Guide to R: <a href="https://bookdown.org/ndphillips/YaRrr/the-four-rstudio-windows.html" class="uri">https://bookdown.org/ndphillips/YaRrr/the-four-rstudio-windows.html</a>.<br />
+
+<p class="comment">
+If you have used R before, you might see that there are variables and plots etc already loaded**. It is always good to clear these before you start a new analysis. To do this, click the little broom symbol in your environment tab
+</p>
+<p><br></p>
+</div>
+<div id="moving-the-4-quadrants-around" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Moving the 4 quadrants around</h3>
+<p>You might find you like the differnet quadrants in a different order. To change this, look at the menu at VERY TOP OF THE SCREEN.</p>
+<ul>
+<li><p>In the<code>View</code> menu, there is a <code>/Panes/Pane Layout</code> menu item, where you can move the on-screen quadrants around. I tend to like the console to be top left and scripts to be top right, with the plots and environment on the bottom - but this is personal choice.</p></li>
+<li><p>There should also be a menu called <code>Help</code><br>Useful for R-studio version and Markdown cheatsheets.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="changing-a-few-settings-lab-1-important" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Changing a few settings (LAB 1 IMPORTANT)</h3>
+<p>R-studio wants to be helpful and will try to re-load exactly where you were in a project when you log back in. This can get confusing, so we are going to turn this off.</p>
+<ul>
+<li><p><strong>ON A MAC:</strong> Click on the R-studio menu button on the top left of the screen, then click Preferences.</p></li>
+<li><p><strong>ON A PC/R-Studio Cloud:</strong> Click on Tools-&gt; Global Options -&gt; Preferences</p></li>
+</ul>
+<p>Now:</p>
+<ul>
+<li>UNCLICK “Restore most recently opened project at startup”</li>
+<li>UNCLICK “Restore .RData into workspace on startup”</li>
+<li>Set “Save workspace to .RData on” exit to Never</li>
+<li>UNCLICK “Restore previously open source documents on startup”</li>
+<li>You can also click the appearances tab to change how the screen looks.</li>
+</ul>
+<p><br> <br> <br></p>
+</div>
+</div>
+</div>
+<div id="Tut2C_Project" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> R-Projects and Packages</h1>
+<div id="projects" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Projects</h2>
+<p class="comment">
+<strong>You need to make a new project before you start EVERY lab!</strong>
+</p>
+<p>An R-project is a special folder that will store everything to do with each lab in one place on your computer. This is incredibly useful - it means that if you switch from R-Cloud, to the lab computers, to your laptop, all you have to do is to move the folder and everything will just work. Learn more here.</p>
+<p><a href="https://www.linkedin.com/learning/learning-the-r-tidyverse/why-should-you-use-projects-in-rstudio?u=76811570" title="Why use R Projects"><img src="Figures/pg_Tut2_startup_fig3.png" alt="Rproject" /></a></p>
+<p><br> <br></p>
+<div id="Tut2Bb_CreateRproj" class="section level3" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Creating an R-project</h3>
+<p>This step is needed for EVERY lab.</p>
+<div id="on-r-studio-cloud-1" class="section level5" number="2.1.1.0.1">
+<h5><span class="header-section-number">2.1.1.0.1</span> <strong>On R-Studio Cloud:</strong></h5>
+<p>Note, if you are running R-Studio Cloud, you just need to click “Create Project” and name it.</p>
+<p><br></p>
+</div>
+<div id="on-your-desktop" class="section level5" number="2.1.1.0.2">
+<h5><span class="header-section-number">2.1.1.0.2</span> <strong>On your desktop</strong></h5>
+<p><img src="Figures/pg_Tut2_startup_fig1.png" width="60%" style="display: block; margin: auto;" /></p>
+<ol style="list-style-type: decimal">
+<li>If it’s not already open, open <strong>R-Studio</strong></li>
+<li>Go to the file menu at the very top and click <code>New Project</code></li>
+<li>Select <code>New Directory</code>, then <code>New Project</code></li>
+<li>Name your project <em>STAT462-Lab1-PROJECT</em></li>
+<li>Under “create project as a subdirectory of”, hit the browse button and go inside your STAT-462 main folder (you just need to be in the folder, you don’t need to have selected anything). Press open</li>
+<li>Finally, press <code>Create Project</code></li>
+</ol>
+<p><img src="Figures/pg_Tut2_startup_fig4.png" width="660" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="Tut2Bc_signsRproj" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> How do I know it has worked?</h3>
+<p>R will change slightly. If you look at the top of the screen in the title bar, it should say <em>STAT462-Lab1-Project R Studio</em>.</p>
+<p>The Files tab should have gone to your project folder. Essentially, R-Studio is now “looking” inside your Lab 1 folder, making it easier to find your data and output your results.</p>
+<div class="figure">
+<img src="Figures/pg_Tut2_startup_fig5.png" alt="Note, in this book you might see a few GEOG-364s instead of STAT-462s" width="845" />
+<p class="caption">
+Note, in this book you might see a few GEOG-364s instead of STAT-462s
+</p>
+</div>
+<p><br></p>
+<p>Essentially, R-Studio is now “looking” inside your Lab 1 folder, making it easier to find your data and output your results.</p>
+<p>If you want one, final check, try typing this into the console (INCLUDING THE EMPTY PARANTHESES/BRACKETS), press enter and see if it prints out the location of Lab 1 on your computer. If not, talk to an instructor.</p>
+<pre class="r"><code>getwd()</code></pre>
+<p><br></p>
+</div>
+<div id="returning-to-your-lab-project" class="section level3" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Returning to your lab project</h3>
+<p>OK, let’s imagine that you get halfway through your lab and your computer dies. How do you get back to your Lab work? Try this now. Close down R-Studio.</p>
+<p>To reopen a lab:</p>
+<ol style="list-style-type: decimal">
+<li><strong>DO NOT RE-OPEN R-STUDIO!</strong></li>
+<li>Instead navigate on your computer to your <em>STAT-462/STAT462-Lab1-Project</em> folder.<br />
+</li>
+<li>Double click on the STAT462-Lab1-Project.RProj file.</li>
+</ol>
+<p>This will reopen R for that specific lab, so you can continue where you left off.</p>
+<p>It means you can also open several versions of R studio for multiple projects, which can be very useful in keeping labs separate and staying sane.</p>
+<p><img src="Figures/pg_Tut2_startup_fig6.png" width="961" /></p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="Tut2_Packages" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> R-Packages</h2>
+<div id="Tut2Ba_whatarethey" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> What are packages?</h3>
+<p>As described earlier, we program in R by typing a series of commands. R is open source meaning anyone can create a new one, so over the last 20 years,tens of millions of new custom commands have been created.</p>
+<p>Commands tend to be grouped together into collections called <code>Packages</code> or <code>Libraries</code> (two names for the same thing). For example, one package contains the complete works of Shakespeare; another allows interactive website design; another allows advanced Bayesian statistics. There is a package for literally everything and there are now about 20,000 packages available. You can see the full list here: <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html" class="uri">https://cran.r-project.org/web/packages/available_packages_by_name.html</a></p>
+<p>This is far too many to store on your computer, so most live on the internet in an online (free) “Package Store”. You can download the ones you want, ready to load later.</p>
+<p>So to access the commands in a package we need these two steps:</p>
+<ol style="list-style-type: decimal">
+<li>ONCE ONLY: Download the package from the internet</li>
+<li>EVERY TIME: Load the packages you want</li>
+</ol>
+<p class="comment">
+<strong>A close analogy is your phone:</strong> There are millions of apps available from banking, to 50 different calendar apps. You don’t have every app in the world installed on your phone - and you don’t have every app you <em>do</em> download running at the same time. Instead you download the apps that you think you will need (occasionally downloading a new one on the fly) - and when you need to use an app, you click on it to open.
+</p>
+<p><br> <br></p>
+</div>
+<div id="Tut2Bc_fulllist" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> LAB 1: Bulk download main packages</h3>
+<p>Now we are going to download most of the packages you need for these labs so that you do not need to do this each week.</p>
+<p><strong>Copy these command into the R-CONSOLE and press enter to run</strong>.</p>
+<pre class="r"><code>install.packages(c(&quot;tidyverse&quot;,&quot;abind&quot;,&quot;car&quot;,&quot;corrplot&quot;,&quot;dismo&quot;,
+                  &quot;ggpubr&quot;,&quot;ggstatsplot&quot;,
+                  &quot;hrbrthemes&quot;, &quot;ISLR&quot;,&quot;knitr&quot;, &quot;lattice&quot;,&quot;matlab&quot;,
+                  &quot;olsrr&quot;, &quot;plotly&quot;,&quot;RColorBrewer&quot;,&quot;readxl&quot;,&quot;remotes&quot;,
+                  &quot;rmdformats&quot;,&quot;skimr&quot;, &quot;stargazer&quot;,
+                  &quot;Stat2Data&quot;,&quot;tmap&quot;,&quot;units&quot;,&quot;viridis&quot;,&quot;yarrr&quot;))</code></pre>
+<p>When you press enter, a load of text should stream down your console. Just let it run until the console is back to the &gt; symbol and you can type. It might take several minutes. Sometimes this will give you an error and not run, This can be because copy/pasting from the internet messes up the quote marks around each package name. In that case, you can easily manually download them by clicking the INSTALL button at the top of the packages tab, then choosing each name in turn.</p>
+<pre class="r"><code># Sometimes you need to install a package from a different place, like github. 
+# To do this you use a more complex command, we should not need this
+# remotes::install_github(&quot;ropensci/USAboundariesData&quot;)</code></pre>
+<p>When all the download text is streaming down your screen, it’s hard to know what is an error and what is just “informative”. The easiest way to check is to load all the libraries at once and see whether there are errors. This is the same as clicking every app on your phone to see if they all installed OK.</p>
+<p>Copy the code below into the console TWICE. E.g.</p>
+<ol style="list-style-type: decimal">
+<li>Copy the commands into the console once and press enter to run, wait until it stops running (it will show a load of “welcome” text again that makes it hard to see errors).<br />
+</li>
+<li>The SECOND time you copy it into the console, it should just run without error or messages.</li>
+</ol>
+<p>You can select and copy across the whole thing, you don’t need to go line by line. If you have issues, talk to Dr G.</p>
+<pre class="r"><code>library(&quot;tidyverse&quot;)
+library(&quot;abind&quot;)
+library(&quot;car&quot;)
+library(&quot;corrplot&quot;)
+library(&quot;dismo&quot;)
+library(&quot;ggpubr&quot;)
+library(&quot;ggstatsplot&quot;)
+library(&quot;ISLR&quot;)
+library(&quot;knitr&quot;)
+library(&quot;hrbrthemes&quot;)
+library(&quot;lattice&quot;)
+library(&quot;olsrr&quot;)
+library(&quot;plotly&quot;)
+library(&quot;RColorBrewer&quot;)
+library(&quot;readxl&quot;)
+library(&quot;remotes&quot;)
+library(&quot;rmdformats&quot;) 
+library(&quot;skimr&quot;) 
+library(&quot;stargazer&quot;)
+library(&quot;Stat2Data&quot;) 
+library(&quot;tmap&quot;) 
+library(&quot;units&quot;) 
+library(&quot;viridis&quot;) 
+library(&quot;yarrr&quot;)</code></pre>
+<p><br> <br></p>
+</div>
+<div id="adding-a-new-package" class="section level3" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Adding a new package</h3>
+<p>This is a TWO STEP PROCESS</p>
+<ol style="list-style-type: decimal">
+<li>You need to download it from the internet (like buying a phone app)</li>
+<li>You need to tell the computer you want to use the commands in that package (like clicking on the icon to start the app)</li>
+</ol>
+<p>More details here:</p>
+<p><br></p>
+</div>
+<div id="Tut2Bb_howtodownload" class="section level3" number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> How to Download/Install a new package</h3>
+<p>Look at the Packages tab next to the plot one, you can see which packages/libraries are already pre-installed onto your computer.</p>
+<p>If the package you want isn’t listed then you need to download it from the internet (as a one-off), like buying it from the app store</p>
+<ul>
+<li>Click the INSTALL button in the Packages tab, then start typing the package name and it will show up (check the include dependencies box).</li>
+</ul>
+<p>OR</p>
+<ul>
+<li><p>IN THE CONSOLE! Run the <code>install.packages()</code> command on the package you want to download <strong>with quotes around the package name</strong> e.g. </p>
+<pre class="r"><code>install.packages(&quot;bardr&quot;)</code></pre></li>
+</ul>
+<p>OR</p>
+<ul>
+<li>R will sometime tell you that you are missing a package (sometimes a little yellow ribbon), click yes to install!</li>
+</ul>
+<p><em>Note, if you run this command mulitple times, or the packages is already loaded, R-Studio might want to restart and sometimes gets confused. If it keeps asking, close R-studio, reopen and try again. If it really doesn’t want to work, open R itself and run in the console there.</em></p>
+<p><strong>Try installing the <code>bardr</code> package onto your computer</strong></p>
+<p><br></p>
+<div id="how-to-loaduse-a-package" class="section level4" number="2.2.4.1">
+<h4><span class="header-section-number">2.2.4.1</span> How to LOAD/USE a package</h4>
+<p>Installing a package don’t make the commands immediately available. For that you need to load it (like clicking on an app). This can be done with the <code>library()</code> command.</p>
+<p>In the console type this to install the full works of Shakespeare in the bardr package (<a href="https://www.rdocumentation.org/packages/bardr/versions/0.0.9" class="uri">https://www.rdocumentation.org/packages/bardr/versions/0.0.9</a>)</p>
+<pre class="r"><code>library(bardr)</code></pre>
+<p>If you have managed to install a package successfully, often nothing happens - this is great! It means it loaded the package without errors. Otherwise, I suggest running this command TWICE! This is because loading packages will print “friendly messages” or “welcome text” the first time you load them.</p>
+<p>For example, this is what shows up when you install the tidyverse package. The welcome text is indicating the sub-packages that tidyverse downloaded and also that some commands now have a different meaning.</p>
+<div class="figure" style="text-align: center">
+<img src="Figures/pg_Tut3_basics_fig4.png" alt="Tidyverse install messages" width="80%" />
+<p class="caption">
+Tidyverse install messages
+</p>
+</div>
+<p><strong>To find out if what you are seeing is a friendly message or an error, run the command again. If you run it a second time and there is no error then nothing should happen.</strong></p>
+<p><br></p>
+</div>
+</div>
+<div id="how-to-force-the-computer-to-use-a-specific-package" class="section level3" number="2.2.5">
+<h3><span class="header-section-number">2.2.5</span> How to force the computer to use a specific package</h3>
+<p>Sometimes mulitple packages name a command the same thing and you want to specifiy which package you want to use. You can do this using the :: symbol</p>
+<p>For example, this command <em>forces</em> the computer to use the ‘dplyr package’ version of filter.</p>
+<pre class="r"><code>dplyr::filter(mydata)</code></pre>
+<p>For example, this command <em>forces</em> the computer to use the ‘raster package’ version of filter.</p>
+<pre class="r"><code>raster::filter(mydata)</code></pre>
+<p><br> <br> <br></p>
+</div>
+</div>
+</div>
+<div id="basic-commands" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Basic commands</h1>
+<p class="comment">
+You should now have R-Studio open and be inside an R project. If you’re having issues at this point or haven’t managed to get to this step, STOP! Ask an instructor for help.
+</p>
+<p><br></p>
+<p>First watch this 5 min video above for some pointers. We will also go through the video more slowly here:</p>
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/SWxoJqTqo08?start=41" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+<p><br> <br></p>
+<div id="first-steps" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> First steps</h2>
+<p>Remember that the aim of programming is to provide a language so you can ask your computer to do complex tasks. The console window (see Figure @ref(fig:tut2afig2)) is like a phone call with your computer, where you “speak” in R.</p>
+<ul>
+<li>The computer has a little <code>&gt;</code> symbol to say it is listening/waiting for your command</li>
+<li>You type in a command</li>
+<li>The computer tries to carry it out and will print the answer directly onto the screen</li>
+</ul>
+<p>Let’s start by the simplest command possible. Try typing each of the following commands into your R console and pressing Enter</p>
+<pre class="r"><code>1+1</code></pre>
+<p>When you press enter, it should give you the answer…. 2</p>
+<pre class="r"><code>1+1</code></pre>
+<pre><code>## [1] 2</code></pre>
+<p>Note that spacing does not matter: <code>1+1</code> will generate the same answer as <code>1      +       1</code>. When we get to text, capital letters DO matter.</p>
+<p><br> <br></p>
+</div>
+<div id="saving-commands-in-scripts" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Saving commands in scripts</h2>
+<p>You might wonder at this point about how to save your work.</p>
+<p>Typing into console is like having a phone call with your computer; you’re talking but you’re not keeping records of what you say. To see previous commands, you can click the history tab (Environment quadrant) or press the up/down arrows on your keyboard, but when you close R, all record of these commands will be lost.</p>
+<p>We need instead is a way to save the commands for future use - we can do this using scripts. There are several types of document, or script that you can create and save in R-Studio.</p>
+<ul>
+<li><p>A basic script (the filetype is .r). This is simply just a blank notepad where you can save code commands. When you “run” the commands in the script, R simply copy/pastes the commands over to the console.</p></li>
+<li><p>An R-Notebook or R-Markdown document (the filetype is .Rmd). These are much more interesting - and are how I wrote this lab book. We will be getting to these later in the lab</p></li>
+</ul>
+<p><br></p>
+<div id="creating-a-basic-r-script" class="section level4 unnumbered">
+<h4 class="unnumbered">Creating a basic R script</h4>
+<p>For now, let’s just create a basic R script. Go to the File menu at the very top of the screen, then new file / new script.</p>
+<p>This will add a new window - which is simply a notepad file you can save. If you type your commands in there, you can save them. You run them in the console by highlighting the text on each line and pressing Ctrl-Enter (or command enter on a mac).</p>
+<div class="figure" style="text-align: center">
+<img src="Figures/pg_Tut3_basics_fig4b.png" alt="Running commands in a basic script" width="1250" />
+<p class="caption">
+Running commands in a basic script
+</p>
+</div>
+<p>You now have a space where you can save the work below if you wish. YOU DO NOT NEED TO SUBMIT THIS. You are also welcome to simply enter the commands in the console.</p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="Tut3B_Calc" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> R as a calculator</h2>
+<p>When using R as a calculator, the order of operations is the same as you would have learned back in school, so use brackets to force a different order. For example, in either the console or a script, try running these two commands</p>
+<pre class="r"><code>3 + 5 * 2</code></pre>
+<p>and</p>
+<pre class="r"><code>(3 + 5) * 2</code></pre>
+<p><br></p>
+<p>We can also take shortcuts with our numbers. For example <code>1:5</code> means take all the numbers <code>1 2 3 4 5</code> (e.g. increment the integers one - to - five). Try typing this command and make sure you understand the result.</p>
+<pre class="r"><code>(1 + 2) * 5:3</code></pre>
+<pre><code>## [1] 15 12  9</code></pre>
+<p><br></p>
+<p>We can use this trick to make our first plot! Try entering this command and see what happens. It should plot these numbers against each other</p>
+<pre><code>##   x  y
+## 1 1  6
+## 2 2  7
+## 3 3  8
+## 4 4  9
+## 5 5 10</code></pre>
+<pre class="r"><code>plot(x= 1:5, y= 6:10,xlab=&quot;x-axis&quot;,ylab=&quot;y-axis&quot;)</code></pre>
+<p><br> <br></p>
+</div>
+<div id="asking-questionscomparisons" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Asking questions/comparisons</h2>
+<p>We can also do comparisons in R - using the special symbols TRUE or FALSE (no quote marks, they are special).</p>
+<p>Here we are asking R whether 1 is equal to 1.</p>
+<pre class="r"><code># note two equals signs is read as &quot;is equal to&quot;
+1 == 1  </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>We could also have used</p>
+<ul>
+<li><code>!=</code> “Not equal to”</li>
+<li><code>&lt;</code> “Less than”</li>
+<li><code>&lt;=</code> “Less than or equal to`</li>
+<li><code>&gt;</code> “Greater than”</li>
+<li><code>&gt;=</code> “Greater than or equal to”</li>
+</ul>
+<p>Now ask the computer if the number 12 is less than or equal to the number 10.</p>
+<p><br> <br></p>
+</div>
+<div id="Tut3C_plus" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> The + symbol in the console</h2>
+<p>If you type in an incomplete command, R will understand and wait for you to complete it. For example, if you type <code>1 +</code> and press enter, R will know that you are not finished typing. So it will move onto the next line but the <code>&gt;</code> will have changed into a <code>+</code>, which means its waiting for you to complete your command.</p>
+<p><strong>If you want to cancel a command you can simply hit the “Esc” key or press the little stop symbol and R studio will reset.</strong></p>
+<p>Pressing escape isn’t only useful for killing incomplete commands: you can also use it to tell R to stop running code (for example if it’s taking much longer than you expect), or to get rid of the code you’re currently writing.</p>
+<p><br> <br></p>
+</div>
+<div id="Tut3D_functions" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Functions/Commands</h2>
+<p>Watch this short video to learn three important facts about functions:</p>
+<div class="vembedr">
+<div>
+<iframe class="vimeo-embed" src="https://player.vimeo.com/video/220490105 " width="533" height="300" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+<p>The power of R lies in its many thousands of these built in commands, or <em>functions</em>. In fact, we have already come across one - the plot command. A function, or command is simply an action you can take - like pressing the square root button on a calculator.</p>
+<p><strong>A command is <em>always</em> followed by parentheses ( ), inside which you put your “arguments”</strong> (e.g. the thing you want to take the square root of)</p>
+<p>Try typing these EXACTLY into the console.</p>
+<ul>
+<li><code>nchar("hello")</code>
+<ul>
+<li>This will count the number of letters in the word “hello” (e.g. 5)</li>
+</ul></li>
+<li><code>file.choose()</code>
+<ul>
+<li>This will open up an interactive window (sometimes behind the studio screen), choose any file and it will print the location in the console. NOTE WE STILL NEED THE PARENTHESES, but there are no arguments so they are empty.</li>
+</ul></li>
+</ul>
+<p>To understand what I mean about parentheses, try typing each of these commands exactly and see what happens.</p>
+<pre class="r"><code># Typing this into the console will print out the underlying code
+file.choose 
+
+# Typing it WITH parentheses will run the command. Note for this command, the parentheses are empty!  
+file.choose()
+
+# Typing a ? in front will open the help file for that command in the help quadrant
+?file.choose</code></pre>
+<p>Sometimes we need to give the command some additional information as an argument. Anything we wish to tell the command should be included inside the inside the parentheses (separated by commas). The command literally only knows about the stuff inside the parentheses.</p>
+<pre class="r"><code>sin(1) # trigonometry functions.  Apply the sine function to the number 1. 
+
+log(10) # natural logarithm.  Take the natural logarithm of the number 10. 
+
+nchar(&quot;hello&quot;) # Count the letters in the word hello</code></pre>
+<p>We can also add optional extra arguments. For example let’s improve our plot. This following command will plot the number 1 to 10 against the numbers 12 to 20, along with some axis labels. When you run this, the plot will show up in the plots tab.</p>
+<pre class="r"><code># plot the numbers 1 to 10 against the numbers 11 to 20
+plot(1:10,11:20,col=&quot;dark blue&quot;, xlab=&quot;x values&quot;,ylab=&quot;STAT-462 is the best&quot;) </code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>If you are feeling lost, <a href="https://swcarpentry.github.io/r-novice-gapminder/01-rstudio-intro/" class="uri">https://swcarpentry.github.io/r-novice-gapminder/01-rstudio-intro/</a> is a good website which goes over a lot of this in more detail.</p>
+<p><br> <br></p>
+</div>
+<div id="Tut3E_text" class="section level2" number="3.7">
+<h2><span class="header-section-number">3.7</span> Dealing with text</h2>
+<p>In R, the computer interprets most words as commands. But sometimes we need to actually input text, for example for a plot title. <strong>For the computer to understand text, you need quote marks</strong>. The computer will see anything without quote marks as a command.</p>
+<p>For example, try typing <code>print("Hello World")</code> into the console and the computer should just repeat it back to you.Forget about the quotes and this happens..</p>
+<div class="figure">
+<img src="Figures/pg_Tut3_basics_fig3.png" alt="Your screen after running the project" width="1063" />
+<p class="caption">
+Your screen after running the project
+</p>
+</div>
+<p>Your first error. The “unexpected symbol” it’s talking about is the computer thinking that “Hello” and “world” must be wto different commands, then getting confused by the space between Hello and World..</p>
+<p><br> <br></p>
+</div>
+<div id="Tut3F_vars" class="section level2" number="3.8">
+<h2><span class="header-section-number">3.8</span> Variables</h2>
+<p>So now we can use R as a calculator and even add a few more complex commands. What we need to be able to do now is to save the results, or load in data so we can run more complex commands. We do this through assigning our results to a variable. By this I mean we save the results and give them a name, then in the future, instead of retyping the whole command, we simply type that name and R will recall the answer.</p>
+<p>The symbol to store data into a variable is using the assignment arrow <code>&lt;-</code>, which is made up of the left arrow and a dash. You can also use the equals sign, but it can cause complications later on. Try typing this command into the console:</p>
+<pre class="r"><code>x &lt;- 1/50</code></pre>
+<p>Notice that pressing enter did not print a value onto your screen as it did earlier. Instead, look down at the environment tab, you should notice that an x has turned up, with the result next to it.</p>
+<p>So our variable <code>x</code> is now associated with the value 0.02, or 1/50. You can print a variable on screen by typing its name, no quotes, or by using the print command. Try printing out your variable.</p>
+<pre class="r"><code>x
+
+# or
+
+print(x)
+
+# see what happens when you do this
+
+print(&quot;x&quot;)</code></pre>
+<p>This ‘x’ variable can be used in place of a number in any calculation that expects a number. Try typing</p>
+<pre class="r"><code>log(x)
+
+# this is now the same as 
+log(1/50)</code></pre>
+<p>The way R works is that first it looks for the commands on the right of the arrow. It runs all of them, calculates the result, then saves that result with the name on the left of the arrow. <strong>It does not save the command itself, just the answer.</strong> For example, in this case, R has no idea that <code>x</code> was created using maths, it just knows that it is equal to the number 0.02.</p>
+<p>Notice also that variables can be reassigned. Type this into your console.</p>
+<pre class="r"><code>x &lt;- 100
+print(x)</code></pre>
+<p>x used to contain the value 0.025 and and now it has the value 100.</p>
+<p><em>Note, the letter x isn’t special in any way, it’s just a variable name. You can replace it with any word you like as long as it contains no spaces and doesn’t begin with a number</em>.</p>
+<p>for example</p>
+<pre class="r"><code>vlogbrothers.DFTBA &lt;- &quot;Dont forget to be awesome&quot;
+print(vlogbrothers.DFTBA)</code></pre>
+<p>How you name stuff is up to you, , but be consistent. Different people use different conventions for long variable names, these include</p>
+<ul>
+<li>periods.between.words.1 (as you can see, I like this)</li>
+<li>underscores_between_words</li>
+<li>camelCaseToSeparateWords</li>
+</ul>
+<p>Finally, R IS CASE SENSITIVE. X and x are different variables! Try these and you will see both appear separately in your environment tab.</p>
+<pre class="r"><code>h &lt;- 1
+H &lt;- 2
+
+ans &lt;- h+H
+print(ans)</code></pre>
+<pre class="r"><code>print(h)</code></pre>
+<pre class="r"><code>print(H)</code></pre>
+<p>To delete a variable, you can use the <code>rm()</code> command e.g.</p>
+<pre class="r"><code>rm(x)</code></pre>
+<p>and to clear everything, type</p>
+<pre class="r"><code>rm(list=ls())</code></pre>
+<div id="combining-variables" class="section level3" number="3.8.1">
+<h3><span class="header-section-number">3.8.1</span> Combining variables</h3>
+<p>As I showed above, you can now use multiple variables together in more complex commands. For example, try these commands:</p>
+<pre class="r"><code>x &lt;- 2
+
+#Take the variable x, add 1 then save it to a new variable called y
+y &lt;- x + 1 
+
+# print the multiple of 2yx onto the screen
+print(2*y*x)</code></pre>
+<p>Now you can see that there are two variables in your environment tab, x and y. Where y is the sum of the contents of x plus 1.</p>
+<p>You can even use this to change your original variable . Try typing the code below in a few times into the console and see what happens.</p>
+<p><strong>A short cut to do this is to type the commands the first time, then use the up-arrow on your keyboard to cycle back through previous commands you have typed</strong></p>
+<pre class="r"><code>x &lt;- x + 1 # notice how RStudio updates its description of x in the environment tab
+x          # print the contents of &quot;x&quot; onto the screen</code></pre>
+<p>Our variables don’t have to be numbers. They could refer to tables of data, or a spatial map, or any other complex thing. We will cover this more in future labs.</p>
+<p><br> <br></p>
+</div>
+</div>
+</div>
+<div id="Tut4a_WhatIsIt" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> R-Markdown</h1>
+<p>Typing console is a phone call to the computer, you’re talking but you’re not keeping records of what you say (you can always press the up key to see previous commands but that’s about it). When you close R, everything you have done will be lost. As you might have seen, a basic R script is only one step better!</p>
+<p>In this course we are going to focus on the R-Markdown format and you are going to submit your labs as websites/html files along with your code.</p>
+<p>Markdown is cool.</p>
+<p>Imagine a normal Microsoft Word document, but halfway through you can press a button and a mini R console appears. You type your code inside the mini console, it runs and puts the plots/output just below - then you leave the console and continue writing about the results. Essentially you never have to take another screenshot of results and move it to your output… Rmd files are also flexible. You can turn them into reports, websites, blogs, presentations or applications with a few short commands.</p>
+<p>Read more here: <a href="https://rmarkdown.rstudio.com" class="uri">https://rmarkdown.rstudio.com</a> or watch this short video</p>
+<div class="vembedr">
+<div>
+<iframe class="vimeo-embed" src="https://player.vimeo.com/video/178485416" width="533" height="300" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+<p><br> <br></p>
+<div id="Tut4B_MarkCreate" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Creating a markdown document</h2>
+<p>Save your R-script to your Lab 1 folder and close it.</p>
+<p>Time to make your own. Go to the File menu on the top left, then click New File - <strong>R-Markdown</strong>. If this is your first time ever, it might ask to download some packages to be able to do this. Say yes.</p>
+<p>Eventually a window will open up:</p>
+<p><img src="Figures/pg_Tut4_markdown_fig1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>It will ask you to name and save your file. Give it a relevant name. A new file should appear on your screen. At the top of that window (by the knit button, there is a save button. Save it as something relevant INSIDE YOUR PROJECT FOLDER!</p>
+<div class="figure" style="text-align: center">
+<img src="Figures/pg_Tut4_markdown_fig2.png" alt="Yours will say STAT-462 not GEOG-364.." width="867" />
+<p class="caption">
+Yours will say STAT-462 not GEOG-364..
+</p>
+</div>
+<p>The new file on your screen is your first markdown script. Essentially, we have some space for text, some space for code, and a space at the top of the file where we can add information about themes/styles etc.</p>
+<p><br></p>
+</div>
+<div id="Tut4C_Basics" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Markdown Basics</h2>
+<p>Your file contains some friendly text to explain what is going on, which I have annotated here. Read the file and see what it says.</p>
+<p><img src="Figures/pg_Tut4_markdown_fig3.png" width="739" style="display: block; margin: auto;" /></p>
+<p><br></p>
+</div>
+<div id="Tut4Da_knit" class="section level2" number="4.3">
+<h2><span class="header-section-number">4.3</span> Knitting</h2>
+<p>The file on your screen isn’t the finished article. To see how it will look as a final version, we need to “knit” it. Go to the top of the .Rmd file, find the <code>knit</code> button. Press it (you might have to first save your script if you haven’t already, then press it again)</p>
+<p>You should see that the Markdown tab “builds” your document and you get an output as a website. The html should also be saved into your project folder. For example, from my other class, here is a file with markdown and knitted output.</p>
+<p><img src="Figures/pg_Tut4_markdown_fig4.png" width="1652" style="display: block; margin: auto;" /></p>
+<p><br> <br></p>
+</div>
+<div id="Tut4E_YAML" class="section level2" number="4.4">
+<h2><span class="header-section-number">4.4</span> YAML Code</h2>
+<p>Your YAML code is the code at the top of your file in between the — lines in the figure above. Let’s zoom in</p>
+<p><img src="Figures/pg_Tut4_markdown_fig5.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>Your YAML code controls how your final output looks and which type of output it becomes. For example, this could be a website (as for ours), a pdf, a presentation or app.. The basic version is very simple with a title, an author, a self entered date and that we just want a website.</p>
+<p>Let’s add in more options.</p>
+<p>YAML code is annnoying to edit, because here, <em>spaces really do matter</em>. Everything has to be perfect or it won’t knit.</p>
+<p><strong>Select everything in my code chunk here and replace your YAML with this (remember the — on line 1 and at the end).</strong></p>
+<pre class="r"><code>---
+title: &quot;GEOG-364 - Lab 2&quot;
+author: &quot;hlg5155&quot;
+date: &quot;`r Sys.Date()`&quot;
+output:
+  html_document:
+    toc: true
+    toc_float: yes
+    number_sections: yes
+    theme: lumen
+    df_print: paged
+---</code></pre>
+<p>Replace the author ID with your user name, change the tite if appropriate, then click knit and see if it works.</p>
+<p>The elements we just added are:</p>
+<ul>
+<li>The title</li>
+<li>The author (note,use your ID not your name)</li>
+<li>Automatically created today’s date</li>
+<li>A floating table of contents</li>
+<li>Numbered sections (this won’t appear until you start typing section headings)</li>
+<li>The document is now in the lumen theme.</li>
+</ul>
+<p><br></p>
+<div id="troubleshooting" class="section level3" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Troubleshooting</h3>
+<ul>
+<li><p>Note, if you copy/paste this and it doesn’t work, sometimes the quote marks copy weirdly from the internet - try deleting and retyping the quotes.</p></li>
+<li><p>If it still doesn’t work.. this might be because a space is missing (especially if you typed it out).</p>
+<ul>
+<li>Editing YAML code can be a pain. It is very case and space sensitive.<br>For example, the spaces at the start of some lines are important and are created using the TAB KEY, not the space bar. There is one TAB key before html_notebook (which is now on a new line). There are two TAB KEYS before toc, toc_float, number_sections and theme.</li>
+</ul></li>
+</ul>
+<p><em>Don’t continue until you can make and view your html when you press knit. If it doesn’t work, ask for help before moving on</em></p>
+<p><br></p>
+</div>
+<div id="changing-the-theme" class="section level3" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Changing the theme</h3>
+<p>You don’t need to choose the lumen theme. There are many other ways you can edit your markdown documents here: <a href="https://www.datadreaming.org/post/r-markdown-theme-gallery/" class="uri">https://www.datadreaming.org/post/r-markdown-theme-gallery/</a></p>
+<p>To edit, replace the word lumen with the name of your chosen theme (THIS IS CASE SENSITIVE). Now click knit and see if it works.Some themes are buggy. Try a different one if it doesn’t work.</p>
+<p>The themes in “Even More Themes” on the website, requre you to install/load some new packages, so they need some extra work. You’re welcome to try if you have one you fell in love with!</p>
+<p><nr></p>
+</div>
+<div id="adding-other-yaml-options" class="section level3" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> Adding other YAML options</h3>
+<p>There are many more details about different options on these websites:</p>
+<ul>
+<li><a href="https://bookdown.org/yihui/rmarkdown/html-document.html" class="uri">https://bookdown.org/yihui/rmarkdown/html-document.html</a></li>
+<li><a href="https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf" class="uri">https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf</a></li>
+</ul>
+<p>If you want to get really fancy, there is an interesting package to help you design YAML code here: <a href="https://education.rstudio.com/blog/2019/10/tools-for-teaching-yaml-with-ymlthis/" class="uri">https://education.rstudio.com/blog/2019/10/tools-for-teaching-yaml-with-ymlthis/</a></p>
+<p><br></p>
+</div>
+</div>
+<div id="Tut4F_chunk" class="section level2" number="4.5">
+<h2><span class="header-section-number">4.5</span> Code chunks</h2>
+<div id="Tut4Fa_basics" class="section level3" number="4.5.1">
+<h3><span class="header-section-number">4.5.1</span> Code chunk basics</h3>
+<p>The grey areas on your screen are called “code chunks” (see @ref(fig:tut2afig2)). Think of them as mini consoles. You put code inside, run them, then the result ends up directly below the chunk in</p>
+<p><strong>To run the code in a code chunk, Click on the little green triangle arrow at the top-right of the code chunk itself</strong> this will run all of the commands in that code chunk and put the results underneath**.</p>
+<p>Try running the 3 code chunks provided by R in your example markdown document (the top one will do nothing).</p>
+<p>Code chunks can be altered. For example, on line 19, delete <code>summary(cars)</code> and type <code>1+1</code>. Now press the green arrow and the new answer should appear directly under your code chunk.</p>
+<p>Click in the white space at the end of the script, press enter a few times (around line 33) and press the green insert button (top right near the Run button). Insert a new R code chunk. Inside, type <code>1+2</code> and run it.</p>
+</div>
+<div id="Tut4Eb_options" class="section level3" number="4.5.2">
+<h3><span class="header-section-number">4.5.2</span> Editing code chunk options</h3>
+<p>At the top of every code chunk, you should see the line “```{r}”.</p>
+<p>Inside the curly brackets, you can add options to the code chunk for when you press knit. For example you can justify figures, change background colors, or decide if the code even displays/runs at all.</p>
+<p>You can also add options in that first code chunk we have been ignoring. These will apply the options throughout the entire script. The <code>echo</code> option means “show the code as well as the output. The <code>include</code> option means show any sign of this code chunk at all in the final option (e.g. it runs it in the background).</p>
+<p><img src="Figures/pg_Tut4_markdown_fig6.png" width="695" /> <br></p>
+<div id="remove-all-the-welcome-text-below-the-code-chunk-that-loads-the-libraries-when-you-press-knit." class="section level4" number="4.5.2.1">
+<h4><span class="header-section-number">4.5.2.1</span> Remove all the “welcome” text below the code chunk that loads the libraries when you press knit.</h4>
+<p>One useful option is to remove all the “friendly text” when you load libraries and press knit. The two options we need to turn to FALSE are <code>message</code> and <code>warning</code>.</p>
+<p>We could edit the specific code chunk like this</p>
+<p><img src="Figures/pg_Tut4_markdown_fig7.png" width="678" /> <br></p>
+<p>But.. let’s edit the global option itself. Edit the code chunk ~line 8 to look like this:</p>
+<p><img src="Figures/pg_Tut4_markdown_fig8.png" width="685" /></p>
+<p><br></p>
+<p>Now the loading library text will still appear in your code the first time you run that code chunk, but it should disappear when you press knit.</p>
+<p>Press knit and check it works!</p>
+<p><em>Don’t continue until this works. If it doesn’t work, ask for help before moving on</em></p>
+<p><br></p>
+</div>
+<div id="other-code-chunk-options" class="section level4" number="4.5.2.2">
+<h4><span class="header-section-number">4.5.2.2</span> Other code chunk options</h4>
+<p>There are loads here along with a nice tutorial: <a href="https://rmarkdown.rstudio.com/lesson-3.html" class="uri">https://rmarkdown.rstudio.com/lesson-3.html</a></p>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="Tut4G_format" class="section level2" number="4.6">
+<h2><span class="header-section-number">4.6</span> Formatting text</h2>
+<div id="markdown-visual-editor" class="section level3" number="4.6.1">
+<h3><span class="header-section-number">4.6.1</span> Markdown visual editor</h3>
+<p>If you are not familiar with Markdown yet, or do not prefer writing Markdown code, RStudio v1.4 has included an experimental visual editor for Markdown documents, which feels similar to traditional WYSIWYG editors like Word, as shown in Figure 3.1. You can find the full documentation at <a href="https://rstudio.github.io/visual-markdown-editing/" class="uri">https://rstudio.github.io/visual-markdown-editing/</a></p>
+<p>The text part of your document is anywhere outside your YAML code or a code chunk (see @ref(fig:tut2afig2)).</p>
+<p>You can treat this like a slightly weird Word document, allowing you to write a report around your findings. Anywhere in the “text area” (AKA in the white space), click and press enter a few times. Write some text, press knit and your changes should have been incorporated.</p>
+<p><br></p>
+<div id="paragraphs-and-white-space---read-this" class="section level4" number="4.6.1.1">
+<h4><span class="header-section-number">4.6.1.1</span> Paragraphs and white space - READ THIS</h4>
+<p>R is very sensitive to blank white lines. Put them everywhere. Put a blank line between paragraphs, before/after headings, before lists, before/after code chunks…. If your formatting isn’t working well, chances are there isn’t a blank line before or after it.</p>
+<p><br></p>
+</div>
+</div>
+<div id="getting-formatting-help" class="section level3" number="4.6.2">
+<h3><span class="header-section-number">4.6.2</span> Getting formatting help:</h3>
+<p>There are many ways you can format the text in your markdown document, from adding headings, to bold/itallic to complex html text formats.</p>
+<p>I will add in a few ideas here, but there are better guides out there!</p>
+<ul>
+<li>I really like this reference: <a href="https://www.markdownguide.org/basic-syntax/" class="uri">https://www.markdownguide.org/basic-syntax/</a></li>
+<li>Alternatively, go to the help menu AT THE TOP OF YOUR ENTIRE SCREEN. Scroll down and you will see “Markdown Quick reference”. That will open a quick reference guide on your screen.</li>
+</ul>
+<p><img src="Figures/pg_Tut4_markdown_fig9.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+</div>
+<div id="basic-text-formats" class="section level3" number="4.6.3">
+<h3><span class="header-section-number">4.6.3</span> Basic text formats</h3>
+<p>There are many ways you can format the text in your markdown document, from adding headings, to bold/italic to complex html text formats.</p>
+<p>Rather than click a button to turn something bold like in Word, you have to add special characters to your text to change the formatting. For example try putting * on each side of some text you want to make italic.</p>
+<p>The text formatting won’t show in the text itself, you will only see the formats when you press knit.</p>
+<p>br&gt;</p>
+<div id="bold-and-italic" class="section level4" number="4.6.3.1">
+<h4><span class="header-section-number">4.6.3.1</span> <strong>Bold</strong> and <em>italic:</em></h4>
+<p>Putting stars or _ around your text will make it bold or italic (or both). To understand how, take a look at the cheatsheets. Interestingly (and annoyingly), there is no simple way to underline text. ]</p>
+<p><br></p>
+</div>
+<div id="headings" class="section level4" number="4.6.3.2">
+<h4><span class="header-section-number">4.6.3.2</span> Headings</h4>
+<p>You can use the # symbol to make a heading</p>
+<p><em>Outside</em> a code chunk, the # symbol makes a heading, AS LONG AS YOU HAVE A WHITE LINE ABOVE AND BELOW AND A SPACE AFTER THE #. Have a look at Figure @ref(fig:tut2afig2) for an example.</p>
+<p>You can have nested headings e.g. <code># HeadingName</code> makes a main heading, <code>## SubHeadingName</code> makes a subheading, <code>### SubSubHeadingName</code> makes a sub-sub-heading</p>
+<p>Including headings this way allows automatic section numbering and will allow the table of contents to automatically be created. In the script itself the headings won’t show up - you will only see them when you press knit.</p>
+<p>Now let’s make your first heading.</p>
+<ul>
+<li>Press enter a few times so you have a blank line above and below.</li>
+<li>Now make a new heading by typing <code># my new heading</code> THE SPACE AFTER THE # IS IMPORTANT.</li>
+</ul>
+<p>Below that leave some white space and write some more text.</p>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="Tut4H_photo" class="section level2" number="4.7">
+<h2><span class="header-section-number">4.7</span> Adding photos</h2>
+<p>There are many ways to do this, with a FANTASTIC tutorial here if you get stuck:</p>
+<p><a href="http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/" class="uri">http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/</a></p>
+<p><br></p>
+<p><strong>Step 1:</strong></p>
+<p>Go find your picture. If it’s on the internet the easiest way is to right click on it and press “save as”, then save the jpeg or png directly into your project folder with an easy filename.</p>
+<p><br></p>
+<p><strong>Step 2:</strong></p>
+<p>Place your picture/photo into your project folder (e.g. your Lab 3 project folder).</p>
+<p><br></p>
+<p><strong>Step 3:</strong></p>
+<p>Make a new code chunk.<br> REMEMER TO ADD BLANK LINES ABOVE AND BELOW THE CODE CHUNK.</p>
+<p><br></p>
+<p><strong>Step 4</strong></p>
+<p>Inside the code chunk, use the <code>knitr::include_graphics()</code> command from the knitr package.</p>
+<p><img src="Figures/pg_Tut4_markdown_fig10.png" width="836" /></p>
+<p>You’ll see I also added some code chunk options:</p>
+<ul>
+<li>echo=FALSE : don’t show the code</li>
+<li>fig.align - ‘center’ : Centre align the photo when you press knit</li>
+<li>out.width - ‘60%’ : Make your photo smaller or larger on the page</li>
+<li>fig.cap - “your caption” : Add a caption (IN QUOTES). I used * to make mine italic.</li>
+</ul>
+<p>If you run the code chunk by pressing the green arrow, you will see the picture, but not things like the caption.</p>
+<p>Now press knit and you should see the picture, caption and options, but not the code (if echo=FALSE is included)</p>
+<p><br></p>
+<p><strong>Example</strong></p>
+<p>For example, here’s an example on chipmunks. The <code>chipmunk.webp</code> file is inside my project folder. (note, the file type doesn’t matter but you have to type it)</p>
+<p>Here’s how it looks in my .Rmd file.</p>
+<p><img src="Figures/pg_Tut4_markdown_fig11.png" width="831" /></p>
+<p>and in the actual report:</p>
+<div class="figure" style="text-align: center">
+<img src="chipmunk.webp" alt="*Chipmunks are cool, image from: https://mymodernmet.com/chris-mcveigh-chipmunk-adventures*" width="70%" />
+<p class="caption">
+<em>Chipmunks are cool, image from: <a href="https://mymodernmet.com/chris-mcveigh-chipmunk-adventures" class="uri">https://mymodernmet.com/chris-mcveigh-chipmunk-adventures</a></em>
+</p>
+</div>
+<p><strong>For more options see the tutorial: <a href="http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/" class="uri">http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/</a> </strong></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

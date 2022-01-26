@@ -1,0 +1,211 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+### Inline code {#Tut4Ec_inline}
+
+Follow these tutorial to see how to add inline code. e.g. answers to commands INSIDE your text
+
+ - https://bookdown.org/yihui/rmarkdown-cookbook/r-code.html
+ - https://www.njtierney.com/post/2019/07/10/jq-verbatim-inline-r/
+ - https://rmarkdown.rstudio.com/lesson-4.html
+
+Hint, when you write your own inline code, depending on how complex it is, you have a choice!  
+
+ - You can either run your commands in a "silent" code chunk, save them to a variable and just put the variable name in your inline code to print.  
+ - Or you can do the full calculation in the inline code itself. For example *
+ 
+ 
+```{r, Lab4Fig1, echo=FALSE, fig.align='center',out.width="90%"}
+knitr::include_graphics('./Figures/pg_364Lab4_Manip_2021_fig1.png')
+```
+ 
+ will make:
+ 
+ Hello, my birth month is `r month.abb[4]`.
+ 
+ Or
+ 
+```{r, include=FALSE, echo=FALSE}
+birthday <- month.name[4]
+```
+ 
+  Hello, my birth month is `r birthday`.
+
+
+<div style="margin-bottom:25px;">
+</div>  
+
+
+
+<br>
+
+<div style="margin-bottom:25px;">
+</div> 
+## Tutorial 4I: Adding equations {#Tut4I_Eqn}
+
+**Great tutorial here: https://rmd4sci.njtierney.com/math Highly recomemended for details** 
+<br>
+
+### Stand alone equations
+
+We can add professional equations into your reports.  We do this by making an "equation chunk".  Instead of the code-symbols , we use `$$` where each contains a single equation. For example
+
+```{r, Tut4fig12, echo=FALSE}
+knitr::include_graphics('./Figures/pg_Tut4_markdown_fig12.png')
+```
+
+will make
+
+$$
+ y = 2+2
+$$
+
+Note the fancy version of the equation will definitely appear when you press knit and normally preview in your editing window.   Yours might look fancier than mine when you press knit, my fonts aren't working right.
+
+Note, this isn't real code!  It's fancy text. So you can lie and it doesn't auto complete.  e.g.
+
+```{r, Tut4fig13, echo=FALSE}
+knitr::include_graphics('./Figures/pg_Tut4_markdown_fig13.png')
+```
+
+
+$$
+ y = 2+2
+$$
+$$
+ y = 5
+$$
+$$
+ 2+2 = 5*hello
+$$
+
+<br>
+<br>
+
+### Inline equations
+
+
+You can also add equations into your text using inline-equations. These are referenced by surrounding your equation with dollar signs: $.  
+
+This text (NORMAL TEXT NOT IN A CODE CHUNK)
+
+```{r, Tut4fig14, echo=FALSE}
+knitr::include_graphics('./Figures/pg_Tut4_markdown_fig14.png')
+```
+
+Generates:
+
+So this text would have an equation here $E = mc^2$
+
+<br>
+<br>
+
+### Making complex equations
+
+There are special symbols for all the greek/latin words, for making fractions, etc etc.  The easiest way by far to create them, is to use an online equation generator where you can create the equation you want, then it will tell you the code
+
+There are loads out there, for example: http://atomurl.net/math/
+
+```{r, Tut4fig15, echo=FALSE}
+knitr::include_graphics('./Figures/pg_Tut4_markdown_fig15.png')
+```
+
+Then I copy the code into my text:
+
+```{r, Tut4fig16, echo=FALSE}
+knitr::include_graphics('./Figures/pg_Tut4_markdown_fig16.png')
+```
+
+ which *should* show as: 
+ 
+<p align="center">
+<img src="https://latex.codecogs.com/svg.latex?\frac{\sum_{_i}^nx}{n}" />
+</p>
+
+
+<br>
+
+or into my text: e.g. I'm very happy that <img src="https://latex.codecogs.com/svg.latex?\frac{\sum_{_i}^nx}{n}" /> and I hope you are too.
+
+<br>
+<br>
+
+### Adding in R online code output
+
+What if we want our equations to autocomplete?  Well, we can combine this with our inline code. So instead of typing numbers we type code for it to calculate 
+
+For example:
+
+```{r, Tut4fig18, echo=FALSE}
+knitr::include_graphics('./Figures/pg_Tut4_markdown_fig18.png')
+```
+
+will show as:
+
+```{r, Tut4fig19, echo=FALSE}
+knitr::include_graphics('./Figures/pg_Tut4_markdown_fig19.png')
+```
+
+<br>
+<br>
+
+
+Sometimes R doesn't understand the code when it presses knit, for example giving an error like the one above.  This is the case with this website!  
+
+In this case, we can force R to create the equations. Instead of the `$$` symbol, we can use an online website to convert it into an image and then get R to include that.
+
+`<p align="center">`<br>`<img src="https://latex.codecogs.com/svg.latex?Z=YOUR.EQUATION.}" />`<br>`</p>`
+
+<br>
+
+For example here is some code and output
+
+```{r, Tut4fig20, echo=FALSE}
+knitr::include_graphics('pg_Tut4_markdown_fig20.png')
+```
+
+<p align="center">
+<img src="https://latex.codecogs.com/svg.latex?\frac{\sum_{_i}^nx}{n}" />
+</p>
+
+As far as I am aware, with this error, you can't include inline R code - it sucks. If you have this error and can't work through it, talk to a teacher
+
+<br>
+
+<div style="margin-bottom:25px;">
+</div>
+## Tutorial 4J: Adding references {#Tut4J_ref}
+
+To be added
+
+<br>
+
+
+<div style="margin-bottom:25px;">
+</div>   
+## Tutorial 4K: Adding tables {#Tut4K_Table}
+
+To be added
+ 
+<br>
+
+<div style="margin-bottom:25px;">
+</div>   
+## Tutorial 4L: Different make formats {#Tut4L_Make}
+
+To be added
+
+<br>
+<br>
+
+***
+
+
+
+Website created and maintained by [Helen Greatrex](https://www.geog.psu.edu/directory/helen-greatrex). Website template by [Noli Brazil](https://nbrazil.faculty.ucdavis.edu/)
+
+
+

@@ -1,0 +1,21 @@
+name: "STAT-462, SP 2022"
+output_dir: "."
+navbar:
+  title: "STAT-462 Labs"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Tutorials"
+      href: T1_R_Basics.html     
+output:  
+  html_document:  
+    self_contained: no  
+    theme: flatly  
+    toc: true # adds a table of contents
+    css: styles.css
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+    number_sections: yes
+    highlight: textmate

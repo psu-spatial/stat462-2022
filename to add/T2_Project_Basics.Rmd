@@ -1,0 +1,69 @@
+---
+title: "2. R-Markdown/R-Studio Basics"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    number_sections: yes
+    theme: cosmo
+---
+
+This section talks discusses the basics of R-Studio and Markdown, including how to move data to and from the cloud.
+
+
+
+
+
+
+# Setting up a project
+
+As described in the teaching notes, when starting a new regression analysis, you first need to define your study.  Your report should:
+
+## Describe the study
+
+#### Describe the topic & context
+
+Aim to write a short paragraph providing context for the study and the overall topic and the background. This might mean some online research or talking to experts.  Include the motivation of the study if known, as that can often influence the study design process.  Remember in Markdown, you can include pictures, gifs, video even embed pdfs as needed. 
+
+#### State the population and unit of analysis
+
+The end of this paragraph stating as specifically as possible what your unit of analysis and population are.  e.g. "I am studying Emperor penguins, specifically those kept in a zoo in Japan". Your conclusions should be representative of this population and should not be extrapolated beyond it.
+
+<br>
+### 2. Describe the study
+
+
+2. Describe your input dataset(s), including description of:
+  + The data source and how it was collected. 
+  + Census/sampling 
+
+
+### 2. Describe your input data.
+
+The aim here is to alert your reader to what data is available to solve your problem and how it was collected, paying attention to whether it is a census or a sample.  If a sample, include common sense statements on whether you believe the sample is Ramdon/Representative or not and why.  If you accessed the data inside R, you can often find some of this by looking up the help file for the dataset. Otherwise the documentation should be online
+
+### 3. Read the data into R and describe the meta-data
+
+Now is a good point to read the data into R.  There are several ways to do this - see [tutorial XXX].  
+
+Also describe the meta data:
+
+ - How many objects were observed (number of rows) 
+ - A bullet point list of the variables you have available and their units (e.g. Age (Years))
+ - Any other features such as missing data policies, or spatial/temporal extent.
+ 
+
+
+
+
+
+To do this, you will likely need to write a paragraph or two, or do some detective work.  This might mean researching the topic online, or (in the real world) speaking to experts, and looking at the data meta data.
+4. The dependent variable you wish to model
+5. Any secondary/predictor variables.
+6. Any research questions
+1. The overall topic 
+2. The Unit/Object of Analysis
+3. The population (defining the boundaries of your set of objects)
+4. Describe the dataset
+5. 
