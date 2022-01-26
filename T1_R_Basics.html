@@ -625,12 +625,12 @@ Note, in this book you might see a few GEOG-364s instead of STAT-462s
 <h3><span class="header-section-number">2.2.2</span> LAB 1: Bulk download main packages</h3>
 <p>Now we are going to download most of the packages you need for these labs so that you do not need to do this each week.</p>
 <p><strong>Copy these command into the R-CONSOLE and press enter to run</strong>.</p>
-<pre class="r"><code>install.packages(c(&quot;tidyverse&quot;,&quot;abind&quot;,&quot;car&quot;,&quot;corrplot&quot;,&quot;dismo&quot;,
+<pre class="r"><code>install.packages(c(&quot;tidyverse&quot;,&quot;abind&quot;,&quot;car&quot;,&quot;corrplot&quot;,
                   &quot;ggpubr&quot;,&quot;ggstatsplot&quot;,&quot;ggpubr&quot;,&quot;IMTest&quot;,&quot;MASS&quot;,&quot;nortest&quot;,
                   &quot;hrbrthemes&quot;, &quot;ISLR&quot;,&quot;knitr&quot;, &quot;kableExtra&quot;,&quot;lattice&quot;,&quot;matlab&quot;,
                   &quot;olsrr&quot;, &quot;plotly&quot;,&quot;RColorBrewer&quot;,&quot;readxl&quot;,&quot;remotes&quot;,
                   &quot;rmdformats&quot;,&quot;skimr&quot;, &quot;stargazer&quot;,
-                  &quot;Stat2Data&quot;,&quot;tmap&quot;,&quot;units&quot;,&quot;viridis&quot;,&quot;yarrr&quot;))</code></pre>
+                  &quot;Stat2Data&quot;,&quot;units&quot;,&quot;viridis&quot;,&quot;yarrr&quot;))</code></pre>
 <p>When you press enter, a load of text should stream down your console. Just let it run until the console is back to the &gt; symbol and you can type. It might take several minutes. Sometimes this will give you an error and not run, This can be because copy/pasting from the internet messes up the quote marks around each package name. In that case, you can easily manually download them by clicking the INSTALL button at the top of the packages tab, then choosing each name in turn.</p>
 <pre class="r"><code># Sometimes you need to install a package from a different place, like github. 
 # To do this you use a more complex command, we should not need this
@@ -647,7 +647,6 @@ Note, in this book you might see a few GEOG-364s instead of STAT-462s
 library(&quot;abind&quot;)
 library(&quot;car&quot;)
 library(&quot;corrplot&quot;)
-library(&quot;dismo&quot;)
 library(&quot;ggpubr&quot;)
 library(&quot;ggstatsplot&quot;)
 library(&quot;ggpubr&quot;)
@@ -665,7 +664,6 @@ library(&quot;rmdformats&quot;)
 library(&quot;skimr&quot;) 
 library(&quot;stargazer&quot;)
 library(&quot;Stat2Data&quot;) 
-library(&quot;tmap&quot;) 
 library(&quot;units&quot;) 
 library(&quot;viridis&quot;) 
 library(&quot;yarrr&quot;)</code></pre>
@@ -722,8 +720,6 @@ Tidyverse install messages
 <p>Sometimes mulitple packages name a command the same thing and you want to specifiy which package you want to use. You can do this using the :: symbol</p>
 <p>For example, this command <em>forces</em> the computer to use the ‘dplyr package’ version of filter.</p>
 <pre class="r"><code>dplyr::filter(mydata)</code></pre>
-<p>For example, this command <em>forces</em> the computer to use the ‘raster package’ version of filter.</p>
-<pre class="r"><code>raster::filter(mydata)</code></pre>
 <p><br> <br> <br></p>
 </div>
 </div>
@@ -866,7 +862,7 @@ nchar(&quot;hello&quot;) # Count the letters in the word hello</code></pre>
 <p>We can also add optional extra arguments. For example let’s improve our plot. This following command will plot the number 1 to 10 against the numbers 12 to 20, along with some axis labels. When you run this, the plot will show up in the plots tab.</p>
 <pre class="r"><code># plot the numbers 1 to 10 against the numbers 11 to 20
 plot(1:10,11:20,col=&quot;dark blue&quot;, xlab=&quot;x values&quot;,ylab=&quot;STAT-462 is the best&quot;) </code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>If you are feeling lost, <a href="https://swcarpentry.github.io/r-novice-gapminder/01-rstudio-intro/" class="uri">https://swcarpentry.github.io/r-novice-gapminder/01-rstudio-intro/</a> is a good website which goes over a lot of this in more detail.</p>
 <p><br> <br></p>
 </div>

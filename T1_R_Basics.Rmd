@@ -377,12 +377,12 @@ Now we are going to download most of the packages you need for these labs so tha
 **Copy these command into the R-CONSOLE and press enter to run**.
 
 ```{r, warnings=FALSE, message=FALSE, eval=FALSE}
-install.packages(c("tidyverse","abind","car","corrplot","dismo",
+install.packages(c("tidyverse","abind","car","corrplot",
                   "ggpubr","ggstatsplot","ggpubr","IMTest","MASS","nortest",
                   "hrbrthemes", "ISLR","knitr", "kableExtra","lattice","matlab",
                   "olsrr", "plotly","RColorBrewer","readxl","remotes",
                   "rmdformats","skimr", "stargazer",
-                  "Stat2Data","tmap","units","viridis","yarrr"))
+                  "Stat2Data","units","viridis","yarrr"))
 
 ```
 
@@ -411,7 +411,6 @@ library("tidyverse")
 library("abind")
 library("car")
 library("corrplot")
-library("dismo")
 library("ggpubr")
 library("ggstatsplot")
 library("ggpubr")
@@ -429,7 +428,6 @@ library("rmdformats")
 library("skimr") 
 library("stargazer")
 library("Stat2Data") 
-library("tmap") 
 library("units") 
 library("viridis") 
 library("yarrr")
@@ -510,12 +508,7 @@ For example, this command *forces* the computer to use the 'dplyr package' versi
 dplyr::filter(mydata)
 ```
    
-For example, this command *forces* the computer to use the 'raster package' version of filter.
 
-```{r, eval=FALSE}
-raster::filter(mydata)
-```
-   
 <br>
 <br>
 <br>
