@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 1: Introduction to R</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT-462 Labs</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="T1_R_Basics.html">Tutorials</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STAT462_22_L1Basics.html">Lab 1: R-Basics</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 1: Introduction to R</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+STAT-462 - Regression Analysis
+</h4></h3>
+<h4 class="author"><h5 style="font-style:normal">
+Dr Helen Greatrex
+</h4></h4>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="welcome-to-lab-1" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Welcome to Lab 1!</h1>
+<div id="overview" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Overview</h2>
+<p>There are 8 labs in this course. Each one will build on the last one, with support provided in a series of tutorials (see the tutorials tab). You should NOT submit the tutorial work. We will work through the tutorials together and then your job is to submit the requirements on this page.</p>
+<p>By the end of this week’s lab, you will be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Get comfortable with the lab format &amp; how to work through them</li>
+<li>Know how to get help</li>
+<li>Get familiar with the RStudio interface</li>
+<li>Run your first programming commands</li>
+<li>Put everything together into an interactive markdown website (like this guide)</li>
+<li>Understand the process for submitting assignments</li>
+</ol>
+<p><strong>If the labs are causing major problems with your computer or your computer hardware is struggling (or you have any other software issue), Talk to Dr Greatrex</strong>. We can fix this and there are other options for “online R” that you can use.</p>
+<p>THERE IS A TEAMS DISCUSSION FOR ANY LAB HELP (see canvas)</p>
+<p class="comment">
+<strong>Assignment 1 is due by midnight the night before your next lab on Canvas.</strong> See <a href="https://psu.instructure.com/courses/2174925/assignments/13762663">here</a> for assignment guidelines &amp; we will cover them in detail here.
+</p>
+<p><br></p>
+</div>
+<div id="instructions" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Instructions</h2>
+<p><br></p>
+<div id="access-r-and-r-studio" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Access R and R-Studio</h3>
+<p>These were covered in homework 2 and are here for reference. Your R and R studio should be up to date.</p>
+<ul>
+<li>Read <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#11_What_are_R_and_R-Studio">Tutorial 1.1</a>.<br><br></li>
+<li>Install BOTH R and R-Studio, or create an R-Studio Cloud account. This is covered in <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Accessing_R__R-Studio">Tutorial 1.2</a>.</li>
+</ul>
+<p><br></p>
+</div>
+<div id="getting-started-in-r" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Getting started in R</h3>
+<ul>
+<li><p>Work through <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#13_Getting_started">Tutorial1.3</a> to open R-studio and change your settings.<br><br></p></li>
+<li><p>Use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#2_R-Projects_and_Packages">Tutorial 2.1</a> to make your first R-project called STAT462-Lab1-Project<br></p></li>
+<li><p>[OPTIONAL BUT RECOMMENDED] Now work through <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#3_Basic_commands">Tutorial 3</a> to get used to the basics<br></p></li>
+<li><p>Now go back to <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#22_R-Packages">Tutorial 2B</a> to understand what an R-Package is and to install the code packages/libraries we will need for this course.<br></p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="start-markdown" class="section level3" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Start Markdown</h3>
+<ul>
+<li>[OPTIONAL BUT HIGHLY ENCOURAGED] Work through <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html">Tutorial 4</a> to make your first Markdown document. Save and close - this was for your reference!</li>
+</ul>
+<p><br></p>
+</div>
+<div id="lab-challenge" class="section level3" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Lab challenge!</h3>
+<p>Everything above was for your own learning - you do not need to submit any of it. Now we will start the actual lab you will submit. Consider printing this out and checking off each step one by one.</p>
+<p><br></p>
+<div id="step-1-reopen-r-studio" class="section level4 unnumbered">
+<h4 class="unnumbered"><strong>STEP 1: Reopen R studio</strong></h4>
+<p>First, see if you remember how to close and re-open R studio. <br></p>
+<p>Save everything then close down R studio.To re-open, do not reopen R from the programmes folder or icon!</p>
+<p><strong>INSTEAD, GO TO THE LAB 1 FOLDER ON YOUR COMPUTER AND DOUBLE CLICK THE .RPROJ FILE CALLED STAT462-Lab1-Project!</strong>. This will get you straight back into your lab folder for you to carry on.</p>
+<p><br></p>
+</div>
+<div id="step-2-make-a-new-markdown-doc" class="section level4 unnumbered">
+<h4 class="unnumbered"><strong>STEP 2: Make a new Markdown doc</strong></h4>
+<p>Create a new <strong>RMarkdown document</strong> called <code>STAT462-Lab1-PSUID.Rmd</code>. e.g. for me <em>STAT462-Lab1-hlg5155.Rmd</em>. <br></p>
+<p>Delete all the text/code below line 11 (e.g. everything from “R Markdown onward”)</p>
+<p><br></p>
+</div>
+<div id="step-3-adding-paragraphs" class="section level4 unnumbered">
+<h4 class="unnumbered"><strong>STEP 3: Adding paragraphs</strong></h4>
+<p>You might find it easier to use the markdown visual text editor - I do!. <br> Click the “A” symbol at the top right to switch (instructions here:<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#46_Formatting_text">Tutorial 4.6</a>)</p>
+<ul>
+<li><p>In the white text area, create a level 1 heading called <em>“Introduction to STAT-462”</em>. For a cheat sheet to help with this, move your mouse to the top of the page, click the help menu, then click Markdown Quick reference, or see <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#46_Formatting_text">Tutorial 4.6</a>.</p></li>
+<li><p>Leave a blank line, then use the STAT-462 syllabus to describe the course late policy in your own words (e.g. you’re writing about this in the white space).</p></li>
+<li><p>Press “knit” at the top of the screen. If you haven’t made a mistake a pop up should appear with a html file and your edits. If you have a made a mistake, stop and fix before continuing.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="step-4-code-showcase" class="section level4" number="1.2.4.1">
+<h4><span class="header-section-number">1.2.4.1</span> <strong>STEP 4: Code showcase</strong></h4>
+<ul>
+<li>Leave another blank line and add a new Level 1 heading called <em>“Code Showcase”</em>. Add a blank line afterwards too.</li>
+</ul>
+<p><img src="Figures/Lab1_Basics_CodeChunk.png" width="954" /></p>
+<ul>
+<li><p>Create a code chunk (). Inside use R code to calculate the following (Hint, you can either put these all in one code chunk, or have separate code chunks with them in. Just remember to leave blank lines between them)</p>
+<ul>
+<li><p>103<sup>3</sup> (e.g <code>103*103*103</code>, or <code>103^3</code>) <br><br></p></li>
+<li><p>The co-sine of your age (google is your friend, google R function for cosine) <br><br></p></li>
+<li><p>Use R code to work out how many characters are in <a href="https://www.bbcamerica.com/anglophenia/2015/09/how-to-pronounce-the-longest-place-name-in-the-u-k">the longest town name in Wales</a> <em>Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch</em>. <br><br></p>
+<ul>
+<li>Hint 1, remember you can copy paste this into your code. <br></li>
+<li>Hint 2.. your tutorials and quote marks!<br></li>
+<li>Hint 3.. you can google any R command, try gooling R command for number of characters in a word.<br><br></li>
+</ul></li>
+<li><p>Create a sequence from 1000 to 2000, incrementing by 100 (e.g. 1000,1100,1200…). <br><br></p>
+<ul>
+<li>Hint, see what google says for R and sequences, or see <a href="http://www.simonqueenborough.info/R/basic/lessons/Sequences_of_Numbers.html">here</a>.</li>
+</ul></li>
+</ul></li>
+<li><p>Press “knit” at the top of the screen. If you haven’t made a mistake a pop up should appear with a html file and your edits. If you have a made a mistake, stop and fix before continuing.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="step-5-packages" class="section level4" number="1.2.4.2">
+<h4><span class="header-section-number">1.2.4.2</span> STEP 5: Packages</h4>
+<p>If you have run through the tutorials, you should have installed all the packages you need for this course.</p>
+<p><strong>IF NOT GO AND DO THE BULK INSTALL IN <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#22_R-Packages">Tutorial 2.2</a>]</strong></p>
+<p>You only need to <em>download</em> the packages once, but we still need to load them every time we need a command in that package (in the same way you only download your banking app once from the app store but need to press the icon every time you want to use it).</p>
+<ul>
+<li>Always INSTALL/DOWNLOAD packages using a menu or in the console</li>
+<li>Always LOAD packages in a code-chunk in your script (as we need to do tihs every time)</li>
+</ul>
+<p>Today we will be using commands from the skimr package, the ggplot2 package and the plotly package.</p>
+<p>Somewhere near the topc of your script, make a new code chunk and add this code. Remember to run the code chunk! (pressing the green arrow, or go to the run button on the top right and press Run All)</p>
+<pre class="r"><code>library(tidyverse)
+library(skimr)
+library(ggplot2)
+library(plotly)
+library(ggpubr)</code></pre>
+</div>
+<div id="step-6-data-analysis" class="section level4" number="1.2.4.3">
+<h4><span class="header-section-number">1.2.4.3</span> STEP 6: Data analysis</h4>
+<div id="a-load-summarise-the-data" class="section level5" number="1.2.4.3.1">
+<h5><span class="header-section-number">1.2.4.3.1</span> 6a Load &amp; summarise the data</h5>
+<p>Leave a blank line, and create a new level 1 heading called <em>Car Analysis</em>. Leave a blank line afterwards too. We’re going to work with a table of data that’s already pre-loaded into R inside the ggplot2 package.</p>
+<ol style="list-style-type: decimal">
+<li><p>Make sure you have run the library code chunk above without error, or it won’t work. <br><br></p></li>
+<li><p>Load the data using this command</p></li>
+</ol>
+<pre class="r"><code>data(mpg)</code></pre>
+<p><br><br></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Type the <code>?mpg</code> command in the console. This will bring up the help file. <br> <br></li>
+</ol>
+<p><br><br></p>
+<p>Read the background of the dataset and briefly summarise it in your file (in the white space). Include the unit of analysis and a reasonable population this dataset could be used to explore. BE SPECIFIC AND READ THE HELP FILE CAREFULLY!</p>
+<p><br> <br></p>
+</div>
+<div id="b-summary-analysis" class="section level5" number="1.2.4.3.2">
+<h5><span class="header-section-number">1.2.4.3.2</span> 6b Summary analysis</h5>
+<p>Now look at the data itself. If you look in the environment tab, you will see a new variable called mpg. Click on it’s NAME to see the spreadsheet/table itself and familiarise yourself with the data. <br> <br></p>
+<p>We could have also looked at the raw data by either by typing its name into the console or a code chunk, or by using commands like <code>head(mpg)</code> to show the first few lines</p>
+<p>Let’s look at the summary statistics. Leave a blank line and create a new code chunk containing the following code <br><br></p>
+<pre class="r"><code># mpg comes from the ggplot2 package
+# skim comes from the skimr package
+skim(mpg)</code></pre>
+<p>This command compiles the summary statistics for mpg. You can also use the summary() command to achieve a similar result <br><br></p>
+<pre class="r"><code>summary(mpg)</code></pre>
+<p>Now below your code, answer the following questions in full sentences.</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>What is the mean manufacturing year of the car models in the dataset?</strong> <br><br></p></li>
+<li><p><strong>What is the maximum value of the number of cylinders of the car models?</strong> <br><br></p></li>
+<li><p><strong>What type of data is the manufacturer column of the dataset? (nominal, ordinal, interval, continous) State why you answered that.</strong></p></li>
+</ol>
+<p><br><br></p>
+</div>
+<div id="c-plots" class="section level5" number="1.2.4.3.3">
+<h5><span class="header-section-number">1.2.4.3.3</span> 6c Plots</h5>
+<p><br></p>
+<div id="boxplots" class="section level6" number="1.2.4.3.3.1">
+<h6><span class="header-section-number">1.2.4.3.3.1</span> Boxplots</h6>
+<p>Suppose I want to compare the miles per gallon of the car models being driven in cities for different classes of cars. We can make the comparison by making a side-by-side boxplot. Create a new code chunk. Use the code below to create the plot.</p>
+<p>To see the full plot, press the tiny “show in new window” button at the top right of the plot itself.</p>
+<pre class="r"><code># boxplot is the command.  You can have a command on several lines.
+
+boxplot(cty~class,          # the miles per gallon column vs each type
+        data=mpg,        #  from the mpg table
+        xlab=&quot;Class&quot;,ylab=&quot;mpg in a city&quot;, 
+        col=c(&quot;deepskyblue4&quot;,&quot;deepskyblue&quot;)) # and colours</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li><em>Briefly comment on what you can tell about the population/data from this plot.</em></li>
+</ol>
+<p><br><br></p>
+</div>
+<div id="scatterplots" class="section level6" number="1.2.4.3.3.2">
+<h6><span class="header-section-number">1.2.4.3.3.2</span> Scatterplots</h6>
+<ul>
+<li>Finally, let’s make your first plot. Among the variables in the mpg dataset are: <br><br>
+<ul>
+<li><code>displ</code>, a car’s engine size, in litres. <br></li>
+<li><code>hwy</code>, a car’s fuel efficiency on the highway, in miles per gallon (mpg). A car with a low fuel efficiency consumes more fuel than a car with a high fuel efficiency when they travel the same distance. <br></li>
+<li><code>class</code>, the class of car e.g. mini, SUV, pick up.. <br></li>
+</ul></li>
+</ul>
+<p>To make a nice looking interactive plot, let’s use the ggplot package rather than the basic r commands. Create a code chunk containing this code</p>
+<pre class="r"><code># ggplotly comes from the plotly package
+# Choose the dataset and tell R the columns to plot
+p &lt;- ggplot(data = mpg) +                  
+     geom_point(mapping = aes(x = displ, y = hwy, color = class)) 
+
+ggplotly(p)  # Plot interactively</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li><strong>As fully as possible using the plot, describe the relationship between car’s engine size and its fuel efficiency on the highway. Does your conclusions apply across the population?</strong></li>
+</ol>
+<p><br><br></p>
+</div>
+</div>
+<div id="d-selecting-columns" class="section level5" number="1.2.4.3.4">
+<h5><span class="header-section-number">1.2.4.3.4</span> 6d Selecting columns</h5>
+<p>As we discussed above, the mpg table is loaded into R. But what if we want to access a specific column? This is where the $ symbol is useful. It means, “select the column named..”</p>
+<p>For example if you type <code>mpg$model</code> into the console, you will see that it just prints the data from the cyl column (number of cylinders) onto the screen. We could then apply a command to those numbers. For example <code>unique(mpg$model)</code> will find all the unique values in that column</p>
+<ol start="6" style="list-style-type: decimal">
+<li><strong>Create a new code chunk. Use the <code>median()</code> and <code>IQR()</code> commands to find the actual median and inter quartile range of the column containing highway miles per gallon</strong> Summarise your results in full sentences</li>
+</ol>
+</div>
+<div id="e-normality-testing" class="section level5" number="1.2.4.3.5">
+<h5><span class="header-section-number">1.2.4.3.5</span> 6e Normality testing</h5>
+<p>I want to see if the hwy variable in our data is normally distributed. We can do this using the histogram and normal-qq plot. The code below makes a histogram and QQNorm plot for the car miles per gallon on a highway. It also runs a Shapiro-Wilks test for the horsepower.</p>
+<pre class="r"><code>hist(mpg$hwy,br=10)</code></pre>
+<pre class="r"><code># Instead we are going to use a nicer format from the `ggpubr` library
+ggqqplot(mpg$hwy,col=&quot;red&quot;)</code></pre>
+<pre class="r"><code># Shapiro Wilks test
+shapiro.test(mpg$hwy)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  mpg$hwy
+## W = 0.95885, p-value = 2.999e-06</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li><strong>Use the data above to assess whether the hwy variable in the mpg dataset is normally distributed. Write out a full hypothesis test in the text, using the R results to inform your conclusions</strong></li>
+</ol>
+<p>If you need help, see this tutorial (<a href="https://r4ds.had.co.nz/data-visualisation.html" class="uri">https://r4ds.had.co.nz/data-visualisation.html</a>).</p>
+</div>
+<div id="e-normal-distributions" class="section level5" number="1.2.4.3.6">
+<h5><span class="header-section-number">1.2.4.3.6</span> 6e Normal distributions</h5>
+<p>Now we’re going to move onto some commands that allow us to calculate normal probabilities using R, rather than slowly by hand. Using the R functions <code>pnorm()</code> and <code>qnorm()</code>, we can find the cumulative probabilities and normal quantiles for any normal distribution.</p>
+<p>For example, Cat lifespans have a normal distribution with a mean of 15.4 and a standard deviation of 2.3. What’s the probability of a cat lifespan less than 14 years?</p>
+<pre class="r"><code>?pnorm # use the help file of ?pnorm to see what lower.tail=TRUE/FALSE does
+pnorm(14,mean=15.4,sd=2.4,lower.tail = TRUE)</code></pre>
+<pre><code>## [1] 0.2798345</code></pre>
+<p>So, it’s 0.2798 - or ~28%</p>
+<p>What about the probability of a cat being older than 20?</p>
+<pre class="r"><code>pnorm(20,mean=15.4,sd=2.4,lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.02764015</code></pre>
+<p>Normal quantiles go the other way around - they tell you the z score for whatever probability you require. For example, 80% of cats live to be what age?</p>
+<pre class="r"><code>qnorm(.80,mean=15.4,sd=2.4)</code></pre>
+<pre><code>## [1] 17.41989</code></pre>
+<p>So the the answer is 17.42 years (remember the units!)</p>
+<ol start="8" style="list-style-type: decimal">
+<li><p><strong>Use R to find the probability below and write your conclusions in the text</strong> <br><br></p>
+<ul>
+<li><p><em>If X ∼ N(5,2), then find P(X ≤ 4)</em> <br><br></p></li>
+<li><p><em>If X ∼ N(5,2), then find the value a such that P(X &lt; a) = 0.025</em> <br><br></p></li>
+</ul></li>
+</ol>
+<p><br> <br> <br></p>
+</div>
+</div>
+<div id="step-7-above-and-beyond" class="section level4" number="1.2.4.4">
+<h4><span class="header-section-number">1.2.4.4</span> STEP 7 Above and beyond</h4>
+<p>Remember that an A is 94%, so you can ignore this section and still easily get an A.</p>
+<p>But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.</p>
+<p><strong>To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.</strong></p>
+<ul>
+<li>You get 2/4 for doing something new in any way</li>
+<li>You get 4/4 for something really impressive or multiple small things.</li>
+</ul>
+<p>OR</p>
+<p>You get 4/4 for successfully answering this question fully in the text using R to help:</p>
+<p>**Records maintained by the your admin office indicate that amount of time elapsed between the submission of travel receipts and the final reimbursement of funds has approximately a normal distribution with a mean of 39 days and a standard deviation of 6 days. If you submitted your travel claim 55 days ago, what is the probability that it should have been returned by now? What might you conclude?*</p>
+<p>Please tell us in your R script what you did!</p>
+<p>Here in lab 1, maybe you added in different text formats to make your lab script more clear (bold/italic etc). Maybe you worked out how to add axis labels to ggplot (note, it’s a pain), maybe you used nested headings or sub-headings, or worked out how to add a table of contents.</p>
+<p><br> <br></p>
+</div>
+</div>
+</div>
+<div id="submitting-your-lab" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Submitting your Lab</h2>
+<p>Remember to save your work throughout and to spell check your writing (next to the save button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 1 folder which includes your answers. If you look at your lab 1 folder, you should see this there - complete with a very recent time-stamp.</p>
+<p>In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.</p>
+<p>If you are on R studio cloud, see Tutorial 1 for how to download your files</p>
+<p>Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 1.</p>
+<p><img src="Figures/Lab1_Basics_2022_fig1.png" width="1673" /></p>
+<p><br></p>
+</div>
+<div id="lab-1-submission-check-list" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Lab 1 submission check-list</h2>
+<p>See the table below for what this means - 100% is hard to get!</p>
+<p><strong>HTML FILE SUBMISSION - 8 marks</strong></p>
+<p><strong>RMD CODE SUBMISSION - 8 marks</strong></p>
+<p><strong>MARKDOWN/CODE STYLE - 10 MARKS</strong></p>
+<p>Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT. There is also a spell check next to the save button. You have written your answers below the relevant code chunk in full sentences in a way that is easy to find and grade. For example, you have written in full sentences, it is clear what your answers are referring to.</p>
+<p><strong>Introduction to STAT-462: 10 MARKS</strong></p>
+<p>You have described the lab late policy clearly in a way I could share with a new student.</p>
+<p><strong>Code Showcase: 20 MARKS</strong></p>
+<p>You have managed to successfully complete all the code challenges</p>
+<p><strong>Car/Normal analysis: 40 MARKS</strong></p>
+<p>You included all the code and successfully answered the questions, providing reasoning where appropriate</p>
+<p><strong>Above and beyond: 4 MARKS</strong></p>
+<p>Here you need to go above and beyond the lab questions in some way. Here in lab 1, maybe you added in different text formats to make your lab script more clear (bold/italic etc). Maybe you worked out how to add axis labels to ggplot (note, it’s a pain), maybe you used nested headings or sub-headings, or worked out how to add a table of contents.</p>
+<p>You get 2/4 for doing something new in any way and 4/4 for something really impressive or multiple small things.</p>
+<p>[100 marks total]</p>
+<p>Overall, here is what your lab should correspond to:</p>
+<table class=" lightable-classic-2 table table-striped table-hover table-responsive" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Grade
+</th>
+<th style="text-align:left;">
+% Mark
+</th>
+<th style="text-align:left;">
+Rubric
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A*
+</td>
+<td style="text-align:left;">
+98-100
+</td>
+<td style="text-align:left;">
+Exceptional.  Not only was it near perfect, but the graders learned something.  THIS IS HARD TO GET.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+96+
+</td>
+<td style="text-align:left;">
+You went above and beyond
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+94+:
+</td>
+<td style="text-align:left;">
+Everything asked for with high quality.   Class example
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A-
+</td>
+<td style="text-align:left;">
+90+
+</td>
+<td style="text-align:left;">
+The odd minor mistake, All code done but not written up in full sentences etc. A little less care
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B+
+</td>
+<td style="text-align:left;">
+87+
+</td>
+<td style="text-align:left;">
+More minor mistakes.  Things like missing units, getting the odd question wrong, no workings shown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+84+
+</td>
+<td style="text-align:left;">
+Solid work but the odd larger mistake or missing answer.  Completely misinterpreted something, that type of thing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B-
+</td>
+<td style="text-align:left;">
+80+
+</td>
+<td style="text-align:left;">
+Starting to miss entire/questions sections, or multiple larger mistakes. Still a solid attempt. 
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C+
+</td>
+<td style="text-align:left;">
+77+
+</td>
+<td style="text-align:left;">
+You made a good effort and did some things well, but there were a lot of problems. (e.g. you wrote up the text well, but messed up the code)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+70+
+</td>
+<td style="text-align:left;">
+It’s clear you tried and learned something.  Just attending labs will get you this much as we can help you get to this stage
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:left;">
+60+
+</td>
+<td style="text-align:left;">
+You attempt the lab and submit something. Not clear you put in much effort or you had real issues
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+0+
+</td>
+<td style="text-align:left;">
+Didn’t submit, or incredibly limited attempt. 
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

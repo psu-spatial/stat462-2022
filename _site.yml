@@ -6,7 +6,11 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Tutorials"
-      href: T1_R_Basics.html     
+      href: T1_R_Basics.html  
+    - text: "Labs"
+      menu:
+        - text: "Lab 1: R-Basics"
+          href: STAT462_22_L1Basics.html  
 output:  
   html_document:  
     self_contained: no  
