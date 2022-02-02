@@ -215,6 +215,8 @@ You have three dataset choices.  Choose ONE of:
 
 Choose one column of continuous numberic data as your response variable.  Using the tutorials and teaching notes on Canvas, fill in the report template to the end of EDA, making as professional plots/analyses as you can.
 
+Then, using the modelling subheadings and the teaching notes, fit a univariate Normal distribution to your data, check if it appears valid and calculate a 99% confidence interval on your population. 
+
 
 # STEP 4: Show me something new
 
