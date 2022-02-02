@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 2: Exploratory Analysis</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT-462 Labs</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="T1_R_Basics.html">Tutorials</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STAT462_22_L1Basics.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab2.html">Lab 2: Exploratory Analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 2: Exploratory Analysis</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+STAT-462 - Regression Analysis
+</h4></h3>
+<h4 class="author"><h5 style="font-style:normal">
+Dr Helen Greatrex
+</h4></h4>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="learning-objectives" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Learning objectives</h1>
+<p>By the end of this week’s lab, you will be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Understand YAML code and set up a lab template</li>
+<li>Get comfortable de-bugging errors</li>
+<li>Conduct some exploratory data analysis</li>
+<li>Make better plots and a more professional report</li>
+</ol>
+<p><br></p>
+<p class="comment">
+<strong>Assignment 2 is due by midnight Next Wed.</strong> <a href="https://psu.instructure.com/courses/2174925/assignments/13762677">See here</a> I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB (final evening is for your own finishing up).
+</p>
+<p><br></p>
+<div id="i-need-help" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> I need help</h2>
+<ol style="list-style-type: decimal">
+<li>There is a TEAMS discussion for lab help <a href="https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&amp;tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e">CLICK HERE</a>. Remember to include a screenshot of the issue and a short desciption of the problem. Also try googling the error first.</li>
+</ol>
+<p><br></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Every time you re-open R studio check you are using your project file (does it say Lab 2 at the top?).</li>
+</ol>
+<p><br></p>
+<ol start="3" style="list-style-type: decimal">
+<li>EVERY TIME YOU RE-OPEN R-STUDIO YOU NEED TO RE-RUN <strong>ALL</strong> YOUR CODE CHUNKS. The easiest way to do this is to press the “Run All” button (see the Run menu at the top of your script)</li>
+</ol>
+<p><br></p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>If the labs are causing major problems or your computer hardware is struggling (or you have any other software issue), Talk to Dr Greatrex</strong>. We can fix this and there are other options for “online R” that you can use.</li>
+</ol>
+<p><br></p>
+</div>
+</div>
+<div id="step-1-lab-templates" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> STEP 1: Lab templates</h1>
+<p><br></p>
+<div id="a.-get-set-up" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> 1a. Get set up</h2>
+<p>IF YOU ARE DOING THIS ON YOUR COMPUTER: First, go and look at your STAT-462 folder on your computer. Make sure that everything looks right (e.g. a single sub-folder for each lab containing your project file, your Rmd and your html, along with any datafiles/pics as needed). If so, congrats! If not, chat to Dr G.</p>
+<ol style="list-style-type: decimal">
+<li>Open R-studio. Go to New Project / New Directory / New Project. Then name your project <strong>Lab2-Project</strong>. Place the location inside your STAT-462 folder. If you are stuck, see <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#2_R-Projects_and_Packages">Tutorial 2.1</a>.</li>
+</ol>
+<p><br></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Now, go to New File/New R-Markdown to make a new R-Markdown file. Call it Lab 2 and add your PSU-e-mail e.g. <em>Lab 2-hlg5155</em>. Immediately press knit - as that will auto-save the file (call it the same thing) and create the html.</li>
+</ol>
+<p><br></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Your STAT-462 folder &amp; R-Studio should look something like this with maybe minor tweaks in exactly what you called things. IF NOT, FIX IT! (esp lab 2)</li>
+</ol>
+<p><br></p>
+<div class="figure" style="text-align: center">
+<img src="Figures/Lab2_fig1_FileStructure.png" alt="*Your Computer Set up*" width="969" />
+<p class="caption">
+<em>Your Computer Set up</em>
+</p>
+</div>
+</div>
+<div id="b.-markdown-template" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> 1b. Markdown template</h2>
+<p>As you can see, the friendly text is back for your new lab-script. This is a pain and we want to make life easy in terms of formatting. So our first job in this lab is to make a template so future reports are easier.</p>
+<p>Work through <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut5_markdown.html">Tutorial 5 Report template</a> to create and save a template to your STAT-462 folder and also a version inside your lab 2 folder.</p>
+<p>For the lab 2 folder one, update the title etc to be about Lab 2.</p>
+</div>
+<div id="c.-load-libraries" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> 1c. Load libraries</h2>
+<p>In the library section of your lab report, add a new code chunk and use this code to load the following libraries. If some don’t exist on your computer or on the cloud, use [Tutorial 2.2] (<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#22_R-Packages" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#22_R-Packages</a>) to install/download them.</p>
+<pre class="r"><code>library(tidyverse)
+library(dplyr)
+library(ggpubr)
+library(skimr)
+library(ggplot2)
+library(plotly)
+library(ISLR)</code></pre>
+</div>
+</div>
+<div id="step-2-code-showcase" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> STEP 2: Code showcase</h1>
+<div id="a.-markdown" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> 2a. Markdown</h2>
+<p>You should now be able to see how headings work. If you click the A symbol on the top right you can also change the formatting of text (you can also do this in the basic text - see Tutorial 4)</p>
+<p>I also want you to be able to embed images or videos into your report.</p>
+<p><strong>STEP 1:</strong> <br> Follow <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#47_Adding_photos">Tutorial 4.7 Images</a> to add an image of your choice into your report. (note, non english characters in file names or huge photos will break R)</p>
+<p><strong>STEP 2:</strong> <br> If you wish to add a video from youtube, you will need to install a new package called <code>vembedr</code>. Follow Tutorial 2.3 to install this package. Now make a code chunk and use the <code>embed_url</code> command to embed a video of your choice from youtube/vimeo etc in your report</p>
+<p><strong>STEP 3:</strong> <br> Below both, use a bullet point list (see tutorial 4 or google) to explain why you chose those photos/images.</p>
+<p><br></p>
+</div>
+<div id="b.-codemath" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> 2b. Code/Math</h2>
+<p><strong>STEP 4:</strong></p>
+<p>In your code showcase section, answer these penguin questions, making sure to use full sentences in your conclusions. If it helps to make your report easier to read, feel free to include the question text.</p>
+<p><em>A sample of 36 obese rock-hopper penguins in a zoo were put on a special diet for a year. The average weight loss was 11oz and the standard deviation of the weight loss was 19oz. (note, that a positive weight loss implies reduced weight over time).</em></p>
+<p><strong>STEP 4a:</strong> <br> Either by hand or in R, calculate a 99% confidence interval for the true mean weight reduction of all zoo penguins. Make sure to show your workings or R code. Ideally upload a mini diagram of the distribution &amp; key values.</p>
+<p><strong>STEP 4b:</strong> <br> Based on the interval you calculate above, do you have sufficient evidence at your 99% level of significance to believe that the weight-loss programme is working and the penguins are losing weight?</p>
+<p><strong>STEP 4c:</strong> <br> The average penguin actually weighs about 3Kg. Is this diet something you would recommend for meaningful weight loss?</p>
+<p><em>Tests are being carried out on a new drug designed to relieve the symptoms of the flu, specifically on the number of hours people can sleep. The new drug is given in tablet form one evening to a random sample of 16 people who have colds. The number of hours they sleep may be assumed to be Normally distributed and is recorded below.</em></p>
+<p><em>There is also a very large control group of people who have colds but are not given the drug. The mean number of hours they sleep is 6.6 hrs.</em></p>
+<pre><code>## [1] Hours slept by people given the new drug</code></pre>
+<pre><code>## [1] 2.3
+## [1] 5
+## [1] 6
+## [1] 6.4
+## [1] 6.7
+## [1] 6.7
+## [1] 6.9
+## [1] 7.2
+## [1] 7.2
+## [1] 7.4
+## [1] 7.6
+## [1] 7.8
+## [1] 7.9
+## [1] 8.1
+## [1] 8.1
+## [1] 9.7</code></pre>
+<p><span style="color: navy;"><em>You can enter the sleep data into R using this code.</em></span></p>
+<pre class="r"><code>sleep &lt;- c(8.1,6.7,2.3,7.2,8.1,9.7,6.0,7.4,6.4,6.9,5.0,7.8,6.7,7.2,7.6,7.9)</code></pre>
+<p><strong>STEP 4d:</strong> <br>By hand, carry out a hypothesis test at the 1% significance level that the drug has any impact on the length of time people sleep. You can use R as a calculator to get things like the mean. Include a screenshot of your [neat] workings in this report. Make sure to include:</p>
+<ol style="list-style-type: lower-alpha">
+<li><em>Your H<sub>0</sub> and H<sub>1</sub></em></li>
+<li><em>The critical threshold</em></li>
+<li><em>Whether it is one sided or two sided</em></li>
+<li><em>Whether you choose to use the normal or t-distribution</em></li>
+<li><em>A diagram of the distribution split into the acceptance and critical/rejection zones</em></li>
+<li><em>The calculated test statistic</em></li>
+<li><em>and your conclusions</em></li>
+</ol>
+<p><strong>STEP 4e:</strong> <br> Use R and the t.test command to calculate the t-test for the data above. Comment on whether your two results agree (e.g. did you make a mistake anywhere). See the Tutorials for code</p>
+</div>
+</div>
+<div id="step-3-data-analysis" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> STEP 3: Data Analysis</h1>
+<p>We are now going to work on “real data analysis”, filling in the sections in the rest of your report.</p>
+<p>You have three dataset choices. Choose ONE of:</p>
+<ul>
+<li>data(“penguins”, package = “palmerpenguins”)</li>
+<li>data(“starwars”, package = “dplyr”)</li>
+<li>data(“pirates”, package = “yarrr”)</li>
+</ul>
+<p>Choose one column of continuous numberic data as your response variable. Using the tutorials and teaching notes on Canvas, fill in the report template to the end of EDA, making as professional plots/analyses as you can.</p>
+</div>
+<div id="step-4-show-me-something-new" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> STEP 4: Show me something new</h1>
+<p>Remember that an A is 94%, so you can ignore this section and still easily get an A. But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.</p>
+<p><strong>To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.</strong></p>
+<ul>
+<li>You get 2/4 for doing something new in any way BEYOND THE LAB INSTRUCTIONS/CODE</li>
+<li>You get 4/4 for something really impressive or multiple small things.</li>
+<li>You must tell us in your R script what you did!</li>
+</ul>
+<p>Here are some ideas:</p>
+<p><br> <br></p>
+<div id="submitting-your-lab" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Submitting your Lab</h2>
+<p>Remember to save your work throughout and to spell check your writing (next to the save button).</p>
+<p>Now, press the knit button for the final time.</p>
+<p>If you have not made any mistakes in the code then R should create a html file in your lab 2 folder which includes your answers. If you look at your lab 1 folder, you should see this there - complete with a very recent time-stamp.</p>
+<p>In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.</p>
+<p>If you are on R studio cloud, see Tutorial 1 for how to download your files</p>
+<p>Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 2.</p>
+<p><img src="Figures/Lab1_Basics_2022_fig1.png" width="1673" /></p>
+<p><br></p>
+</div>
+<div id="lab-2-submission-check-list" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Lab 2 submission check-list</h2>
+<p>See the table below for what this means - 100% is hard to get!</p>
+<p><strong>HTML FILE SUBMISSION - 8 marks</strong></p>
+<p><strong>RMD CODE SUBMISSION - 8 marks</strong></p>
+<p><strong>MARKDOWN/CODE STYLE - 10 MARKS</strong></p>
+<p>Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT. There is also a spell check next to the save button. You have written your answers below the relevant code chunk in full sentences in a way that is easy to find and grade. For example, you have written in full sentences, it is clear what your answers are referring to.</p>
+<p><strong>WRITING STYLE: 10 MARKS</strong></p>
+<p>You use full sentences and units, You have great Markdown formatting</p>
+<p><strong>Code Showcase: 30 MARKS</strong></p>
+<p>You have managed to successfully complete all the code challenges</p>
+<p><strong>EDA: 30 MARKS</strong></p>
+<p>You included all the code and successfully answered the questions, providing reasoning where appropriate</p>
+<p><strong>Above and beyond: 4 MARKS</strong></p>
+<p>Here you need to go above and beyond the lab questions in some way. Here in lab 1, maybe you added in different text formats to make your lab script more clear (bold/italic etc). Maybe you worked out how to add axis labels to ggplot (note, it’s a pain), maybe you used nested headings or sub-headings, or worked out how to add a table of contents.</p>
+<p>You get 2/4 for doing something new in any way and 4/4 for something really impressive or multiple small things.</p>
+<p>[100 marks total]</p>
+<p>Overall, here is what your lab should correspond to:</p>
+<table class=" lightable-classic-2 table table-striped table-hover table-responsive" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Grade
+</th>
+<th style="text-align:left;">
+% Mark
+</th>
+<th style="text-align:left;">
+Rubric
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A*
+</td>
+<td style="text-align:left;">
+98-100
+</td>
+<td style="text-align:left;">
+Exceptional.  Not only was it near perfect, but the graders learned something.  THIS IS HARD TO GET.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+96+
+</td>
+<td style="text-align:left;">
+You went above and beyond
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+94+:
+</td>
+<td style="text-align:left;">
+Everything asked for with high quality.   Class example
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A-
+</td>
+<td style="text-align:left;">
+90+
+</td>
+<td style="text-align:left;">
+The odd minor mistake, All code done but not written up in full sentences etc. A little less care
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B+
+</td>
+<td style="text-align:left;">
+87+
+</td>
+<td style="text-align:left;">
+More minor mistakes.  Things like missing units, getting the odd question wrong, no workings shown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+84+
+</td>
+<td style="text-align:left;">
+Solid work but the odd larger mistake or missing answer.  Completely misinterpreted something, that type of thing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B-
+</td>
+<td style="text-align:left;">
+80+
+</td>
+<td style="text-align:left;">
+Starting to miss entire/questions sections, or multiple larger mistakes. Still a solid attempt. 
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C+
+</td>
+<td style="text-align:left;">
+77+
+</td>
+<td style="text-align:left;">
+You made a good effort and did some things well, but there were a lot of problems. (e.g. you wrote up the text well, but messed up the code)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+70+
+</td>
+<td style="text-align:left;">
+It’s clear you tried and learned something.  Just attending labs will get you this much as we can help you get to this stage
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:left;">
+60+
+</td>
+<td style="text-align:left;">
+You attempt the lab and submit something. Not clear you put in much effort or you had real issues
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+0+
+</td>
+<td style="text-align:left;">
+Didn’t submit, or incredibly limited attempt. 
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

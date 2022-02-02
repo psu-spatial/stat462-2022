@@ -11,6 +11,8 @@ navbar:
       menu:
         - text: "Lab 1: R-Basics"
           href: STAT462_22_L1Basics.html  
+        - text: "Lab 2: Exploratory Analysis"
+          href: STAT462_Lab2.html  
 output:  
   html_document:  
     self_contained: no  
