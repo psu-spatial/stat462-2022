@@ -1220,11 +1220,493 @@ output:
 <p>*PART 6** Save a new copy of your .Rmd file directly into your stat 462 folder. Now for future labs we can simply copy/paste this across.</p>
 <p><br> <br> <br></p>
 </div>
-<div id="S.Tutorial.2D" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Distributions and tests</h1>
+<div id="summarising-data" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Summarising data</h1>
+<p>Here I will show a few examples for the houses dataset we were using in lectures</p>
+<div id="summary-statistics-overall" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Summary statistics overall</h2>
+<p>None are better or worse than others - simply choose what works for you in the moment.</p>
+<pre class="r"><code>summary(HousesNY)</code></pre>
+<pre><code>##      Price            Beds           Baths            Size      
+##  Min.   : 38.5   Min.   :2.000   Min.   :1.000   Min.   :0.712  
+##  1st Qu.: 82.7   1st Qu.:3.000   1st Qu.:1.500   1st Qu.:1.296  
+##  Median :107.0   Median :3.000   Median :2.000   Median :1.528  
+##  Mean   :113.6   Mean   :3.396   Mean   :1.858   Mean   :1.678  
+##  3rd Qu.:141.0   3rd Qu.:4.000   3rd Qu.:2.000   3rd Qu.:2.060  
+##  Max.   :197.5   Max.   :6.000   Max.   :3.500   Max.   :3.100  
+##       Lot        
+##  Min.   :0.0000  
+##  1st Qu.:0.2700  
+##  Median :0.4200  
+##  Mean   :0.7985  
+##  3rd Qu.:1.1000  
+##  Max.   :3.5000</code></pre>
+<pre class="r"><code>library(skimr) # you would need to install this
+skim(HousesNY)</code></pre>
+<table style="width: auto;" class="table table-condensed">
+<caption>
+Data summary
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Name
+</td>
+<td style="text-align:left;">
+HousesNY
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of rows
+</td>
+<td style="text-align:left;">
+53
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of columns
+</td>
+<td style="text-align:left;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+_______________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Column type frequency:
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+________________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Group variables
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+p0
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p100
+</th>
+<th style="text-align:left;">
+hist
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Price
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+113.63
+</td>
+<td style="text-align:right;">
+41.43
+</td>
+<td style="text-align:right;">
+38.50
+</td>
+<td style="text-align:right;">
+82.70
+</td>
+<td style="text-align:right;">
+107.00
+</td>
+<td style="text-align:right;">
+141.00
+</td>
+<td style="text-align:right;">
+197.5
+</td>
+<td style="text-align:left;">
+▃▇▅▃▃
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Beds
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3.40
+</td>
+<td style="text-align:right;">
+0.79
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+3.00
+</td>
+<td style="text-align:right;">
+3.00
+</td>
+<td style="text-align:right;">
+4.00
+</td>
+<td style="text-align:right;">
+6.0
+</td>
+<td style="text-align:left;">
+▂▇▆▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Baths
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.86
+</td>
+<td style="text-align:right;">
+0.65
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+1.50
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+2.00
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:left;">
+▅▇▁▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Size
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1.68
+</td>
+<td style="text-align:right;">
+0.60
+</td>
+<td style="text-align:right;">
+0.71
+</td>
+<td style="text-align:right;">
+1.30
+</td>
+<td style="text-align:right;">
+1.53
+</td>
+<td style="text-align:right;">
+2.06
+</td>
+<td style="text-align:right;">
+3.1
+</td>
+<td style="text-align:left;">
+▃▇▅▂▂
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lot
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.80
+</td>
+<td style="text-align:right;">
+0.76
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+0.27
+</td>
+<td style="text-align:right;">
+0.42
+</td>
+<td style="text-align:right;">
+1.10
+</td>
+<td style="text-align:right;">
+3.5
+</td>
+<td style="text-align:left;">
+▇▃▂▁▁
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>library(pillar) # you would need to install this
+glimpse(HousesNY)</code></pre>
+<pre><code>## Rows: 53
+## Columns: 5
+## $ Price &lt;dbl&gt; 57.6, 120.0, 150.0, 143.0, 92.5, 50.0, 89.0, 140.0, 197.5, 125.1…
+## $ Beds  &lt;int&gt; 3, 6, 4, 3, 3, 2, 2, 4, 4, 3, 3, 3, 3, 4, 3, 3, 4, 3, 4, 3, 4, 4…
+## $ Baths &lt;dbl&gt; 2.0, 2.0, 2.0, 2.0, 1.0, 1.0, 2.0, 3.0, 2.5, 2.0, 2.0, 1.0, 2.0,…
+## $ Size  &lt;dbl&gt; 0.960, 2.786, 1.704, 1.200, 1.329, 0.974, 1.029, 2.818, 2.268, 1…
+## $ Lot   &lt;dbl&gt; 1.30, 0.23, 0.27, 0.80, 0.42, 0.34, 0.29, 0.21, 1.00, 0.30, 1.30…</code></pre>
+<p>or</p>
+<pre class="r"><code>str(HousesNY)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    53 obs. of  5 variables:
+##  $ Price: num  57.6 120 150 143 92.5 ...
+##  $ Beds : int  3 6 4 3 3 2 2 4 4 3 ...
+##  $ Baths: num  2 2 2 2 1 1 2 3 2.5 2 ...
+##  $ Size : num  0.96 2.79 1.7 1.2 1.33 ...
+##  $ Lot  : num  1.3 0.23 0.27 0.8 0.42 0.34 0.29 0.21 1 0.3 ...</code></pre>
+<p>To see what the column names are, you can use the names(dataset) command</p>
+<pre class="r"><code>names(HousesNY)</code></pre>
+<pre><code>## [1] &quot;Price&quot; &quot;Beds&quot;  &quot;Baths&quot; &quot;Size&quot;  &quot;Lot&quot;</code></pre>
+<p>To print the first few rows</p>
+<pre class="r"><code>head(HousesNY)</code></pre>
+<pre><code>##   Price Beds Baths  Size  Lot
+## 1  57.6    3     2 0.960 1.30
+## 2 120.0    6     2 2.786 0.23
+## 3 150.0    4     2 1.704 0.27
+## 4 143.0    3     2 1.200 0.80
+## 5  92.5    3     1 1.329 0.42
+## 6  50.0    2     1 0.974 0.34</code></pre>
+<p>To find the number of rows and columns</p>
+<pre class="r"><code>nrow(HousesNY)</code></pre>
+<pre><code>## [1] 53</code></pre>
+<pre class="r"><code>ncol(HousesNY)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>#or both dimensions
+dim(HousesNY)</code></pre>
+<pre><code>## [1] 53  5</code></pre>
+<p>Or you can do things manually, using the $ symbol to choose a column. All of this is for the price column</p>
+<pre class="r"><code>mean(HousesNY$Price)</code></pre>
+<pre><code>## [1] 113.6321</code></pre>
+<pre class="r"><code>median(HousesNY$Price)</code></pre>
+<pre><code>## [1] 107</code></pre>
+<pre class="r"><code>mode(HousesNY$Price)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>sd(HousesNY$Price)</code></pre>
+<pre><code>## [1] 41.43006</code></pre>
+<pre class="r"><code>var(HousesNY$Price)</code></pre>
+<pre><code>## [1] 1716.45</code></pre>
+<pre class="r"><code>IQR(HousesNY$Price)</code></pre>
+<pre><code>## [1] 58.3</code></pre>
+<pre class="r"><code>range(HousesNY$Price)</code></pre>
+<pre><code>## [1]  38.5 197.5</code></pre>
+<p><br> <br> <br></p>
+</div>
+</div>
+<div id="summary-plots" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Summary plots</h1>
+<p>For plots, we have a few choices. We can use what is built into R, or.. use the ggplot system where you add on layers to your plot using the + symbol</p>
+<div id="boxplots" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Boxplots</h2>
+<div class="figure">
+<img src="Figures/Tut6_fig1_boxplot.png" alt="*Image source: https://www.leansigmacorporation.com/box-plot-with-minitab/*" width="893" />
+<p class="caption">
+<em>Image source: <a href="https://www.leansigmacorporation.com/box-plot-with-minitab/" class="uri">https://www.leansigmacorporation.com/box-plot-with-minitab/</a></em>
+</p>
+</div>
+<div id="base-r-built-in-functions" class="section level3" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Base R (built in functions)</h3>
+<p>See this tutorial for all the details: <a href="https://www.datamentor.io/r-programming/box-plot/" class="uri">https://www.datamentor.io/r-programming/box-plot/</a> This goes through exactly what each line means.</p>
+<pre class="r"><code># one big command on separate lines
+boxplot(HousesNY$Price,
+        main = &quot;House prices of Canton NY sample&quot;,
+        xlab = &quot;Price (Thousand USD)&quot;,
+        col = &quot;light blue&quot;,
+        border = &quot;brown&quot;,
+        horizontal = TRUE,
+        notch = TRUE)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+</div>
+<div id="ggplot-2" class="section level3" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> GGPlot 2</h3>
+<p>We can get more complex using ggplot2. Note for now, think of the %&gt;% symbol and + symbol also as “one command on multiple lines..”</p>
+<p><a href="https://r-charts.com/distribution/box-plot-jitter-ggplot2/" class="uri">https://r-charts.com/distribution/box-plot-jitter-ggplot2/</a></p>
+<pre class="r"><code># install.packages(&quot;ggplot2&quot;)
+library(ggplot2)
+
+# Basic box plot
+ggplot(HousesNY, aes(x = &quot;&quot;, y = Price)) + 
+  geom_boxplot() +
+  geom_jitter()</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>or more fancy</p>
+<pre class="r"><code># Libraries
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+
+# Plot
+ggplot(HousesNY, aes(x = &quot;&quot;, y = Price)) + 
+    geom_boxplot() +
+    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+    geom_jitter(color=&quot;black&quot;, size=0.4, alpha=0.9) +
+    theme_ipsum() +
+    theme(
+      legend.position=&quot;none&quot;,
+      plot.title = element_text(size=11)
+    ) +
+    ggtitle(&quot;A boxplot with jitter&quot;) +
+    xlab(&quot;&quot;)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p>Or comparing different groups</p>
+<pre class="r"><code># Libraries
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+
+# tell R that the beds column is categorical
+HousesNY$Beds &lt;- as.factor(HousesNY$Beds)
+
+# Plot
+HousesNY %&gt;%
+  ggplot( aes(x=Beds, y=Price, fill=Beds) )+
+    geom_boxplot() +
+    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+    geom_jitter(color=&quot;black&quot;, size=0.4, alpha=0.9) +
+    ggtitle(&quot;&quot;) +
+    xlab(&quot;Beds&quot;)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p>There are MANY more options, plus code here: <a href="https://www.r-graph-gallery.com/boxplot.html" class="uri">https://www.r-graph-gallery.com/boxplot.html</a></p>
+<div class="figure">
+<img src="Figures/Tut6_fig2_boxplot.png" alt="*R graph gallery*" width="814" />
+<p class="caption">
+<em>R graph gallery</em>
+</p>
+</div>
+</div>
+</div>
+<div id="violin-plots" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Violin plots</h2>
+<p>There are MANY on R graph gallery with code: <a href="https://www.r-graph-gallery.com/violin.html" class="uri">https://www.r-graph-gallery.com/violin.html</a></p>
+<p>There is also a <em>beautiful</em> package here called ggstatsplot (<a href="https://indrajeetpatil.github.io/ggstatsplot/" class="uri">https://indrajeetpatil.github.io/ggstatsplot/</a>)</p>
+<p>and a detailed tutorial here <a href="https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html" class="uri">https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html</a></p>
+<p>For example</p>
+<pre class="r"><code>library(ggstatsplot)
+
+ggbetweenstats(data = HousesNY,x = Beds,y = Price)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p>Or we can customise it even more using the tutorial to get results like this:</p>
+<div class="figure">
+<img src="Figures/Tut6_fig3_boxplot.png" alt="*GGStatsplot*" width="512" />
+<p class="caption">
+<em>GGStatsplot</em>
+</p>
+</div>
+<p><br> <br></p>
+</div>
+<div id="histograms" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Histograms</h2>
+<p>To come tomorrow, but google R tutorial histogram and you will see many</p>
+<p><br></p>
+</div>
+<div id="beeswarm-plots" class="section level2" number="7.4">
+<h2><span class="header-section-number">7.4</span> Beeswarm plots</h2>
+<p>These are cool, tutorial to come tomorrow</p>
+</div>
+</div>
+<div id="S.Tutorial.2D" class="section level1" number="8">
+<h1><span class="header-section-number">8</span> Distributions and tests</h1>
 <p>We have talked about several distributions and tests so far in the lab. To see the help files for most of them, see <code>?Distributions</code></p>
-<div id="S.Tutorial.2D.1" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Normal distribution</h2>
+<div id="S.Tutorial.2D.1" class="section level2" number="8.1">
+<h2><span class="header-section-number">8.1</span> Normal distribution</h2>
 <p>Remember as we discussed in lectures, we normally state that a variable is ~N(mean, VARIANCE). But in these commands you need the standard deviation instead. (you can google how to get the sd from the variance if you have forgotten)</p>
 <p>To see the help file for all these:</p>
 <pre class="r"><code>?Normal</code></pre>
@@ -1248,8 +1730,8 @@ qnorm(0.6,mean=4,sd=2,lower.tail = TRUE)</code></pre>
 <pre class="r"><code># what value is greater than 80% of the data?
 qnorm(0.8,mean=4,sd=2,lower.tail = FALSE)</code></pre>
 <pre><code>## [1] 2.316758</code></pre>
-<div id="S.Tutorial.2D.3" class="section level3" number="6.1.1">
-<h3><span class="header-section-number">6.1.1</span> Wilks Shapiro test for normality</h3>
+<div id="S.Tutorial.2D.3" class="section level3" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Wilks Shapiro test for normality</h3>
 <p>To test for normality:</p>
 <pre class="r"><code>shapiro.test(HousesNY$Price)</code></pre>
 <pre><code>## 
@@ -1259,8 +1741,8 @@ qnorm(0.8,mean=4,sd=2,lower.tail = FALSE)</code></pre>
 ## W = 0.96341, p-value = 0.1038</code></pre>
 </div>
 </div>
-<div id="S.Tutorial.2D.2" class="section level2" number="6.2">
-<h2><span class="header-section-number">6.2</span> Student’s t-distribution</h2>
+<div id="S.Tutorial.2D.2" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> Student’s t-distribution</h2>
 <p>What even is this? See this nice resource: <a href="https://365datascience.com/tutorials/statistics-tutorials/students-t-distribution/" class="uri">https://365datascience.com/tutorials/statistics-tutorials/students-t-distribution/</a></p>
 <p>To see the help file for all these:</p>
 <pre class="r"><code>?TDist</code></pre>

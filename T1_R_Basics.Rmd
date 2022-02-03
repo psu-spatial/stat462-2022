@@ -1301,6 +1301,216 @@ knitr::include_graphics('./Figures/pg_Tut3_basics_fig8.png')
 <br>
 <br>
 
+# Summarising data
+
+Here I will show a few examples for the houses dataset we were using in lectures
+
+```{r,warning=FALSE,message=FALSE,echo=FALSE}
+# Conduct a Shipiro-Wilk test for normality on the Price of houses
+data("HousesNY", package = "Stat2Data")
+```
+
+## Summary statistics overall
+
+None are better or worse than others - simply choose what works for you in the moment.
+
+```{r}
+summary(HousesNY)
+```
+
+```{r}
+library(skimr) # you would need to install this
+skim(HousesNY)
+```
+
+```{r}
+library(pillar) # you would need to install this
+glimpse(HousesNY)
+```
+
+or 
+
+```{r}
+str(HousesNY)
+```
+
+
+To see what the column names are, you can use the names(dataset) command
+
+```{r}
+names(HousesNY)
+
+```
+
+To print the first few rows
+
+```{r}
+head(HousesNY)
+```
+
+To find the number of rows and columns
+
+```{r}
+nrow(HousesNY)
+
+ncol(HousesNY)
+
+#or both dimensions
+dim(HousesNY)
+```
+
+Or you can do things manually, using the $ symbol to choose a column.  All of this is for the price column
+
+```{r}
+mean(HousesNY$Price)
+median(HousesNY$Price)
+mode(HousesNY$Price)
+sd(HousesNY$Price)
+var(HousesNY$Price)
+IQR(HousesNY$Price)
+range(HousesNY$Price)
+```
+
+
+<br>
+<br>
+<br>
+
+#  Summary plots
+
+For plots, we have a few choices.  We can use what is built into R, or.. use the ggplot system where you add on layers to your plot using the + symbol
+
+## Boxplots
+
+```{r, Tut6fig1, echo=FALSE,fig.cap="*Image source: https://www.leansigmacorporation.com/box-plot-with-minitab/*"}
+knitr::include_graphics('./Figures/Tut6_fig1_boxplot.png')
+```
+
+
+### Base R (built in functions)
+
+See this tutorial for all the details: https://www.datamentor.io/r-programming/box-plot/
+This goes through exactly what each line means.
+
+```{r}
+
+# one big command on separate lines
+boxplot(HousesNY$Price,
+        main = "House prices of Canton NY sample",
+        xlab = "Price (Thousand USD)",
+        col = "light blue",
+        border = "brown",
+        horizontal = TRUE,
+        notch = TRUE)
+```
+
+### GGPlot 2
+
+We can get more complex using ggplot2. Note for now, think of the %>% symbol and + symbol also as "one command on multiple lines.."
+
+https://r-charts.com/distribution/box-plot-jitter-ggplot2/
+
+```{r}
+# install.packages("ggplot2")
+library(ggplot2)
+
+# Basic box plot
+ggplot(HousesNY, aes(x = "", y = Price)) + 
+  geom_boxplot() +
+  geom_jitter()
+```
+
+or more fancy
+
+```{r}
+# Libraries
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+
+# Plot
+ggplot(HousesNY, aes(x = "", y = Price)) + 
+    geom_boxplot() +
+    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+    geom_jitter(color="black", size=0.4, alpha=0.9) +
+    theme_ipsum() +
+    theme(
+      legend.position="none",
+      plot.title = element_text(size=11)
+    ) +
+    ggtitle("A boxplot with jitter") +
+    xlab("")
+```
+
+Or comparing different groups
+
+
+```{r}
+# Libraries
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+
+# tell R that the beds column is categorical
+HousesNY$Beds <- as.factor(HousesNY$Beds)
+
+# Plot
+HousesNY %>%
+  ggplot( aes(x=Beds, y=Price, fill=Beds) )+
+    geom_boxplot() +
+    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+    geom_jitter(color="black", size=0.4, alpha=0.9) +
+    ggtitle("") +
+    xlab("Beds")
+
+```
+
+
+There are MANY more options, plus code here:
+https://www.r-graph-gallery.com/boxplot.html
+
+```{r, Tut6fig2, echo=FALSE,fig.cap="*R graph gallery*"}
+knitr::include_graphics('./Figures/Tut6_fig2_boxplot.png')
+```
+
+## Violin plots
+
+There are MANY on R graph gallery with code:
+https://www.r-graph-gallery.com/violin.html
+
+There is also a *beautiful* package here called ggstatsplot (https://indrajeetpatil.github.io/ggstatsplot/)
+
+and a detailed tutorial here https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html
+
+For example
+
+```{r}
+library(ggstatsplot)
+
+ggbetweenstats(data = HousesNY,x = Beds,y = Price)
+```
+
+Or we can customise it even more using the tutorial to get results like this:
+
+
+```{r, Tut6fig3, echo=FALSE,fig.cap="*GGStatsplot*"}
+knitr::include_graphics('./Figures/Tut6_fig3_boxplot.png')
+```
+
+
+<br>
+<br>
+
+## Histograms
+
+To come tomorrow, but google R tutorial histogram and you will see many
+
+<br>
+
+## Beeswarm plots
+
+These are cool, tutorial to come tomorrow
+
 
 #  Distributions and tests {#S.Tutorial.2D}
 
@@ -1344,14 +1554,10 @@ qnorm(0.6,mean=4,sd=2,lower.tail = TRUE)
 qnorm(0.8,mean=4,sd=2,lower.tail = FALSE)
 ```
 
+
 ### Wilks Shapiro test for normality {#S.Tutorial.2D.3}
 
 To test for normality: 
-
-```{r,warning=FALSE,message=FALSE,echo=FALSE}
-# Conduct a Shipiro-Wilk test for normality on the Price of houses
-data("HousesNY", package = "Stat2Data")
-```
 
 
 ```{r}

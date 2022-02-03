@@ -161,6 +161,8 @@ I also want you to be able to embed images or videos into your report.
 
 <br>
 
+TUTORIAL 8 AND LAB 1 MIGHT HELP YOU HERE
+
 **Q4:** 
 
 In your code showcase section, answer these  questions, making sure to use full sentences in your conclusions.  If it helps to make your report easier to read, feel free to include the question text. 
@@ -232,7 +234,7 @@ Note, putting  the code above into an R code chunk will allow you to load the da
 
 ## 3b. Conduct Exploratory Data Analysis
 
-A NEW TUTORIAL HAS APPEARED - Tutorial 7..
+NEW TUTORIALS HAVE APPEARED - Tutorial 6 (summary stats), Tutorial 7 (plots), Tutorial 8 (distributions)
 
 Using the tutorials and [teaching notes on Canvas](https://psu.instructure.com/courses/2174925/files/132549205), fill in the report template to the end of EDA (end of step 2b in the teaching notes), making as professional plots/analyses as you can.
 
