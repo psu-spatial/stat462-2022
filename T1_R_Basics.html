@@ -1220,6 +1220,77 @@ output:
 <p>*PART 6** Save a new copy of your .Rmd file directly into your stat 462 folder. Now for future labs we can simply copy/paste this across.</p>
 <p><br> <br> <br></p>
 </div>
+<div id="S.Tutorial.2D" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Distributions and tests</h1>
+<p>We have talked about several distributions and tests so far in the lab. To see the help files for most of them, see <code>?Distributions</code></p>
+<div id="S.Tutorial.2D.1" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Normal distribution</h2>
+<p>Remember as we discussed in lectures, we normally state that a variable is ~N(mean, VARIANCE). But in these commands you need the standard deviation instead. (you can google how to get the sd from the variance if you have forgotten)</p>
+<p>To see the help file for all these:</p>
+<pre class="r"><code>?Normal</code></pre>
+<p>To generate a random sample from a normal distribution:</p>
+<pre class="r"><code>sample.normal &lt;- rnorm(n=100,mean=4,sd=2)</code></pre>
+<p>To calculate a z score from your sample/population, you can use R as a calculator.</p>
+<p>To calculate the probability of greater/lesser than a value in a given normal distribution (e.g. you can use this as an interactive table)</p>
+<pre class="r"><code># probability of less than 1.7 in a normal distribution of N(4,2^2)
+pnorm(1.7,mean=4,sd=2,lower.tail = TRUE)</code></pre>
+<pre><code>## [1] 0.1250719</code></pre>
+<pre class="r"><code># probability of greater than 1.8 in a normal distribution of N(4,2^2)
+1 - pnorm(1,mean=4,sd=2,lower.tail = TRUE)</code></pre>
+<pre><code>## [1] 0.9331928</code></pre>
+<pre class="r"><code># or
+pnorm(1,mean=4,sd=2,lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.9331928</code></pre>
+<p>To calculate the value for a given probability</p>
+<pre class="r"><code># what value is less than 60% of the data?
+qnorm(0.6,mean=4,sd=2,lower.tail = TRUE)</code></pre>
+<pre><code>## [1] 4.506694</code></pre>
+<pre class="r"><code># what value is greater than 80% of the data?
+qnorm(0.8,mean=4,sd=2,lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 2.316758</code></pre>
+<div id="S.Tutorial.2D.3" class="section level3" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Wilks Shapiro test for normality</h3>
+<p>To test for normality:</p>
+<pre class="r"><code>shapiro.test(HousesNY$Price)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  HousesNY$Price
+## W = 0.96341, p-value = 0.1038</code></pre>
+</div>
+</div>
+<div id="S.Tutorial.2D.2" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Student’s t-distribution</h2>
+<p>What even is this? See this nice resource: <a href="https://365datascience.com/tutorials/statistics-tutorials/students-t-distribution/" class="uri">https://365datascience.com/tutorials/statistics-tutorials/students-t-distribution/</a></p>
+<p>To see the help file for all these:</p>
+<pre class="r"><code>?TDist</code></pre>
+<p>To calculate a t-statistic from your sample/population, you can use R as a calculator. To calculate the probability of greater/lesser than a value in a given t-distribution (e.f. you can use this as an interactive t-table)</p>
+<pre class="r"><code># probability of seeing less than 1.7 in a  t-distribution 
+# with 20 degrees of freedom
+pt(1.55,df=20,lower.tail = TRUE)</code></pre>
+<pre><code>## [1] 0.9315892</code></pre>
+<p>To calculate the value for a given probability</p>
+<pre class="r"><code># what value is greater than 90% of the data in a t-distribution with df=25
+qt(0.9,df=25,lower.tail = TRUE)</code></pre>
+<pre><code>## [1] 1.316345</code></pre>
+<p>To conduct a full t-test on some data:</p>
+<pre class="r"><code># Conduct a two-sided t-test where we think that the data comes from a T-distribution with mean 100.
+t.test(HousesNY$Price,mu=100,alternative=&quot;two.sided&quot;)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  HousesNY$Price
+## t = 2.3954, df = 52, p-value = 0.02024
+## alternative hypothesis: true mean is not equal to 100
+## 95 percent confidence interval:
+##  102.2125 125.0516
+## sample estimates:
+## mean of x 
+##  113.6321</code></pre>
+<p>or see the detailed tutorial here: <a href="http://www.sthda.com/english/wiki/one-sample-t-test-in-r" class="uri">http://www.sthda.com/english/wiki/one-sample-t-test-in-r</a> for one-sample</p>
+<p>and here for comparing two samples: <a href="http://www.sthda.com/english/wiki/unpaired-two-samples-t-test-in-r" class="uri">http://www.sthda.com/english/wiki/unpaired-two-samples-t-test-in-r</a></p>
+</div>
+</div>
 
 
 
@@ -1270,7 +1341,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2",
+      selectors: "h1,h2,h3",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {

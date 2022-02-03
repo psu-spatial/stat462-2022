@@ -1302,3 +1302,101 @@ knitr::include_graphics('./Figures/pg_Tut3_basics_fig8.png')
 <br>
 
 
+#  Distributions and tests {#S.Tutorial.2D}
+
+We have talked about several distributions and tests so far in the lab.  To see the help files for most of them, see `?Distributions`
+
+## Normal distribution {#S.Tutorial.2D.1}
+
+Remember as we discussed in lectures, we normally state that a variable is ~N(mean, VARIANCE).  But in these commands you need the standard deviation instead. (you can google how to get the sd from the variance if you have forgotten)
+
+To see the help file for all these:
+```{r,eval=FALSE}
+?Normal
+```
+
+To generate a random sample from a normal distribution: 
+```{r}
+sample.normal <- rnorm(n=100,mean=4,sd=2)
+```
+
+To calculate a z score from your sample/population, you can use R as a calculator. 
+
+To calculate the probability of greater/lesser than a value in a given normal distribution (e.g. you can use this as an interactive table)
+
+```{r}
+# probability of less than 1.7 in a normal distribution of N(4,2^2)
+pnorm(1.7,mean=4,sd=2,lower.tail = TRUE)
+
+# probability of greater than 1.8 in a normal distribution of N(4,2^2)
+1 - pnorm(1,mean=4,sd=2,lower.tail = TRUE)
+# or
+pnorm(1,mean=4,sd=2,lower.tail = FALSE)
+```
+
+To calculate the value for a given probability
+
+```{r}
+# what value is less than 60% of the data?
+qnorm(0.6,mean=4,sd=2,lower.tail = TRUE)
+
+# what value is greater than 80% of the data?
+qnorm(0.8,mean=4,sd=2,lower.tail = FALSE)
+```
+
+### Wilks Shapiro test for normality {#S.Tutorial.2D.3}
+
+To test for normality: 
+
+```{r,warning=FALSE,message=FALSE,echo=FALSE}
+# Conduct a Shipiro-Wilk test for normality on the Price of houses
+data("HousesNY", package = "Stat2Data")
+```
+
+
+```{r}
+shapiro.test(HousesNY$Price)
+```
+
+
+## Student's t-distribution  {#S.Tutorial.2D.2}
+
+What even is this?  See this nice resource: https://365datascience.com/tutorials/statistics-tutorials/students-t-distribution/
+
+
+To see the help file for all these:
+
+```{r,eval=FALSE}
+?TDist
+```
+
+To calculate a t-statistic from your sample/population, you can use R as a calculator.  To calculate the probability of greater/lesser than a value in a given t-distribution (e.f. you can use this as an interactive t-table)
+
+```{r}
+# probability of seeing less than 1.7 in a  t-distribution 
+# with 20 degrees of freedom
+pt(1.55,df=20,lower.tail = TRUE)
+
+```
+
+To calculate the value for a given probability
+
+```{r}
+# what value is greater than 90% of the data in a t-distribution with df=25
+qt(0.9,df=25,lower.tail = TRUE)
+```
+
+To conduct a full t-test on some data:
+
+```{r}
+
+# Conduct a two-sided t-test where we think that the data comes from a T-distribution with mean 100.
+t.test(HousesNY$Price,mu=100,alternative="two.sided")
+```
+
+or see the detailed tutorial here: http://www.sthda.com/english/wiki/one-sample-t-test-in-r for one-sample
+
+and here for comparing two samples: http://www.sthda.com/english/wiki/unpaired-two-samples-t-test-in-r
+
+
+
