@@ -3,7 +3,7 @@ title: " "
 output: 
   html_document:
     toc: true 
-    toc_depth: 2
+    toc_depth: 3
     toc_float:
       collapsed: yes
     number_sections: yes
@@ -1261,7 +1261,7 @@ knitr::include_graphics('./Figures/pg_Tut3_basics_fig6.png')
 ```
 <br>
 
-**PART 3.** Customise.  Now customise! You can change the theme to something you like or add in other options.  Press knit to check it still works before you move on. Lots of themes in [Tutorial 4.4]( https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#44_YAML_Code)
+**PART 3.** Customise.  Now customise! You can change the theme to something you like or add in other options.  Press knit to check it still works before you move on. Lots of themes in [Tutorial 4.4](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#44_YAML_Code){target="_blank"}
  
 <br> 
 
@@ -1284,9 +1284,9 @@ knitr::include_graphics('./Figures/pg_Tut3_basics_fig7.png')
 
 <br>
 
-*PART 5** Now we want to create a standard report structure.  To do this we can use formal headings and sub-headings which will link into your table of contents. Read (Tutorial 4.6.4)[https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#46_Formatting_text]{target="_blank"} to remind yourself, or see here: https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf 
+*PART 5** Now we want to create a standard report structure.  To do this we can use formal headings and sub-headings which will link into your table of contents. Read [Tutorial 4.6.4](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#46_Formatting_text){target="_blank"} to remind yourself, or see here: https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf 
 
-To make life quick and easy, I have created the structure for you.  Go to the Lab 2 Canvas page and download the file (LAB SCRIPT TEXT.txt)[https://psu.instructure.com/courses/2174925/assignments/13762677]
+To make life quick and easy, I have created the structure for you.  Go to the Lab 2 Canvas page and download the file [LAB SCRIPT TEXT.txt](https://psu.instructure.com/courses/2174925/assignments/13762677)
 
 Download this, then open in notepad and copy/paste everything into the TEXT AREA below your code chunk.  Press knit and you should see something like this.
 
@@ -1300,3 +1300,5 @@ knitr::include_graphics('./Figures/pg_Tut3_basics_fig8.png')
 <br>
 <br>
 <br>
+
+
