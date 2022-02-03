@@ -1377,14 +1377,36 @@ range(HousesNY$Price)
 <br>
 <br>
 
-#  Summary plots
+#  Making plots
 
-For plots, we have a few choices.  We can use what is built into R, or.. use the ggplot system where you add on layers to your plot using the + symbol
 
-Here is a great summary of the differences between
-them:
+## Where to get plot code and examples
 
-https://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/
+There are three places I visit constantly:
+
+- https://r-charts.com/distribution/ 
+- https://www.r-graph-gallery.com/ 
+- https://flowingdata.com/ 
+
+For plots, we have *many* choices.  We can use what is built into R, or.. use the ggplot system where you add on layers to your plot using the + symbol, or use specialist packages such as ggstatplot or beeswarm.
+
+If you are new to data visualisation, read these two articles
+
+ - https://flowingdata.com/2014/10/23/moving-past-default-charts/
+ - https://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/
+
+
+## How to decide what to do
+
+Plots are designed to do two things, allow you to see something in the data that you couldn't see in the numbers, plus communicate output in a compelling way.  Going beyond the basics or knowing the limitations of a plot will help you do this, so in these examples I have provided a range of complexity.
+
+So far, I have focused on plots that alow you to visualise the distribution of your response variable.  You do not need to use them all!  Choose ones that work for you and your data.
+
+1. Boxplots
+2. Histograms
+3. Violin plots (half boxplot half histogram)
+3. Beeswarm
+
 
 ## Boxplots
 
@@ -1481,7 +1503,8 @@ library(hrbrthemes)
 library(viridis)
 
 # tell R that the beds column is categorical
-HousesNY$Beds <- as.factor(HousesNY$Beds)
+HousesNY$Beds <- factor(HousesNY$Beds,
+                     levels=c(min(HousesNY$Beds):max(HousesNY$Beds)))
 
 # Plot
   ggplot(HousesNY, aes(x=Beds, y=Price)) +
@@ -1533,7 +1556,7 @@ and a delightful tutorial here: https://www.r-bloggers.com/2021/11/how-to-make-s
 
 Finally, we *can* get super fancy in base R - it's often a good way to learn how to code. I like this example because it shows many different aspects/useful commands in R programming. http://www.opiniomics.org/beautiful-boxplots-in-base-r/
 
-```{r}
+```{r, tidy=FALSE}
 library(RColorBrewer)
 
 # create colours and colour matrix (for points)
@@ -1576,10 +1599,14 @@ boxplot(m~col(m), horizontal=TRUE, outline=FALSE, lty=1,
         add=TRUE, xaxt="n", yaxt="n")
 
 # add axes and title
-axis(side=1, at=pretty(m,10), col.axis=palette[7], cex.axis=0.8, lty=0, tick=NA, line=-1)
-axis(side=1, at=50, labels="Price (Thousand USD)", lty=0, tick=NA, col.axis=palette[7])
-axis(side=2, at=1, col.axis=palette[7], cex.axis=0.8, lty=0, tick=NA, labels="Sample 1", las=2)
-axis(side=2, at=17/2, labels="Phrase", col.axis=palette[7], lty=0, tick=NA, las=3, line=6)
+axis(side=1, at=pretty(m,10), col.axis=palette[7], 
+     cex.axis=0.8, lty=0, tick=NA, line=-1)
+axis(side=1, at=50, labels="Price (Thousand USD)", 
+     lty=0, tick=NA, col.axis=palette[7])
+axis(side=2, at=1, col.axis=palette[7], cex.axis=0.8, 
+     lty=0, tick=NA, labels="Sample 1", las=2)
+axis(side=2, at=17/2, labels="Phrase", col.axis=palette[7], 
+     lty=0, tick=NA, las=3, line=6)
 title("House Prices in Canton NY")
 ```
 
@@ -1590,122 +1617,7 @@ Or if you wish to do the rainbow many group boxplot at the beginning, the code i
 <br>
 
 
-## Histograms
 
-Especially just looking at a single response variable, it's useful to look immediately at the distribution itself.  Histograms are great for this, although you must be careful that the bin size doesn't impact your perception of results.  Adding in a boxplot is often useful
-
-Here is the absolute basic histogram
-
-```{r}
-hist(HousesNY$Price)
-```
-
-Or changing the bin size
-
-```{r}
-hist(HousesNY$Price,br=40)
-```
-
-In GGPlot 2, it's also easy
-
-```{r}
-
-ggplot(data=HousesNY, aes(x=Price)) + 
-  geom_histogram(bins=20) 
-
-```
-
-
-Often, a boxplot AND a histogram is useful as it allows you to see a sense of the data shape and its underlying symmetry.  For example, in base R
-
-```{r}
-# Layout to split the screen
-graphics::layout(matrix(c(1,2),2,1, byrow=TRUE),  
-       height = c(2,7))
- 
-# Draw the boxplot and the histogram 
-par(mar=c(0, 3.1, .5, 2.1))
-
-data_to_plot <- HousesNY$Price
-
-rangeplot <- pretty(data_to_plot,10)
-
-boxplot(data_to_plot,col = "light blue",
-        border = "dark blue",xaxt="n",frame=FALSE,xlim=c(0.75,1.25),
-        horizontal = TRUE,notch = TRUE,ylim=c(min(rangeplot),max(rangeplot)))
-
-par(mar=c(3, 3.1, .5, 2.1))
-hist(data_to_plot , breaks=20 , 
-     col=grey(0.3) , border=F , 
-     tcl=-.25,mgp=c(1.75,.5,0),
-     main="" , xlab="Price of houses in Canton NY", 
-     xlim=c(min(rangeplot),max(rangeplot))); 
-box();grid();
-hist(data_to_plot , breaks=20 , add=TRUE,
-     col=grey(0.3) , border=F , axis=FALSE,
-     xlim=c(min(rangeplot),max(rangeplot)))
-```
-
-
-
-And the same with ggplot2:
-
-```{r}
-library(ggExtra)
-
-p <- ggplot(data=HousesNY, aes(x=Price)) + 
-  geom_point(aes(y = 0.01), alpha = 0) +
-  geom_histogram(bins=20) +
-  geom_density(na.rm=T)
-
-ggMarginal(p, type="boxplot", margins = "x")
-
-```
-
-Or you can easily compare two datasets, tutorial for this plot here:
-https://www.r-graph-gallery.com/histogram_several_group.html
-
-```{r, Tut6fig3b, echo=FALSE,fig.cap="*GGStatsplot*"}
-knitr::include_graphics('./Figures/Tut6_fig5_box.png')
-```
-
-I also love the ggstatplot version 
-
-```{r}
-
-library(ggstatsplot)
-## plot
-gghistostats(
-  data       = HousesNY, ## dataframe from which variable is to be taken
-  x          = Price, ## numeric variable whose distribution is of interest
-  title      = "Price of sampled houses in Canton NY", ## title for the plot
-  caption    = "Source: Zillow",
-  type = "parametric",
-  xlab = NULL,subtitle=FALSE,
-  ggthemes::theme_tufte(),
-  binwidth   = 8) ## binwidth value (experiment)
-```
-
-Or the version that includes a lot of associated statistics.  You can turn many of these on and off
-
-```{r}
-library(ggstatsplot)
-
-## plot
-gghistostats(
-  data       = HousesNY, ## dataframe from which variable is to be taken
-  x          = Price, ## numeric variable whose distribution is of interest
-  title      = "Price of sampled houses in Canton NY", ## title for the plot
-  caption    = "Source: Zillow",
-  type = "parametric",
-  xlab = NULL,
-  ggthemes::theme_tufte(),
-  binwidth   = 8) ## binwidth value (experiment)
-```
-
-
-<br>
-<br>
 
 ## Violin plots
 
@@ -1744,7 +1656,7 @@ ggbetweenstats(data = HousesNY,x = Beds,y = Price,
 Or we can customise it even more using this tutorial to get results like this (https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html)
 
 
-```{r, Tut6fig3c, echo=FALSE,fig.cap="*GGStatsplot*"}
+```{r, Tut6fig77, echo=FALSE,fig.cap="*GGStatsplot*"}
 knitr::include_graphics('./Figures/Tut6_fig3_boxplot.png')
 ```
 
@@ -1753,9 +1665,298 @@ knitr::include_graphics('./Figures/Tut6_fig3_boxplot.png')
 <br>
 
 
+## Histograms
+
+Especially just looking at a single response variable, it's useful to look immediately at the distribution itself.  Histograms are great for this, although you must be careful that the bin size doesn't impact your perception of results.  Adding in a boxplot is often useful
+
+Here is the absolute basic histogram
+
+```{r}
+hist(HousesNY$Price)
+```
+
+Or changing the bin size
+
+```{r}
+hist(HousesNY$Price,br=40)
+```
+
+In GGPlot 2, it's also easy
+
+```{r}
+
+ggplot(data=HousesNY, aes(x=Price)) + 
+  geom_histogram(bins=20) 
+
+```
+
+
+Often, a boxplot AND a histogram is useful as it allows you to see a sense of the data shape and its underlying symmetry.  For example, in base R
+
+```{r,tidy=FALSE}
+# Layout to split the screen
+graphics::layout(matrix(c(1,2),2,1, byrow=TRUE),  
+       height = c(2,7))
+ 
+# Draw the boxplot and the histogram 
+par(mar=c(0, 3.1, .5, 2.1))
+
+data_to_plot <- HousesNY$Price
+
+rangeplot <- pretty(data_to_plot,10)
+
+boxplot(data_to_plot,col = "light blue",
+        border = "dark blue",xaxt="n",frame=FALSE,xlim=c(0.75,1.25),
+        horizontal = TRUE,notch = TRUE,ylim=c(min(rangeplot),max(rangeplot)))
+
+par(mar=c(3, 3.1, .5, 2.1))
+hist(data_to_plot , breaks=20 , 
+     col=grey(0.3) , border=F , 
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main="" , xlab="Price of houses in Canton NY", 
+     xlim=c(min(rangeplot),max(rangeplot)))
+box();grid();
+hist(data_to_plot , breaks=20 , add=TRUE,
+     col=grey(0.3) , border=F , axis=FALSE,
+     xlim=c(min(rangeplot),max(rangeplot)))
+```
+
+
+
+And the same with ggplot2:
+
+```{r}
+library(ggExtra)
+
+p <- ggplot(data=HousesNY, aes(x=Price)) + 
+  geom_point(aes(y = 0.01), alpha = 0) +
+  geom_histogram(bins=20) +
+  geom_density(na.rm=T)
+
+ggMarginal(p, type="boxplot", margins = "x")
+
+```
+
+
+
+I also love the ggstatplot version 
+
+```{r}
+
+library(ggstatsplot)
+## plot
+gghistostats(
+  data       = HousesNY, ## dataframe from which variable is to be taken
+  x          = Price, ## numeric variable whose distribution is of interest
+  title      = "Price of sampled houses in Canton NY", ## title for the plot
+  caption    = "Source: Zillow",
+  type = "parametric",
+  xlab = NULL,subtitle=FALSE,
+  ggthemes::theme_tufte(),
+  binwidth   = 8) ## binwidth value (experiment)
+```
+
+Or their version that includes a lot of associated statistics.  You can turn many of these on and off
+
+```{r}
+library(ggstatsplot)
+
+## plot
+gghistostats(
+  data       = HousesNY, ## dataframe from which variable is to be taken
+  x          = Price, ## numeric variable whose distribution is of interest
+  title      = "Price of sampled houses in Canton NY", ## title for the plot
+  caption    = "Source: Zillow",
+  type = "parametric",
+  xlab = NULL,
+  ggthemes::theme_tufte(),
+  binwidth   = 8) ## binwidth value (experiment)
+```
+### Adding a density function
+
+Sometimes seeing a smoothed line helps draw the eye to distributions
+
+```{r}
+hist(HousesNY$Price, prob = TRUE,
+     main = "Canton Prices with density curve")
+lines(density(HousesNY$Price), col = 4, lwd = 2)
+box()
+```
+
+
+
+### Adding a distribution
+
+Let's say you want to make plots similar to the ones in the lectures where there is your chosen distribution on top.
+
+If you know the distribution, you can simply add it on top as a line
+
+```{r}
+mysample <- HousesNY$Price
+
+plotmin <- mean(mysample) - sd(mysample)*3
+plotmax <-  mean(mysample) + sd(mysample)*3
+
+# Points for the normal equation line
+NormCurve_x <- seq(plotmin,plotmax, length = 40)
+
+# Normal curve calculation for each point
+NormCurve_y <- dnorm(NormCurve_x, mean = mean(mysample), sd = sd(mysample))
+
+# make sure this is density not raw frequency
+hist(mysample , breaks=20 , freq=FALSE,
+     col=grey(0.5) , border=F , 
+     xlim=c(plotmin,plotmax),
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main="" , xlab="Price of houses in Canton NY")
+# add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
+lines(NormCurve_x, NormCurve_y, col = 2, lwd = 2)
+box()
+
+```
+
+We could plot any old curve this way, it doesn't have to be "fit" to our data.  For example here is a random gamma function
+
+```{r}
+mysample <- HousesNY$Price
+
+# Points for the normal equation line
+GammaCurve_x <- seq(plotmin,plotmax, length = 60)
+GammaCurve_y <- dgamma(GammaCurve_x,shape = 2)
+
+# make sure this is density not raw frequency
+hist(mysample , breaks=20 , freq=FALSE,
+     col=grey(0.5) , border=F , 
+     xlim=c(plotmin,plotmax),
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main="" , xlab="Price of houses in Canton NY")
+# add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
+lines(GammaCurve_x, GammaCurve_y, col = 2, lwd = 2)
+box()
+
+```
+
+
+
+
+### Comparing groups
+
+Or you can easily compare two datasets, tutorial for this plot here:
+https://www.r-graph-gallery.com/histogram_several_group.html
+
+```{r, Tut6fig3b, echo=FALSE,fig.cap="*GGStatsplot*"}
+knitr::include_graphics('./Figures/Tut6_fig5_box.png')
+```
+
+<br>
+<br>
+
+## Ridgeline plots
+
+These are another way of looking at histograms for different groups.  They work especially when your grouping data is ORDINAL (has some inherent order).  So bedrooms would be a good example
+
+Two great pages here:
+ - https://www.data-to-viz.com/graph/ridgeline.html
+ - https://r-charts.com/distribution/ggridges/
+
+
+We can use histograms or smoothed density lines
+https://www.data-to-viz.com/graph/ridgeline.html
+
+```{r}
+
+library(ggridges)
+library(ggplot2)
+
+HousesNY %>%
+  ggplot( aes(y=Beds, x=Price,  fill=Beds)) +
+    geom_density_ridges(alpha=0.6, stat="binline") +
+    scale_fill_viridis(discrete=TRUE) +
+    scale_color_viridis(discrete=TRUE) +
+    theme_ipsum() +
+    theme(
+      legend.position="none",
+      panel.spacing = unit(0.1, "lines"),
+      strip.text.x = element_text(size = 8)
+    ) +
+    xlab("") +
+    ylab("Number of Bedrooms")
+
+```
+
+But the
+
+All of these are from
+https://r-charts.com/distribution/ggridges/
+
+
+```{r,message=FALSE}
+library(ggridges)
+library(ggplot2)
+
+ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(x))) +
+  geom_density_ridges_gradient() +
+  scale_fill_viridis_c(name = "Depth", option = "C") +
+  coord_cartesian(clip = "off") + # To avoid cut off
+  theme_minimal()
+```
+
+
+We can also make the colours more meaningful, for example adding quantiles to show the median and interquartile range
+
+```{r}
+ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(quantile))) +
+  stat_density_ridges(quantile_lines = FALSE,
+                      calc_ecdf = TRUE,
+                      geom = "density_ridges_gradient") +
+  scale_fill_brewer(name = "")
+```
+
+or highlighting tails
+
+```{r}
+ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(quantile))) +
+  stat_density_ridges(quantile_lines = TRUE,
+                      calc_ecdf = TRUE,
+                      geom = "density_ridges_gradient",
+                      quantiles = c(0.05, 0.95)) +
+  scale_fill_manual(name = "Proportion", 
+                    values = c("#E2FFF2", "white", "#B0E0E6"),
+                    labels = c("(0, 5%]", "(5%, 95%]", "(95%, 1]"))
+```
+
+
+
 ## Beeswarm plots
 
-These are cool, tutorial to come tomorrow
+These are cool.  As described here:
+
+https://www.rhoworld.com/i-swarm-you-swarm-we-all-swarm-for-beeswarm-plots-0/#:~:text=What%20is%20a%20beeswarm%20plot%3F&text=A%20beeswarm%20plot%20improves%20upon,bees%20buzzing%20about%20their%20hive.
+
+"But what is a beeswarm plot? ... A beeswarm plot improves upon the random jittering approach to move data points the minimum distance away from one another to avoid overlays. The result is a plot where you can see each distinct data point, like so: It looks a bit like a friendly swarm of bees buzzing about their hive."
+
+It's often used for professional visualisation, see here for many examples: https://flowingdata.com/charttype/beeswarm
+
+```{r, Tut6fig6, echo=FALSE,fig.cap="*Both found at https://flowingdata.com/charttype/beeswarm*"}
+knitr::include_graphics('./Figures/Tut6_fig6_beeswarm.png')
+```
+
+Especially for the first, you can see the distribution clearly, also with the amount of data.  With the second, you can see the mitigating impact of a second variable.
+
+To make easy ones you can install a new packages "beeswarm"
+
+
+```{r}
+library("beeswarm")
+
+beeswarm(HousesNY$Price,
+         vertical = FALSE, method = "hex")
+```
+
+This is a little boring for my 58 data points!  (although perhaps it does show that 58 points is barely a big enough sample to know an underlying model..)
+
+
+
 
 
 #  Distributions and tests {#S.Tutorial.2D}

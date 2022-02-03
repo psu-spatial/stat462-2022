@@ -1591,13 +1591,36 @@ dim(HousesNY)</code></pre>
 <p><br> <br> <br></p>
 </div>
 </div>
-<div id="summary-plots" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Summary plots</h1>
-<p>For plots, we have a few choices. We can use what is built into R, or.. use the ggplot system where you add on layers to your plot using the + symbol</p>
-<p>Here is a great summary of the differences between them:</p>
-<p><a href="https://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/" class="uri">https://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/</a></p>
-<div id="boxplots" class="section level2" number="7.1">
-<h2><span class="header-section-number">7.1</span> Boxplots</h2>
+<div id="making-plots" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Making plots</h1>
+<div id="where-to-get-plot-code-and-examples" class="section level2" number="7.1">
+<h2><span class="header-section-number">7.1</span> Where to get plot code and examples</h2>
+<p>There are three places I visit constantly:</p>
+<ul>
+<li><a href="https://r-charts.com/distribution/" class="uri">https://r-charts.com/distribution/</a></li>
+<li><a href="https://www.r-graph-gallery.com/" class="uri">https://www.r-graph-gallery.com/</a></li>
+<li><a href="https://flowingdata.com/" class="uri">https://flowingdata.com/</a></li>
+</ul>
+<p>For plots, we have <em>many</em> choices. We can use what is built into R, or.. use the ggplot system where you add on layers to your plot using the + symbol, or use specialist packages such as ggstatplot or beeswarm.</p>
+<p>If you are new to data visualisation, read these two articles</p>
+<ul>
+<li><a href="https://flowingdata.com/2014/10/23/moving-past-default-charts/" class="uri">https://flowingdata.com/2014/10/23/moving-past-default-charts/</a></li>
+<li><a href="https://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/" class="uri">https://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/</a></li>
+</ul>
+</div>
+<div id="how-to-decide-what-to-do" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> How to decide what to do</h2>
+<p>Plots are designed to do two things, allow you to see something in the data that you couldn’t see in the numbers, plus communicate output in a compelling way. Going beyond the basics or knowing the limitations of a plot will help you do this, so in these examples I have provided a range of complexity.</p>
+<p>So far, I have focused on plots that alow you to visualise the distribution of your response variable. You do not need to use them all! Choose ones that work for you and your data.</p>
+<ol style="list-style-type: decimal">
+<li>Boxplots</li>
+<li>Histograms</li>
+<li>Violin plots (half boxplot half histogram)</li>
+<li>Beeswarm</li>
+</ol>
+</div>
+<div id="boxplots" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Boxplots</h2>
 <p>Boxplots have been around over 40 years! See their history and evolution here: <a href="http://vita.had.co.nz/papers/boxplots.pdf" class="uri">http://vita.had.co.nz/papers/boxplots.pdf</a></p>
 <div class="figure">
 <img src="Figures/Tut6_fig1_boxplot.png" alt="*Image source: https://www.leansigmacorporation.com/box-plot-with-minitab/*" width="893" />
@@ -1615,8 +1638,8 @@ dim(HousesNY)</code></pre>
 </p>
 </div>
 <p>So.. how to make these yourselves. You have a range of options!</p>
-<div id="basics-single-boxplot" class="section level3" number="7.1.1">
-<h3><span class="header-section-number">7.1.1</span> Basics (single boxplot)</h3>
+<div id="basics-single-boxplot" class="section level3" number="7.3.1">
+<h3><span class="header-section-number">7.3.1</span> Basics (single boxplot)</h3>
 <p>Here is the most basic boxplot you can make. I often start with this for my own use when exploring the data, then later decide which plots to “make pretty”.</p>
 <pre class="r"><code>boxplot(HousesNY$Price)</code></pre>
 <p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
@@ -1645,8 +1668,8 @@ ggplot(HousesNY, aes(x = &quot;&quot;, y = Price)) +
   geom_jitter()</code></pre>
 <p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
 </div>
-<div id="comparing-groups" class="section level3" number="7.1.2">
-<h3><span class="header-section-number">7.1.2</span> Comparing groups</h3>
+<div id="comparing-groups" class="section level3" number="7.3.2">
+<h3><span class="header-section-number">7.3.2</span> Comparing groups</h3>
 <p>The basic code to see a boxplot split by group, in this case the price per number of beds:</p>
 <pre class="r"><code>boxplot(HousesNY$Price ~ HousesNY$Beds)</code></pre>
 <p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
@@ -1660,7 +1683,8 @@ library(hrbrthemes)
 library(viridis)
 
 # tell R that the beds column is categorical
-HousesNY$Beds &lt;- as.factor(HousesNY$Beds)
+HousesNY$Beds &lt;- factor(HousesNY$Beds,
+                     levels=c(min(HousesNY$Beds):max(HousesNY$Beds)))
 
 # Plot
   ggplot(HousesNY, aes(x=Beds, y=Price)) +
@@ -1698,8 +1722,8 @@ HousesNY %&gt;%
 </div>
 <p>and a delightful tutorial here: <a href="https://www.r-bloggers.com/2021/11/how-to-make-stunning-boxplots-in-r-a-complete-guide-with-ggplot2/" class="uri">https://www.r-bloggers.com/2021/11/how-to-make-stunning-boxplots-in-r-a-complete-guide-with-ggplot2/</a></p>
 </div>
-<div id="sophisticated" class="section level3" number="7.1.3">
-<h3><span class="header-section-number">7.1.3</span> Sophisticated</h3>
+<div id="sophisticated" class="section level3" number="7.3.3">
+<h3><span class="header-section-number">7.3.3</span> Sophisticated</h3>
 <p>Finally, we <em>can</em> get super fancy in base R - it’s often a good way to learn how to code. I like this example because it shows many different aspects/useful commands in R programming. <a href="http://www.opiniomics.org/beautiful-boxplots-in-base-r/" class="uri">http://www.opiniomics.org/beautiful-boxplots-in-base-r/</a></p>
 <pre class="r"><code>library(RColorBrewer)
 
@@ -1743,29 +1767,67 @@ boxplot(m~col(m), horizontal=TRUE, outline=FALSE, lty=1,
         add=TRUE, xaxt=&quot;n&quot;, yaxt=&quot;n&quot;)
 
 # add axes and title
-axis(side=1, at=pretty(m,10), col.axis=palette[7], cex.axis=0.8, lty=0, tick=NA, line=-1)
-axis(side=1, at=50, labels=&quot;Price (Thousand USD)&quot;, lty=0, tick=NA, col.axis=palette[7])
-axis(side=2, at=1, col.axis=palette[7], cex.axis=0.8, lty=0, tick=NA, labels=&quot;Sample 1&quot;, las=2)
-axis(side=2, at=17/2, labels=&quot;Phrase&quot;, col.axis=palette[7], lty=0, tick=NA, las=3, line=6)
+axis(side=1, at=pretty(m,10), col.axis=palette[7], 
+     cex.axis=0.8, lty=0, tick=NA, line=-1)
+axis(side=1, at=50, labels=&quot;Price (Thousand USD)&quot;, 
+     lty=0, tick=NA, col.axis=palette[7])
+axis(side=2, at=1, col.axis=palette[7], cex.axis=0.8, 
+     lty=0, tick=NA, labels=&quot;Sample 1&quot;, las=2)
+axis(side=2, at=17/2, labels=&quot;Phrase&quot;, col.axis=palette[7], 
+     lty=0, tick=NA, las=3, line=6)
 title(&quot;House Prices in Canton NY&quot;)</code></pre>
 <p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
 <p>Or if you wish to do the rainbow many group boxplot at the beginning, the code is here : <a href="https://github.com/fawda123/diss_proc/blob/master/diss_plot.R" class="uri">https://github.com/fawda123/diss_proc/blob/master/diss_plot.R</a></p>
 <p><br> <br></p>
 </div>
 </div>
-<div id="histograms" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Histograms</h2>
+<div id="violin-plots" class="section level2" number="7.4">
+<h2><span class="header-section-number">7.4</span> Violin plots</h2>
+<p>Violin plots combine the simplicity of a boxplot with a sense of the underlying distribution. This is useful when you want a sense of both the symmetry of the dat and the underlying distribution. Highly recommended! For a single variable, consider a box-plot-with-histogram (see below).</p>
+<p>There are MANY on R graph gallery with code: <a href="https://www.r-graph-gallery.com/violin.html" class="uri">https://www.r-graph-gallery.com/violin.html</a></p>
+<div class="figure">
+<img src="Figures/Tut6_fig4_violin.png" alt="*R graph gallery - https://www.r-graph-gallery.com/violin.html*" width="984" />
+<p class="caption">
+<em>R graph gallery - <a href="https://www.r-graph-gallery.com/violin.html" class="uri">https://www.r-graph-gallery.com/violin.html</a></em>
+</p>
+</div>
+<p>For example, for our data:</p>
+<pre class="r"><code># fill=name allow to automatically dedicate a color for each group
+ggplot(HousesNY, aes(x=Beds, y=Price, fill=Beds)) + 
+   geom_violin()</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p>There’s also a <em>beautiful</em> package called <code>ggstatsplot</code> which allows a lot of detail (<a href="https://indrajeetpatil.github.io/ggstatsplot/" class="uri">https://indrajeetpatil.github.io/ggstatsplot/</a>)</p>
+<p>For example, I love the plot below because it shows how much data in each group.</p>
+<pre class="r"><code># you might need to first install this.
+library(ggstatsplot)
+
+# i&#39;m changing the middle mean point to be dark blue
+
+ggbetweenstats(data = HousesNY,x = Beds,y = Price, 
+               centrality.point.args=list(color = &quot;darkblue&quot;))</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p>Or we can customise it even more using this tutorial to get results like this (<a href="https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html" class="uri">https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html</a>)</p>
+<div class="figure">
+<img src="Figures/Tut6_fig3_boxplot.png" alt="*GGStatsplot*" width="512" />
+<p class="caption">
+<em>GGStatsplot</em>
+</p>
+</div>
+<p><br> <br></p>
+</div>
+<div id="histograms" class="section level2" number="7.5">
+<h2><span class="header-section-number">7.5</span> Histograms</h2>
 <p>Especially just looking at a single response variable, it’s useful to look immediately at the distribution itself. Histograms are great for this, although you must be careful that the bin size doesn’t impact your perception of results. Adding in a boxplot is often useful</p>
 <p>Here is the absolute basic histogram</p>
 <pre class="r"><code>hist(HousesNY$Price)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
 <p>Or changing the bin size</p>
 <pre class="r"><code>hist(HousesNY$Price,br=40)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
 <p>In GGPlot 2, it’s also easy</p>
 <pre class="r"><code>ggplot(data=HousesNY, aes(x=Price)) + 
   geom_histogram(bins=20) </code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
 <p>Often, a boxplot AND a histogram is useful as it allows you to see a sense of the data shape and its underlying symmetry. For example, in base R</p>
 <pre class="r"><code># Layout to split the screen
 graphics::layout(matrix(c(1,2),2,1, byrow=TRUE),  
@@ -1787,12 +1849,12 @@ hist(data_to_plot , breaks=20 ,
      col=grey(0.3) , border=F , 
      tcl=-.25,mgp=c(1.75,.5,0),
      main=&quot;&quot; , xlab=&quot;Price of houses in Canton NY&quot;, 
-     xlim=c(min(rangeplot),max(rangeplot))); 
+     xlim=c(min(rangeplot),max(rangeplot)))
 box();grid();
 hist(data_to_plot , breaks=20 , add=TRUE,
      col=grey(0.3) , border=F , axis=FALSE,
      xlim=c(min(rangeplot),max(rangeplot)))</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
 <p>And the same with ggplot2:</p>
 <pre class="r"><code>library(ggExtra)
 
@@ -1802,14 +1864,7 @@ p &lt;- ggplot(data=HousesNY, aes(x=Price)) +
   geom_density(na.rm=T)
 
 ggMarginal(p, type=&quot;boxplot&quot;, margins = &quot;x&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
-<p>Or you can easily compare two datasets, tutorial for this plot here: <a href="https://www.r-graph-gallery.com/histogram_several_group.html" class="uri">https://www.r-graph-gallery.com/histogram_several_group.html</a></p>
-<div class="figure">
-<img src="Figures/Tut6_fig5_box.png" alt="*GGStatsplot*" width="586" />
-<p class="caption">
-<em>GGStatsplot</em>
-</p>
-</div>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
 <p>I also love the ggstatplot version</p>
 <pre class="r"><code>library(ggstatsplot)
 ## plot
@@ -1822,8 +1877,8 @@ gghistostats(
   xlab = NULL,subtitle=FALSE,
   ggthemes::theme_tufte(),
   binwidth   = 8) ## binwidth value (experiment)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
-<p>Or the version that includes a lot of associated statistics. You can turn many of these on and off</p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+<p>Or their version that includes a lot of associated statistics. You can turn many of these on and off</p>
 <pre class="r"><code>library(ggstatsplot)
 
 ## plot
@@ -1836,46 +1891,139 @@ gghistostats(
   xlab = NULL,
   ggthemes::theme_tufte(),
   binwidth   = 8) ## binwidth value (experiment)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
-<p><br> <br></p>
-</div>
-<div id="violin-plots" class="section level2" number="7.3">
-<h2><span class="header-section-number">7.3</span> Violin plots</h2>
-<p>Violin plots combine the simplicity of a boxplot with a sense of the underlying distribution. This is useful when you want a sense of both the symmetry of the dat and the underlying distribution. Highly recommended! For a single variable, consider a box-plot-with-histogram (see below).</p>
-<p>There are MANY on R graph gallery with code: <a href="https://www.r-graph-gallery.com/violin.html" class="uri">https://www.r-graph-gallery.com/violin.html</a></p>
-<div class="figure">
-<img src="Figures/Tut6_fig4_violin.png" alt="*R graph gallery - https://www.r-graph-gallery.com/violin.html*" width="984" />
-<p class="caption">
-<em>R graph gallery - <a href="https://www.r-graph-gallery.com/violin.html" class="uri">https://www.r-graph-gallery.com/violin.html</a></em>
-</p>
-</div>
-<p>For example, for our data:</p>
-<pre class="r"><code># fill=name allow to automatically dedicate a color for each group
-ggplot(HousesNY, aes(x=Beds, y=Price, fill=Beds)) + 
-   geom_violin()</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
-<p>There’s also a <em>beautiful</em> package called <code>ggstatsplot</code> which allows a lot of detail (<a href="https://indrajeetpatil.github.io/ggstatsplot/" class="uri">https://indrajeetpatil.github.io/ggstatsplot/</a>)</p>
-<p>For example, I love the plot below because it shows how much data in each group.</p>
-<pre class="r"><code># you might need to first install this.
-library(ggstatsplot)
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-65-1.png" width="672" /> ### Adding a density function</p>
+<p>Sometimes seeing a smoothed line helps draw the eye to distributions</p>
+<pre class="r"><code>hist(HousesNY$Price, prob = TRUE,
+     main = &quot;Canton Prices with density curve&quot;)
+lines(density(HousesNY$Price), col = 4, lwd = 2)
+box()</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
+<div id="adding-a-distribution" class="section level3" number="7.5.1">
+<h3><span class="header-section-number">7.5.1</span> Adding a distribution</h3>
+<p>Let’s say you want to make plots similar to the ones in the lectures where there is your chosen distribution on top.</p>
+<p>If you know the distribution, you can simply add it on top as a line</p>
+<pre class="r"><code>mysample &lt;- HousesNY$Price
 
-# i&#39;m changing the middle mean point to be dark blue
+plotmin &lt;- mean(mysample) - sd(mysample)*3
+plotmax &lt;-  mean(mysample) + sd(mysample)*3
 
-ggbetweenstats(data = HousesNY,x = Beds,y = Price, 
-               centrality.point.args=list(color = &quot;darkblue&quot;))</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
-<p>Or we can customise it even more using this tutorial to get results like this (<a href="https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html" class="uri">https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html</a>)</p>
+# Points for the normal equation line
+NormCurve_x &lt;- seq(plotmin,plotmax, length = 40)
+
+# Normal curve calculation for each point
+NormCurve_y &lt;- dnorm(NormCurve_x, mean = mean(mysample), sd = sd(mysample))
+
+# make sure this is density not raw frequency
+hist(mysample , breaks=20 , freq=FALSE,
+     col=grey(0.5) , border=F , 
+     xlim=c(plotmin,plotmax),
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main=&quot;&quot; , xlab=&quot;Price of houses in Canton NY&quot;)
+# add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
+lines(NormCurve_x, NormCurve_y, col = 2, lwd = 2)
+box()</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+<p>We could plot any old curve this way, it doesn’t have to be “fit” to our data. For example here is a random gamma function</p>
+<pre class="r"><code>mysample &lt;- HousesNY$Price
+
+# Points for the normal equation line
+GammaCurve_x &lt;- seq(plotmin,plotmax, length = 60)
+GammaCurve_y &lt;- dgamma(GammaCurve_x,shape = 2)
+
+# make sure this is density not raw frequency
+hist(mysample , breaks=20 , freq=FALSE,
+     col=grey(0.5) , border=F , 
+     xlim=c(plotmin,plotmax),
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main=&quot;&quot; , xlab=&quot;Price of houses in Canton NY&quot;)
+# add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
+lines(GammaCurve_x, GammaCurve_y, col = 2, lwd = 2)
+box()</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
+</div>
+<div id="comparing-groups-1" class="section level3" number="7.5.2">
+<h3><span class="header-section-number">7.5.2</span> Comparing groups</h3>
+<p>Or you can easily compare two datasets, tutorial for this plot here: <a href="https://www.r-graph-gallery.com/histogram_several_group.html" class="uri">https://www.r-graph-gallery.com/histogram_several_group.html</a></p>
 <div class="figure">
-<img src="Figures/Tut6_fig3_boxplot.png" alt="*GGStatsplot*" width="512" />
+<img src="Figures/Tut6_fig5_box.png" alt="*GGStatsplot*" width="586" />
 <p class="caption">
 <em>GGStatsplot</em>
 </p>
 </div>
 <p><br> <br></p>
 </div>
-<div id="beeswarm-plots" class="section level2" number="7.4">
-<h2><span class="header-section-number">7.4</span> Beeswarm plots</h2>
-<p>These are cool, tutorial to come tomorrow</p>
+</div>
+<div id="ridgeline-plots" class="section level2" number="7.6">
+<h2><span class="header-section-number">7.6</span> Ridgeline plots</h2>
+<p>These are another way of looking at histograms for different groups. They work especially when your grouping data is ORDINAL (has some inherent order). So bedrooms would be a good example</p>
+<p>Two great pages here: - <a href="https://www.data-to-viz.com/graph/ridgeline.html" class="uri">https://www.data-to-viz.com/graph/ridgeline.html</a> - <a href="https://r-charts.com/distribution/ggridges/" class="uri">https://r-charts.com/distribution/ggridges/</a></p>
+<p>We can use histograms or smoothed density lines <a href="https://www.data-to-viz.com/graph/ridgeline.html" class="uri">https://www.data-to-viz.com/graph/ridgeline.html</a></p>
+<pre class="r"><code>library(ggridges)
+library(ggplot2)
+
+HousesNY %&gt;%
+  ggplot( aes(y=Beds, x=Price,  fill=Beds)) +
+    geom_density_ridges(alpha=0.6, stat=&quot;binline&quot;) +
+    scale_fill_viridis(discrete=TRUE) +
+    scale_color_viridis(discrete=TRUE) +
+    theme_ipsum() +
+    theme(
+      legend.position=&quot;none&quot;,
+      panel.spacing = unit(0.1, &quot;lines&quot;),
+      strip.text.x = element_text(size = 8)
+    ) +
+    xlab(&quot;&quot;) +
+    ylab(&quot;Number of Bedrooms&quot;)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+<p>But the</p>
+<p>All of these are from <a href="https://r-charts.com/distribution/ggridges/" class="uri">https://r-charts.com/distribution/ggridges/</a></p>
+<pre class="r"><code>library(ggridges)
+library(ggplot2)
+
+ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(x))) +
+  geom_density_ridges_gradient() +
+  scale_fill_viridis_c(name = &quot;Depth&quot;, option = &quot;C&quot;) +
+  coord_cartesian(clip = &quot;off&quot;) + # To avoid cut off
+  theme_minimal()</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+<p>We can also make the colours more meaningful, for example adding quantiles to show the median and interquartile range</p>
+<pre class="r"><code>ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(quantile))) +
+  stat_density_ridges(quantile_lines = FALSE,
+                      calc_ecdf = TRUE,
+                      geom = &quot;density_ridges_gradient&quot;) +
+  scale_fill_brewer(name = &quot;&quot;)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<p>or highlighting tails</p>
+<pre class="r"><code>ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(quantile))) +
+  stat_density_ridges(quantile_lines = TRUE,
+                      calc_ecdf = TRUE,
+                      geom = &quot;density_ridges_gradient&quot;,
+                      quantiles = c(0.05, 0.95)) +
+  scale_fill_manual(name = &quot;Proportion&quot;, 
+                    values = c(&quot;#E2FFF2&quot;, &quot;white&quot;, &quot;#B0E0E6&quot;),
+                    labels = c(&quot;(0, 5%]&quot;, &quot;(5%, 95%]&quot;, &quot;(95%, 1]&quot;))</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
+</div>
+<div id="beeswarm-plots" class="section level2" number="7.7">
+<h2><span class="header-section-number">7.7</span> Beeswarm plots</h2>
+<p>These are cool. As described here:</p>
+<p><a href="https://www.rhoworld.com/i-swarm-you-swarm-we-all-swarm-for-beeswarm-plots-0/#" class="uri">https://www.rhoworld.com/i-swarm-you-swarm-we-all-swarm-for-beeswarm-plots-0/#</a>:~:text=What%20is%20a%20beeswarm%20plot%3F&amp;text=A%20beeswarm%20plot%20improves%20upon,bees%20buzzing%20about%20their%20hive.</p>
+<p>“But what is a beeswarm plot? … A beeswarm plot improves upon the random jittering approach to move data points the minimum distance away from one another to avoid overlays. The result is a plot where you can see each distinct data point, like so: It looks a bit like a friendly swarm of bees buzzing about their hive.”</p>
+<p>It’s often used for professional visualisation, see here for many examples: <a href="https://flowingdata.com/charttype/beeswarm" class="uri">https://flowingdata.com/charttype/beeswarm</a></p>
+<div class="figure">
+<img src="Figures/Tut6_fig6_beeswarm.png" alt="*Both found at https://flowingdata.com/charttype/beeswarm*" width="1077" />
+<p class="caption">
+<em>Both found at <a href="https://flowingdata.com/charttype/beeswarm" class="uri">https://flowingdata.com/charttype/beeswarm</a></em>
+</p>
+</div>
+<p>Especially for the first, you can see the distribution clearly, also with the amount of data. With the second, you can see the mitigating impact of a second variable.</p>
+<p>To make easy ones you can install a new packages “beeswarm”</p>
+<pre class="r"><code>library(&quot;beeswarm&quot;)
+
+beeswarm(HousesNY$Price,
+         vertical = FALSE, method = &quot;hex&quot;)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
+<p>This is a little boring for my 58 data points! (although perhaps it does show that 58 points is barely a big enough sample to know an underlying model..)</p>
 </div>
 </div>
 <div id="S.Tutorial.2D" class="section level1" number="8">
