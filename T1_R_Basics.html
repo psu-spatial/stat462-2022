@@ -1594,59 +1594,79 @@ dim(HousesNY)</code></pre>
 <div id="summary-plots" class="section level1" number="7">
 <h1><span class="header-section-number">7</span> Summary plots</h1>
 <p>For plots, we have a few choices. We can use what is built into R, or.. use the ggplot system where you add on layers to your plot using the + symbol</p>
+<p>Here is a great summary of the differences between them:</p>
+<p><a href="https://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/" class="uri">https://flowingdata.com/2012/05/15/how-to-visualize-and-compare-distributions/</a></p>
 <div id="boxplots" class="section level2" number="7.1">
 <h2><span class="header-section-number">7.1</span> Boxplots</h2>
+<p>Boxplots have been around over 40 years! See their history and evolution here: <a href="http://vita.had.co.nz/papers/boxplots.pdf" class="uri">http://vita.had.co.nz/papers/boxplots.pdf</a></p>
 <div class="figure">
 <img src="Figures/Tut6_fig1_boxplot.png" alt="*Image source: https://www.leansigmacorporation.com/box-plot-with-minitab/*" width="893" />
 <p class="caption">
 <em>Image source: <a href="https://www.leansigmacorporation.com/box-plot-with-minitab/" class="uri">https://www.leansigmacorporation.com/box-plot-with-minitab/</a></em>
 </p>
 </div>
-<div id="base-r-built-in-functions" class="section level3" number="7.1.1">
-<h3><span class="header-section-number">7.1.1</span> Base R (built in functions)</h3>
-<p>See this tutorial for all the details: <a href="https://www.datamentor.io/r-programming/box-plot/" class="uri">https://www.datamentor.io/r-programming/box-plot/</a> This goes through exactly what each line means.</p>
+<p>In terms of your reports, you need to think of 3 things: - Why you are making the plot (quick look vs publication worthy final graphic) - What aspects of the data do you want to highlight (lots of data, comparing groups, weird distributions..) - What are your final requirements and personal style (colorblind friendly, you’re drawn to a certain type of plot..)</p>
+<p>So for boxplots.. they are especially good at allowing you to compare different groups of things or to look for multiple groups in a single response variable. Here is a beautiful example made by Marcus Beckman on dissertation lengths (description here: <a href="https://beckmw.wordpress.com/2014/07/15/average-dissertation-and-thesis-length-take-two/" class="uri">https://beckmw.wordpress.com/2014/07/15/average-dissertation-and-thesis-length-take-two/</a> and code here: <a href="https://github.com/fawda123/diss_proc" class="uri">https://github.com/fawda123/diss_proc</a> )</p>
+<p>If there are only one or two variables, I often jump to the violin or histogram plots as they show more detail.</p>
+<div class="figure">
+<img src="Figures/beckman_thes_plo.png" alt="*See how important the caption is in describing the plot - and how even the colors have meaning*" width="852" />
+<p class="caption">
+<em>See how important the caption is in describing the plot - and how even the colors have meaning</em>
+</p>
+</div>
+<p>So.. how to make these yourselves. You have a range of options!</p>
+<div id="basics-single-boxplot" class="section level3" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> Basics (single boxplot)</h3>
+<p>Here is the most basic boxplot you can make. I often start with this for my own use when exploring the data, then later decide which plots to “make pretty”.</p>
+<pre class="r"><code>boxplot(HousesNY$Price)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
+<p>We can make better boxplots in base R (e.g. using no special packages/libraries). See this tutorial for all the details: <a href="https://www.datamentor.io/r-programming/box-plot/" class="uri">https://www.datamentor.io/r-programming/box-plot/</a> which goes through exactly what each line means.</p>
 <pre class="r"><code># one big command on separate lines
 boxplot(HousesNY$Price,
         main = &quot;House prices of Canton NY sample&quot;,
         xlab = &quot;Price (Thousand USD)&quot;,
         col = &quot;light blue&quot;,
-        border = &quot;brown&quot;,
+        border = &quot;dark blue&quot;,
         horizontal = TRUE,
         notch = TRUE)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-47-1.png" width="672" /></p>
-</div>
-<div id="ggplot-2" class="section level3" number="7.1.2">
-<h3><span class="header-section-number">7.1.2</span> GGPlot 2</h3>
-<p>We can get more complex using ggplot2. Note for now, think of the %&gt;% symbol and + symbol also as “one command on multiple lines..”</p>
-<p><a href="https://r-charts.com/distribution/box-plot-jitter-ggplot2/" class="uri">https://r-charts.com/distribution/box-plot-jitter-ggplot2/</a></p>
-<pre class="r"><code># install.packages(&quot;ggplot2&quot;)
-library(ggplot2)
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
+<p>There are specific plotting packages, the most famous being ggplot2 (there are data camp courses on it). The absolute basics. Here x is blank because we just want to look at the price column alone.</p>
+<pre class="r"><code>library(ggplot2)
 
-# Basic box plot
+ggplot(HousesNY, aes(x =&quot;&quot;, y = Price)) +    ## this loads the data
+   geom_boxplot()                            ## and we choose a boxplot</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
+<p>Note for now, think of the %&gt;% symbol and + symbol also as “one command on multiple lines..”. They allow you to build up layers of the plot. Data camp has more on this.</p>
+<p>But with these we can easily do more sophisticated things. For example, here’s how to see the underlying data, which allows us to see something of the background distribution</p>
+<p><a href="https://r-charts.com/distribution/box-plot-jitter-ggplot2/" class="uri">https://r-charts.com/distribution/box-plot-jitter-ggplot2/</a></p>
+<pre class="r"><code># Basic box plot
 ggplot(HousesNY, aes(x = &quot;&quot;, y = Price)) + 
   geom_boxplot() +
   geom_jitter()</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-48-1.png" width="672" /></p>
-<p>or more fancy</p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+</div>
+<div id="comparing-groups" class="section level3" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> Comparing groups</h3>
+<p>The basic code to see a boxplot split by group, in this case the price per number of beds:</p>
+<pre class="r"><code>boxplot(HousesNY$Price ~ HousesNY$Beds)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
+<p>The advantage of this is that you can be sure that you really did plot your columns of choice (e.g. you didn’t mistakenly label anything). Note, if you use a comma, rather than the “~” symbol, you will make one for each column - which is normally not useful!</p>
+<pre class="r"><code>boxplot(HousesNY$Price,  HousesNY$Beds)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-52-1.png" width="672" /> <br></p>
+<p>In GGplot comparing different groups:</p>
 <pre class="r"><code># Libraries
 library(tidyverse)
 library(hrbrthemes)
 library(viridis)
 
+# tell R that the beds column is categorical
+HousesNY$Beds &lt;- as.factor(HousesNY$Beds)
+
 # Plot
-ggplot(HousesNY, aes(x = &quot;&quot;, y = Price)) + 
-    geom_boxplot() +
-    scale_fill_viridis(discrete = TRUE, alpha=0.6) +
-    geom_jitter(color=&quot;black&quot;, size=0.4, alpha=0.9) +
-    theme_ipsum() +
-    theme(
-      legend.position=&quot;none&quot;,
-      plot.title = element_text(size=11)
-    ) +
-    ggtitle(&quot;A boxplot with jitter&quot;) +
-    xlab(&quot;&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-49-1.png" width="672" /></p>
-<p>Or comparing different groups</p>
+  ggplot(HousesNY, aes(x=Beds, y=Price)) +
+    geom_boxplot() </code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<p>Or getting more complex</p>
 <pre class="r"><code># Libraries
 library(tidyverse)
 library(hrbrthemes)
@@ -1660,10 +1680,15 @@ HousesNY %&gt;%
   ggplot( aes(x=Beds, y=Price, fill=Beds) )+
     geom_boxplot() +
     scale_fill_viridis(discrete = TRUE, alpha=0.6) +
-    geom_jitter(color=&quot;black&quot;, size=0.4, alpha=0.9) +
+    geom_jitter(color=&quot;black&quot;, size=0.5, alpha=0.8) +
     ggtitle(&quot;&quot;) +
     xlab(&quot;Beds&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-50-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<p>or dotplots..</p>
+<pre class="r"><code>ggplot(HousesNY,  aes(x=Beds, y=Price, fill=Beds)) +
+  geom_boxplot() +
+  geom_dotplot(binaxis = &quot;y&quot;, stackdir = &quot;center&quot;, dotsize = 0.5,binwidth=7)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
 <p>There are MANY more options, plus code here: <a href="https://www.r-graph-gallery.com/boxplot.html" class="uri">https://www.r-graph-gallery.com/boxplot.html</a></p>
 <div class="figure">
 <img src="Figures/Tut6_fig2_boxplot.png" alt="*R graph gallery*" width="814" />
@@ -1671,19 +1696,175 @@ HousesNY %&gt;%
 <em>R graph gallery</em>
 </p>
 </div>
+<p>and a delightful tutorial here: <a href="https://www.r-bloggers.com/2021/11/how-to-make-stunning-boxplots-in-r-a-complete-guide-with-ggplot2/" class="uri">https://www.r-bloggers.com/2021/11/how-to-make-stunning-boxplots-in-r-a-complete-guide-with-ggplot2/</a></p>
+</div>
+<div id="sophisticated" class="section level3" number="7.1.3">
+<h3><span class="header-section-number">7.1.3</span> Sophisticated</h3>
+<p>Finally, we <em>can</em> get super fancy in base R - it’s often a good way to learn how to code. I like this example because it shows many different aspects/useful commands in R programming. <a href="http://www.opiniomics.org/beautiful-boxplots-in-base-r/" class="uri">http://www.opiniomics.org/beautiful-boxplots-in-base-r/</a></p>
+<pre class="r"><code>library(RColorBrewer)
+
+# create colours and colour matrix (for points)
+m     &lt;- as.matrix(HousesNY$Price)
+
+col_main   &lt;- colorRampPalette(brewer.pal(12, &quot;Set3&quot;), alpha=TRUE)(ncol(m))
+col_transp &lt;- colorspace::adjust_transparency(col_main, alpha = .3)
+
+colsm   &lt;-matrix(rep(col_main, each=nrow(m)), ncol=ncol(m))
+colsm_tr &lt;-matrix(rep(col_transp, each=nrow(m)), ncol=ncol(m))
+
+
+# create some random data for jitter
+r &lt;-  (matrix(runif(nrow(m)*ncol(m)), nrow=nrow(m), ncol=ncol(m)) / 2) - 0.25
+
+# get the greys (stolen from https://github.com/zonination/perceptions/blob/master/percept.R)
+palette &lt;- brewer.pal(&quot;Greys&quot;, n=9)
+color.background = palette[2]
+color.grid.major = palette[5]
+
+# set graphical area
+par(bty=&quot;n&quot;, bg=palette[2], mar=c(5,8,3,1))
+
+# plot initial boxplot
+boxplot(m~col(m), horizontal=TRUE, outline=FALSE, lty=1, 
+        staplewex=0, boxwex=0.8, boxlwd=1, medlwd=1, 
+        col=colsm_tr, xaxt=&quot;n&quot;, yaxt=&quot;n&quot;,xlab=&quot;&quot;,ylab=&quot;&quot;)
+
+# plot gridlines
+for (i in pretty(m,10)) {
+    lines(c(i,i), c(0,20), col=palette[4])
+}
+
+# plot points
+points(m, col(m)+r, col=colsm, pch=16)
+
+# overlay boxplot
+boxplot(m~col(m), horizontal=TRUE, outline=FALSE, lty=1, 
+        staplewex=0, boxwex=0.8, boxlwd=1, medlwd=1, col=colsm_tr, 
+        add=TRUE, xaxt=&quot;n&quot;, yaxt=&quot;n&quot;)
+
+# add axes and title
+axis(side=1, at=pretty(m,10), col.axis=palette[7], cex.axis=0.8, lty=0, tick=NA, line=-1)
+axis(side=1, at=50, labels=&quot;Price (Thousand USD)&quot;, lty=0, tick=NA, col.axis=palette[7])
+axis(side=2, at=1, col.axis=palette[7], cex.axis=0.8, lty=0, tick=NA, labels=&quot;Sample 1&quot;, las=2)
+axis(side=2, at=17/2, labels=&quot;Phrase&quot;, col.axis=palette[7], lty=0, tick=NA, las=3, line=6)
+title(&quot;House Prices in Canton NY&quot;)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<p>Or if you wish to do the rainbow many group boxplot at the beginning, the code is here : <a href="https://github.com/fawda123/diss_proc/blob/master/diss_plot.R" class="uri">https://github.com/fawda123/diss_proc/blob/master/diss_plot.R</a></p>
+<p><br> <br></p>
 </div>
 </div>
-<div id="violin-plots" class="section level2" number="7.2">
-<h2><span class="header-section-number">7.2</span> Violin plots</h2>
-<p>There are MANY on R graph gallery with code: <a href="https://www.r-graph-gallery.com/violin.html" class="uri">https://www.r-graph-gallery.com/violin.html</a></p>
-<p>There is also a <em>beautiful</em> package here called ggstatsplot (<a href="https://indrajeetpatil.github.io/ggstatsplot/" class="uri">https://indrajeetpatil.github.io/ggstatsplot/</a>)</p>
-<p>and a detailed tutorial here <a href="https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html" class="uri">https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html</a></p>
-<p>For example</p>
+<div id="histograms" class="section level2" number="7.2">
+<h2><span class="header-section-number">7.2</span> Histograms</h2>
+<p>Especially just looking at a single response variable, it’s useful to look immediately at the distribution itself. Histograms are great for this, although you must be careful that the bin size doesn’t impact your perception of results. Adding in a boxplot is often useful</p>
+<p>Here is the absolute basic histogram</p>
+<pre class="r"><code>hist(HousesNY$Price)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p>Or changing the bin size</p>
+<pre class="r"><code>hist(HousesNY$Price,br=40)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p>In GGPlot 2, it’s also easy</p>
+<pre class="r"><code>ggplot(data=HousesNY, aes(x=Price)) + 
+  geom_histogram(bins=20) </code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<p>Often, a boxplot AND a histogram is useful as it allows you to see a sense of the data shape and its underlying symmetry. For example, in base R</p>
+<pre class="r"><code># Layout to split the screen
+graphics::layout(matrix(c(1,2),2,1, byrow=TRUE),  
+       height = c(2,7))
+ 
+# Draw the boxplot and the histogram 
+par(mar=c(0, 3.1, .5, 2.1))
+
+data_to_plot &lt;- HousesNY$Price
+
+rangeplot &lt;- pretty(data_to_plot,10)
+
+boxplot(data_to_plot,col = &quot;light blue&quot;,
+        border = &quot;dark blue&quot;,xaxt=&quot;n&quot;,frame=FALSE,xlim=c(0.75,1.25),
+        horizontal = TRUE,notch = TRUE,ylim=c(min(rangeplot),max(rangeplot)))
+
+par(mar=c(3, 3.1, .5, 2.1))
+hist(data_to_plot , breaks=20 , 
+     col=grey(0.3) , border=F , 
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main=&quot;&quot; , xlab=&quot;Price of houses in Canton NY&quot;, 
+     xlim=c(min(rangeplot),max(rangeplot))); 
+box();grid();
+hist(data_to_plot , breaks=20 , add=TRUE,
+     col=grey(0.3) , border=F , axis=FALSE,
+     xlim=c(min(rangeplot),max(rangeplot)))</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p>And the same with ggplot2:</p>
+<pre class="r"><code>library(ggExtra)
+
+p &lt;- ggplot(data=HousesNY, aes(x=Price)) + 
+  geom_point(aes(y = 0.01), alpha = 0) +
+  geom_histogram(bins=20) +
+  geom_density(na.rm=T)
+
+ggMarginal(p, type=&quot;boxplot&quot;, margins = &quot;x&quot;)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<p>Or you can easily compare two datasets, tutorial for this plot here: <a href="https://www.r-graph-gallery.com/histogram_several_group.html" class="uri">https://www.r-graph-gallery.com/histogram_several_group.html</a></p>
+<div class="figure">
+<img src="Figures/Tut6_fig5_box.png" alt="*GGStatsplot*" width="586" />
+<p class="caption">
+<em>GGStatsplot</em>
+</p>
+</div>
+<p>I also love the ggstatplot version</p>
+<pre class="r"><code>library(ggstatsplot)
+## plot
+gghistostats(
+  data       = HousesNY, ## dataframe from which variable is to be taken
+  x          = Price, ## numeric variable whose distribution is of interest
+  title      = &quot;Price of sampled houses in Canton NY&quot;, ## title for the plot
+  caption    = &quot;Source: Zillow&quot;,
+  type = &quot;parametric&quot;,
+  xlab = NULL,subtitle=FALSE,
+  ggthemes::theme_tufte(),
+  binwidth   = 8) ## binwidth value (experiment)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
+<p>Or the version that includes a lot of associated statistics. You can turn many of these on and off</p>
 <pre class="r"><code>library(ggstatsplot)
 
-ggbetweenstats(data = HousesNY,x = Beds,y = Price)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
-<p>Or we can customise it even more using the tutorial to get results like this:</p>
+## plot
+gghistostats(
+  data       = HousesNY, ## dataframe from which variable is to be taken
+  x          = Price, ## numeric variable whose distribution is of interest
+  title      = &quot;Price of sampled houses in Canton NY&quot;, ## title for the plot
+  caption    = &quot;Source: Zillow&quot;,
+  type = &quot;parametric&quot;,
+  xlab = NULL,
+  ggthemes::theme_tufte(),
+  binwidth   = 8) ## binwidth value (experiment)</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p><br> <br></p>
+</div>
+<div id="violin-plots" class="section level2" number="7.3">
+<h2><span class="header-section-number">7.3</span> Violin plots</h2>
+<p>Violin plots combine the simplicity of a boxplot with a sense of the underlying distribution. This is useful when you want a sense of both the symmetry of the dat and the underlying distribution. Highly recommended! For a single variable, consider a box-plot-with-histogram (see below).</p>
+<p>There are MANY on R graph gallery with code: <a href="https://www.r-graph-gallery.com/violin.html" class="uri">https://www.r-graph-gallery.com/violin.html</a></p>
+<div class="figure">
+<img src="Figures/Tut6_fig4_violin.png" alt="*R graph gallery - https://www.r-graph-gallery.com/violin.html*" width="984" />
+<p class="caption">
+<em>R graph gallery - <a href="https://www.r-graph-gallery.com/violin.html" class="uri">https://www.r-graph-gallery.com/violin.html</a></em>
+</p>
+</div>
+<p>For example, for our data:</p>
+<pre class="r"><code># fill=name allow to automatically dedicate a color for each group
+ggplot(HousesNY, aes(x=Beds, y=Price, fill=Beds)) + 
+   geom_violin()</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+<p>There’s also a <em>beautiful</em> package called <code>ggstatsplot</code> which allows a lot of detail (<a href="https://indrajeetpatil.github.io/ggstatsplot/" class="uri">https://indrajeetpatil.github.io/ggstatsplot/</a>)</p>
+<p>For example, I love the plot below because it shows how much data in each group.</p>
+<pre class="r"><code># you might need to first install this.
+library(ggstatsplot)
+
+# i&#39;m changing the middle mean point to be dark blue
+
+ggbetweenstats(data = HousesNY,x = Beds,y = Price, 
+               centrality.point.args=list(color = &quot;darkblue&quot;))</code></pre>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
+<p>Or we can customise it even more using this tutorial to get results like this (<a href="https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html" class="uri">https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html</a>)</p>
 <div class="figure">
 <img src="Figures/Tut6_fig3_boxplot.png" alt="*GGStatsplot*" width="512" />
 <p class="caption">
@@ -1691,11 +1872,6 @@ ggbetweenstats(data = HousesNY,x = Beds,y = Price)</code></pre>
 </p>
 </div>
 <p><br> <br></p>
-</div>
-<div id="histograms" class="section level2" number="7.3">
-<h2><span class="header-section-number">7.3</span> Histograms</h2>
-<p>To come tomorrow, but google R tutorial histogram and you will see many</p>
-<p><br></p>
 </div>
 <div id="beeswarm-plots" class="section level2" number="7.4">
 <h2><span class="header-section-number">7.4</span> Beeswarm plots</h2>
