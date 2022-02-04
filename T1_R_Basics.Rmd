@@ -1311,7 +1311,7 @@ Here I will show a few examples for the houses dataset we were using in lectures
 data("HousesNY", package = "Stat2Data")
 ```
 
-## Summary statistics overall
+## Summary statistics
 
 None are better or worse than others - simply choose what works for you in the moment.
 
@@ -1371,6 +1371,41 @@ var(HousesNY$Price)
 IQR(HousesNY$Price)
 range(HousesNY$Price)
 ```
+
+
+## Making tables
+
+Sometimes we want to see how many rows there are in different categories.  The easiest way to do this is using the table command.  For example, in our New York data, we can see how many houses there are with each number of beds using 
+
+```{r}
+table(HousesNY$Beds)
+```
+
+So there are 19 rows in our dataset where the Beds column says 4 (AKA 19 houses in our sample with 4 beds).  Or we can look at a 2 dimensional table
+
+```{r}
+table(HousesNY$Beds, HousesNY$Baths)
+```
+So there are 10 houses with 4 beds and 2 baths
+
+
+To make these look more professional there are a number of packages you can install and use. For example, ztable will take the output of table and format it in a pretty way.  This will look TERRIBLE when you run R as it's making html code. But when you press knit it will look beautiful
+
+```{r, results='asis'}
+# don't include the install line in your code, run it in the console
+# install.package("ztable")
+
+library(ztable)
+library(magrittr)
+options(ztable.type="html")
+
+mytable <- table(HousesNY$Beds, HousesNY$Baths)
+
+my_ztable =ztable(mytable) 
+print(my_ztable,caption="Table 1. Basic Table")
+```
+
+
 
 
 <br>
@@ -1521,7 +1556,8 @@ library(hrbrthemes)
 library(viridis)
 
 # tell R that the beds column is categorical
-HousesNY$Beds <- as.factor(HousesNY$Beds)
+# I already did this in the table section
+#HousesNY$Beds <- as.factor(HousesNY$Beds)
 
 # Plot
 HousesNY %>%
