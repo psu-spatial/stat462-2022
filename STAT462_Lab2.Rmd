@@ -225,6 +225,25 @@ You have three dataset choices.  Choose ONE of:
  - data("starwars", package = "dplyr")
  - data("pirates", package = "yarrr")
  
+*Note, there are missing values in the penguins dataset. To ignore them in a given command, try adding ,na.rm=TRUE to the command e.g.*
+```{r}
+example <- c(1,4,5,2,3,NA,2,4)
+mean(example)
+mean(example, na.rm=TRUE)
+```
+
+*To simply remove any row with missing data, try the `na.omit()` command e g.*
+
+```{r}
+test <- data.frame(A=c(1,3,4),B=c(NA,3,1))
+test
+```
+```{r}
+test2 <- na.omit(test)
+test2
+```
+
+
 Choose one column of continuous numeric data that interests you as your response variable. **Choose a DIFFERENT dataset to your friends**.  
 
 Note, putting  the code above into an R code chunk will allow you to load the data, but you *may* have to retype the quote-marks if you get an error.
