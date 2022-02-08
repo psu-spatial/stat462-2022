@@ -1371,7 +1371,31 @@ var(HousesNY$Price)
 IQR(HousesNY$Price)
 range(HousesNY$Price)
 ```
+### Missing: What if they say NA?
 
+ 
+There are missing values in  some datasets - and by default, R will set the answer to statistics to also be missing. 
+```{r}
+example <- c(1,4,5,2,3,NA,2,4)
+mean(example)
+```
+
+
+To ignore them in a given command, try adding ,na.rm=TRUE to the command e.g.
+```{r}
+mean(example, na.rm=TRUE)
+```
+
+To simply remove all rows with missing data, try the `na.omit()` command e g.
+
+```{r}
+test <- data.frame(A=c(1,3,4),B=c(NA,3,1))
+test
+```
+```{r}
+test2 <- na.omit(test)
+test2
+```
 
 ## Making tables
 
