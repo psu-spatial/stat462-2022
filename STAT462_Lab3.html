@@ -412,182 +412,168 @@ h2.title {
 </ol>
 <p><br></p>
 <p class="comment">
-<strong>Assignment 2 is due by midnight Next Wed.</strong> <a href="https://psu.instructure.com/courses/2174925/assignments/13762677">See here</a> I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB (final evening is for your own finishing up).
+<strong>Assignment 2 is due by midnight Next Wed.</strong> [See here]<a href="https://psu.instructure.com/courses/2174925/assignments/13762818" class="uri">https://psu.instructure.com/courses/2174925/assignments/13762818</a>) I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB (final evening is for your own finishing up).
 </p>
 <p><br></p>
 <div id="i-need-help" class="section level2">
 <h2>I need help</h2>
 <ol style="list-style-type: decimal">
 <li><p>There is a TEAMS discussion for lab help <a href="https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&amp;tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e">CLICK HERE</a>. Remember to include a screenshot of the issue and a short desciption of the problem. Also try googling the error first.</p></li>
-<li><p>Every time you re-open R studio check you are using your project file (does it say Lab 2 at the top?).</p></li>
+<li><p>Every time you re-open R studio check you are using your project file (does it say Lab 3 at the top?).</p></li>
 <li><p>EVERY TIME YOU RE-OPEN R-STUDIO YOU NEED TO RE-RUN <strong>ALL</strong> YOUR CODE CHUNKS. The easiest way to do this is to press the “Run All” button (see the Run menu at the top of your script)</p></li>
-<li><p><strong>If the labs are causing major problems or your computer hardware is struggling (or you have any other software issue), Talk to Dr Greatrex</strong>. We can fix this and there are other options for “online R” that you can use.</p></li>
+<li><p><strong>If the labs are causing major problems or your computer hardware is struggling (or you have any other software issue), Talk to Dr Greatrex</strong>. We can fix this and there are other free/cheap options for using R online.</p></li>
 </ol>
 <p><br></p>
 </div>
 </div>
-<div id="step-1-lab-templates" class="section level1">
-<h1>STEP 1: Lab templates</h1>
+<div id="step-1-lab-set-up" class="section level1">
+<h1>STEP 1: Lab set up</h1>
 <p><br></p>
 <div id="a.-get-set-up" class="section level2">
 <h2>1a. Get set up</h2>
 <p>IF YOU ARE DOING THIS ON YOUR COMPUTER: First, go and look at your STAT-462 folder on your computer. Make sure that everything looks right (e.g. a single sub-folder for each lab containing your project file, your Rmd and your html, along with any datafiles/pics as needed). If so, congrats! If not, chat to Dr G.</p>
 <ol style="list-style-type: decimal">
-<li>Open R-studio. Go to New Project / New Directory / New Project. Then name your project <strong>Lab2-Project</strong>. Place the location inside your STAT-462 folder. If you are stuck, see <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects">Tutorial 2.1</a>.</li>
+<li>Open R-studio. Go to New Project / New Directory / New Project. Then name your project <strong>Lab3-Project</strong>. Place the location inside your STAT-462 folder. If you are stuck, see <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects">Tutorial 2.1</a>.</li>
 </ol>
 <p><br></p>
 <ol start="2" style="list-style-type: decimal">
-<li>Now, go to New File/New R-Markdown to make a new R-Markdown file. Call it Lab 2 and add your PSU-e-mail e.g. <em>Lab 2-hlg5155</em>. Immediately press knit - as that will auto-save the file (call it the same thing) and create the html.</li>
+<li>Set up your template:
+<ul>
+<li>IF YOU ARE WORKING ON YOUR OWN COMPUTER: Go onto your computer, find your STAT462 folder and make a copy of your lab template .Rmd file. Copy it into your lab 3 folder and rename as Lab 3 &amp; your PSU-e-mail e.g. <em>Lab 3-hlg5155</em>. (you can do this within the R files tab if you wish but probably easier on your computer) <br>&gt;br&gt;</li>
+<li>IF YOU ARE WORKING ON R-STUDIO CLOUD: In the files tab, there is an upload button. Click that and upload last week’s template that you saved onto your computer. Click the checkbox by it and rename to <em>Lab 3-hlg5155</em> (with your ID). (If you didn’t download a copy of your lab template file, go into your lab 2 project and do so first). <br><br></li>
+</ul></li>
+<li>Go back to R studio, make sure you are running the Lab 3 project, then go to the files quadrant and click on your lab3 script to open. Update the title etc and make any formatting tweaks you like.</li>
 </ol>
-<p><br></p>
-<ol start="3" style="list-style-type: decimal">
-<li>Your STAT-462 folder &amp; R-Studio should look something like this with maybe minor tweaks in exactly what you called things. IF NOT, FIX IT! (esp lab 2)</li>
-</ol>
-<p><br></p>
-<div class="figure" style="text-align: center">
-<img src="Figures/Lab2_fig1_FileStructure.png" alt="*Your Computer Set up*" width="969" />
-<p class="caption">
-<em>Your Computer Set up</em>
-</p>
+<p><br><br></p>
 </div>
-</div>
-<div id="b.-markdown-template" class="section level2">
-<h2>1b. Markdown template</h2>
-<p>As you can see, the friendly text is back for your new lab-script. This is a pain and we want to make life easy in terms of formatting. So our first job in this lab is to make a template so future reports are easier.</p>
-<p>Work through <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#5_Report_template">Tutorial 5 Report template</a> to create and save a template to your STAT-462 folder and also a version inside your lab 2 folder.</p>
-<p>For the lab 2 folder one, update the title etc to be about Lab 2.</p>
-</div>
-<div id="c.-load-libraries" class="section level2">
-<h2>1c. Load libraries</h2>
-<p>In the library section of your lab report, add a new code chunk and use this code to load the following libraries. If some don’t exist on your computer or on the cloud, use [Tutorial 2.3] (<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package</a>) to install/download them.</p>
+<div id="c.-load-libraries-and-check-it-all-knits" class="section level2">
+<h2>1c. Load libraries and check it all knits</h2>
+<p>In the library section of your lab report, add a new code chunk and use this code to load the following libraries. If some don’t exist on your computer or on the cloud, use [Tutorial 2.3] (<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package</a>) to install/download them first. To make sure they loaded OK, run the code chunk TWICE. The second time any welcome text will disappear unless there are errors.</p>
 <pre class="r"><code>library(tidyverse)
 library(dplyr)
 library(ggpubr)
 library(skimr)
 library(ggplot2)
 library(plotly)
-library(ISLR)</code></pre>
-<p><br> <br> <br></p>
+library(ISLR)
+library(equatiomatic)
+library(olsrr)
+library(Stat2Data)
+library(readxl)</code></pre>
+<p>Finally, press knit to check the html works and it looks like this (with your theme)</p>
+<p><img src="Figures/Lab3_fig1.png" width="1659" style="display: block; margin: auto;" /></p>
+<p><br> <br></p>
 </div>
 </div>
 <div id="step-2-code-showcase" class="section level1">
 <h1>STEP 2: Code showcase</h1>
+<p><strong>Note, you might want to make a second .Rmd file to practice the tutorials, so you can save your practice but only write up what is needed in your report</strong></p>
 <p><br></p>
-<div id="a.-markdown" class="section level2">
-<h2>2a. Markdown</h2>
-<p>You should now be able to see how headings work. If you click the A symbol on the top right you can also change the formatting of text (you can also do this in the basic text - see Tutorial 4)</p>
-<p>I also want you to be able to embed images or videos into your report.</p>
-<p><strong>Q1:</strong> <br> Follow <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#47_Adding_photos">Tutorial 4.7 Images</a> to add an image of your choice into your report. (note, non english characters in file names or huge photos will break R)</p>
-<p><strong>Q2:</strong> <br> If you wish to add a video from youtube, you will need to install a new package called <code>vembedr</code>. Follow Tutorial 2.3 to install this package and add it to your library code chunk.<br> Now make a code chunk and use the <code>embed_url</code> command to embed a video of your choice from youtube/vimeo etc in your report. If you have issues, see teams.</p>
-<p><strong>Q3:</strong> <br> Below both, use a bullet point list (see tutorial 4 or google) to explain why you chose those photos/images.</p>
-<p><br> <br></p>
-</div>
-<div id="b.-codemath" class="section level2">
-<h2>2b. Code/Math</h2>
+<div id="a.-markdown---inline-code-and-equations" class="section level2">
+<h2>2a. Markdown - inline code and equations</h2>
+<p>The best thing about R-Markdown is that you can set up reports to automatically update even in the text. For example imagine underneath a code chunk you want to write that the mean of the data is 23. Instead of typing the number 23, we can add <em>inline code</em> to automatically create it</p>
+<p><em>Step A:</em> Work through <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#48_Inline_code">Tutorial 4.8, Inline code</a></p>
+<p>Use the tutorial to do the following.</p>
+<p><em>Question 1:</em> In the markdown/code showcase section of your lab report, create a hidden code chunk where you find the answer to pi to the power 4, to 4 decimal places. Write a sentence inside your report containing inline code that shares the answer.</p>
 <p><br></p>
-<p>TUTORIAL 8 AND LAB 1 MIGHT HELP YOU HERE</p>
-<p><strong>Q4:</strong></p>
-<p>In your code showcase section, answer these questions, making sure to use full sentences in your conclusions. If it helps to make your report easier to read, feel free to include the question text.</p>
-<p><em>A sample of 36 obese rock-hopper penguins in a zoo were put on a special diet for a year - part of a large nationwide programme. The average weight loss was 11oz and the standard deviation of the weight loss was 19oz. (note, that a positive weight loss implies reduced weight over time).</em></p>
-<p><strong>Q4a:</strong> <br> Given our sample, by hand or in R, calculate a 99% confidence interval for the true mean weight reduction of all zoo penguins in the entire programme (not just our zoo). Make sure to show your workings or R code. Ideally, but optional, upload a mini diagram of the distribution you are using to calculate your confidence interval &amp; mark any key values.</p>
-<p><strong>Q4b:</strong> <br> Based on the interval you calculate above, do you have sufficient evidence at your 99% level of significance to believe that the weight-loss programme is working and the penguins are losing weight?</p>
-<p><strong>Q4c:</strong> <br> The average penguin actually weighs about 3Kg. Is this diet something you would recommend for meaningful weight loss?</p>
-<p><br></p>
-<p><strong>Q5:</strong></p>
-<p><em>Tests are being carried out on a new drug designed to relieve the symptoms of the flu, specifically on the number of hours people can sleep. The new drug is given in tablet form one evening to a random sample of 16 people who have colds. The number of hours they sleep may be assumed to be Normally distributed and is recorded below.</em></p>
-<p><em>There is also a very large control group of people who have colds but are not given the drug. The mean number of hours they sleep is 6.6 hrs.</em></p>
-<pre><code>## [1] Hours slept by people given the new drug</code></pre>
-<pre><code>## [1] 2.3
-## [1] 5
-## [1] 6
-## [1] 6.4
-## [1] 6.7
-## [1] 6.7
-## [1] 6.9
-## [1] 7.2
-## [1] 7.2
-## [1] 7.4
-## [1] 7.6
-## [1] 7.8
-## [1] 7.9
-## [1] 8.1
-## [1] 8.1
-## [1] 9.7</code></pre>
-<p><span style="color: navy;"><em>You can enter the sleep data into R using this code.</em></span></p>
-<pre class="r"><code># The c command sticks things together
-sleep &lt;- c(8.1,6.7,2.3,7.2,8.1,9.7,6.0,7.4,6.4,6.9,5.0,7.8,6.7,7.2,7.6,7.9)</code></pre>
-<p><strong>Q5a:</strong> <br>By hand, carry out a hypothesis test at the 1% significance level that the drug has any impact on the length of time people sleep. You can use R as a calculator to get things like the mean. Include a screenshot of your [neat] workings in this report. Make sure to include:</p>
-<ol style="list-style-type: lower-alpha">
-<li><em>Your H<sub>0</sub> and H<sub>1</sub></em></li>
-<li><em>The critical threshold</em></li>
-<li><em>Whether it is one sided or two sided</em></li>
-<li><em>Whether you choose to use the normal or t-distribution</em></li>
-<li><em>A diagram of the distribution split into the acceptance and critical/rejection zones</em></li>
-<li><em>The calculated test statistic</em></li>
-<li><em>and your conclusions</em></li>
-</ol>
-<p><strong>Q5b:</strong> <br> Use R and the t.test command to calculate the t-test for the data above. Comment on whether your two results agree (e.g. did you make a mistake anywhere). See the Tutorial 7 for code</p>
+<p><em>Question 2:</em> Conduct a t-test to find out whether the true mean of this data is significantly less than 13. Hide the test itself and simply write out the concluding summary,using inline code and hidden code chunks.</p>
+<pre class="r"><code>testdata &lt;- c(4,6,2,7,8,34,4,65,6,2,3,1,45,5)</code></pre>
+<p><em>Step B:</em> Equations</p>
+<p>It’s often good to put professional looking equations into your report. We can do this using the $ symbol and with some internet support.</p>
+<p>Rather than read my tutorial, see this one: <a href="https://rmd4sci.njtierney.com/math" class="uri">https://rmd4sci.njtierney.com/math</a></p>
+<p>I tend to use one of the online LateX maths editors to find the exact commands to make equations and then copy/paste the commands into my markdown For example:</p>
+<ul>
+<li><a href="https://latexeditor.lagrida.com/" class="uri">https://latexeditor.lagrida.com/</a></li>
+<li><a href="https://www.tutorialspoint.com/latex_equation_editor.htm" class="uri">https://www.tutorialspoint.com/latex_equation_editor.htm</a></li>
+</ul>
+<p><em>Question 3:</em> Explain what the central limit theorem is and why we might use a T distribution instead of a Normal one. Use the tutorials above to make sure your equations are formatted correctly.</p>
 <p><br> <br> <br></p>
 </div>
 </div>
 <div id="step-3-data-analysis" class="section level1">
 <h1>STEP 3: Data Analysis</h1>
-<p>We are now going to work on “real data analysis”, filling in the sections in the rest of your report.</p>
-<div id="a.-choose-a-dataset" class="section level2">
-<h2>3a. Choose a dataset</h2>
-<p>You have three dataset choices. Choose ONE of:</p>
-<ul>
-<li>data(“penguins”, package = “palmerpenguins”)</li>
-<li>data(“starwars”, package = “dplyr”)</li>
-<li>data(“pirates”, package = “yarrr”)</li>
-</ul>
-<p><em>Note, there are missing values in the penguins dataset. To ignore them in a given command, try adding ,na.rm=TRUE to the command e.g.</em></p>
-<pre class="r"><code>example &lt;- c(1,4,5,2,3,NA,2,4)
-mean(example)</code></pre>
-<pre><code>## [1] NA</code></pre>
-<pre class="r"><code>mean(example, na.rm=TRUE)</code></pre>
-<pre><code>## [1] 3</code></pre>
-<p><em>To simply remove any row with missing data, try the <code>na.omit()</code> command e g.</em></p>
-<pre class="r"><code>test &lt;- data.frame(A=c(1,3,4),B=c(NA,3,1))
-test</code></pre>
-<pre><code>##   A  B
-## 1 1 NA
-## 2 3  3
-## 3 4  1</code></pre>
-<pre class="r"><code>test2 &lt;- na.omit(test)
-test2</code></pre>
-<pre><code>##   A B
-## 2 3 3
-## 3 4 1</code></pre>
-<p>Choose one column of continuous numeric data that interests you as your response variable. <strong>Choose a DIFFERENT dataset to your friends</strong>.</p>
-<p>Note, putting the code above into an R code chunk will allow you to load the data, but you <em>may</em> have to retype the quote-marks if you get an error.</p>
-<p><br> <br></p>
+<div id="a.-univariate-model" class="section level2">
+<h2>3A. Univariate model</h2>
+<p>NEW TUTORIALS HAVE APPEARED -</p>
+<p>Next month, your friend is moving to Sindian Dist., in New Taipei City, Taiwan. They want to buy a house and have asked you to figure out what most impacts house price. (this course is normally less house price/penguin heavy! Next week….)</p>
+<ol style="list-style-type: decimal">
+<li>Download the “Lab03_house.xlsx” dataset from the Lab page on canvas and put it into your Lab 3 folder. Use the read_excel() command to read it in and save it to a variable called house:</li>
+</ol>
+<pre class="r"><code># This only works if you are running your project
+# If it can&#39;t find the file, use file.choose() to locate it, as described in homework 3
+# Then add in the full location rather than just the file name.
+house &lt;- read_excel(&quot;Lab03_house.xlsx&quot;)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Explore the dataset (using summaries etc (lab 1 &amp; 2), and by reading more about the data here: <a href="https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set" class="uri">https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set</a>). Describe the dataset to your friend. What columns does the dataset contains and how much data there is? Are there any limitations using this data?</p></li>
+<li><p>Adjust/fill in the template to end of EDA, focusing only on your response variable for now.</p></li>
+</ol>
+<p>Our first model will be univariate - we think nothing impacts house prices, so all we have is the histogram. Assume that a Normal distribution can fit the data, with mean(sample_mean) and sd(sample_sd). Adjust the title of your model section to read</p>
+<div id="model-1-univariate-model-normal-distribution" class="section level3">
+<h3>Model 1: Univariate model: Normal Distribution</h3>
+<ol start="4" style="list-style-type: decimal">
+<li><p>In model fitting, write a sentence to explain the above, but instead of writing out “mean(sample_mean) and sd(sample_sd)”, use your new equation knowledge and inline text to write out the model more formally. We will talk about this in class.</p></li>
+<li><p>Under check validity, use a Shapiro-Wilk test, a QQplot and a histogram to assess if you think the house price data really is normally distributed.</p></li>
+<li><p>Ignore test skill for now (we will need it later in the course)</p></li>
+<li><p>Under “Assess errors on population parameters:”, calculate using R the 99th confidence interval on the population mean and write up the results in your text in full sentences. E.g. according to the central limit theorem, we can assume.. therefore.. etc.</p></li>
+<li><p>In the same section, my friend has been told that the average price in the city is $35000. Given your sample, conduct a hypothesis test to assess how likely it is to see your sample result if that statement is likely to be true, with a critical significance of 80%.<br />
+</p></li>
+<li><p>In the predict new value, use a 99% prediction interval to assess whether you are 99% likely to see a house over $70,000.</p></li>
+</ol>
 </div>
-<div id="b.-conduct-exploratory-data-analysis" class="section level2">
-<h2>3b. Conduct Exploratory Data Analysis</h2>
-<p>NEW TUTORIALS HAVE APPEARED - Tutorial 6 (summary stats), Tutorial 7 (plots), Tutorial 8 (distributions)</p>
-<p>Using the tutorials and <a href="https://psu.instructure.com/courses/2174925/files/132549205">teaching notes on Canvas</a>, fill in the report template to the end of EDA (end of step 2b in the teaching notes), making as professional plots/analyses as you can.</p>
-<p>SEE THE PDF FROM CANVAS WITH MORE DETAIL ABOUT WHAT TO DO: <a href="https://psu.instructure.com/courses/2174925/files/132549205" class="uri">https://psu.instructure.com/courses/2174925/files/132549205</a></p>
-<p><br> <br></p>
 </div>
-<div id="how-are-we-grading-this" class="section level2">
-<h2>How are we grading this?</h2>
-<p>As you are choosing your own dataset and your own response variable, we do not have the worked answers. So here is how we are grading things:</p>
+<div id="b.-bivariate-model" class="section level2">
+<h2>3B. Bivariate model</h2>
+<p>Make a new level 1 section called Bi-variate models.</p>
+<p>We do know ways to improve our model, as we know things that might impact house prices contained in our data. Specifically, our friend has been told that houses might be more expensive in the North.</p>
+<ol start="10" style="list-style-type: decimal">
+<li>Scatterplot</li>
+</ol>
 <ul>
-<li><p>29-30: Just exceptional. It’s clear from your text and code</p>
-<ul>
-<li>What the background of this dataset - why might your topic be interesting to model</li>
-<li>How it links to your chosen object of analysis/population/response variable</li>
-<li>We can clearly understand the properties of the sample data (e.g. what type of data, how much is there, what variables, is there missing data)</li>
-<li>You have made beautiful plots going above and beyond the base R code. See Tutorial 6 for more details</li>
-<li>You have thoughtfully answered the questions in the teaching notes step 2b to assess whether your sample is appropriate, referring back to your code/plot/outputs as needed.<br />
-</li>
-<li>You don’t have spurious R output e.g. you didn’t print out the entire dataset in your final html report.</li>
-</ul></li>
-<li><p>25-28: You did most of this, but your R plots might have been less professional (say auto column labels), or you didn’t do a spell check (IT’S NEXT TO THE KNIT BUTTON), or it wasn’t fully clear from your write-up what the study design or sample distribution was.</p></li>
-<li><p>Below 25 gets less for big things missing or say, lots of code but no text explaining the output</p></li>
+<li>Look at the dataset and see which column gives you information about North/South (hint Latitude/longitude)</li>
+<li>Create a scatterplot to assess this</li>
+<li>Describe the scatterplot fully as discussed in Lecture 10 (Friday/resources in homework 3)</li>
+<li>Create a Simple Linear Regression model to assess the issue</li>
+<li>Extract the equation and write it below the plot, explaning what the intercept and slope are.</li>
+<li>Plot the abline, line of best fit onto a new scatterplot</li>
 </ul>
-<p>Note, this is not a writing class and we are not grading you on your grammar or English literacy, especially knowing that English is not all of your first language. We <em>are</em> grading you on being able to clearly communicate the suitability of your dataset for a model analysis at an undergrad student level - even if you don’t use jargon words to do it. Being able to do regression analysis also means being able to communicate your results to a non-expert, so you do need to do more than just the code/maths. If you are worried, you are welcome to send me a message on teams/canvas and we can chat.</p>
+<ol start="11" style="list-style-type: decimal">
+<li>Comment on why this might be misleading as an analysis? To help you answer this question, try running this code to further explore the data on a map.</li>
+</ol>
+<pre class="r"><code># Command from the sf library
+# Make a spatial version of the data using the Longitide and Latitude columns
+house.spatial &lt;- st_as_sf(house,coords=c(&quot;Longitude&quot;,&quot;Latitude&quot;),crs = 4326)
+
+# make interactive, for static set as &quot;plot&quot;
+tmap_mode(&quot;view&quot;)
+
+# Command from the tmap library
+# and plot
+tm_basemap(&quot;Esri.WorldTopoMap&quot;) + 
+     qtm(house.spatial, # data
+         symbols.col=&quot;House.Price&quot;, # which column for the symbols
+         symbols.alpha=0.9, # transparency
+         symbols.size=.2, # how big
+         symbols.palette=&quot;Spectral&quot;, #colors from https://colorbrewer2.org
+         symbols.style=&quot;fisher&quot;) # color breaks</code></pre>
+<ol start="12" style="list-style-type: decimal">
+<li>Beyond this, what other confounding variables might there be? Is there a variable that is more important than latitude in predicting house prices in your dataset? Provide evidence to justify your answer. To help you answer this data and answer this question, some useful code includes:</li>
+</ol>
+<ul>
+<li>[A] corrplot(). A quick look at the correlation coefficient between all the variables. We will discuss it more next week.</li>
+</ul>
+<pre class="r"><code>corrplot(cor(house),method=&quot;number&quot;,type=&quot;lower&quot;)</code></pre>
+<ul>
+<li>[B] If you then want to look at three variables together, you can use an interactive plot e.g you can use this code and change the response, y (currently house price), the predictor x (currently latitude) and the colour (currently house.age).</li>
+</ul>
+<pre class="r"><code># Create a plot
+p &lt;- house %&gt;%                  
+  ggplot( aes(Latitude,House.Price, col= House.Age)) +
+  geom_point() +
+  theme_classic()+
+  scale_color_gradient(low=&quot;blue&quot;, high=&quot;red&quot;)
+
+# and actually plot it
+ggplotly(p)</code></pre>
 <p><br> <br></p>
 </div>
 </div>
@@ -602,13 +588,11 @@ test2</code></pre>
 </ul>
 <p>Here are some ideas:</p>
 <ul>
-<li>You installed a “pretty” theme using a new package (hint, you will need to tweak the YAML code to remove the table of contents)</li>
 <li>You found a cool new plot from R graph gallery or flowingdata.com and made it work</li>
 <li>You did something neat in Markdown such as embedding a pdf</li>
-<li>You worked out how to write your equations in equation format</li>
 <li>You found a new package/command that did something relevant</li>
 <li>You found something cool on data camp and applied it here</li>
-<li>You managed to install tmap (hint, first install raster and sp) and made maps of any spatial data..</li>
+<li>You tweaked your mapping/plotting code to be better</li>
 </ul>
 <p><br> <br></p>
 </div>
@@ -633,10 +617,10 @@ test2</code></pre>
 <p>You have written your answers below the relevant code chunk in full sentences in a way that is easy to find and grade. For example, you have written in full sentences, it is clear what your answers are referring to. You have used units and explained your workings.</p>
 <p><strong>MARKDOWN SHOWCASE: 10 MARKS</strong></p>
 <p>You use full sentences and units, You have great Markdown formatting</p>
-<p><strong>R-CODE SHOWCASE: 30 MARKS</strong></p>
+<p><strong>R-CODE SHOWCASE: 20 MARKS</strong></p>
+<p><strong>UNIVARIATE: 20 MARKS</strong></p>
+<p><strong>BIVARIATE: 20 MARKS</strong></p>
 <p>You have managed to successfully complete all the code challenges</p>
-<p><strong>EDA: 30 MARKS</strong></p>
-<p>See above for ideas on grading.</p>
 <p><strong>Above and beyond: 4 MARKS</strong></p>
 <p>See above for ideas on grading</p>
 <p>[100 marks total]</p>

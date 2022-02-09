@@ -1236,6 +1236,97 @@ knitr::include_graphics("chipmunk.webp")
 **For more options see the tutorial: http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/ **
 
 
+## Inline code
+
+"Inline code" is where you also include snippets of R code in your report text itself.  This makes it easy to update your report if your data changes and removes the chance of typos.
+
+The way to set up inline code is to contain it within SINGLE little back-apostrophes (the same symbol that you see at the start/end of a code chunk).  Inside the back-apostrophes you put an r to say you want the code to be run in the R language.   For example:
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("./Figures/pg_Tut4_markdown_fig21.png")
+```
+Beware!  R likes to add in extra symbols to be helpful. 
+ 
+When you are in the text/code editing window, it will not do the calculation; there is no way to "run" this code chunk.  But when I press knit, it will automatically calculate the result from the code e.g. 
+
+E.g.  here is some text and I also want to include the answer to the sum 3 plus 3, which is equal to `r  3+3`
+
+### Best practice
+
+You can do all the workings inside an inline code chunk, but this is a pain and it's easy to make a mistake.  Instead, I normally do the following:
+
+1. Do all the calculations I want in a normal code chunk (either visible or hidden from the reader depending on the report)
+
+2. Make a hidden code chunk where I assign my answer to a variable and do things like round the number of digits etc.  To hide the code chunk, I use the include=FALSE code chunk option. 
+
+3. Simply use the inline code chunk to print the result. 
+
+For example
+```{r, include=FALSE}
+mydata <- rnorm(4,5,3)
+
+# you can do all of this in one command, 
+#i'm just splitting it up so you understand my steps
+mean_height <- mean(mydata)
+
+# round to 3 d.p.
+mean_height_to_print <- round(mean_height,3)
+
+```
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("./Figures/pg_Tut4_markdown_fig22.png")
+```
+
+will print as :
+
+The mean height of my houseplants is `r mean_height_to_print` cm.  Without rounding, it will look a mess! e.g. `r mean_height` cm.
+
+
+I highly recommend you use this technqiue instead of typing ANY numbers from your report. 
+
+
+If you need something like a p-value from a t-test, you can often get it by saving the entire test to a variable, then using the $ sign. 
+
+
+```{r, include=FALSE}
+library(Stat2Data)
+data(HousesNY)
+
+```
+
+
+For example in your final report you might have.
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("./Figures/pg_Tut4_markdown_fig23.png")
+```
+
+which prints as:
+
+```{r}
+t.test(HousesNY$Beds,mu=3)
+```
+```{r, include=FALSE}
+answer <- t.test(HousesNY$Beds)
+
+test.statistic <- round(answer$statistic,3)
+pvalue         <- round(answer$p.value,3)
+```
+
+The T-test statistic of my house bedroom data is `r test.statistic`, which corresponds to a p-value of  `r pvalue`.   E.g. there is a `r pvalue*100`% chance of seeing this result from a random sample if our H~0~ was true and the average house had 3 beds.
+
+
+### More support 
+
+Follow these tutorial to see more about to add inline code and to practice.
+
+ - https://bookdown.org/yihui/rmarkdown-cookbook/r-code.html
+ - https://www.njtierney.com/post/2019/07/10/jq-verbatim-inline-r/
+ - https://rmarkdown.rstudio.com/lesson-4.html
+
+
+
 # Report template
 
 It is often useful to have a "template" markdown file so you don't have to re-do all your custom formatting each time.  Here we will set up a specific one for your STAT462 Labs.  For this section, I advise doing everything in the standard view (E.g. don't press the little A symbol for the pretty view)

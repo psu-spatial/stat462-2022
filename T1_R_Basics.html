@@ -336,7 +336,10 @@ div.tocify {
       <a href="STAT462_22_L1Basics.html">Lab 1: R-Basics</a>
     </li>
     <li>
-      <a href="STAT462_Lab2.html">Lab 2: Exploratory Analysis</a>
+      <a href="STAT462_Lab2.html">Lab 2: Exploratory Data Analysis (EDA)</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab3.html">Lab 3: Scatterplots</a>
     </li>
   </ul>
 </li>
@@ -1192,6 +1195,54 @@ output:
 </div>
 <p><strong>For more options see the tutorial: <a href="http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/" class="uri">http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/</a> </strong></p>
 </div>
+<div id="inline-code" class="section level2" number="4.8">
+<h2><span class="header-section-number">4.8</span> Inline code</h2>
+<p>“Inline code” is where you also include snippets of R code in your report text itself. This makes it easy to update your report if your data changes and removes the chance of typos.</p>
+<p>The way to set up inline code is to contain it within SINGLE little back-apostrophes (the same symbol that you see at the start/end of a code chunk). Inside the back-apostrophes you put an r to say you want the code to be run in the R language. For example:</p>
+<p><img src="Figures/pg_Tut4_markdown_fig21.png" width="835" style="display: block; margin: auto;" /> Beware! R likes to add in extra symbols to be helpful.</p>
+<p>When you are in the text/code editing window, it will not do the calculation; there is no way to “run” this code chunk. But when I press knit, it will automatically calculate the result from the code e.g. </p>
+<p>E.g. here is some text and I also want to include the answer to the sum 3 plus 3, which is equal to 6</p>
+<div id="best-practice" class="section level3" number="4.8.1">
+<h3><span class="header-section-number">4.8.1</span> Best practice</h3>
+<p>You can do all the workings inside an inline code chunk, but this is a pain and it’s easy to make a mistake. Instead, I normally do the following:</p>
+<ol style="list-style-type: decimal">
+<li><p>Do all the calculations I want in a normal code chunk (either visible or hidden from the reader depending on the report)</p></li>
+<li><p>Make a hidden code chunk where I assign my answer to a variable and do things like round the number of digits etc. To hide the code chunk, I use the include=FALSE code chunk option.</p></li>
+<li><p>Simply use the inline code chunk to print the result.</p></li>
+</ol>
+<p>For example</p>
+<p><img src="Figures/pg_Tut4_markdown_fig22.png" width="834" style="display: block; margin: auto;" /></p>
+<p>will print as :</p>
+<p>The mean height of my houseplants is 2.388 cm. Without rounding, it will look a mess! e.g. 2.3879699 cm.</p>
+<p>I highly recommend you use this technqiue instead of typing ANY numbers from your report.</p>
+<p>If you need something like a p-value from a t-test, you can often get it by saving the entire test to a variable, then using the $ sign.</p>
+<p>For example in your final report you might have.</p>
+<p><img src="Figures/pg_Tut4_markdown_fig23.png" width="848" style="display: block; margin: auto;" /></p>
+<p>which prints as:</p>
+<pre class="r"><code>t.test(HousesNY$Beds,mu=3)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  HousesNY$Beds
+## t = 3.6387, df = 52, p-value = 0.0006302
+## alternative hypothesis: true mean is not equal to 3
+## 95 percent confidence interval:
+##  3.177718 3.614734
+## sample estimates:
+## mean of x 
+##  3.396226</code></pre>
+<p>The T-test statistic of my house bedroom data is 31.189, which corresponds to a p-value of 0. E.g. there is a 0% chance of seeing this result from a random sample if our H<sub>0</sub> was true and the average house had 3 beds.</p>
+</div>
+<div id="more-support" class="section level3" number="4.8.2">
+<h3><span class="header-section-number">4.8.2</span> More support</h3>
+<p>Follow these tutorial to see more about to add inline code and to practice.</p>
+<ul>
+<li><a href="https://bookdown.org/yihui/rmarkdown-cookbook/r-code.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/r-code.html</a></li>
+<li><a href="https://www.njtierney.com/post/2019/07/10/jq-verbatim-inline-r/" class="uri">https://www.njtierney.com/post/2019/07/10/jq-verbatim-inline-r/</a></li>
+<li><a href="https://rmarkdown.rstudio.com/lesson-4.html" class="uri">https://rmarkdown.rstudio.com/lesson-4.html</a></li>
+</ul>
+</div>
+</div>
 </div>
 <div id="report-template" class="section level1" number="5">
 <h1><span class="header-section-number">5</span> Report template</h1>
@@ -1842,7 +1893,7 @@ Table 1. Basic Table
 <h3><span class="header-section-number">7.3.1</span> Basics (single boxplot)</h3>
 <p>Here is the most basic boxplot you can make. I often start with this for my own use when exploring the data, then later decide which plots to “make pretty”.</p>
 <pre class="r"><code>boxplot(HousesNY$Price)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-54-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
 <p>We can make better boxplots in base R (e.g. using no special packages/libraries). See this tutorial for all the details: <a href="https://www.datamentor.io/r-programming/box-plot/" class="uri">https://www.datamentor.io/r-programming/box-plot/</a> which goes through exactly what each line means.</p>
 <pre class="r"><code># one big command on separate lines
 boxplot(HousesNY$Price,
@@ -1852,13 +1903,13 @@ boxplot(HousesNY$Price,
         border = &quot;dark blue&quot;,
         horizontal = TRUE,
         notch = TRUE)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
 <p>There are specific plotting packages, the most famous being ggplot2 (there are data camp courses on it). The absolute basics. Here x is blank because we just want to look at the price column alone.</p>
 <pre class="r"><code>library(ggplot2)
 
 ggplot(HousesNY, aes(x =&quot;&quot;, y = Price)) +    ## this loads the data
    geom_boxplot()                            ## and we choose a boxplot</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
 <p>Note for now, think of the %&gt;% symbol and + symbol also as “one command on multiple lines..”. They allow you to build up layers of the plot. Data camp has more on this.</p>
 <p>But with these we can easily do more sophisticated things. For example, here’s how to see the underlying data, which allows us to see something of the background distribution</p>
 <p><a href="https://r-charts.com/distribution/box-plot-jitter-ggplot2/" class="uri">https://r-charts.com/distribution/box-plot-jitter-ggplot2/</a></p>
@@ -1866,16 +1917,16 @@ ggplot(HousesNY, aes(x =&quot;&quot;, y = Price)) +    ## this loads the data
 ggplot(HousesNY, aes(x = &quot;&quot;, y = Price)) + 
   geom_boxplot() +
   geom_jitter()</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
 </div>
 <div id="comparing-groups" class="section level3" number="7.3.2">
 <h3><span class="header-section-number">7.3.2</span> Comparing groups</h3>
 <p>The basic code to see a boxplot split by group, in this case the price per number of beds:</p>
 <pre class="r"><code>boxplot(HousesNY$Price ~ HousesNY$Beds)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
 <p>The advantage of this is that you can be sure that you really did plot your columns of choice (e.g. you didn’t mistakenly label anything). Note, if you use a comma, rather than the “~” symbol, you will make one for each column - which is normally not useful!</p>
 <pre class="r"><code>boxplot(HousesNY$Price,  HousesNY$Beds)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-59-1.png" width="672" /> <br></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-66-1.png" width="672" /> <br></p>
 <p>In GGplot comparing different groups:</p>
 <pre class="r"><code># Libraries
 library(tidyverse)
@@ -1889,7 +1940,7 @@ HousesNY$Beds &lt;- factor(HousesNY$Beds,
 # Plot
   ggplot(HousesNY, aes(x=Beds, y=Price)) +
     geom_boxplot() </code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
 <p>Or getting more complex</p>
 <pre class="r"><code># Libraries
 library(tidyverse)
@@ -1908,12 +1959,12 @@ HousesNY %&gt;%
     geom_jitter(color=&quot;black&quot;, size=0.5, alpha=0.8) +
     ggtitle(&quot;&quot;) +
     xlab(&quot;Beds&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
 <p>or dotplots..</p>
 <pre class="r"><code>ggplot(HousesNY,  aes(x=Beds, y=Price, fill=Beds)) +
   geom_boxplot() +
   geom_dotplot(binaxis = &quot;y&quot;, stackdir = &quot;center&quot;, dotsize = 0.5,binwidth=7)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
 <p>There are MANY more options, plus code here: <a href="https://www.r-graph-gallery.com/boxplot.html" class="uri">https://www.r-graph-gallery.com/boxplot.html</a></p>
 <div class="figure">
 <img src="Figures/Tut6_fig2_boxplot.png" alt="*R graph gallery*" width="814" />
@@ -1977,7 +2028,7 @@ axis(side=2, at=1, col.axis=palette[7], cex.axis=0.8,
 axis(side=2, at=17/2, labels=&quot;Phrase&quot;, col.axis=palette[7], 
      lty=0, tick=NA, las=3, line=6)
 title(&quot;House Prices in Canton NY&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
 <p>Or if you wish to do the rainbow many group boxplot at the beginning, the code is here : <a href="https://github.com/fawda123/diss_proc/blob/master/diss_plot.R" class="uri">https://github.com/fawda123/diss_proc/blob/master/diss_plot.R</a></p>
 <p><br> <br></p>
 </div>
@@ -1996,7 +2047,7 @@ title(&quot;House Prices in Canton NY&quot;)</code></pre>
 <pre class="r"><code># fill=name allow to automatically dedicate a color for each group
 ggplot(HousesNY, aes(x=Beds, y=Price, fill=Beds)) + 
    geom_violin()</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
 <p>There’s also a <em>beautiful</em> package called <code>ggstatsplot</code> which allows a lot of detail (<a href="https://indrajeetpatil.github.io/ggstatsplot/" class="uri">https://indrajeetpatil.github.io/ggstatsplot/</a>)</p>
 <p>For example, I love the plot below because it shows how much data in each group.</p>
 <pre class="r"><code># you might need to first install this.
@@ -2006,7 +2057,7 @@ library(ggstatsplot)
 
 ggbetweenstats(data = HousesNY,x = Beds,y = Price, 
                centrality.point.args=list(color = &quot;darkblue&quot;))</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
 <p>Or we can customise it even more using this tutorial to get results like this (<a href="https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html" class="uri">https://www.r-graph-gallery.com/web-violinplot-with-ggstatsplot.html</a>)</p>
 <div class="figure">
 <img src="Figures/Tut6_fig3_boxplot.png" alt="*GGStatsplot*" width="512" />
@@ -2021,14 +2072,14 @@ ggbetweenstats(data = HousesNY,x = Beds,y = Price,
 <p>Especially just looking at a single response variable, it’s useful to look immediately at the distribution itself. Histograms are great for this, although you must be careful that the bin size doesn’t impact your perception of results. Adding in a boxplot is often useful</p>
 <p>Here is the absolute basic histogram</p>
 <pre class="r"><code>hist(HousesNY$Price)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
 <p>Or changing the bin size</p>
 <pre class="r"><code>hist(HousesNY$Price,br=40)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
 <p>In GGPlot 2, it’s also easy</p>
 <pre class="r"><code>ggplot(data=HousesNY, aes(x=Price)) + 
   geom_histogram(bins=20) </code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-68-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
 <p>Often, a boxplot AND a histogram is useful as it allows you to see a sense of the data shape and its underlying symmetry. For example, in base R</p>
 <pre class="r"><code># Layout to split the screen
 graphics::layout(matrix(c(1,2),2,1, byrow=TRUE),  
@@ -2055,7 +2106,7 @@ box();grid();
 hist(data_to_plot , breaks=20 , add=TRUE,
      col=grey(0.3) , border=F , axis=FALSE,
      xlim=c(min(rangeplot),max(rangeplot)))</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
 <p>And the same with ggplot2:</p>
 <pre class="r"><code>library(ggExtra)
 
@@ -2065,7 +2116,7 @@ p &lt;- ggplot(data=HousesNY, aes(x=Price)) +
   geom_density(na.rm=T)
 
 ggMarginal(p, type=&quot;boxplot&quot;, margins = &quot;x&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 <p>I also love the ggstatplot version</p>
 <pre class="r"><code>library(ggstatsplot)
 ## plot
@@ -2078,7 +2129,7 @@ gghistostats(
   xlab = NULL,subtitle=FALSE,
   ggthemes::theme_tufte(),
   binwidth   = 8) ## binwidth value (experiment)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
 <p>Or their version that includes a lot of associated statistics. You can turn many of these on and off</p>
 <pre class="r"><code>library(ggstatsplot)
 
@@ -2092,13 +2143,13 @@ gghistostats(
   xlab = NULL,
   ggthemes::theme_tufte(),
   binwidth   = 8) ## binwidth value (experiment)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-72-1.png" width="672" /> ### Adding a density function</p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-79-1.png" width="672" /> ### Adding a density function</p>
 <p>Sometimes seeing a smoothed line helps draw the eye to distributions</p>
 <pre class="r"><code>hist(HousesNY$Price, prob = TRUE,
      main = &quot;Canton Prices with density curve&quot;)
 lines(density(HousesNY$Price), col = 4, lwd = 2)
 box()</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
 <div id="adding-a-distribution" class="section level3" number="7.5.1">
 <h3><span class="header-section-number">7.5.1</span> Adding a distribution</h3>
 <p>Let’s say you want to make plots similar to the ones in the lectures where there is your chosen distribution on top.</p>
@@ -2123,7 +2174,7 @@ hist(mysample , breaks=20 , freq=FALSE,
 # add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
 lines(NormCurve_x, NormCurve_y, col = 2, lwd = 2)
 box()</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-81-1.png" width="672" /></p>
 <p>We could plot any old curve this way, it doesn’t have to be “fit” to our data. For example here is a random gamma function</p>
 <pre class="r"><code>mysample &lt;- HousesNY$Price
 
@@ -2140,7 +2191,7 @@ hist(mysample , breaks=20 , freq=FALSE,
 # add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
 lines(GammaCurve_x, GammaCurve_y, col = 2, lwd = 2)
 box()</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-82-1.png" width="672" /></p>
 </div>
 <div id="comparing-groups-1" class="section level3" number="7.5.2">
 <h3><span class="header-section-number">7.5.2</span> Comparing groups</h3>
@@ -2175,7 +2226,7 @@ HousesNY %&gt;%
     ) +
     xlab(&quot;&quot;) +
     ylab(&quot;Number of Bedrooms&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-76-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-83-1.png" width="672" /></p>
 <p>But the</p>
 <p>All of these are from <a href="https://r-charts.com/distribution/ggridges/" class="uri">https://r-charts.com/distribution/ggridges/</a></p>
 <pre class="r"><code>library(ggridges)
@@ -2186,14 +2237,14 @@ ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(x))) +
   scale_fill_viridis_c(name = &quot;Depth&quot;, option = &quot;C&quot;) +
   coord_cartesian(clip = &quot;off&quot;) + # To avoid cut off
   theme_minimal()</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-84-1.png" width="672" /></p>
 <p>We can also make the colours more meaningful, for example adding quantiles to show the median and interquartile range</p>
 <pre class="r"><code>ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(quantile))) +
   stat_density_ridges(quantile_lines = FALSE,
                       calc_ecdf = TRUE,
                       geom = &quot;density_ridges_gradient&quot;) +
   scale_fill_brewer(name = &quot;&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-85-1.png" width="672" /></p>
 <p>or highlighting tails</p>
 <pre class="r"><code>ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(quantile))) +
   stat_density_ridges(quantile_lines = TRUE,
@@ -2203,7 +2254,7 @@ ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(x))) +
   scale_fill_manual(name = &quot;Proportion&quot;, 
                     values = c(&quot;#E2FFF2&quot;, &quot;white&quot;, &quot;#B0E0E6&quot;),
                     labels = c(&quot;(0, 5%]&quot;, &quot;(5%, 95%]&quot;, &quot;(95%, 1]&quot;))</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-79-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-86-1.png" width="672" /></p>
 </div>
 <div id="beeswarm-plots" class="section level2" number="7.7">
 <h2><span class="header-section-number">7.7</span> Beeswarm plots</h2>
@@ -2223,7 +2274,7 @@ ggplot(HousesNY, aes(x = Price, y = Beds, fill = stat(x))) +
 
 beeswarm(HousesNY$Price,
          vertical = FALSE, method = &quot;hex&quot;)</code></pre>
-<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-80-1.png" width="672" /></p>
+<p><img src="T1_R_Basics_files/figure-html/unnamed-chunk-87-1.png" width="672" /></p>
 <p>This is a little boring for my 58 data points! (although perhaps it does show that 58 points is barely a big enough sample to know an underlying model..)</p>
 </div>
 </div>
