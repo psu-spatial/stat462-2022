@@ -1,5 +1,5 @@
 ---
-title: "Lab 2: Exploratory Analysis"
+title: "Lab 3: Scatterplots"
 subtitle: <h5 style="font-style:normal">STAT-462 - Regression Analysis</h4>
 author: <h5 style="font-style:normal">Dr Helen Greatrex</h4>
 output: 
@@ -128,7 +128,7 @@ library(equatiomatic)
 library(olsrr)
 library(Stat2Data)
 library(readxl)
-
+library(tmap)
 
 ```
 
@@ -241,6 +241,8 @@ We do know ways to improve our model, as we know things that might impact house 
 - Plot the abline, line of best fit onto a new scatterplot
 
 11. Comment on why this might be misleading as an analysis?  To help you answer this question, try running this code to further explore the data on a map.
+
+DONT RUN IF TMAP NOT WORKING
 
 ```{r,eval=FALSE}
 # Command from the sf library
