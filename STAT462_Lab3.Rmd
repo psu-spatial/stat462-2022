@@ -58,6 +58,7 @@ library(equatiomatic)
 library(olsrr)
 library(Stat2Data)
 library(readxl)
+library(corrplot)
 data("HousesNY")
 
 ```
@@ -265,9 +266,11 @@ tm_basemap("Esri.WorldTopoMap") +
 
 12. Beyond this, what other confounding variables might there be?  Is there a variable that is more important than latitude in predicting house prices in your dataset?  Provide evidence to justify your answer. To help you answer this data and answer this question, some useful code includes:
 
-  + [A] corrplot().  A quick look at the correlation coefficient between all the variables. We will discuss it more next week.
-
+  + [A] corrplot().  A quick look at the correlation coefficient between all the variables. We will discuss it more next week.  
+ 
 ```{r,eval=FALSE}
+library(corrplot)
+# ADD THAT LIBRARY TO YOUR LIST!
 corrplot(cor(house),method="number",type="lower")
 ```
 

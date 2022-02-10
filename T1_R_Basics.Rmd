@@ -27,6 +27,9 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
 library(vembedr)
 library(yarrr)
 library(RColorBrewer)
+library(GGally) # correlation plots
+library(tidyverse)
+library(plotly)
 ```
 
 # Accessing R & Settings {#Tut1_WhatisR}
@@ -1521,9 +1524,51 @@ print(my_ztable,caption="Table 1. Basic Table")
 ```
 
 
+## Correlation
+
+To find the correlation between two variables, you can simply use the cor function e.g.
+
+```{r}
+cor(HousesNY$Price,HousesNY$Beds)
+```
+
+To see the correlation between ALL columns we can make a "correlation matrix"
 
 
-<br>
+### Covariance/correlation matrix {-}
+
+Looking at correlations is a quick (but often misleading) way to assess what is happening.  Essentially we can look at the correlation between each column of data.
+
+
+```{r,message=FALSE,warning=FALSE}
+
+# Choose column names - let's say I don't care about location
+colnames(HousesNY)
+
+# Create plot - note I have message=TRUE and warning=TRUE turned on at the top of my code chunk
+ggpairs(HousesNY[,c("Price","Beds" ,"Baths","Size" , "Lot"   )])
+
+```
+
+You can simply look at the correlations of any NUMERIC columns using the corrplot code.
+
+```{r}
+library(corrplot)
+house.numeric.columns <- HousesNY[ , sapply(HousesNY,is.numeric)]
+
+corrplot(cor(house.numeric.columns),method="ellipse",type="lower")
+```
+
+There are LOADS of other ways to run correlation plots here: https://www.r-graph-gallery.com/correlogram.html
+Feel free to choose a favourite.
+
+Importantly, remember back to this website - https://www.tylervigen.com/spurious-correlations.  Just because another variable is correlated with our response does not mean it HAS to be in the model.  It simply means that you might want to consider whether there is a reason for that correlation.
+
+
+
+
+
+
 <br>
 <br>
 
@@ -2107,6 +2152,178 @@ beeswarm(HousesNY$Price,
 This is a little boring for my 58 data points!  (although perhaps it does show that 58 points is barely a big enough sample to know an underlying model..)
 
 
+<br>
+<br>
+
+## Scatterplots
+
+
+Here is the absolute basic scatterplot
+
+```{r}
+# you can either do plot(x, y)
+# OR (recommended), use the ~ to say plot(y~x) 
+# e.g. y depends on x
+
+plot(HousesNY$Price ~ HousesNY$Beds)
+```
+
+There are many things we can change, see the help file for the `par` command for more.
+
+For example, here is an ugly plot showing as many as I can think!
+
+```{r}
+
+plot(HousesNY$Price ~ HousesNY$Beds,
+     xlim=c(0,7), #xlimits
+     ylim=c(40,220), #ylimits
+     xlab=list("Beds",cex=.8,col="red",font=2), # play with x-label
+     ylab=list("Price",cex=1.2,col="blue",font=3), # play with x-label
+     main="Ugly feature plot",
+     cex=1.2, #point size
+     pch=16, # symbol shape (try plot(1:24,1:24,pch=1:24 to see them all))
+     tcl=-.25, # smaller tick marks
+     mgp=c(1.75,.5,0)) # move the x/y labels around
+
+grid() #  add a grid
+
+# lines means "add points on top"
+lines(HousesNY$Price ~ HousesNY$Beds, 
+     type="p", # p for points, "l" for lines, "o" for both, "h for bars
+     xlim=c(0,7), #xlimits
+     ylim=c(40,220), #ylimits
+     col="yellow",
+     cex=.5, #point size
+     pch=4) # move the x/y labels around
+
+
+
+```
+
+To add a line, you can use the abline command IN THE SAME CODE CHUNK.  For example
+
+
+```{r}
+
+plot(HousesNY$Price ~ HousesNY$Beds,
+     xlim=c(0,7), #xlimits
+     ylim=c(40,220), #ylimits
+     xlab=list("Beds",cex=.8,col="red",font=2), # play with x-label
+     ylab=list("Price",cex=1.2,col="blue",font=3), # play with x-label
+     main="", # no title
+     cex=1.2, #point size
+     pch=16, # symbol shape (try plot(1:24,1:24,pch=1:24 to see them all))
+     tcl=-.25, # smaller tick marks
+     mgp=c(1.75,.5,0)) # move the x/y labels around
+
+# add vertical line at 3.5
+abline(v=5.5,col="red")
+# add horizontal line at the mean of price
+abline(h=mean(HousesNY$Price)) 
+# add line of best fit
+abline(lm(HousesNY$Price ~ HousesNY$Beds),col="blue",lty="dotted",lwd=3) 
+
+
+```
+
+
+
+
+GGPlot also has basic and advanced options.  From the basics:
+
+```{r}
+library(ggplot2)
+#
+ggplot(HousesNY, aes(x=Beds, y=Price)) + 
+    geom_point()
+
+```
+
+To more advanced:
+```{r}
+library(ggplot2)
+library(hrbrthemes)
+
+# use options!
+ggplot(HousesNY, aes(x=Beds, y=Price)) + 
+    geom_point(
+        color="black",
+        fill="#69b3a2",
+        shape=22,
+        alpha=0.5,
+        size=6,
+        stroke = 1
+        ) +
+    theme_ipsum()
+```
+
+Adding a line of best fit is also easy, but fits less easily with R's modelling commands:
+
+```{r}
+# Library
+library(ggplot2)
+library(hrbrthemes)
+
+# Create dummy data
+data <- data.frame(
+  cond = rep(c("condition_1", "condition_2"), each=10), 
+  my_x = 1:100 + rnorm(100,sd=9), 
+  my_y = 1:100 + rnorm(100,sd=16) 
+)
+
+# Basic scatter plot.
+p1 <- ggplot(data, aes(x=my_x, y=my_y)) + 
+  geom_point( color="#69b3a2") +
+  theme_ipsum()
+ 
+# with linear trend
+p2 <- ggplot(data, aes(x=my_x, y=my_y)) +
+  geom_point() +
+  geom_smooth(method=lm , color="red", se=FALSE) +
+  theme_ipsum()
+
+# linear trend + confidence interval
+p3 <- ggplot(data, aes(x=my_x, y=my_y)) +
+  geom_point() +
+  geom_smooth(method=lm , color="red", fill="#69b3a2", se=TRUE) +
+  theme_ipsum()
+
+p1
+p2
+p3
+```
+
+Or using the plotly library to make your plots interactive (really useful, try zooming in or clicking on a few points)
+
+```{r}
+# create the plot, save it as "p" rather than print immediatly
+myplot <-   ggplot(HousesNY, aes(x=Beds, y=Price, label=Baths)) + 
+            geom_point(alpha=.5) +
+            theme_classic()
+            
+# and plot interactively
+ggplotly(myplot)
+```
+
+
+
+
+It's also very easy to add in color to see another variable.  For example
+
+```{r}
+# create the plot, save it as "p" rather than print immediatly
+myplot <-   ggplot(HousesNY, aes(x=Beds, y=Price,color=Baths)) + 
+            geom_point(alpha=.5) +
+            theme_classic()+
+            scale_color_gradient(low="blue", high="red")
+
+# and plot interactively
+ggplotly(myplot)
+```
+
+Many more interactive options in this tutorial: https://plotly.com/r/line-and-scatter/ 
+
+
 
 
 
@@ -2157,10 +2374,21 @@ qnorm(0.8,mean=4,sd=2,lower.tail = FALSE)
 
 To test for normality: 
 
+First, have a look at the histogram!  Here is the code for the Shapiro-Wilk test.
 
 ```{r}
 shapiro.test(HousesNY$Price)
 ```
+
+You can also make a QQ-Norm plot
+
+We discussed the basic qqnorm command last week: `qqplot(variable)`.  For example `qqplot(malepirates$age)` makes a qq-norm plot of the age column in the data.frame we created earlier on male pirates.  There is a nicer version inside the ggpubr package.
+
+```{r, eval=FALSE}
+library(ggpubr)
+ggqqplot(HousesNY$Price,col="blue")
+```
+
 
 
 ## Student's t-distribution  {#S.Tutorial.2D.2}
@@ -2201,6 +2429,96 @@ t.test(HousesNY$Price,mu=100,alternative="two.sided")
 or see the detailed tutorial here: http://www.sthda.com/english/wiki/one-sample-t-test-in-r for one-sample
 
 and here for comparing two samples: http://www.sthda.com/english/wiki/unpaired-two-samples-t-test-in-r
+
+
+
+<br>
+<br>
+
+## Regression models
+
+Now we will fit our first regression model.  
+
+### "Standard" regression output {#S.Tutorial.3B.1}
+
+The command to do this is `lm()` e.g. linear model.
+
+```{r,eval=FALSE}
+output <- lm(y_column ~ x_column,data=tablename)
+output
+```
+
+NOTE, THE WEIRD ~ SYMBOL. This means "depends on" and it's how we tell R what the response variable is.  E.g. y depends on x, or y=mx+c.  
+
+For example for the NYHouses data, it would be
+
+```{r}
+# response = Price, predictor = Lot size
+Model1.lm <- lm(Price ~ Lot,data=HousesNY)
+Model1.lm
+```
+
+So we are saying here that the equation is
+
+Expected_Average_Price  =  -0.5749*Lot_Size  + 114.0911
+
+E.g. the average expected price house with no Lot/Garden is 114.09
+
+You can also directly get the code for the model equation by the equatiomatic package
+
+```{r,eval=FALSE}
+library(equatiomatic)
+extract_eq(Model1.lm,use_coefs=FALSE)
+```
+
+To make it print out directly, put "asis=TRUE" as a code chunk option
+
+```{r,asis=TRUE}
+library(equatiomatic)
+extract_eq(Model1.lm,use_coefs=FALSE)
+```
+
+
+
+
+
+You can also look at the summary by looking at the summary command:
+
+```{r}
+summary(Model1.lm)
+```
+
+In both cases, we have an estimate of the intercept (0.6386) and of the gradient (-13.8103).  We will discuss the other values in later labs/lectures.
+
+Now let's see how to add the regression line to our scatterplot.  We can do this using `abline(REGRESSION_VARIABLE)`, where regression_variable is the name of the variable you saved the output of lm to.  For example.
+
+```{r}
+plot(HousesNY$Price ~ HousesNY$Lot)
+abline(lm(HousesNY$Price ~ HousesNY$Lot),col="blue",lwd=1) 
+
+```
+
+For more professional plots, see the scatterplots tutorial
+
+### "Fancy" OLSRR regression output {#S.Tutorial.3B.2}
+
+If you want a different way of seeing the same output, you can use the `ols_regress()` command inside the `olsrr` package.  
+
+```{r}
+library(olsrr)
+Model1.lm.ols <- ols_regress(Price ~ Lot,data=HousesNY)
+Model1.lm.ols
+```
+
+The ols_regress command produces beautiful output, but sometimes it doesn't work well with other commands.  So I tend to run a lm command at the same time to have both available.
+
+Sometimes, this command can produce a weird error:
+
+```{r, olsrr.error, echo=FALSE,fig.cap="This is probably because you loaded the moderndive package"}
+knitr::include_graphics('./Figures/Tut7_OLSRR.png')
+```
+
+This is probably because you loaded the moderndive package. They do not play nicely together. Save your work, restart R and **do not run any line that says library(moderndive)!**.
 
 
 
