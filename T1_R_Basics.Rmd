@@ -2435,11 +2435,11 @@ and here for comparing two samples: http://www.sthda.com/english/wiki/unpaired-t
 <br>
 <br>
 
-## Regression models
+# Regression models
 
 Now we will fit our first regression model.  
 
-### "Standard" regression output {#S.Tutorial.3B.1}
+## "Standard" regression output {#S.Tutorial.3B.1}
 
 The command to do this is `lm()` e.g. linear model.
 
@@ -2479,9 +2479,6 @@ extract_eq(Model1.lm,use_coefs=FALSE)
 ```
 
 
-
-
-
 You can also look at the summary by looking at the summary command:
 
 ```{r}
@@ -2500,7 +2497,7 @@ abline(lm(HousesNY$Price ~ HousesNY$Lot),col="blue",lwd=1)
 
 For more professional plots, see the scatterplots tutorial
 
-### "Fancy" OLSRR regression output {#S.Tutorial.3B.2}
+## "Fancy" OLSRR regression output {#S.Tutorial.3B.2}
 
 If you want a different way of seeing the same output, you can use the `ols_regress()` command inside the `olsrr` package.  
 

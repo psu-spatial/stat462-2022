@@ -191,7 +191,8 @@ I tend to use one of the online LateX maths editors to find the exact commands t
 
 ## 3A. Univariate model
 
-NEW TUTORIALS HAVE APPEARED - 
+NEW TUTORIALS HAVE APPEARED:
+SCATTERPLOTS: [Tutorial 7.8](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots), CORRELATION PLOTS/CALCULATIONS [Tutorial 6.3](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation), 
 
 Next month, your friend is moving to Sindian Dist., in New Taipei City, Taiwan.  They want to buy a house and have asked you to figure out what most impacts house price.  (this course is normally less house price/penguin heavy!  Next week....)
 
