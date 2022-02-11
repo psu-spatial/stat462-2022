@@ -495,7 +495,7 @@ library(tmap)</code></pre>
 <h1>STEP 3: Data Analysis</h1>
 <div id="a.-univariate-model" class="section level2">
 <h2>3A. Univariate model</h2>
-<p>NEW TUTORIALS HAVE APPEARED: SCATTERPLOTS: <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 7.8</a>, CORRELATION PLOTS/CALCULATIONS <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation">Tutorial 6.3</a>,</p>
+<p>NEW TUTORIALS HAVE APPEARED: SCATTERPLOTS: <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 7.8</a>, CORRELATION PLOTS/CALCULATIONS <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation">Tutorial 6.3</a>, REGRESSION <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a></p>
 <p>Next month, your friend is moving to Sindian Dist., in New Taipei City, Taiwan. They want to buy a house and have asked you to figure out what most impacts house price. (this course is normally less house price/penguin heavy! Next week….)</p>
 <ol style="list-style-type: decimal">
 <li>Download the “Lab03_house.xlsx” dataset from the Lab page on canvas and put it into your Lab 3 folder. Use the read_excel() command to read it in and save it to a variable called house:</li>
@@ -529,6 +529,7 @@ house &lt;- read_excel(&quot;Lab03_house.xlsx&quot;)</code></pre>
 <ol start="10" style="list-style-type: decimal">
 <li>Scatterplot</li>
 </ol>
+<p>See: SCATTERPLOTS: <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 7.8</a> and REGRESSION <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a></p>
 <ul>
 <li>Look at the dataset and see which column gives you information about North/South (hint Latitude/longitude)</li>
 <li>Create a scatterplot to assess this</li>
@@ -561,7 +562,7 @@ tm_basemap(&quot;Esri.WorldTopoMap&quot;) +
 <li>Beyond this, what other confounding variables might there be? Is there a variable that is more important than latitude in predicting house prices in your dataset? Provide evidence to justify your answer. To help you answer this data and answer this question, some useful code includes:</li>
 </ol>
 <ul>
-<li>[A] corrplot(). A quick look at the correlation coefficient between all the variables. We will discuss it more next week.</li>
+<li>[A] corrplot(). A quick look at the correlation coefficient between all the variables. We will discuss it more next week. CORRELATION PLOTS/CALCULATIONS <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation">Tutorial 6.3</a>,</li>
 </ul>
 <pre class="r"><code>library(corrplot)
 # ADD THAT LIBRARY TO YOUR LIST!
