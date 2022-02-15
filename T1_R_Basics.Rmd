@@ -2467,17 +2467,25 @@ E.g. the average expected price house with no Lot/Garden is 114.09
 You can also directly get the code for the model equation by the equatiomatic package
 
 ```{r,eval=FALSE}
+# YOU MIGHT NEED TO INSTALL THIS PACKAGE (SEE THE TUTORIAL)
 library(equatiomatic)
 extract_eq(Model1.lm,use_coefs=FALSE)
 ```
 
-To make it print out directly, put "asis=TRUE" as a code chunk option
+To make it print out directly, put "asis=TRUE" as a code chunk option e.g. this code
+
+
+```{r, eqn, echo=FALSE,fig.cap="See the asis in the top, this prints the output directly when you knit"}
+knitr::include_graphics('./Figures/Tut7_extract_eq.png')
+```
+
+Turns into this:
+
 
 ```{r,asis=TRUE}
 library(equatiomatic)
 extract_eq(Model1.lm,use_coefs=FALSE)
 ```
-
 
 You can also look at the summary by looking at the summary command:
 
@@ -2491,7 +2499,7 @@ Now let's see how to add the regression line to our scatterplot.  We can do this
 
 ```{r}
 plot(HousesNY$Price ~ HousesNY$Lot)
-abline(lm(HousesNY$Price ~ HousesNY$Lot),col="blue",lwd=1) 
+abline(lm(Price ~ Lot,data=HousesNY),col="blue",lwd=1) 
 
 ```
 

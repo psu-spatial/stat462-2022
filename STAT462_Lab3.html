@@ -418,7 +418,7 @@ h2.title {
 <div id="i-need-help" class="section level2">
 <h2>I need help</h2>
 <ol style="list-style-type: decimal">
-<li><p>There is a TEAMS discussion for lab help <a href="https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&amp;tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e">CLICK HERE</a>. Remember to include a screenshot of the issue and a short desciption of the problem. Also try googling the error first.</p></li>
+<li><p>There is a TEAMS discussion for lab help <a href="https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&amp;tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e">CLICK HERE</a>. Remember to include a screenshot of the issue and a short description of the problem. Also try googling the error first.</p></li>
 <li><p>Every time you re-open R studio check you are using your project file (does it say Lab 3 at the top?).</p></li>
 <li><p>EVERY TIME YOU RE-OPEN R-STUDIO YOU NEED TO RE-RUN <strong>ALL</strong> YOUR CODE CHUNKS. The easiest way to do this is to press the “Run All” button (see the Run menu at the top of your script)</p></li>
 <li><p><strong>If the labs are causing major problems or your computer hardware is struggling (or you have any other software issue), Talk to Dr Greatrex</strong>. We can fix this and there are other free/cheap options for using R online.</p></li>
@@ -493,6 +493,14 @@ library(tmap)</code></pre>
 </div>
 <div id="step-3-data-analysis" class="section level1">
 <h1>STEP 3: Data Analysis</h1>
+<p>First - ARE YOU USING THE TEMPLATE FROM LAB 2??? IF NOT, YOU WILL LOSE MANY MARKS. GO BACK AND DO STEP 1 OF THIS LAB (and step 1 of lab 2 if you missed it..)</p>
+<p>OK What are we doing here? The aim of EVERY LAB, is to get comfortable writing up analyses of a complex dataset for a specific person or user. The modelling might be the same and we follow the same steps, but the context and topic will mean you will need to think hard about what is important in each case.</p>
+<p>The overall structure of the data anlysis for <em>every lab</em> will be the same, but each week we will add on a little more. Specifically</p>
+<ol style="list-style-type: decimal">
+<li><p>Exploring the data IN THE CONTEXT OF THE STUDY (ALL the points/questions in the first part of the teaching notes : <a href="https://psu.instructure.com/courses/2174925/files/132549205" class="uri">https://psu.instructure.com/courses/2174925/files/132549205</a>). The aim of this is to fully parameterise the study, talking about your response, predictors, sample vs census, object of analysis etc..</p></li>
+<li><p>Exploratory data analysis of your RESPONSE VARIABLE, because understanding/predicting the response is literally the only aim of a regression analysis.</p></li>
+<li><p>A series of models. A model could be very simple (nothing ’ explains’)</p></li>
+</ol>
 <div id="a.-univariate-model" class="section level2">
 <h2>3A. Univariate model</h2>
 <p>NEW TUTORIALS HAVE APPEARED: SCATTERPLOTS: <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 7.8</a>, CORRELATION PLOTS/CALCULATIONS <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation">Tutorial 6.3</a>, REGRESSION <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a></p>
@@ -505,37 +513,48 @@ library(tmap)</code></pre>
 # Then add in the full location rather than just the file name.
 house &lt;- read_excel(&quot;Lab03_house.xlsx&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Explore the dataset (using summaries etc (lab 1 &amp; 2), and by reading more about the data here: <a href="https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set" class="uri">https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set</a>). Describe the dataset to your friend. What columns does the dataset contains and how much data there is? Are there any limitations using this data?</p></li>
-<li><p>Adjust/fill in the template to end of EDA, focusing only on your response variable for now.</p></li>
+<li>Explore the dataset (using summaries etc (lab 1 &amp; 2), and by reading more about the data here: <a href="https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set" class="uri">https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set</a>). THE AIM OF THIS STUDY IS TO HELP YOUR FRIEND. So…</li>
+</ol>
+<ul>
+<li>Describe the dataset to your friend. Use all the hints/questions in the teaching notes: <a href="https://psu.instructure.com/courses/2174925/files/132549205" class="uri">https://psu.instructure.com/courses/2174925/files/132549205</a> . Make sure to summarise if there any limitations using this specific sample to address the aim of the study?</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Summarise the exploration by using a paragraph/sentence similar to the one about penguins in the teaching notes just before EDA.</p></li>
+<li><p>Adjust/fill in the template to end of EDA, <strong>focusing only on your response variable for now</strong> (because the aim of the study is to understand the response variable..). Here are the teaching notes</p></li>
 </ol>
 <p>Our first model will be univariate - we think nothing impacts house prices, so all we have is the histogram. Assume that a Normal distribution can fit the data, with mean(sample_mean) and sd(sample_sd). Adjust the title of your model section to read</p>
 <div id="model-1-univariate-model-normal-distribution" class="section level3">
 <h3>Model 1: Univariate model: Normal Distribution</h3>
 <ol start="4" style="list-style-type: decimal">
-<li><p>In model fitting, write a sentence to explain the above, but instead of writing out “mean(sample_mean) and sd(sample_sd)”, use your new equation knowledge and inline text to write out the model more formally. We will talk about this in class.</p></li>
-<li><p>Under check validity, use a Shapiro-Wilk test, a QQplot and a histogram to assess if you think the house price data really is normally distributed.</p></li>
+<li><p>In model fitting, write a sentence to explain the above, but instead of writing out “mean(sample_mean) and sd(sample_sd)”, use your new equation knowledge and inline text to write out the model more formally. We will talk about this in class. e.g. We will assume a Normal distribution with $~N(_y , _y) $ where <span class="math inline">\(\mu_y = ..\)</span> etc.</p></li>
+<li><p>Under check validity, use a Shapiro-Wilk test, a QQplot and a histogram to assess if you think the house price data really is normally distributed. Note, if you created them above, you can refer back to them in the text. Make sure to fully explain any contradictory results to your friend. Finish by summarising whether you believe that your model is valid given the data and whether it is suitable to use this for either confidence intervals or prediction intervals.</p></li>
 <li><p>Ignore test skill for now (we will need it later in the course)</p></li>
+</ol>
+<p>Your friend is impatient and wants you to use the model straight away</p>
+<ol start="7" style="list-style-type: decimal">
 <li><p>Under “Assess errors on population parameters:”, calculate using R the 99th confidence interval on the population mean and write up the results in your text in full sentences. E.g. according to the central limit theorem, we can assume.. therefore.. etc.</p></li>
-<li><p>In the same section, my friend has been told that the average price in the city is $35000. Given your sample, conduct a hypothesis test to assess how likely it is to see your sample result if that statement is likely to be true, with a critical significance of 80%.<br />
-</p></li>
-<li><p>In the predict new value, use a 99% prediction interval to assess whether you are 99% likely to see a house over $70,000.</p></li>
+<li><p>In the same section, my friend has been told that the average price is 35000 New Taiwan Dollar/Ping (note the data is in units x 10000). Given your sample, conduct a hypothesis test to assess how likely it is to see your sample result if that statement is likely to be true, with a critical significance of 80% *.<br></p></li>
+</ol>
+<p>*Note, here I say “80%” as in the real world, people often mix and match the way they talk about a critical threshold as either the critical p, or the critical 1-p. This is common outside stats textbooks! So this is adding to the ‘real life messiness’ learning objective..” <br> It can be frustrating because it’s not immediately obvious what to choose as your critical threshold.. But remember that hypothesis tests normally look for an unusual outcome so I normally assume if it’s over 50% then they mean 1-p.. Best practice would be to choose either one, but then write a short sentence or two in the report to your friend explaining what the p value means and asking, “did you really mean 80%? because that would mean….</p>
+<ol start="9" style="list-style-type: decimal">
+<li>In the predict new value, use a 99% prediction interval to assess whether you are 99% likely to see a house over $70,000. Draw a diagram! (you don’t need to include it). Prediction interval code/explanation IN DETAIL (including R output in the Lecture 9 notes)</li>
 </ol>
 </div>
 </div>
 <div id="b.-bivariate-model" class="section level2">
 <h2>3B. Bivariate model</h2>
-<p>Make a new level 1 section called Bi-variate models.</p>
+<p>Make a new level 1 section called Bivariate model.</p>
 <p>We do know ways to improve our model, as we know things that might impact house prices contained in our data. Specifically, our friend has been told that houses might be more expensive in the North.</p>
 <ol start="10" style="list-style-type: decimal">
 <li>Scatterplot</li>
 </ol>
 <p>See: SCATTERPLOTS: <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 7.8</a> and REGRESSION <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a></p>
 <ul>
-<li>Look at the dataset and see which column gives you information about North/South (hint Latitude/longitude)</li>
-<li>Create a scatterplot to assess this</li>
-<li>Describe the scatterplot fully as discussed in Lecture 10 (Friday/resources in homework 3)</li>
-<li>Create a Simple Linear Regression model to assess the issue</li>
-<li>Extract the equation and write it below the plot, explaning what the intercept and slope are.</li>
+<li>Look at the dataset and see which column gives you information about North/South (hint Latitude/longitude, <a href="https://www.geographyrealm.com/latitude-longitude/" class="uri">https://www.geographyrealm.com/latitude-longitude/</a>)</li>
+<li>Create a scatterplot to assess this, REMEMBER WHICH IS YOUR RESPONSE!</li>
+<li>Describe the scatterplot fully as discussed in Homework 5 (or see here: <a href="https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/scatterplots-correlation/a/describing-scatterplots-form-direction-strength-outliers?modal=1">KHAN SUMMARY:</a> )</li>
+<li>Create a Simple Linear Regression model to assess the issue (Regression tutorial)</li>
+<li>Extract the equation using equatiomatrix (see the tutorial) and write it below the plot, explaining what the intercept and slope are.</li>
 <li>Plot the abline, line of best fit onto a new scatterplot</li>
 </ul>
 <ol start="11" style="list-style-type: decimal">
@@ -543,7 +562,8 @@ house &lt;- read_excel(&quot;Lab03_house.xlsx&quot;)</code></pre>
 </ol>
 <p>DONT RUN IF TMAP NOT WORKING</p>
 <pre class="r"><code># Command from the sf library
-# Make a spatial version of the data using the Longitide and Latitude columns
+# ADD THE library(sf) and library(tmap) TO YOUR LIBRARY CODE CHUNK
+# Make a spatial version of the data using the Longitude and Latitude columns
 house.spatial &lt;- st_as_sf(house,coords=c(&quot;Longitude&quot;,&quot;Latitude&quot;),crs = 4326)
 
 # make interactive, for static set as &quot;plot&quot;

@@ -80,7 +80,7 @@ By the end of this week's lab, you will be able to:
 
 ## I need help
 
-1. There is a TEAMS discussion for lab help [CLICK HERE](https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e).  Remember to include a screenshot of the issue and a short desciption of the problem.  Also try googling the error first.
+1. There is a TEAMS discussion for lab help [CLICK HERE](https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e).  Remember to include a screenshot of the issue and a short description of the problem.  Also try googling the error first.
 
 2. Every time you re-open R studio check you are using your project file (does it say Lab 3 at the top?).  
 
@@ -189,6 +189,17 @@ I tend to use one of the online LateX maths editors to find the exact commands t
 
 # STEP 3: Data Analysis
 
+First - ARE YOU USING THE TEMPLATE FROM LAB 2???  IF NOT, YOU WILL LOSE MANY MARKS. GO BACK AND DO STEP 1 OF THIS LAB (and step 1 of lab 2 if you missed it..)
+
+OK What are we doing here?  The aim of EVERY LAB, is to get comfortable writing up analyses of a complex dataset for a specific person or user.  The modelling might be the same and we follow the same steps, but the context and topic will mean you will need to think hard about what is important in each case.
+
+The overall structure of the data anlysis for *every lab* will be the same, but each week we will add on a little more.  Specifically
+
+ 1. Exploring the data IN THE CONTEXT OF THE STUDY (ALL the points/questions in the first part of the teaching notes : https://psu.instructure.com/courses/2174925/files/132549205).  The aim of this is to fully parameterise the study, talking about your response, predictors, sample vs census, object of analysis etc..
+ 2. Exploratory data analysis of your RESPONSE VARIABLE, because understanding/predicting the response is literally the only aim of a regression analysis.  
+ 
+ 2. A series of models.  A model could be very simple (nothing ' explains')
+
 ## 3A. Univariate model
 
 NEW TUTORIALS HAVE APPEARED:
@@ -206,30 +217,37 @@ house <- read_excel("Lab03_house.xlsx")
 
 ```
 
-2.  Explore the dataset (using summaries etc (lab 1 & 2), and by reading more about the data here: https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set).  Describe the dataset to your friend. What columns does the dataset contains and how much data there is?  Are there any limitations using this data? 
+2.  Explore the dataset (using summaries etc (lab 1 & 2), and by reading more about the data here: https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set).  THE AIM OF THIS STUDY IS TO HELP YOUR FRIEND. So...
+   + Describe the dataset to your friend. Use all the hints/questions in the teaching notes: https://psu.instructure.com/courses/2174925/files/132549205 . Make sure to summarise if there any limitations using this specific sample to address the aim of the study?  
 
-3. Adjust/fill in the template to end of EDA, focusing only on your response variable for now.
+3. Summarise the exploration by using a paragraph/sentence similar to the one about penguins in the teaching notes just before EDA. 
+
+3. Adjust/fill in the template to end of EDA, **focusing only on your response variable for now** (because the aim of the study is to understand the response variable..). Here are the teaching notes  
 
 Our first model will be univariate - we think nothing impacts house prices, so all we have is the histogram. Assume that a Normal distribution can fit the data, with mean(sample_mean) and sd(sample_sd).   Adjust the title of your model section to read
 
 ### Model 1: Univariate model: Normal Distribution
 
-4. In model fitting, write a sentence to explain the above, but instead of writing out "mean(sample_mean) and sd(sample_sd)", use your new  equation knowledge and inline text to write out the model more formally.  We will talk about this in class.
+4. In model fitting, write a sentence to explain the above, but instead of writing out "mean(sample_mean) and sd(sample_sd)", use your new  equation knowledge and inline text to write out the model more formally.  We will talk about this in class.  e.g. We will assume a Normal distribution with $~N(\mu_y , \sigma_y) $ where $\mu_y =  ..$ etc.  
 
-5. Under check validity, use a Shapiro-Wilk test, a QQplot and a histogram to assess if you think the house price data really is normally distributed.
+5. Under check validity, use a Shapiro-Wilk test, a QQplot and a histogram to assess if you think the house price data really is normally distributed.  Note, if you created them above, you can refer back to them in the text.  Make sure to fully explain any contradictory results to your friend.  Finish by summarising whether you believe that your model is valid given the data and whether it is suitable to use this for either confidence intervals or prediction intervals.
 
 6. Ignore test skill for now (we will need it later in the course)
 
+Your friend is impatient and wants you to use the model straight away
+
 7. Under "Assess errors on population parameters:", calculate using R the 99th confidence interval on the population mean and write up the results in your text in full sentences.  E.g. according to the central limit theorem, we can assume.. therefore.. etc.
 
-8. In the same section, my friend has been told that the average price in the city is $35000.  Given your sample, conduct a hypothesis test to assess how likely it is to see your sample result if that statement is likely to be true, with a critical significance of 80%.  
-9. In the predict new value, use a 99% prediction interval to assess whether you are 99% likely to see a house over $70,000.
+8. In the same section, my friend has been told that the average price is 35000 New Taiwan Dollar/Ping (note the data is in units x 10000).  Given your sample, conduct a hypothesis test to assess how likely it is to see your sample result if that statement is likely to be true, with a critical significance of 80% *.<br>
 
+*Note, here I say "80%" as in the real world, people often mix and match the way they talk about a critical threshold as either the critical p, or the critical 1-p. This is common outside stats textbooks! So this is adding to the 'real life messiness' learning objective.." <br> It can be frustrating because it's not immediately obvious what to choose as your critical threshold.. But remember that hypothesis tests normally look for an unusual outcome so I normally assume if it's over 50% then they mean 1-p.. Best practice would be to choose either one, but then write a short sentence or two in the report to your friend explaining what the p value means and asking, "did you really mean 80%? because that would mean.... 
+
+9. In the predict new value, use a 99% prediction interval to assess whether you are 99% likely to see a house over $70,000. Draw a diagram! (you don't need to include it).  Prediction interval code/explanation IN DETAIL (including R output in the Lecture 9 notes)
 
 
 ## 3B. Bivariate model
 
-Make a new level 1 section called Bi-variate models.
+Make a new level 1 section called Bivariate model.
 
 We do know ways to improve our model, as we know things that might impact house prices contained in our data.  Specifically, our friend has been told that houses might be more expensive in the North.  
 
@@ -238,11 +256,11 @@ We do know ways to improve our model, as we know things that might impact house 
 See: SCATTERPLOTS: [Tutorial 7.8](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots)
 and REGRESSION [Tutorial 9](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models)
 
-- Look at the dataset and see which column gives you information about North/South (hint Latitude/longitude)
-- Create a scatterplot to assess this 
-- Describe the scatterplot fully as discussed in Lecture 10 (Friday/resources in homework 3)
-- Create a Simple Linear Regression model to assess the issue
-- Extract the equation and write it below the plot, explaning what the intercept and slope are.
+- Look at the dataset and see which column gives you information about North/South (hint Latitude/longitude, https://www.geographyrealm.com/latitude-longitude/)
+- Create a scatterplot to assess this, REMEMBER WHICH IS YOUR RESPONSE! 
+- Describe the scatterplot fully as discussed in Homework 5 (or see here: [KHAN SUMMARY:](https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/scatterplots-correlation/a/describing-scatterplots-form-direction-strength-outliers?modal=1) )
+- Create a Simple Linear Regression model to assess the issue (Regression tutorial)
+- Extract the equation using equatiomatrix (see the tutorial) and write it below the plot, explaining what the intercept and slope are.
 - Plot the abline, line of best fit onto a new scatterplot
 
 11. Comment on why this might be misleading as an analysis?  To help you answer this question, try running this code to further explore the data on a map.
@@ -251,7 +269,8 @@ DONT RUN IF TMAP NOT WORKING
 
 ```{r,eval=FALSE}
 # Command from the sf library
-# Make a spatial version of the data using the Longitide and Latitude columns
+# ADD THE library(sf) and library(tmap) TO YOUR LIBRARY CODE CHUNK
+# Make a spatial version of the data using the Longitude and Latitude columns
 house.spatial <- st_as_sf(house,coords=c("Longitude","Latitude"),crs = 4326)
 
 # make interactive, for static set as "plot"
