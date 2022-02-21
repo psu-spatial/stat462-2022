@@ -1,0 +1,461 @@
+---
+title: "STAT-462 TEMPLATE"
+author: "hlg5155"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true 
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+    number_sections: yes
+    theme: lumen
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+#this helps my rmd
+knitr::opts_chunk$set(echo = TRUE,  message=FALSE, warning=FALSE)
+```
+
+
+### Load libraries {-}
+
+```{r}
+library(tidyverse)
+library(dplyr)
+library(ggpubr)
+library(Stat2Data)
+library(corrplot)
+library(olsrr)
+library(plotly)
+library(sf)
+library(sp)
+library(readxl)
+library(tmap)
+```
+
+```{r}
+# Normally i would make this invisible
+#Read in the data
+bike <- read_excel("SeoulBikeData.xlsx")
+
+# I took a look at the data table. 
+# As seasons and holiday are categorical, I set them as factors in R
+# this is the command to make R realise these are categories not words
+bike$Season <- as.factor(bike$Season)
+bike$Holiday <- as.factor(bike$Holiday)
+```
+
+# Main report: Seoul Bike Rental Analysis
+
+## Study background
+
+Bike rentals are an important transportation options in many urban areas.  For a bike sharing programme to be a success, it is important to understand what impacts demand, so that rental bikes are available and accessible to the public at the right time and place.  This could enbable a city to have a better supply of rental bikes. 
+
+My client is the manager of the Seoul Bike Sharing programme in South Korea.  They have asked me to assess the data they have collected to understand how to model demand.  
+
+## Dataset description
+
+The data my client provided is a subset of a larger dataset accessible here:  https://archive.ics.uci.edu/ml/datasets/Seoul+Bike+Sharing+Demand.  The data originally collected through the Seoul Open Data project/ http://data.seoul.go.kr/.  
+
+The data has `r nrow(bike)` observations, where each observation is an hour of an individual day.  For each hour, the following data was collected:
+
+ - Date : year-month-day *(Date)*
+ - Rented Bike count - Count of bikes rented at each hour in the Seoul bike rental system *(Count data)*
+ - Hour - Hour of the day *(integer)*
+ - Temperature - in Celsius *(numeric continuous)*
+ - Humidity - % *(numeric continuous)*
+ - Windspeed - m/s *(numeric continuous)*
+ - Visibility - 10m *(numeric continuous)*
+ - Dew point temperature - Celsius *(numeric continuous)*
+ - Solar radiation - MJ/m2 *(numeric continuous)*
+ - Rainfall - mm *(numeric continuous)*
+ - Snowfall - cm *(numeric continuous)*
+ - Seasons - Winter, Spring, Summer, Autumn *(categorical ordinal)*
+ - Holiday - Holiday/No holiday  *(categorical nominal)*
+
+Unfortunately in the dataset provided to me, it appears that the Date column was lost.  Equally, there is very little information about how the data was collected, or about the population. For example, I could imagine that the number of bike rentals might change over time as the programme grows or shrinks, but I do not have informaiton to take this formally into account.
+
+The summary statistics for the dataset can be seen below.  There is no missing data in the dataset. 
+
+```{r ,echo=FALSE}
+skimr::skim(bike)
+```
+
+### Study aim
+
+-   **Object of Analysis:** *An individual hour*
+-   **Population:** *All the hours that the Seoul Bike Rental programme has been (and will be) open *
+-   **Response variable**: *Bike rental count per hour/day (e.g. the number of bike rentals in a specific hour in the programme)*
+
+
+My client has told me that "the crucial part is the prediction of bike count required at each hour for the stable supply of rental bikes".  I have therefore selected a response variable and unit of analysis of "Bike rental count per hour/day".
+
+This dataset is clearly a sample, as part of my population is a hypothetical future. However I do not have information about whether this sample is random or independent. Given that it includes "Date/hour" as its response, there is a very high chance that this data is not independent. 
+
+Equally, there are other confounding variables that might impact results for which I do not have data (not least, the missing Date column!).  These also include the overall size of the programme (e.g. total number of bikes available in that hour), the placement/location of those bikes, the number of tourists, demographic information (e.g. maybe the primary user is a student) amongst many others.  Equally, "hour" might simply be a proxy for night/day
+
+Given this, I will attempt an initial assessment and modelling of the data, but it is likely that my uni-variate and Simple Linear Models might be inappropriate. 
+
+## Exploratory analysis of response
+
+As described above, my response variable is *Bike rental count per hour/day (e.g. the number of bike rentals in a specific hour in the programme)*.
+
+Out of my sample of size `r nrow(bike)`, this ranges from `r min(bike$Rental.Count)` to `r max(bike$Rental.Count)` with an average rental count of `r mean(bike$Rental.Count)`.  Given the size of Seoul, at its very peak, ~3500 rentals per hour appears reasonable.
+
+Although the data is integer count, the number of counts is so large (and the intervals between them proportionally so small), that it seems reasonable to treat this data as continuous - although keep reading for problems with this..  There is also enough data to proceed.
+
+The data is highly skewed:
+
+```{r,echo=FALSE}
+# Layout to split the screen
+graphics::layout(matrix(c(1,2),2,1, byrow=TRUE),  
+       height = c(2,7))
+ 
+# Draw the boxplot and the histogram 
+par(mar=c(0, 3.1, .5, 2.1))
+
+data_to_plot <- bike$Rental.Count
+
+rangeplot <- pretty(data_to_plot,10)
+
+boxplot(data_to_plot,col = "light blue",
+        border = "dark blue",xaxt="n",frame=FALSE,xlim=c(0.75,1.25),
+        horizontal = TRUE,notch = TRUE,ylim=c(min(rangeplot),max(rangeplot)))
+
+par(mar=c(3, 3.1, .5, 2.1))
+hist(data_to_plot , breaks=20 , 
+     col=grey(0.3) , border=F , 
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main="" , xlab="Bike rental count per hour/day", 
+     xlim=c(min(rangeplot),max(rangeplot)))
+box();grid();
+hist(data_to_plot , breaks=20 , add=TRUE,
+     col=grey(0.3) , border=F , axis=FALSE,
+     xlim=c(min(rangeplot),max(rangeplot)))
+```
+
+There is one data point that might be considered as an ourlier, as it is several hundred counts above the rest.
+
+Here is a summary of that point.  Given that it occured at 6pm in what might be ideal cycling weather (24C temp, low humidity), I would suggest this is a true high rather than a false measurement.
+
+```{r}
+bike[bike$Rental.Count > 3500,]
+```
+
+## Univariate Modelling
+
+(*In future weeks we might skip this*)
+
+### Model 1: Normal Distribution
+
+#### Model description:
+
+As my first model, I suggest that we don't know a predictor that can explain bike rental count.  Instead, I am going with the most basic model possible, that we can model rental count for the population as a Normal Distribution $~N(\mu_y, {\sigma_y}^2)$ with true mean equal to my sample mean: $~N(\mu_y, {\sigma_y}^2)$  with $\mu_y=\bar{y}=704.6$ counts per hour.
+
+For example:
+
+```{r,echo=FALSE}
+mysample <- bike$Rental.Count
+
+plotmin <- mean(mysample) - sd(mysample)*4.25
+plotmax <-  mean(mysample) + sd(mysample)*4.25
+
+# Points for the normal equation line
+NormCurve_x <- seq(plotmin,plotmax, length = 40)
+
+# Normal curve calculation for each point
+NormCurve_y <- dnorm(NormCurve_x, mean = mean(mysample), sd = sd(mysample))
+
+# make sure this is density not raw frequency
+hist(mysample , breaks=30 , freq=FALSE,
+     col=grey(0.5) , border=F , 
+     xlim=c(plotmin,plotmax),
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main="" , xlab="Bike Rental counts")
+# add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
+lines(NormCurve_x, NormCurve_y, col = 2, lwd = 2)
+box()
+
+abline(v=mean(mysample),lty="dotted")
+
+```
+
+#### Model validity:
+
+From my exploratory histogram and the plot above, I can see some clear issues with this model.  The first is our problem of count data!  We cannot have negative counts, yet our model will clearly predict negatives.   
+
+Secondly the model looks highly skewed.  We can further assess this using a QQ-Plot and a Wilk-Shapiro hypothesis test:
+
+```{r}
+ggqqplot(bike$Rental.Count,col="red")
+```
+
+We know that Wilk-Shapiro is very sensitive to normality for large datasets, so we already know the answer here, but as proof:
+
+```{r}
+# My original dataset was too big for the command, so I sampled 3000 random values
+shapiro.test(sample(bike$Rental.Count,3000))
+```
+ 
+ - H~0~: Our dataset was sampled from an underlying normal distribution, $~N(\mu_y, {\sigma_y}^2)$  with $\mu_y=\bar{y}=704.6$ and ${\sigma_y}^2={s_y}^2=416021$ counts per hour.
+ 
+ - H~1~: The Wilks-Shapiro test statistic is unusually low compared to expected from the Normally Distributed population described in H~0~.
+ 
+Our test statistic above is 0.885 with a p-value of effectively zero.  It would be incredibly unlikely for this result to have occurred by chance if the data really was normal. 
+
+The result of this test means that our model is likely to be useful in understanding population parameters such as the population mean, but it will NOT be useful in predicting new values.
+ 
+
+#### Assessing population parameters:
+
+As described above, the Central Limit Theorem means that this model even though flawed, will still be useful in predicting the population mean, using the equation:
+
+$$
+\bar{y} ± T_{(n-1),(1-\frac{\alpha}{2})}\frac{s_y}{\sqrt{n}}
+$$
+
+where we use a T distribution with n-1 degrees of freedom (n is the number in the sample) and alpha is the confidence level.  As the sample size is so big, this is functionally a Normal distribution.
+
+Here I calculate the 99th percentile confidence interval on the population mean:
+
+```{r}
+mytest <- t.test(bike$Rental.Count, conf.level = .99)
+
+conf.lower <- mytest$conf.int[1]
+conf.upper <- mytest$conf.int[1]
+
+mytest
+```
+
+This means that given our sample, we are 99% sure that the *true population mean* falls in the range `r conf.lower` to `r conf.upper` rentals per hour.  We are essentually saying that the true mean falls inside the blue curve, which has mean $~N(\mu_y, {\sigma_y}^2)$ and standard deviation: $\frac{{s_y}}{\sqrt{n}}$
+
+
+```{r,echo=FALSE}
+mysample <- bike$Rental.Count
+
+plotmin <- mean(mysample) - sd(mysample)*3
+plotmax <-  mean(mysample) + sd(mysample)*3
+
+# Points for the normal equation line
+NormCurve_x <- seq(plotmin,plotmax, length = 40)
+
+# Normal curve calculation for each point
+NormCurve_y <- dnorm(NormCurve_x, mean = mean(mysample), sd = sd(mysample))
+
+# make sure this is density not raw frequency
+hist(mysample , breaks=30 , freq=FALSE,
+     col=grey(0.5) , border=F , xlim=c(-100,1200),
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main="" , xlab="Price of houses in Canton NY")
+# add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
+lines(NormCurve_x, NormCurve_y, col = 2, lwd = 2)
+
+
+# Points for the normal equation line
+NormCurve_x <- seq(-200,1900, length = 4000)
+# Normal curve calculation for each point
+NormCurve_y <- dnorm(NormCurve_x, mean = mean(mysample), sd = (sd(mysample)/sqrt(length(mysample))))
+lines(NormCurve_x, NormCurve_y/80, col = "blue", lwd = 2)
+
+box()
+abline(v=mean(mysample),lty="dotted")
+
+```
+
+
+#### Testing the population mean
+
+My client has requested I assess the likelihood that the true mean rental is ABOVE 700 counts per day. I can do this using a one sided T-test on the population mean with test statistic:
+
+$$
+T=\frac{\bar{y}-\mu_y}{\frac{s_y}{\sqrt{n}}}
+$$
+
+ - H~0~: Our dataset was sampled from an underlying normal distribution with true mean, $\mu_y = 700$ 
+ 
+ - H~1~: The observed test statistic is unusually *high* if H_0_ was true, therefore we think, $\mu_y > 700$ 
+
+The critical significance is 80%.  By this I think my client meant to say that they want to be 80% certain, so I am taking my critical p value as 0.2.
+
+The T-test above tests the likelyhood that the true mean was zero!  But it is easy to adapt. 
+
+```{r}
+mytest <- t.test(bike$Rental.Count, mu=700, alternative="greater")
+mytest
+```
+
+
+```{r,echo="FALSE"}
+knitr::include_graphics("./Figures/tttest_plot.png")
+```
+
+So in this case, we can see that the observed result is not extreme enough to be only observed 20% of the time.  As p=0.254 > 0.2, there is not enough evidence to reject the null hypothesis.
+
+Given our sample, there is nothing to suggest the true mean is greater than 700 rentals per day.
+
+
+#### Model predictions
+
+Given the fact our data is clearly not normal (see model validity), this is clearly not appropriate.  But at my clients request, here is a 99% prediction interval for our data.
+
+$$
+\bar{y} ± T_{(n-1),(1-\frac{\alpha}{2})}\frac{s_y}{\sqrt{1+\frac{1}{n}}}
+$$
+
+```{r}
+n <- nrow(bike)
+df=n-1
+ybar <- mean(bike$Rental.Count)
+sy <- sd(bike$Rental.Count)
+
+lowerPI.99 <- mean(bike$Rental.Count) - qt(0.995,df)*(sy/sqrt(1+(1/n)))
+upperPI.99 <- mean(bike$Rental.Count) + qt(0.995,df)*(sy/sqrt(1+(1/n)))
+
+lowerPI.99
+upperPI.99
+```
+
+If our model is true (it's clearly not), we suggest that we are 99% sure that a new hourly record of bike rental will fall between `r round(lowerPI.99)` and  `r round(upperPI.99)`.
+
+So for example, *according to this Normal univariate model*, we are 99% sure that we won't see a new rental day of hour with over 3000 rentals.  This is clearly nonsense!
+
+
+```{r,echo=FALSE}
+mysample <- bike$Rental.Count
+
+plotmin <- mean(mysample) - sd(mysample)*4.25
+plotmax <-  mean(mysample) + sd(mysample)*4.25
+
+# Points for the normal equation line
+NormCurve_x <- seq(plotmin,plotmax, length = 40)
+
+# Normal curve calculation for each point
+NormCurve_y <- dnorm(NormCurve_x, mean = mean(mysample), sd = sd(mysample))
+
+# make sure this is density not raw frequency
+hist(mysample , breaks=30 , freq=FALSE,
+     col=grey(0.5) , border=F , 
+     xlim=c(plotmin,plotmax),
+     tcl=-.25,mgp=c(1.75,.5,0),
+     main="" , xlab="Bike Rental counts")
+# add the normal curve (THIS NEEDS TO BE IN THE SAME CODE CHUNK)
+lines(NormCurve_x, NormCurve_y, col = 2, lwd = 1)
+box()
+
+abline(v=mean(mysample),lty="dotted")
+abline(v=lowerPI.99,col="red",lwd=2)
+abline(v=upperPI.99,col="red",lwd=2)
+
+```
+
+## Bivariate models
+
+### Exploratory analysis of predictors
+
+I suspect that temperature might impact my bike rental counts, and wish to assess this and other predictors.  To do this, I can first assess the correlation of all the predictors together
+
+First, to summarise the correlation between our numeric variables:
+
+```{r}
+library(corrplot)
+bike.numeric.columns <- bike[ , sapply(bike,is.numeric)]
+
+corrplot(cor(bike.numeric.columns),method="ellipse",type="lower")
+```
+
+We can see that there is a relatively strong link with temperature.  Looking in more detail below, the correlation between bike rental count and temperature is 0.539.
+
+
+```{r}
+library(GGally)
+ggpairs(bike[,c("Rental.Count","Hour" ,"Temperature","Humidity" , "Season"   )],cex=.3)
+```
+```{r}
+
+ggpairs(bike[,c("Rental.Count","Wind.Speed" ,"Visibility","Solar.Radiation" , "Snow.cm"  ,"Holiday" )])
+
+```
+
+### Model 2: Temperature predicts rental count
+
+ - response variable, rental count per hour
+ - predictor, temperature (C)
+ - unit of analysis (an hour)
+ 
+ 
+```{r}
+# Basic scatter plot.
+ggplot(bike, aes(x=Temperature, y=Rental.Count)) + 
+  geom_point( color="dark red",size=.3) 
+ 
+```
+
+
+Here we see a moderately strong positive relationship between temperature and rental count.  There does appear to be some complex clustering within the data however and although *potentially* the average rental count increases linearly, there is meaningful heteroskadisity (the variance increases with temperature).
+
+
+#### Model description
+
+My new model is that the *population* rental count can be modelled as a Normal Distribution $~N(\mu_y, {\sigma_y}^2)$ , but where the true mean, \mu_y increases linearly with temperature, Temp. e.g.
+
+$$
+\mu_y = \beta_0+\beta_1Temp
+$$
+
+Using least squares to fit this model we find:
+
+
+```{r}
+model2 <- lm(Rental.Count ~ Temperature, data=bike)
+model2
+```
+
+
+```{r,asis=TRUE}
+equatiomatic::extract_eq(model2,use_coefs = TRUE)
+```
+
+and with summary statistics
+
+```{r}
+olsrr::ols_regress(model2)
+```
+
+This can be plotted as follows:
+
+```{r}
+library(hrbrthemes)
+
+# Basic scatter plot.
+ggplot(bike, aes(x=Temperature, y=Rental.Count)) +
+  geom_point(size=.5) +
+  geom_smooth(method=lm , color="red", se=FALSE)  +
+  theme_ipsum()
+```
+
+### Model validity
+
+#### Independence & confounding variables
+
+I do have concerns about independence, especially that hour of day might impact rental count:
+
+```{r}
+# create the plot, save it as "p" rather than print immediatly
+myplot <-   ggplot(bike, aes(x=Temperature, y=Rental.Count,color=Hour)) + 
+            geom_point(alpha=.5) +
+            theme_classic()+
+            scale_color_gradient(low="blue", high="red")
+
+# and plot interactively
+ggplotly(myplot)
+```
+
+
+This makes physical sense.  People are less likely to rent bikes late at night when it is also likely to be colder. So it might be that my model needs to improve, with hour also added to the model.
+
+
+## Conclusions
+
+So far, I have shown that the average rental count per hour is approximately 700 counts/hr, with a highly skewed histogram ranging from 0 to around 3000.  Temperature appears to impact the average rental count.
