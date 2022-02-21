@@ -1,5 +1,5 @@
 ---
-title: "STAT-462 TEMPLATE"
+title: "STAT-462 Lab example - Bikes"
 author: "hlg5155"
 date: "`r Sys.Date()`"
 output:
