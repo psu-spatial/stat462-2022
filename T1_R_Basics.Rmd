@@ -2389,6 +2389,7 @@ library(ggpubr)
 ggqqplot(HousesNY$Price,col="blue")
 ```
 
+YOU CAN INTERPRET IT HERE: https://www.learnbyexample.org/r-quantile-quantile-qq-plot-base-graph/
 
 
 ## Student's t-distribution  {#S.Tutorial.2D.2}

@@ -301,17 +301,16 @@ Given our sample, there is nothing to suggest the true mean is greater than 700 
 Given the fact our data is clearly not normal (see model validity), this is clearly not appropriate.  But at my clients request, here is a 99% prediction interval for our data.
 
 $$
-\bar{y} ± T_{(n-1),(1-\frac{\alpha}{2})}\frac{s_y}{\sqrt{1+\frac{1}{n}}}
+\bar{y} ± T_{(n-1),(1-\frac{\alpha}{2})} s_y \sqrt{1+\frac{1}{n}}
 $$
-
 ```{r}
 n <- nrow(bike)
 df=n-1
 ybar <- mean(bike$Rental.Count)
 sy <- sd(bike$Rental.Count)
 
-lowerPI.99 <- mean(bike$Rental.Count) - qt(0.995,df)*(sy/sqrt(1+(1/n)))
-upperPI.99 <- mean(bike$Rental.Count) + qt(0.995,df)*(sy/sqrt(1+(1/n)))
+lowerPI.99 <- mean(bike$Rental.Count) - qt(0.995,df) * sy * (sqrt(1+(1/n)))
+upperPI.99 <- mean(bike$Rental.Count) + qt(0.995,df) * sy * (sqrt(1+(1/n)))
 
 lowerPI.99
 upperPI.99
