@@ -2615,8 +2615,8 @@ R can easily read in Microsoft Excel spreadsheets using the `readxl` package:
 
 1. **Make sure the readxl package is loaded.**<br>E.g. is `library(readxl)` in your library code chunk?<br>Have you run the code chunk?
 
-2. **Place your excel file in your project folder**.<br>E.g. here I placed *Data_frostday.xlsx* into my project folder.  
-
+2. **Place your excel file in your project folder**.<br>E.g. here I placed *Data_frostday.xlsx* into my project folder. MAKE SURE YOU **OPEN** R-STUDIO USING YOUR LAB PROJECT!! If you are not sure what I mean see [Projects: How do I know if I am running one?](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#212_How_do_I_know_it_has_worked) and [returning to your project](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#213_Returning_to_your_lab_project)
+  
 3. **Make a new code chunk and add the read_excel() command e.g.**<br>
    ```{r,eval=FALSE}
    frost <- read_excel("Data_frostday.xlsx")
@@ -2634,13 +2634,22 @@ frost    <- read_excel("Data_frostdata.xlsx")
 names(frost)
 ```
 
+Or you can put the full file path in the read_excel command
+
+```{r}
+# Read in the frost.xlsx file in my project folder and assign it to a variable called frost
+library(readxl)
+frost    <- read_excel("/Users/hlg5155/Dropbox/My Mac (E2-GEO-WKML011)/Documents/GitHub/Teaching/stat462-2022/Data_frostdata.xlsx")
+names(frost)
+```
+
 <br>
 
 ### Troubleshooting
 
 **It says it can't find the file:**
- - Are you running the right project? e.g. does it say Lab 2 at the top of the screen?
- - Did you put the file into your Lab 2 folder?
+ - **Are you running the right project? e.g. does it say Lab 3 at the top of the screen?**
+ - Did you put the file into your Lab folder?
  - Did you spell it right and include the full .xslx extension?
  - Did you use quote marks?
  
