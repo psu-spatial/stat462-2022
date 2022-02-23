@@ -161,6 +161,9 @@ boxplot(LeafWidth$Year)
 boxplot(LeafWidth$Length)
 shapiro.test(LeafWidth$Year)
 shapiro.test(LeafWidth$Length)
+
+# one sided test
+# 
 ```
 
 
@@ -173,7 +176,6 @@ You are looking at two variables:
    a. Create a professional looking boxplot. <br>
    b. Below the boxplot, write whether you believe the variable is likely to be Normally distributed and why.   <br>
    c. Add a guess of a p-value in a Wilk-Shapiro test. (you are not being graded on whether your answer is 'correct')  <br>
-   c. After looking at the boxplots, write on which variable you *believe* will be Normal (if any) with a significance of 5% and why. <br>
    d. Formally assess the normality of the variable using a Wilk-Shapiro test at a critical value of 5%.  Include your H0, H1 and your conclusions. Write a comment on whether the result matches your guess.  (you could also have a look at a histogram).  <br>
    
 3. Is the Wilk-Shapiro test one-sided or two-sided? (google it!)   
