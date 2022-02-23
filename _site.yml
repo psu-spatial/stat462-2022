@@ -15,6 +15,8 @@ navbar:
           href: STAT462_Lab2.html  
         - text: "Lab 3: Scatterplots"
           href: STAT462_Lab3.html  
+        - text: "Lab 4: Regression Code showcase"
+          href: STAT462_Lab4.html  
     - text: "LAB EXAMPLE"
       href: STAT462_LabEXAMPLE.html 
 output:  

@@ -1405,7 +1405,57 @@ Here I will show a few examples for the houses dataset we were using in lectures
 data("HousesNY", package = "Stat2Data")
 ```
 
+## Looking at the data itself {#Tut8a1_basics}
+
+
+To have a look at the data there are many options. You can:
+
+ - click on its name in the environment tab
+ - Type its name into the console or into a code chunk (e.g. for our table, type `piratedataset` into the console or a code chunk)
+ - Run the command `View(variable_name)` (View is a command from the tidyverse package).<br> This will open the data in a new tab.
+ - Run the command `head(variable_name)` to see the first 6 lines or so (good for quick checks)
+ - Run the command `glimpse(variable_name)` to get a nice summary.
+ - Run the command `names(variable_name)` to get the column names.
+ - 
+ 
+<br>
+ 
+For example
+ 
+```{r}
+# Note, there are sometimes more columns to the right, use the arrow to see
+head(HousesNY)
+```
+
+To see what the column names are, you can use the `names(dataset)` command
+
+```{r}
+names(HousesNY)
+```
+
+Or the glimpse command:
+
+```{r}
+glimpse(HousesNY)
+```
+
+To see how many columns and rows there are, you can use the `nrow()` and `ncol()` commands
+
+```{r}
+nrow(HousesNY)
+ncol(HousesNY)
+```
+
+<br>
+<br>
+
 ## Summary statistics
+
+To look at the summaries there are a load of options. Choose your favourites:
+
+ - `summary(dataset)`
+ - `skim(dataset)` in the skimr package
+ - `summarize(dataset)` in the papeR package. This looks pretty powerful, I'm just learning it
 
 None are better or worse than others - simply choose what works for you in the moment.
 
@@ -2382,7 +2432,7 @@ shapiro.test(HousesNY$Price)
 
 You can also make a QQ-Norm plot
 
-We discussed the basic qqnorm command last week: `qqplot(variable)`.  For example `qqplot(malepirates$age)` makes a qq-norm plot of the age column in the data.frame we created earlier on male pirates.  There is a nicer version inside the ggpubr package.
+We discussed the basic qqnorm command last week: `qqplot(variable)`.  For example *qqplot(malepirates$age)* makes a qq-norm plot of the age column in the data.frame we created earlier on male pirates.  There is a nicer version inside the ggpubr package.
 
 ```{r, eval=FALSE}
 library(ggpubr)
@@ -2527,4 +2577,408 @@ knitr::include_graphics('./Figures/Tut7_OLSRR.png')
 This is probably because you loaded the moderndive package. They do not play nicely together. Save your work, restart R and **do not run any line that says library(moderndive)!**.
 
 
+# Reading in and loading data
+
+## In-built datasets
+
+There are many datasets built into R, and even more that come with packages.  To load them you simply use the `data` command.  Typing data() will bring up a load of the possible datasets.  
+
+For example, this loads the iris dataset:
+
+```{r}
+data("iris")
+
+glimpse(iris)
+```
+
+If you want to specify data from a specific package, we can also tell R that:
+
+```{r}
+data("pirates", package = "yarrr")
+mean(pirates$parrots)
+```
+
+
+All the datasets in R have a help file by using the help menu or putting a ? in front of its name.  DO THIS IN THE CONSOLE NOT A CODE CHUNK.
+
+```{r,eval=FALSE}
+?pirates
+```
+
+
+<br>
+
+## Loading data from Excel files
+
+R can easily read in Microsoft Excel spreadsheets using the `readxl` package:
+
+
+1. **Make sure the readxl package is loaded.**<br>E.g. is `library(readxl)` in your library code chunk?<br>Have you run the code chunk?
+
+2. **Place your excel file in your project folder**.<br>E.g. here I placed *Data_frostday.xlsx* into my project folder.  
+
+3. **Make a new code chunk and add the read_excel() command e.g.**<br>
+   ```{r,eval=FALSE}
+   frost <- read_excel("Data_frostday.xlsx")
+   ```
+   Here the command is `read_excel()`, you are applying this to "frostdays.xlsx" (e.g. reading in an excel file with that name), then assigning the result to a variable called frost. Because you are using your project, R knows to look inside your project folder to find the file.
+
+If this works, there should be no errors and nothing prints on the screen when you run the code chunk.  
+
+When I ran it, in the environment tab, frost appeared with a description as a table with 76 rows (observations/obs), and 7 columns (variables).  In R, this type of table/spreadsheet is called a `data.frame`.
+
+```{r}
+# Read in the frost.xlsx file in my project folder and assign it to a variable called frost
+library(readxl)
+frost    <- read_excel("Data_frostdata.xlsx")
+names(frost)
+```
+
+<br>
+
+### Troubleshooting
+
+**It says it can't find the file:**
+ - Are you running the right project? e.g. does it say Lab 2 at the top of the screen?
+ - Did you put the file into your Lab 2 folder?
+ - Did you spell it right and include the full .xslx extension?
+ - Did you use quote marks?
+ 
+**It says read_excel doesn't exist**
+ - Did you install the readxl package?
+ - Did you load the readxl package? Go click the code chunk with the library command again!
+ - Did you spell the command right? (case sensitive)
+ - Did you use () afterwards so R understands that it's a command?
+
+<br>
+
+**Using the wizard:** Sometimes you just can't get it working.  In those cases, try the import wizard:<br>
+
+ - Go to the file menu at the very top of the screen. Click import dataset, then From Excel. Use the wizard to find your file and get it looking correct. It will show you the code you need in the code preview.
+ - Because we want to include this file in the markdown, rather than pressing OK, copy the code preview text and put it in your code chunk. DO NOT PUT THE VIEW LINE IN THERE, or everytime you run it will open a new tab with the data.
+
+<br>
+
+## Reading in csv Files {#Tut6b_csv}
+
+```{r, include=FALSE}
+ozone   <- read.csv("Data_Ozone.csv")
+```
+
+.csv files are comma separated text files, you can read them into microsoft excel.  In R, you don't need any special package to read in a csv file 
+
+1. Place the csv file into your project folder 
+
+2. Use the `read_csv()` command to read it into R. Assign it to a variable or it will just print onto the screen 
+
+3. Run the code chunk, then click on the variable name in the Environment quadrant to check that it read in correctly (especially make sure that column names have read in correctly) 
+
+For example, for to read in a csv file on PA fossils, convert it to spatial and make a map:
+
+```{r}
+# Read in the some data on ozone
+ozone    <- read.csv("Data_Ozone.csv")
+
+# Check the column names, or click on its name in the Environment quadrant
+summary(ozone)
+
+```
+
+<br>
+
+### Troubleshooting
+
+**It says it can't find the file:**
+ - Are you running the right project? e.g. does it say Lab 2 at the top of the screen?
+ - Did you put the file into your Lab 2 folder?
+ - Did you spell it right and include the full .csv extension?
+ - Did you use quote marks?
+
+
+<br>
+
+**Using the wizard:** Sometimes you just can't get it working.  In those cases, try the import wizard:<br>
+
+ - Go to the file menu at the very top of the screen. Click import dataset, then From Excel. Use the wizard to find your file and get it looking correct. It will show you the code you need in the code preview.
+ - Because we want to include this file in the markdown, rather than pressing OK, copy the code preview text and put it in your code chunk. DO NOT PUT THE VIEW LINE IN THERE, or everytime you run it will open a new tab with the data.
+
+## Reading in txt Files {#Tut6c_csv}
+
+Same as above but you use the read.txt command.  You get a lot of options here, from telling R if it has headers/column names to changing the 'delimiter'.  See the helpfile and http://www.sthda.com/english/wiki/reading-data-from-txt-csv-files-r-base-functions for more.
+
+
+
+# Filtering and selecting datta
+
+
+```{r,include=FALSE,echo=FALSE}
+# invisible data read
+library(tidyverse)
+library(sp)
+library(sf)
+library(readxl)
+library(skimr)
+library(tmap)
+library(USAboundaries)
+library(viridis)
+```
+
+
+## Selecting a specific column 
+
+Here I am using the NYHouses data as an example.   Sometimes we want to deal with only one specific column in our spreadsheet/dataframe, for example applying the mean/standard deviation/inter-quartile range command to say just the Price column.
+
+To do this, we use the $ symbol. For example, here I'm simply selecting the data in the elevation column only and saving it to a new variable called elevationdata.
+
+```{r, eval=FALSE}
+data("HousesNY")
+price <- HousesNY$Price
+
+price
+```
+
+Try it yourself.  You should have seen that as you typed the $, it gave you all the available column names to choose from.
+
+This means we can now easily summarise specific columns. For example: 
+
+ - `summary(HousesNY)` will create a summary of the whole spreadsheet, 
+ - `summary(HousesNY$Price)` will only summarise the Price column.  
+ - `mean(HousesNY$Price)` will take the mean of the Price column in the HousesNY dataframe.  
+ 
+<br>
+
+
+
+
+
+## Table command: counts per group {#Tut7b_table}
+
+Sometimes we want to count the occurrences of some category in our dataset.  For example, if you look at the HousesNY, it might be interesting to know how many Houses had each number of bedrooms
+
+To do this, we use the table command: 
+
+```{r, eval=FALSE}
+table(HousesNY$Beds)
+```
+
+or to see the number with each combination of bedrooms and bathrooms:
+
+```{r, eval=FALSE}
+table(HousesNY$Beds, HousesNY$Baths)
+```
+
+For more, this tutorial is excellent: https://www.cyclismo.org/tutorial/R/tables.html.
+
+<br>
+
+
+## "Group_by" command: statistics per group
+
+What if we want to do more than just count the number of rows?  
+
+Well, we can use the `group_by()` and `summarise()` commands and save our answers to a new variable.  
+
+Here we are making use of the pipe symbol, %>%,  which takes the answer from group_by and sends it directly to the summarise command.
+
+Here is some data on frost dates at weather stations.
+
+```{r}
+
+frost    <- readxl::read_excel("Data_frostdata.xlsx")
+head(frost)
+```
+
+To summarise results by the type of weather stattion:
+
+```{r}
+frost.summary.type <- group_by(frost, by=Type_Fake) %>%
+                          summarise(mean(Latitude),
+                                    max(Latitude),
+                                    min(Dist_to_Coast))
+frost.summary.type
+```
+
+Here, my code is:
+
+ - Splitting up the frost data by the Type_Fake column<br>(e.g. one group for City, one for Airport and one for Agricultural Research) 
+ - For the data rows in *each group*, calculating the mean latitude, the maximum latitude and the minimum distance to the coast 
+ - Saving the result to a new variable called frost.summary.type.
+ - Printing the results on the screen e.g. the furthest North/maximum latitude of rows tagged Agricultural_Research_Station is 36.32 degrees.
+ 
+
+## Filtering rows and columns 
+
+Sometimes, we do not want to analyse at the entire data.frame.  Instead, we would like to only look at one (or more) columns or rows. 
+
+There are several ways we can select data. 
+
+ - To choose a specific column, we can use the `$` symbol to select its name (as described above)
+
+ - If you know which number rows or columns you want, you can use **square brackets** to numerically select data.
+ 
+Essentially our data follows the format: tablename[ROWS,COLUMNS]
+
+
+```{r}
+# This will select the data in the 5th row and 7th column
+frost[5,7]
+
+# This will select the 2nd row and ALL the columns 
+frost[2,]
+
+# This will select the 3rd column and ALL the rows
+frost[,3]
+# similar to using its name
+frost$Type_Fake
+
+# We can combine our commands, this will print the 13th row of the Longitude column 
+# (no comma as we're only looking at one column)
+frost$Longitude[13]
+
+# The : symbol lets you choose a sequence of numbers e.g. 1:5 is 1 2 3 4 5
+# So this prints out rows 11 to 15 and all the columns
+frost[11:15,]
+
+# The "c" command allows you to enter whatever numbers you like.  
+# So this will print out rows 4,3,7 and the "Elevation" and "Dist_to_Coast" columns
+frost[c(4,3,7), c("Elevation","Dist_to_Coast")]
+```
+
+
+You can also add questions and commands inside the square brackets.  For example here is the weather station with the lowest elevation.  You can see my command chose BOTH rows where elevation = 10.
+
+```{r}
+
+# which row has the lowest elevation
+# note the double == (more below)
+row_number <- which(frost$Elevation == min(frost$Elevation))
+
+# choose that row
+loweststtation <- frost[row_number ,  ]
+loweststtation
+```
+
+```{r}
+seaside <- frost[which(frost$Dist_to_Coast < 10) ,  ]
+seaside
+```
+
+
+## which command
+
+The which command essentially says "which numbers" meet a certain threshold
+
+e,g,
+
+```{r}
+a <- 100:110
+which(a > 107)
+```
+
+Or which rows:
+
+```{r}
+outlier_rows <- which(frost$Dist_to_Coast < 1.5)
+```
+
+
+
+### Deleting rows
+
+
+Or if you know the row number you can use the minus - sign to remove.  Or just filter below.
+
+
+```{r}
+# remove row 6 and and overwrite
+frost <- frost[-6 ,]
+
+# remove columns 4 and 2 and save result to newdata and overwrite
+newdata <- frost[, - c(2,4) ]
+
+```
+
+
+
+
+
+### The dplyr filter command (tidyverse)
+
+Filtering means selecting rows/observations based on their values.  To filter in R, use the command `filter()` from the dplyr package. I tend to write it as `dplyr:filter()` to force it to be correct.
+
+Visually, filtering rows looks like this.
+
+```{r, Tut7Fig2, echo=FALSE, fig.align='center',out.width="80%"}
+knitr::include_graphics('./Figures/pg_Tut7_wrangle_fig2.png')
+```
+
+Here we can apply the filter command to choose specific rows that meet certain criteria
+
+```{r, results="hide"}
+filter(frost, State == "FL")
+```
+
+The double equal operator `==` means equal to.  The command is telling R to keep the rows in *frost* where the *State* column equals "FL". 
+
+If you want a few categories, choose the %in% operator, using the `c()` command to stick together the categories you want.  For example, here are states in Florida and Virginia.
+
+```{r, results="hide"}
+filter(frost, State %in% c("FL","VA"))
+```
+
+We can also explicitly exclude cases and keep everything else by using the not equal operator `!=`.  The following code *excludes* airport stations.
+
+```{r, results="hide"}
+filter(frost, Type_Fake != "Airport")
+```
+
+What about filtering if a row has a value greater than a specified value?  For example, Stations with an elevation greater than 500 feet?
+
+```{r, results="hide"}
+filter(frost, Elevation > 500)
+```
+
+Or less-than-or-equal-to 200 feet.
+
+```{r, results="hide"}
+
+# or save the result to a new variable
+lowland_stations <- filter(frost, Elevation < 200)
+summary(lowland_stations)
+```
+
+<br>
+
+In addition to comparison operators, filtering may also utilize logical operators that make multiple selections.  There are three basic logical operators: `&` (and), `|` (or), and `!` (not).  We can keep Stations with an *Elevation* greater than 300 **and** *State* in Alabama `&`.
+
+```{r, results="hide"}
+filter(frost, Elevation > 300 & State == "AL")
+```
+
+Use `|` to keep Stations with a *Type_Fake* of "Airport" **or** a last spring frost date after april (~ day 90 of the year).
+
+```{r, results="hide"}
+filter(frost, Type_Fake == "Airport" | Avg_DOY_SpringFrost > 90 )
+
+```
+
+
+
+### The dplyr arrange command (tidyverse)
+\
+
+We use the `arrange()` function to sort a data frame by one or more variables. You might want to do this to get a sense of which cases have the highest or lowest values in your data set or sort counties by their name. For example, let's sort in ascending order by elevation.
+
+```{r}
+arrange(frost, Latitude)
+```
+
+By default, `arrange()` sorts in ascending order. We can sort by a variable in descending order by using the `desc()` function on the variable we want to sort by. For example, to sort the dataframe by *Avg_DOY_SpringFrost* in descending order we use
+
+```{r}
+arrange(frost, desc(Avg_DOY_SpringFrost))
+```
+
+<br>
+<br>
 

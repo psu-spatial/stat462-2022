@@ -348,6 +348,9 @@ div.tocify {
     <li>
       <a href="STAT462_Lab3.html">Lab 3: Scatterplots</a>
     </li>
+    <li>
+      <a href="STAT462_Lab4.html">Lab 4: Regression Code showcase</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -409,7 +412,7 @@ h2.title {
 <p><strong>It’s nearly spring break, so this lab is one big code showcase to get comfortable with the commands</strong>.</p>
 <p>By the end of this week’s lab, you will be able to:</p>
 <ol style="list-style-type: decimal">
-<li>Feel comfortable reading in and filtering datta</li>
+<li>Feel comfortable reading in and filtering data</li>
 <li>Feel comfortable with the core regression commands.</li>
 <li>Look at LINE assumptions</li>
 </ol>
@@ -431,16 +434,16 @@ h2.title {
 </div>
 <div id="step1-lab-set-up.-do-not-skip" class="section level1">
 <h1>STEP1: Lab set-up. DO NOT SKIP!</h1>
-<p><br></p>
-<div id="a.-get-set-up" class="section level2">
-<h2>1a. Get set up</h2>
 <ol style="list-style-type: decimal">
 <li>Create a new project for Lab 4. If you are stuck, see previous labs or <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects">Tutorial 2.1</a>.</li>
 </ol>
 <p><br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Copy your lab templae to your lab 4 folder, <strong>rename as STAT-462_Lab4_EMAILID.Rmd</strong> (e.g.STAT-462_Lab4_hlg5155.Rmd) and open. THIS LAB IS ONE BIG CODE SHOWCASE. Delete all the headings/subheadings after Code Show case.</p></li>
-<li><p>In the library section of your lab report, add a new code chunk and use this code to load the following libraries. If some don’t exist on your computer or on the cloud, use [Tutorial 2.3] (<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package</a>) to install/download them first. To make sure they loaded OK, run the code chunk TWICE. The second time any welcome text will disappear unless there are errors.</p></li>
+<li>Copy your lab template to your lab 4 folder, <strong>rename as STAT-462_Lab4_EMAILID.Rmd</strong> (e.g.STAT-462_Lab4_hlg5155.Rmd) and open. THIS LAB IS ONE BIG CODE SHOWCASE. Delete all the headings/subheadings after Code Show case.</li>
+</ol>
+<p><br></p>
+<ol start="3" style="list-style-type: decimal">
+<li>In the library section, add a new code chunk and use this code to load the following libraries. <br><br>If some don’t exist on your computer or on the cloud, use (Tutorial 2.3)[ (]<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package</a> to install/download them first.<br><br> To make sure they loaded OK, run the code chunk TWICE. The second time any welcome text will disappear unless there are errors.</li>
 </ol>
 <pre class="r"><code>library(tidyverse)
 library(dplyr)
@@ -452,11 +455,14 @@ library(plotly)
 library(equatiomatic)
 library(olsrr)
 library(Stat2Data)
-library(readxl)</code></pre>
-<p>Finally, press knit to check the html works and it looks like this (with your theme)</p>
+library(readxl)
+library(yarrr)</code></pre>
+<p><br></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Finally, press knit to check the html works and it looks like this (with your theme)</li>
+</ol>
 <p><img src="Figures/Lab4_fig1.png" width="1671" style="display: block; margin: auto;" /></p>
 <p><br> <br></p>
-</div>
 </div>
 <div id="step-2-code-showcase" class="section level1">
 <h1>STEP 2: Code showcase</h1>
@@ -472,7 +478,7 @@ library(readxl)</code></pre>
 <h2>Challenge 1: Leaf Analysis</h2>
 <p>The aim of this question is to support you with some of the learning objectives of question 4 in the exam.</p>
 <ol style="list-style-type: decimal">
-<li>Use the data command to load the <code>LeafWidth</code> dataset(make sure you have run the library code chunk first). Look at the helpfile for the dataset to understand what you are looking at and what the column names mean. In hte text, identify the <em>specific</em> unit of analysis.</li>
+<li>Use the data command to load the <code>LeafWidth</code> dataset(make sure you have run the library code chunk first). Look at the help file for the dataset to understand what you are looking at and what the column names mean. In the text, identify the <em>specific</em> unit of analysis.</li>
 </ol>
 <p>You are looking at two variables: a. Year the leaves were collected b. Average length of each leaf (in mm)</p>
 <ol start="2" style="list-style-type: decimal">
@@ -480,67 +486,98 @@ library(readxl)</code></pre>
 <ol style="list-style-type: lower-alpha">
 <li>Create a professional looking boxplot. <br></li>
 <li>Below the boxplot, write whether you believe the variable is likely to be Normally distributed and why. <br></li>
-<li>Add a guess of a p-value in a Wilks Shapiro. (you are not graded on whether your answer is ‘correct’) <br></li>
+<li>Add a guess of a p-value in a Wilk-Shapiro test. (you are not being graded on whether your answer is ‘correct’) <br></li>
 <li>After looking at the boxplots, write on which variable you <em>believe</em> will be Normal (if any) with a significance of 5% and why. <br></li>
-<li>Formally assess the normality of the variable using a wilks shapiro test at a critical value of 5%. Include your H0, H1 and your conclusions. Write a comment on whether the result matches your guess. (you could also have a look at a histogram). <br></li>
+<li>Formally assess the normality of the variable using a Wilk-Shapiro test at a critical value of 5%. Include your H0, H1 and your conclusions. Write a comment on whether the result matches your guess. (you could also have a look at a histogram). <br></li>
 </ol></li>
-<li><p>Is the Wilks Shapiro test one-sided or two-sided? (google it!)</p></li>
+<li><p>Is the Wilk-Shapiro test one-sided or two-sided? (google it!)</p></li>
 <li><p>Someone adds a new leaf to the dataset. Calculate the range of lengths are you 99% sure the new leaf will have.</p></li>
 <li><p>Someone collects a whole new sample from your population. Given your data, what is your estimate of their average leaf length, with a 95% level of certainty.</p></li>
-<li><p>Given the Wilks-Shapiro test results in [2], would it have been appropriate to calculate the ranges from [4] and [5], but using variable as skewed as the year the leaves were collected? Explain your answer. (Hint Lecture 9)</p></li>
+<li><p>Given the Wilk-Shapiro test results above, would it have been appropriate to calculate the ranges from [4] and [5] for a variable as skewed as ‘the year the leaves were collected?’ Explain your answer. (Hint Lecture 9)</p></li>
 </ol>
 </div>
 <div id="challenge-2-filtering-data" class="section level2">
 <h2>Challenge 2: Filtering Data</h2>
-<p>signdist.txt</p>
+<p>You might find Tutorial Y useful (the code is in there!).</p>
+<pre class="r"><code>data(&quot;pirates&quot;, package = &quot;yarrr&quot;)
+piratenew &lt;- dplyr::filter(pirates,parrots &gt; 3)
+mean(piratenew$tattoos)</code></pre>
+<pre><code>## [1] 9.033962</code></pre>
+<ol style="list-style-type: decimal">
+<li><p>Load the <code>pirates</code> dataset from the <code>yarrr</code> package. Take a look at it and the help file.</p></li>
+<li><p>Select the value of the pirates dataset for the 15th row and 4th column (I need to see the R code!)</p></li>
+<li><p>Filter the pirates data so that it just includes pirates with more than 3 parrots and save to a new variable (see the tutorial..).</p>
+<ol style="list-style-type: lower-alpha">
+<li>What is the average number of tattoos of pirates with more than 3</li>
+<li>How many male pirates have more than 3 tattoos.</li>
+</ol></li>
+<li><p>Remove the 17th row and overwrite</p></li>
+<li><p>Remove the row containing the tallest pirate (let’s say the data was entered incorrectly)</p></li>
+</ol>
 </div>
+<div id="challenge-3-public-safety-spending" class="section level2">
+<h2>Challenge 3: Public safety spending</h2>
+<p><em>Suburban towns often spend a large fraction of their municipal budgets on public safety services (police, fire, and ambulance). A taxpayers’ group felt that tiny towns were likely to spend large amounts per person because they have such small financial bases. The group obtained data on the per-capita (per-person) spending on public safety for 29 suburban towns in a metropolitan area, as well as the population of each town in units of 10,000 people. </em></p>
+<p>They sent you the data in the file <code>expenditure.xslx</code>, which you can get from Canvas.</p>
+<ol style="list-style-type: decimal">
+<li>Download this from canvas and put it into your lab 4 folder. If you are on the cloud, just download it for now (see step 2)</li>
+</ol>
+<p>BEFORE you read a file into R, it is good to look at column names. It’s very frustrating in R when column names have spaces, special characters or anything else that is difficult to type. It makes it especially hard to refer to a column/variable by name, e.g. table$columnname. You <em>can</em> change this in R using the <code>names()</code> command. But <em>much easier</em> is to fix the issue BEFORE reading it into R. So:</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Open <code>expenditure.xlsx</code> in Excel and take a look! Rename the column titles so that no column names contains spaces/special characters &amp; check you are happy with the data. Save and close. If you are on the cloud, upload to your Lab 4 project.</p></li>
+<li><p>Use tutorial XX to read it into R.</p></li>
+<li><p>Use inline code to write a sentence in your report telling me the number of towns in the sample and the average population of the sampled towns. (See Lab 3 / <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#48_Inline_code">Tutorial 4.8, Inline code</a>). Summarize what the aim of the study is (see above), the unit of analysis, the response and predictor variables and what the taxpayer’s group expects the results to be.</p></li>
+<li><p><em>If the taxpayer’s group is correct</em>, write (in a full sentence) whether you think the slope of Simple Linear regression model between your response and predictor should be negative or positive?</p></li>
+<li><p>Make a professional looking scatter-plot of your response and predictor (good enough to give to the taxpayers group). Describe it fully using this to help (<a href="https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/scatterplots-correlation/a/describing-scatterplots-form-direction-strength-outliers?modal=1">KHAN SCATTER DESCRIPTIONS:</a>)</p></li>
+<li><p>Use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a> to fit a regression model to the data and save it as a variable called <code>model1</code>. Examine the coefficients and the summary of the model fit using OLSRR (in the tutorial).</p></li>
+<li><p>In the text of your report, write formally write the model equation either using the equation knowledge from labs 2/3 or equatiomatic to extract the equation for the model as described in <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a>.</p></li>
+<li><p>Explain the slope and intercept within the context of the data. Explain if the slope in the output confirms the opinion of the community group?</p></li>
+<li><p>Add the line of best fit to a new version of the scatter-plot. Explain why this initial regression might be misleading.</p></li>
+<li><p>Use Tutorial 11 to remove the outlier. Repeat the linear regression and scatter-plot with the new data and save it as a variable called <code>model2</code>. Explain how this has changed your assessment of the relationship between the variables.</p></li>
+<li><p>Normally, to calculate the correlation coefficient between two variables, we use the <code>cor()</code> command or we could look at the output from <code>ols_regress()</code>. Let’s imagine that these have mysteriously broken. From only the information provided in the command <code>summary(model2)</code>, explain how you can quickly calculate the correlation coefficient and state what it is.</p></li>
+<li><p>Look at the ANOVA table (middle part of <code>ols_regress(model2)</code> or <code>anova(model2)</code>). Using the information provided there, calculate the R<sup>2</sup> value.</p></li>
+<li><p>Test if the slope is significantly different to 1 (Friday’s lecture). Show all your workings and professionally format any equations. <br></p></li>
+</ol>
 </div>
-<div id="step-3-show-me-something-new" class="section level1">
-<h1>STEP 3: Show me something new</h1>
-<p>Remember that an A is 94%, so you can ignore this section and still easily get an A. But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.</p>
-<p><strong>To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.</strong></p>
-<ul>
-<li>You get 2/4 for doing something new in any way BEYOND THE LAB INSTRUCTIONS/CODE</li>
-<li>You get 4/4 for something really impressive or multiple small things.</li>
-<li>You must tell us in your R script what you did!</li>
-</ul>
-<p>Here are some ideas:</p>
-<ul>
-<li>You found a cool new plot from R graph gallery or flowingdata.com and made it work</li>
-<li>You did something neat in Markdown such as embedding a pdf</li>
-<li>You found a new package/command that did something relevant</li>
-<li>You found something cool on data camp and applied it here</li>
-<li>You tweaked your mapping/plotting code to be better</li>
-</ul>
-<p><br> <br></p>
+<div id="challenge-4-mystery-data" class="section level2">
+<h2>Challenge 4: Mystery data</h2>
+<ol style="list-style-type: decimal">
+<li><p>Download the mystery dataset from canvas into your lab 4 folder.</p></li>
+<li><p>Read it into R and calculate the correlation coefficient.</p></li>
+<li><p>Explain why this correlation coefficient is vastly inappropriate!</p></li>
+</ol>
+<p>No show me something new this lab :)</p>
+</div>
 </div>
 <div id="submitting-your-lab" class="section level1">
 <h1>Submitting your Lab</h1>
 <p>Remember to save your work throughout and to spell check your writing (next to the save button).</p>
 <p>Now, press the knit button for the final time.</p>
-<p>If you have not made any mistakes in the code then R should create a html file in your lab 2 folder which includes your answers. If you look at your lab 1 folder, you should see this there - complete with a very recent time-stamp.</p>
+<p>If you have not made any mistakes in the code then R should create a html file in your lab 4 folder which includes your answers. If you look at your lab 4 folder, you should see this there - complete with a very recent time-stamp.</p>
 <p>In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.</p>
 <p>If you are on R studio cloud, see Tutorial 1 for how to download your files</p>
-<p>Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 2.</p>
+<p>Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 4.</p>
 <p><img src="Figures/Lab1_Basics_2022_fig1.png" width="1673" /></p>
 <p><br></p>
 </div>
 <div id="grading-rubricchecklist" class="section level1">
 <h1>Grading Rubric/checklist</h1>
 <p>See the table below for what this means - 100% is hard to get!</p>
-<p><strong>HTML FILE SUBMISSION - 8 marks</strong></p>
-<p><strong>RMD CODE SUBMISSION - 8 marks</strong></p>
+<p><strong>HTML FILE SUBMISSION - 10 marks</strong></p>
+<p><strong>RMD CODE SUBMISSION - 10 marks</strong></p>
 <p><strong>WRITING/CODE STYLE - 10 MARKS</strong></p>
-<p>Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT. There is also a spell check next to the save button.</p>
-<p>You have written your answers below the relevant code chunk in full sentences in a way that is easy to find and grade. For example, you have written in full sentences, it is clear what your answers are referring to. You have used units and explained your workings.</p>
-<p><strong>MARKDOWN SHOWCASE: 10 MARKS</strong></p>
-<p>You use full sentences and units, You have great Markdown formatting</p>
-<p><strong>R-CODE SHOWCASE: 20 MARKS</strong></p>
-<p><strong>UNIVARIATE: 20 MARKS</strong></p>
-<p><strong>BIVARIATE: 20 MARKS</strong></p>
-<p>You have managed to successfully complete all the code challenges</p>
-<p><strong>Above and beyond: 4 MARKS</strong></p>
-<p>See above for ideas on grading</p>
+<p>Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT. There is also a spell check next to the save button. You have used headings and subheadings to make the report easier to follow.</p>
+<p>You have written your answers below the relevant code chunk <em>in full sentences</em> in a way that is easy to find and grade. It is clear what your answers are referring to. You have used units throughout and fully explained your workings IN YOUR OWN WORDS (we put these through ‘Turn It In’.</p>
+<p><strong>LEAF ANALYSIS: 15 MARKS</strong></p>
+<p>You have successfully attempted/completed the 6 steps. 2 marks lost for each error.</p>
+<p><strong>FILTERING DATA: 15 MARKS</strong></p>
+<p>You have successfully attempted/completed the 5 steps. 2 marks lost for each error.</p>
+<p><strong>PUBLIC SAFETY Q1-Q7: 15 MARKS</strong></p>
+<p>You have successfully attempted/completed the 7 steps. 2 marks lost for each error.</p>
+<p><strong>PUBLIC SAFETY Q8-Q13: 15 MARKS</strong></p>
+<p>You have successfully attempted/completed the 6 steps. 2 marks lost for each error.</p>
+<p><strong>MYSTERY DATA: 10 MARKS</strong></p>
+<p>6/10 for reading into R and calculating the correlation coefficient. Final 4 for explaining why its wrong/inappropriate.</p>
 <p>[100 marks total]</p>
 <p>Overall, here is what your lab should correspond to:</p>
 <table class=" lightable-classic-2 table table-striped table-hover table-responsive" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
