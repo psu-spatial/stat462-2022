@@ -44,7 +44,7 @@ library(plotly)
 **R** is a free, open source statistical programming language. It is useful for data cleaning, analysis, and visualization. By a "programming language", I mean it is a collection of commands that you can type into the computer in order to analyse and visualise data. The easiest way I find to think about R is that it is literally a language, like Spanish or Hindi, that is spoken by your computer. Learning R means learning vocabulary and grammar in order to communicate. It also means it will get easier with experience and
 practice..
 
-When you install R on your computer, you are essentially instantly teaching your computer to "speak in R" with some very basic Notepad-likesoftware where you can enter commands.
+When you install R on your computer, you are essentially instantly teaching your computer to "speak in R" with some very basic Notepad-like software where you can enter commands.
 
 <br>
 
@@ -2708,7 +2708,7 @@ Same as above but you use the read.txt command.  You get a lot of options here, 
 
 
 
-# Filtering and selecting datta
+# Filtering and selecting data
 
 
 ```{r,include=FALSE,echo=FALSE}
@@ -2788,7 +2788,7 @@ frost    <- readxl::read_excel("Data_frostdata.xlsx")
 head(frost)
 ```
 
-To summarise results by the type of weather stattion:
+To summarise results by the type of weather station:
 
 ```{r}
 frost.summary.type <- group_by(frost, by=Type_Fake) %>%
@@ -2955,7 +2955,7 @@ In addition to comparison operators, filtering may also utilize logical operator
 filter(frost, Elevation > 300 & State == "AL")
 ```
 
-Use `|` to keep Stations with a *Type_Fake* of "Airport" **or** a last spring frost date after april (~ day 90 of the year).
+Use `|` to keep Stations with a *Type_Fake* of "Airport" **or** a last spring frost date after April (~ day 90 of the year).
 
 ```{r, results="hide"}
 filter(frost, Type_Fake == "Airport" | Avg_DOY_SpringFrost > 90 )

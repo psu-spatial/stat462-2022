@@ -418,7 +418,7 @@ h2.title {
 </ol>
 <p><br></p>
 <p class="comment">
-<strong>Assignment 4 is due by midnight before spring break.</strong> [See here]<a href="https://psu.instructure.com/courses/2174925/assignments/13762818" class="uri">https://psu.instructure.com/courses/2174925/assignments/13762818</a>) I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB (after next week’s lab (All of Wed night/Thurs/Fri) is for your own finishing up).
+<strong>Assignment 4 is due by midnight before spring break.</strong> <a href="https://psu.instructure.com/courses/2174925/assignments/13762850">See here</a> I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB. After next week’s lab (All of Wed night/Thurs/Fri) is for your own finishing up.
 </p>
 <p><br></p>
 <div id="i-need-help" class="section level2">
@@ -443,7 +443,7 @@ h2.title {
 </ol>
 <p><br></p>
 <ol start="3" style="list-style-type: decimal">
-<li>In the library section, add a new code chunk and use this code to load the following libraries. <br><br>If some don’t exist on your computer or on the cloud, use (Tutorial 2.3)[ (]<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package</a> to install/download them first.<br><br> To make sure they loaded OK, run the code chunk TWICE. The second time any welcome text will disappear unless there are errors.</li>
+<li>In the library section, add a new code chunk and use this code to load the following libraries. <br><br>If some don’t exist on your computer or on the cloud, use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package">Tutorial 2.3</a> to install/download them first.<br><br> To make sure they loaded OK, run the code chunk TWICE. The second time any welcome text will disappear unless there are errors.</li>
 </ol>
 <pre class="r"><code>library(tidyverse)
 library(dplyr)
@@ -470,9 +470,8 @@ library(yarrr)</code></pre>
 <p><em>You might want to make a second .Rmd file to practice the tutorials, so you can save your practice but only write up what is needed in your report</em></p>
 <p>You will need the code from these NEW TUTORIALS:</p>
 <ul>
-<li>Reading in data.<br />
-</li>
-<li>Filtering/choosing/sub-setting data</li>
+<li><a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#10_Reading_in_and_loading_data">TUTORIAL 10: Reading in data</a></li>
+<li><a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#11_Filtering_and_selecting_data">TUTORIAL 11: Filtering/choosing/sub-setting data</a></li>
 </ul>
 <div id="challenge-1-leaf-analysis" class="section level2">
 <h2>Challenge 1: Leaf Analysis</h2>
@@ -498,7 +497,7 @@ library(yarrr)</code></pre>
 </div>
 <div id="challenge-2-filtering-data" class="section level2">
 <h2>Challenge 2: Filtering Data</h2>
-<p>You might find Tutorial Y useful (the code is in there!).</p>
+<p>You might find <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#11_Filtering_and_selecting_data">TUTORIAL 11: Filtering/choosing/sub-setting data</a> useful (the code is in there!).</p>
 <pre class="r"><code>data(&quot;pirates&quot;, package = &quot;yarrr&quot;)
 piratenew &lt;- dplyr::filter(pirates,parrots &gt; 3)
 mean(piratenew$tattoos)</code></pre>
@@ -525,7 +524,7 @@ mean(piratenew$tattoos)</code></pre>
 <p>BEFORE you read a file into R, it is good to look at column names. It’s very frustrating in R when column names have spaces, special characters or anything else that is difficult to type. It makes it especially hard to refer to a column/variable by name, e.g. table$columnname. You <em>can</em> change this in R using the <code>names()</code> command. But <em>much easier</em> is to fix the issue BEFORE reading it into R. So:</p>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Open <code>expenditure.xlsx</code> in Excel and take a look! Rename the column titles so that no column names contains spaces/special characters &amp; check you are happy with the data. Save and close. If you are on the cloud, upload to your Lab 4 project.</p></li>
-<li><p>Use tutorial XX to read it into R.</p></li>
+<li><p>Use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#10_Reading_in_and_loading_data">TUTORIAL 10: Reading in data</a> to read it into R.</p></li>
 <li><p>Use inline code to write a sentence in your report telling me the number of towns in the sample and the average population of the sampled towns. (See Lab 3 / <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#48_Inline_code">Tutorial 4.8, Inline code</a>). Summarize what the aim of the study is (see above), the unit of analysis, the response and predictor variables and what the taxpayer’s group expects the results to be.</p></li>
 <li><p><em>If the taxpayer’s group is correct</em>, write (in a full sentence) whether you think the slope of Simple Linear regression model between your response and predictor should be negative or positive?</p></li>
 <li><p>Make a professional looking scatter-plot of your response and predictor (good enough to give to the taxpayers group). Describe it fully using this to help (<a href="https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/scatterplots-correlation/a/describing-scatterplots-form-direction-strength-outliers?modal=1">KHAN SCATTER DESCRIPTIONS:</a>)</p></li>
@@ -543,10 +542,10 @@ mean(piratenew$tattoos)</code></pre>
 <h2>Challenge 4: Mystery data</h2>
 <ol style="list-style-type: decimal">
 <li><p>Download the mystery dataset from canvas into your lab 4 folder.</p></li>
-<li><p>Read it into R and calculate the correlation coefficient.</p></li>
+<li><p>Read it into R using <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#10_Reading_in_and_loading_data">TUTORIAL 10: Reading in data</a> and calculate the correlation coefficient.</p></li>
 <li><p>Explain why this correlation coefficient is vastly inappropriate!</p></li>
 </ol>
-<p>No show me something new this lab :)</p>
+<p>There is no show me something new this lab.</p>
 </div>
 </div>
 <div id="submitting-your-lab" class="section level1">
