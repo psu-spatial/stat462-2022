@@ -499,17 +499,18 @@ library(tmap)</code></pre>
 </div>
 <div id="step-3-data-analysis" class="section level1">
 <h1>STEP 3: Data Analysis</h1>
+<p>NEW TUTORIALS HAVE APPEARED: SCATTERPLOTS: <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 7.8</a>, CORRELATION PLOTS/CALCULATIONS <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation">Tutorial 6.3</a>, REGRESSION <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a></p>
 <p>First - ARE YOU USING THE TEMPLATE FROM LAB 2??? IF NOT, YOU WILL LOSE MANY MARKS. GO BACK AND DO STEP 1 OF THIS LAB (and step 1 of lab 2 if you missed it..)</p>
 <p>OK What are we doing here? The aim of EVERY LAB, is to get comfortable writing up analyses of a complex dataset for a specific person or user. The modelling might be the same and we follow the same steps, but the context and topic will mean you will need to think hard about what is important in each case.</p>
 <p>The overall structure of the data anlysis for <em>every lab</em> will be the same, but each week we will add on a little more. Specifically</p>
 <ol style="list-style-type: decimal">
-<li><p>Exploring the data IN THE CONTEXT OF THE STUDY (ALL the points/questions in the first part of the teaching notes : <a href="https://psu.instructure.com/courses/2174925/files/132549205" class="uri">https://psu.instructure.com/courses/2174925/files/132549205</a>). The aim of this is to fully parameterise the study, talking about your response, predictors, sample vs census, object of analysis etc..</p></li>
-<li><p>Exploratory data analysis of your RESPONSE VARIABLE, because understanding/predicting the response is literally the only aim of a regression analysis.</p></li>
-<li><p>A series of models. A model could be very simple (nothing ’ explains’)</p></li>
+<li>Exploring the data IN THE CONTEXT OF THE STUDY (ALL the points/questions in the first part of the teaching notes : <a href="https://psu.instructure.com/courses/2174925/files/132549205" class="uri">https://psu.instructure.com/courses/2174925/files/132549205</a>). The aim of this is to fully parameterise the study, talking about your response, predictors, sample vs census, object of analysis etc..</li>
+<li>Exploratory data analysis of your RESPONSE VARIABLE, because understanding/predicting the response is literally the only aim of a regression analysis.<br />
+</li>
+<li>A series of models. A model could be very simple (nothing ’ explains’)</li>
 </ol>
-<div id="a.-univariate-model" class="section level2">
-<h2>3A. Univariate model</h2>
-<p>NEW TUTORIALS HAVE APPEARED: SCATTERPLOTS: <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 7.8</a>, CORRELATION PLOTS/CALCULATIONS <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation">Tutorial 6.3</a>, REGRESSION <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a></p>
+<div id="our-study" class="section level2">
+<h2>Our study</h2>
 <p>Next month, your friend is moving to Sindian Dist., in New Taipei City, Taiwan. They want to buy a house and have asked you to figure out what most impacts house price. (this course is normally less house price/penguin heavy! Next week….)</p>
 <ol style="list-style-type: decimal">
 <li>Download the “Lab03_house.xlsx” dataset from the Lab page on canvas and put it into your Lab 3 folder. Use the read_excel() command to read it in and save it to a variable called house:</li>
@@ -519,14 +520,9 @@ library(tmap)</code></pre>
 # Then add in the full location rather than just the file name.
 house &lt;- read_excel(&quot;Lab03_house.xlsx&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Explore the dataset (using summaries etc (lab 1 &amp; 2), and by reading more about the data here: <a href="https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set" class="uri">https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set</a>). THE AIM OF THIS STUDY IS TO HELP YOUR FRIEND. So…</li>
-</ol>
-<ul>
-<li>Describe the dataset to your friend. Use all the hints/questions in the teaching notes: <a href="https://psu.instructure.com/courses/2174925/files/132549205" class="uri">https://psu.instructure.com/courses/2174925/files/132549205</a> . Make sure to summarise if there any limitations using this specific sample to address the aim of the study?</li>
-</ul>
-<ol start="3" style="list-style-type: decimal">
-<li><p>Summarise the exploration by using a paragraph/sentence similar to the one about penguins in the teaching notes just before EDA.</p></li>
-<li><p>Adjust/fill in the template to end of EDA, <strong>focusing only on your response variable for now</strong> (because the aim of the study is to understand the response variable..). Here are the teaching notes</p></li>
+<li><p>Explore the dataset (using summaries etc (lab 1 &amp; 2), and by reading more about the data here: <a href="https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set" class="uri">https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set</a>). THE AIM OF THIS STUDY IS TO HELP YOUR FRIEND. <br><br> So, describe the dataset to your friend. Use all the hints/questions in the teaching notes: <a href="https://psu.instructure.com/courses/2174925/files/132549205" class="uri">https://psu.instructure.com/courses/2174925/files/132549205</a> For example talking about your response, predictors, sample vs census, object of analysis etc… <br> Make sure to summarise if there any limitations using this specific sample in order to address the aim of the study.</p></li>
+<li><p>Finish your the initial description by using a paragraph/sentence similar to the one about penguins in the teaching notes just before EDA.</p></li>
+<li><p>Adjust/fill in the template to end of Exploratory Data Analysis (EDA), <strong>focusing only on your response variable for now</strong> (because the aim of the study is to understand the response variable..). Here are the teaching notes</p></li>
 </ol>
 <p>Our first model will be univariate - we think nothing impacts house prices, so all we have is the histogram. Assume that a Normal distribution can fit the data, with mean(sample_mean) and sd(sample_sd). Adjust the title of your model section to read</p>
 <div id="model-1-univariate-model-normal-distribution" class="section level3">
@@ -543,7 +539,7 @@ house &lt;- read_excel(&quot;Lab03_house.xlsx&quot;)</code></pre>
 </ol>
 <p>*Note, here I say “80%” as in the real world, people often mix and match the way they talk about a critical threshold as either the critical p, or the critical 1-p. This is common outside stats textbooks! So this is adding to the ‘real life messiness’ learning objective..” <br> It can be frustrating because it’s not immediately obvious what to choose as your critical threshold.. But remember that hypothesis tests normally look for an unusual outcome so I normally assume if it’s over 50% then they mean 1-p.. Best practice would be to choose either one, but then write a short sentence or two in the report to your friend explaining what the p value means and asking, “did you really mean 80%? because that would mean….</p>
 <ol start="9" style="list-style-type: decimal">
-<li>In the predict new value, use a 99% prediction interval to assess whether you are 99% likely to see a house over $70,000. Draw a diagram! (you don’t need to include it). Prediction interval code/explanation IN DETAIL (including R output in the Lecture 9 notes)</li>
+<li>In the predict new value, find the 99% prediction interval for a brand new house. Given this is it very unusual to see a new house priced at over 70000 New Taiwan Dollar/Ping? (note the data is in units x 10000). (Help including R output in the Lecture 9 notes)</li>
 </ol>
 </div>
 </div>

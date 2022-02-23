@@ -189,6 +189,11 @@ I tend to use one of the online LateX maths editors to find the exact commands t
 
 # STEP 3: Data Analysis
 
+NEW TUTORIALS HAVE APPEARED:
+SCATTERPLOTS: [Tutorial 7.8](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots), CORRELATION PLOTS/CALCULATIONS [Tutorial 6.3](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation), REGRESSION [Tutorial 9](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models)
+
+
+
 First - ARE YOU USING THE TEMPLATE FROM LAB 2???  IF NOT, YOU WILL LOSE MANY MARKS. GO BACK AND DO STEP 1 OF THIS LAB (and step 1 of lab 2 if you missed it..)
 
 OK What are we doing here?  The aim of EVERY LAB, is to get comfortable writing up analyses of a complex dataset for a specific person or user.  The modelling might be the same and we follow the same steps, but the context and topic will mean you will need to think hard about what is important in each case.
@@ -197,13 +202,11 @@ The overall structure of the data anlysis for *every lab* will be the same, but 
 
  1. Exploring the data IN THE CONTEXT OF THE STUDY (ALL the points/questions in the first part of the teaching notes : https://psu.instructure.com/courses/2174925/files/132549205).  The aim of this is to fully parameterise the study, talking about your response, predictors, sample vs census, object of analysis etc..
  2. Exploratory data analysis of your RESPONSE VARIABLE, because understanding/predicting the response is literally the only aim of a regression analysis.  
- 
- 2. A series of models.  A model could be very simple (nothing ' explains')
+ 3. A series of models.  A model could be very simple (nothing ' explains')
 
-## 3A. Univariate model
 
-NEW TUTORIALS HAVE APPEARED:
-SCATTERPLOTS: [Tutorial 7.8](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots), CORRELATION PLOTS/CALCULATIONS [Tutorial 6.3](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#63_Correlation), REGRESSION [Tutorial 9](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models)
+
+## Our study
 
 Next month, your friend is moving to Sindian Dist., in New Taipei City, Taiwan.  They want to buy a house and have asked you to figure out what most impacts house price.  (this course is normally less house price/penguin heavy!  Next week....)
 
@@ -217,12 +220,11 @@ house <- read_excel("Lab03_house.xlsx")
 
 ```
 
-2.  Explore the dataset (using summaries etc (lab 1 & 2), and by reading more about the data here: https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set).  THE AIM OF THIS STUDY IS TO HELP YOUR FRIEND. So...
-   + Describe the dataset to your friend. Use all the hints/questions in the teaching notes: https://psu.instructure.com/courses/2174925/files/132549205 . Make sure to summarise if there any limitations using this specific sample to address the aim of the study?  
+2.  Explore the dataset (using summaries etc (lab 1 & 2), and by reading more about the data here: https://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set).  THE AIM OF THIS STUDY IS TO HELP YOUR FRIEND. <br><br> So, describe the dataset to your friend. Use all the hints/questions in the teaching notes: https://psu.instructure.com/courses/2174925/files/132549205 For example talking about your response, predictors, sample vs census, object of analysis etc... <br> Make sure to summarise if there any limitations using this specific sample in order to address the aim of the study.  
 
-3. Summarise the exploration by using a paragraph/sentence similar to the one about penguins in the teaching notes just before EDA. 
+3. Finish your the initial description by using a paragraph/sentence similar to the one about penguins in the teaching notes just before EDA. 
 
-3. Adjust/fill in the template to end of EDA, **focusing only on your response variable for now** (because the aim of the study is to understand the response variable..). Here are the teaching notes  
+3. Adjust/fill in the template to end of Exploratory Data Analysis (EDA), **focusing only on your response variable for now** (because the aim of the study is to understand the response variable..). Here are the teaching notes  
 
 Our first model will be univariate - we think nothing impacts house prices, so all we have is the histogram. Assume that a Normal distribution can fit the data, with mean(sample_mean) and sd(sample_sd).   Adjust the title of your model section to read
 
@@ -242,7 +244,7 @@ Your friend is impatient and wants you to use the model straight away
 
 *Note, here I say "80%" as in the real world, people often mix and match the way they talk about a critical threshold as either the critical p, or the critical 1-p. This is common outside stats textbooks! So this is adding to the 'real life messiness' learning objective.." <br> It can be frustrating because it's not immediately obvious what to choose as your critical threshold.. But remember that hypothesis tests normally look for an unusual outcome so I normally assume if it's over 50% then they mean 1-p.. Best practice would be to choose either one, but then write a short sentence or two in the report to your friend explaining what the p value means and asking, "did you really mean 80%? because that would mean.... 
 
-9. In the predict new value, use a 99% prediction interval to assess whether you are 99% likely to see a house over $70,000. Draw a diagram! (you don't need to include it).  Prediction interval code/explanation IN DETAIL (including R output in the Lecture 9 notes)
+9. In the predict new value, find the 99% prediction interval for a brand new house.  Given this is it very unusual to see a new house priced at over 70000 New Taiwan Dollar/Ping?  (note the data is in units x 10000). (Help including R output in the Lecture 9 notes)
 
 
 ## 3B. Bivariate model
