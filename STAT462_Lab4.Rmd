@@ -1,5 +1,5 @@
 ---
-title: "Lab 3: Scatterplots"
+title: "Lab 4: Code showcase"
 subtitle: <h5 style="font-style:normal">STAT-462 - Regression Analysis</h4>
 author: <h5 style="font-style:normal">Dr Helen Greatrex</h4>
 output: 
