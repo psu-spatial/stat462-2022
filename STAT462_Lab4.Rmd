@@ -171,9 +171,9 @@ You are looking at two variables:
   a. Year the leaves were collected
   b. Average length of each leaf (in mm)
 
-2. For **BOTH of the two variables above**
+2. For **EACH of the two variables above**
 
-   a. Create a professional looking boxplot. <br>
+   a. Create a professional looking boxplot <br>
    b. Below the boxplot, write whether you believe the variable is likely to be Normally distributed and why.   <br>
    c. Add a guess of a p-value in a Wilk-Shapiro test. (you are not being graded on whether your answer is 'correct')  <br>
    d. Formally assess the normality of the variable using a Wilk-Shapiro test at a critical value of 5%.  Include your H0, H1 and your conclusions. Write a comment on whether the result matches your guess.  (you could also have a look at a histogram).  <br>
@@ -202,10 +202,10 @@ mean(piratenew$tattoos)
 
 2. Select the value of the pirates dataset for the 15th row and 4th column (I need to see the R code!)   
 
-3. Filter the pirates data so that it just includes pirates with more than 3 parrots and save to a new variable (see the tutorial..).  
+3. Filter the full pirates data so that it just includes pirates with more than 3 parrots and save to a new variable (see the tutorial..).  
 
-   a. What is the average number of tattoos of pirates with more than 3 
-   b. How many male pirates have more than 3 tattoos.
+   a. What is the average number of tattoos of pirates with more than 3 parrots
+   b. How many 3+ parrot owning, *male* pirates *also* have more than 3 tattoos.
 
 4. Remove the 17th row and overwrite
 
@@ -249,7 +249,7 @@ BEFORE you read a file into R, it is good to look at column names.  It's very fr
 
 12. Look at the ANOVA table (middle part of `ols_regress(model2)` or `anova(model2)`). Using the information provided there, calculate the R^2^ value.
 
-13. Test if the slope is significantly different to 1 (Friday's lecture).  Show all your workings and professionally format any equations.
+13. Test if the slope is significantly different to 1 (Monday-28 lecture).  Show all your workings and professionally format any equations.  Note, I mean is it different to 1!  For half marks, you can test if it is different to zero. 
 <br>
 
 

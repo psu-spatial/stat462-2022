@@ -481,9 +481,9 @@ library(yarrr)</code></pre>
 </ol>
 <p>You are looking at two variables: a. Year the leaves were collected b. Average length of each leaf (in mm)</p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>For <strong>BOTH of the two variables above</strong></p>
+<li><p>For <strong>EACH of the two variables above</strong></p>
 <ol style="list-style-type: lower-alpha">
-<li>Create a professional looking boxplot. <br></li>
+<li>Create a professional looking boxplot <br></li>
 <li>Below the boxplot, write whether you believe the variable is likely to be Normally distributed and why. <br></li>
 <li>Add a guess of a p-value in a Wilk-Shapiro test. (you are not being graded on whether your answer is ‘correct’) <br></li>
 <li>Formally assess the normality of the variable using a Wilk-Shapiro test at a critical value of 5%. Include your H0, H1 and your conclusions. Write a comment on whether the result matches your guess. (you could also have a look at a histogram). <br></li>
@@ -504,10 +504,10 @@ mean(piratenew$tattoos)</code></pre>
 <ol style="list-style-type: decimal">
 <li><p>Load the <code>pirates</code> dataset from the <code>yarrr</code> package. Take a look at it and the help file.</p></li>
 <li><p>Select the value of the pirates dataset for the 15th row and 4th column (I need to see the R code!)</p></li>
-<li><p>Filter the pirates data so that it just includes pirates with more than 3 parrots and save to a new variable (see the tutorial..).</p>
+<li><p>Filter the full pirates data so that it just includes pirates with more than 3 parrots and save to a new variable (see the tutorial..).</p>
 <ol style="list-style-type: lower-alpha">
-<li>What is the average number of tattoos of pirates with more than 3</li>
-<li>How many male pirates have more than 3 tattoos.</li>
+<li>What is the average number of tattoos of pirates with more than 3 parrots</li>
+<li>How many 3+ parrot owning, <em>male</em> pirates <em>also</em> have more than 3 tattoos.</li>
 </ol></li>
 <li><p>Remove the 17th row and overwrite</p></li>
 <li><p>Remove the row containing the tallest pirate (let’s say the data was entered incorrectly)</p></li>
@@ -534,7 +534,7 @@ mean(piratenew$tattoos)</code></pre>
 <li><p>Use Tutorial 11 to remove the outlier. Repeat the linear regression and scatter-plot with the new data and save it as a variable called <code>model2</code>. Explain how this has changed your assessment of the relationship between the variables.</p></li>
 <li><p>Normally, to calculate the correlation coefficient between two variables, we use the <code>cor()</code> command or we could look at the output from <code>ols_regress()</code>. Let’s imagine that these have mysteriously broken. From only the information provided in the command <code>summary(model2)</code>, explain how you can quickly calculate the correlation coefficient and state what it is.</p></li>
 <li><p>Look at the ANOVA table (middle part of <code>ols_regress(model2)</code> or <code>anova(model2)</code>). Using the information provided there, calculate the R<sup>2</sup> value.</p></li>
-<li><p>Test if the slope is significantly different to 1 (Friday’s lecture). Show all your workings and professionally format any equations. <br></p></li>
+<li><p>Test if the slope is significantly different to 1 (Monday-28 lecture). Show all your workings and professionally format any equations. Note, I mean is it different to 1! For half marks, you can test if it is different to zero. <br></p></li>
 </ol>
 </div>
 <div id="challenge-4-mystery-data" class="section level2">
