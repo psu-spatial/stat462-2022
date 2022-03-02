@@ -215,7 +215,7 @@ mean(piratenew$tattoos)
 
 ## Challenge 3: Public safety spending  
 
-*Suburban towns often spend a large fraction of their municipal budgets on public safety services (police, fire, and ambulance). A taxpayers’ group felt that tiny towns were likely to spend large amounts per person because they have such small financial bases. The group obtained data on the per-capita (per-person) spending on public safety for 29 suburban towns in a metropolitan area, as well as the population of each town in units of 10,000 people. *
+*Suburban towns often spend a large fraction of their municipal budgets on public safety services (police, fire, and ambulance). A taxpayers’ group felt that tiny towns were likely to spend large amounts per person because they have such small financial bases. The group obtained data on the per-capita (per-person) spending on public safety for 29 suburban towns in a metropolitan area, as well as the population of each town in units of 1000 people.  If you used 10000 thats fine *
 
 They sent you the data in the file `expenditure.xslx`, which you can get from Canvas.
 
