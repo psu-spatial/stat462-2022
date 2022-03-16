@@ -3298,3 +3298,48 @@ In this case, we can see that perhaps we neeed to worry less about unequal varia
 
 There is also another test available, the Breusch Pagan Test - but this relies on the residuals being normally distributed.
 
+
+## Tutorial 11 Confidence and Prediction Intervals 
+
+Essentially these are two different things:
+
+**Confidence interval:** “Error bar” on the location of the regression line at any specific value of x, or "what is the uncertainty on the population mean of $y$, for a specific value of $x$?”
+
+**Prediction interval:** Predicting the range of likely y-values for a new data-point, or “if you had to put a new dot on the scatterplot, what range of y values would it likely be found in
+
+These are described in detail here:
+
+ - https://online.stat.psu.edu/stat462/node/125/
+ - https://online.stat.psu.edu/stat462/node/126/
+ - https://online.stat.psu.edu/stat462/node/127/
+ - https://online.stat.psu.edu/stat462/node/128/ 
+ 
+In R, lets look at the pirate dataset
+
+```{r}
+#For our pirate weight/height dataset
+lm.pirate <- lm(weight~height,data=pirates)
+summary(lm.pirate)
+```
+
+```{r}
+# What are the AVERAGE WEIGHTS (and uncertainty on our estimate) 
+# of pirates whose heights are 150cm and 170cm?
+new.pirates <- data.frame(height=c(150,170))
+predict(lm.pirate,newdata=new.pirates,interval="confidence",level=0.95)
+
+```
+
+So we are 95% certain that on average, the AVERAGE weight of pirates who are 150cm tall falls between 52.8Kg and 53.74Kg
+
+```{r}
+# A new pirate joins and her height is 160cm.  What range of weights is she likely to have?
+new.pirates <- data.frame(height=c(160))
+predict(lm.pirate,newdata=new.pirates,interval="predict",level=0.95)
+
+```
+
+Her weight is likely to be somewhere between 53Kg and 69Kg with 95% certainty given our sample.
+
+
+

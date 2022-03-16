@@ -148,7 +148,7 @@ IF YOU IGNORED THE STEPS ABOVE GO BACK AND DO THEM!  You lose marks for things l
 
 <br>  
 
-**Step 3:** Use NEW TUTORIAL, Tutorial 10, and https://online.stat.psu.edu/stat501/lesson/4 to assess the LINE assumptions for your three datasets. For independence especially, you do not have to run every plot, you can simply talk about if you are concerned about this.
+**Step 3:** Use NEW TUTORIAL, [Tutorial 12]([Tutorial 12](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions), and https://online.stat.psu.edu/stat501/lesson/4 to assess the LINE assumptions for your three datasets. For independence especially, you do not have to run every plot, you can simply talk about if you are concerned about this.
 
 <br>  
 
@@ -271,7 +271,7 @@ knitr::include_graphics("./Figures/Lab5_fig1.png")
  
 <br>
 
-**Step 7:**  Use the NEW TUTORIAL, [Tutorial 1](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models) to help you assess each LINE assumption for BOTH model 1 and model 2.  For each model, comment if it meets the requirements for simple linear regression, referring back to the diagnostic plots.
+**Step 7:**  Use the NEW TUTORIAL, [Tutorial 12](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions) to help you assess each LINE assumption for BOTH model 1 and model 2.  For each model, comment if it meets the requirements for simple linear regression, referring back to the diagnostic plots.
 
 <br>
 
@@ -285,12 +285,12 @@ knitr::include_graphics("./Figures/Lab5_fig1.png")
 
 **Step 9:**  Under `Customer questions`, refer to your analysis (or do new analysis as appropriate) to answer the following questions.  
 
-1. _Peace lily dilemma:_ Your customer has a client who needs to sell 8000 "peace lily" plants but hates newspapers. Conduct an hypothesis test to assess whether you typically sell less than 8000 plants in a situation where you spend zero-money on newspaper advertising. You are happy to be wrong one time in 25.  Advise the company whether is OK to stop advertising in newspapers.  
+1. _Peace lily dilemma:_ Your customer has a client who needs to sell 8000 "peace lily" plants but hates newspapers. Conduct an hypothesis test to assess whether you typically sell less than 8000 plants in a situation where you spend zero-money on newspaper advertising. You are happy to be wrong one time in 25.  Advise the company whether is OK to stop advertising in newspapers.  (Monday's lecture notes and worked example here: https://online.stat.psu.edu/stat501/lesson/2/2.12
  
 
-2. _TV fears:_  Another client is skeptical of TV.  Use the ANOVA table output to conduct a hypothesis test to examine if there is evidence to suggest a relationship between TV advertising and plant sales, with a critical significance of 1%. (Fridays lecture or see textbook)
+2. _TV fears:_  Another client is skeptical of TV.  Use the ANOVA table output to conduct a hypothesis test to examine if there is evidence to suggest a relationship between TV advertising and plant sales, with a critical significance of 1%. (Fridays lecture or see a worked example here: https://online.stat.psu.edu/stat501/lesson/2/2.7)
  
-3. _Best day ever:_ A new client has approached the company with a brand new plant!!! (the rainbow-monstera-fig).  This is *very* popular.  The magazine "Plants Daily" rates its popularity at 70%!  <br> Thinking about the plant popularity independently of advertising type, what is the predicted range of sales for your new campaign? (at a 99% confidence level). Note, you may need to make a section for a new model... (Friday's lecture or see textbook)
+3. _Best day ever:_ A new client has approached the company with a brand new plant!!! (the rainbow-monstera-fig).  This is *very* popular.  The magazine "Plants Daily" rates its popularity at 70%!  <br> Thinking about the plant popularity independently of advertising type, what is the predicted range of sales for your new campaign? (at a 99% confidence level). Note, you may need to make a section for a new model... NEW TUTORIAL - [Tutorial 13 Confidence and Prediction intervals](www.bbc.co.uk) (Also Friday's lecture or worked example here. https://online.stat.psu.edu/stat501/lesson/3).
 
 
 <p class="comment">IF YOU ARE AN HONORS STUDENT, for step 9:<br> a) Conduct a hypothesis test on either the intercept or the slope against a value that would be appropriate. <br> b) Conduct an F test using the ANOVA table on either model 1 or model 2.  c) Create a prediction interval for a new data point </p>
