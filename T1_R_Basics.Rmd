@@ -233,7 +233,7 @@ If you wish to learn more about what these windows do, have a look at this resou
 
 ### Moving the 4 quadrants around
 
-You might find you like the differnet quadrants in a different order. To change this, look at the menu at VERY TOP OF THE SCREEN.  
+You might find you like the different quadrants in a different order. To change this, look at the menu at VERY TOP OF THE SCREEN.  
 
   - In the`View` menu, there is a `/Panes/Pane Layout` menu item, where you can move the on-screen quadrants around.  I tend to like the console to be top left and scripts to be top right, with the plots and environment on the bottom - but this is  personal choice. 
 
@@ -473,7 +473,7 @@ OR
 
  - R will sometime tell you that you are missing a package (sometimes a little yellow ribbon), click yes to install!  
 
-*Note, if you run this command mulitple times, or the packages is already loaded, R-Studio might want to restart and sometimes gets confused. If it keeps asking, close R-studio, reopen and try again.  If it really doesn't want to work, open R itself and run in the console there.*
+*Note, if you run this command multiple times, or the packages is already loaded, R-Studio might want to restart and sometimes gets confused. If it keeps asking, close R-studio, reopen and try again.  If it really doesn't want to work, open R itself and run in the console there.*
 
 **Try installing the `bardr` package onto your computer**
 
@@ -506,7 +506,7 @@ knitr::include_graphics('./Figures/pg_Tut3_basics_fig4.png')
 
 ### How to force the computer to use a specific package
   
-Sometimes mulitple packages name a command the same thing and you want to specifiy which package you want to use.  You can do this using the  :: symbol
+Sometimes multiple packages name a command the same thing and you want to specify which package you want to use.  You can do this using the  :: symbol
 
 For example, this command *forces* the computer to use the 'dplyr package' version of filter.
 
@@ -736,7 +736,7 @@ For example, try typing  `print("Hello World")` into the console and the compute
 knitr::include_graphics('./Figures/pg_Tut3_basics_fig3.png')
 ```
 
-Your first error.  The "unexpected symbol" it's talking about is the computer thinking that  "Hello" and "world" must be wto different commands, then getting confused by the space between Hello and World..  
+Your first error.  The "unexpected symbol" it's talking about is the computer thinking that  "Hello" and "world" must be two different commands, then getting confused by the space between Hello and World..  
 
 <br>
 <br>
@@ -956,7 +956,7 @@ Your YAML code controls how your final output looks and which type of output it 
 
 Let's add in more options. 
 
-YAML code is annnoying to edit, because here, *spaces really do matter*. Everything has to be perfect or it won't knit.  
+YAML code is annoying to edit, because here, *spaces really do matter*. Everything has to be perfect or it won't knit.  
 
 **Select everything in my code chunk here and replace your YAML with this (remember the --- on line 1 and at the end).**
 
@@ -980,7 +980,7 @@ output:
       
 ```
 
-Replace the author ID with your user name, change the tite if appropriate, then click knit and see if it works.
+Replace the author ID with your user name, change the title if appropriate, then click knit and see if it works.
 
 The elements we just added are:
 
@@ -1010,7 +1010,7 @@ You don't need to choose the lumen theme.  There are many other ways you can edi
 
 To edit, replace the word lumen with the name of your chosen theme (THIS IS CASE SENSITIVE). Now click knit and see if it works.Some themes are buggy. Try a different one if it doesn't work.  
 
-The themes in "Even More Themes" on the website, requre you to install/load some new packages, so they need some extra work. You're welcome to try if you have one you fell in love with!
+The themes in "Even More Themes" on the website, require you to install/load some new packages, so they need some extra work. You're welcome to try if you have one you fell in love with!
  
 <nr> 
  
@@ -1119,7 +1119,7 @@ R is very sensitive to blank white lines. Put them everywhere. Put a blank line 
 
 ### Getting formatting help:
 
-There are many ways you can format the text in your markdown document, from adding headings, to bold/itallic to complex html text formats.
+There are many ways you can format the text in your markdown document, from adding headings, to bold/italic to complex html text formats.
 
 I will add in a few ideas here, but there are better guides out there!
 
@@ -1287,7 +1287,7 @@ will print as :
 The mean height of my houseplants is `r mean_height_to_print` cm.  Without rounding, it will look a mess! e.g. `r mean_height` cm.
 
 
-I highly recommend you use this technqiue instead of typing ANY numbers from your report. 
+I highly recommend you use this technique instead of typing ANY numbers from your report. 
 
 
 If you need something like a p-value from a t-test, you can often get it by saving the entire test to a variable, then using the $ sign. 
@@ -1336,7 +1336,7 @@ Follow these tutorial to see more about to add inline code and to practice.
 It is often useful to have a "template" markdown file so you don't have to re-do all your custom formatting each time.  Here we will set up a specific one for your STAT462 Labs.  For this section, I advise doing everything in the standard view (E.g. don't press the little A symbol for the pretty view)
 
 
-**PART 1.** When you make a new markdown file, it makes a load of friendly text explaing how to use R.  We don't need this in your report.  
+**PART 1.** When you make a new markdown file, it makes a load of friendly text explaining how to use R.  We don't need this in your report.  
 
 In your .Rmd, delete all the text/code below line 11.  Your lab report should look like this.
 
@@ -1402,7 +1402,7 @@ knitr::include_graphics('./Figures/pg_Tut3_basics_fig8.png')
 Here I will show a few examples for the houses dataset we were using in lectures
 
 ```{r,warning=FALSE,message=FALSE,echo=FALSE}
-# Conduct a Shipiro-Wilk test for normality on the Price of houses
+# Conduct a Shapiro-Wilk test for normality on the Price of houses
 data("HousesNY", package = "Stat2Data")
 ```
 
@@ -1646,7 +1646,7 @@ If you are new to data visualisation, read these two articles
 
 Plots are designed to do two things, allow you to see something in the data that you couldn't see in the numbers, plus communicate output in a compelling way.  Going beyond the basics or knowing the limitations of a plot will help you do this, so in these examples I have provided a range of complexity.
 
-So far, I have focused on plots that alow you to visualise the distribution of your response variable.  You do not need to use them all!  Choose ones that work for you and your data.
+So far, I have focused on plots that slow you to visualise the distribution of your response variable.  You do not need to use them all!  Choose ones that work for you and your data.
 
 1. Boxplots
 2. Histograms
@@ -1868,7 +1868,7 @@ Or if you wish to do the rainbow many group boxplot at the beginning, the code i
 
 ## Violin plots
 
-Violin plots combine the simplicity of a boxplot with a sense of the underlying distribution.  This is useful when you want a sense of both the symmetry of the dat and the underlying distribution.  Highly recommended!  For a single variable, consider a box-plot-with-histogram (see below).
+Violin plots combine the simplicity of a boxplot with a sense of the underlying distribution.  This is useful when you want a sense of both the symmetry of the data and the underlying distribution.  Highly recommended!  For a single variable, consider a box-plot-with-histogram (see below).
 
 There are MANY on R graph gallery with code:
 https://www.r-graph-gallery.com/violin.html
@@ -2215,6 +2215,7 @@ Here is the absolute basic scatterplot
 # you can either do plot(x, y)
 # OR (recommended), use the ~ to say plot(y~x) 
 # e.g. y depends on x
+HousesNY$Beds <- as.numeric(HousesNY$Beds)
 
 plot(HousesNY$Price ~ HousesNY$Beds)
 ```
@@ -2347,7 +2348,7 @@ p3
 Or using the plotly library to make your plots interactive (really useful, try zooming in or clicking on a few points)
 
 ```{r}
-# create the plot, save it as "p" rather than print immediatly
+# create the plot, save it as "p" rather than print immediately
 myplot <-   ggplot(HousesNY, aes(x=Beds, y=Price, label=Baths)) + 
             geom_point(alpha=.5) +
             theme_classic()
@@ -2362,7 +2363,7 @@ ggplotly(myplot)
 It's also very easy to add in color to see another variable.  For example
 
 ```{r}
-# create the plot, save it as "p" rather than print immediatly
+# create the plot, save it as "p" rather than print immediately
 myplot <-   ggplot(HousesNY, aes(x=Beds, y=Price,color=Baths)) + 
             geom_point(alpha=.5) +
             theme_classic()+
@@ -2700,7 +2701,7 @@ names(frost)
 **Using the wizard:** Sometimes you just can't get it working.  In those cases, try the import wizard:<br>
 
  - Go to the file menu at the very top of the screen. Click import dataset, then From Excel. Use the wizard to find your file and get it looking correct. It will show you the code you need in the code preview.
- - Because we want to include this file in the markdown, rather than pressing OK, copy the code preview text and put it in your code chunk. DO NOT PUT THE VIEW LINE IN THERE, or everytime you run it will open a new tab with the data.
+ - Because we want to include this file in the markdown, rather than pressing OK, copy the code preview text and put it in your code chunk. DO NOT PUT THE VIEW LINE IN THERE, or every time you run it will open a new tab with the data.
 
 <br>
 
@@ -2745,11 +2746,11 @@ summary(ozone)
 **Using the wizard:** Sometimes you just can't get it working.  In those cases, try the import wizard:<br>
 
  - Go to the file menu at the very top of the screen. Click import dataset, then From Excel. Use the wizard to find your file and get it looking correct. It will show you the code you need in the code preview.
- - Because we want to include this file in the markdown, rather than pressing OK, copy the code preview text and put it in your code chunk. DO NOT PUT THE VIEW LINE IN THERE, or everytime you run it will open a new tab with the data.
+ - Because we want to include this file in the markdown, rather than pressing OK, copy the code preview text and put it in your code chunk. DO NOT PUT THE VIEW LINE IN THERE, or every time you run it will open a new tab with the data.
 
 ## Reading in txt Files {#Tut6c_csv}
 
-Same as above but you use the read.txt command.  You get a lot of options here, from telling R if it has headers/column names to changing the 'delimiter'.  See the helpfile and http://www.sthda.com/english/wiki/reading-data-from-txt-csv-files-r-base-functions for more.
+Same as above but you use the read.txt command.  You get a lot of options here, from telling R if it has headers/column names to changing the 'delimiter'.  See the help file and http://www.sthda.com/english/wiki/reading-data-from-txt-csv-files-r-base-functions for more.
 
 
 
@@ -3129,7 +3130,7 @@ abline(mystmodel)
 
 ALWAYS PLOT YOUR DATA AND LOOK AT IT (even if I don't tell you to explicitly).  For more examples of why this is useful to do, see here: https://online.stat.psu.edu/stat462/node/123/
 
-However, in real life, it can often be difficult to assess whether the fit is linear by looking at the scatterplot alone.  So instead, we look at the residuals, whcih often show a pattern much more clearly.  For example
+However, in real life, it can often be difficult to assess whether the fit is linear by looking at the scatterplot alone.  So instead, we look at the residuals, which often show a pattern much more clearly.  For example
 
 ```{r, fig.cap="This looks relatively linear, but...."}
 treadwear <- read.csv("treadwear.csv")
@@ -3267,7 +3268,7 @@ We can test this through a statistic called Moran's I - which compares the resid
 
 There are three things we might want to check around normality and regression - but essentially we are testing whether the RESIDUALS are normal around the regression line.  To get the best estimates of parameters such as B0 and B1, the residuals must be normally distributed around the regression line.  but this has a much smaller effect typically than non-linearity or breaking assumptions of independence.
 
-Breaking normality is only important in the calculation of p values for significance testing and confidence intervals, but this is only a problem when the sample size is  small.  When the sample size is  largeer (>200), the Central Limit Theorem ensures that the distribution of residuals will approximate normality when calculating parameters.
+Breaking normality is only important in the calculation of p values for significance testing and confidence intervals, but this is only a problem when the sample size is  small.  When the sample size is  larger (>200), the Central Limit Theorem ensures that the distribution of residuals will approximate normality when calculating parameters.
  
 So never throw away your data if it breaks normality. But it's good to take a look.
 
@@ -3308,7 +3309,7 @@ ols_test_normality(housemodel)
 
 The answer to non-normal data is to use a GLM (Generalised Linear Model), which again we will get to later in the semester.
 
-Alternatively you can use your linear model, but make the significance level more rigarous (say 1% rather than 5%) to take into account the fact that the assumptions underpinning the calculations might be flawed.
+Alternatively you can use your linear model, but make the significance level more rigorous (say 1% rather than 5%) to take into account the fact that the assumptions underpinning the calculations might be flawed.
 
 In terms of detailed interpretation, read this page: https://online.stat.psu.edu/stat462/node/122/ 
  
@@ -3329,12 +3330,12 @@ You can also run statistical tests, explained in more detail here: https://rpubs
 ols_test_f(housemodel)
 ```
 
-In this case, we can see that perhaps we neeed to worry less about unequal variance,  
+In this case, we can see that perhaps we need to worry less about unequal variance,  
 
 There is also another test available, the Breusch Pagan Test - but this relies on the residuals being normally distributed.
 
 
-## Tutorial 11 Confidence and Prediction Intervals 
+# Regression Confidence and Prediction Intervals 
 
 Essentially these are two different things:
 
