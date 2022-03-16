@@ -1,5 +1,5 @@
 ---
-title: " "
+title: "Tutorials"
 output: 
   html_document:
     toc: true 
@@ -2576,6 +2576,41 @@ knitr::include_graphics('./Figures/Tut7_OLSRR.png')
 ```
 
 This is probably because you loaded the moderndive package. They do not play nicely together. Save your work, restart R and **do not run any line that says library(moderndive)!**.
+
+
+## ANOVA 
+
+There are two quick and easy ways to make an ANOVA table. Lecture 13 describes it in a lot more detail.
+
+### Base R {#S.Tutorial.5A.1}
+
+Simply use the ANOVA command.  For example
+
+```{r}
+data(starwars)
+mymodel <- lm(mass~height,data=starwars)
+summary(mymodel)
+```
+
+```{r}
+anova(mymodel)
+```
+
+
+### Using OLSRR 
+
+In OLSRR, it's even easier.  Our standard `ols_regress()` command includes ANOVA.
+
+```{r}
+data(starwars)
+mymodel <- lm(mass~height,data=starwars)
+ols_regress(mymodel)
+
+# or 
+#ols_regress(mass~height,data=starwars)
+
+```
+
 
 
 # Reading in and loading data
