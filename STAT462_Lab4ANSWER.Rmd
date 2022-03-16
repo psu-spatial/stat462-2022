@@ -1,0 +1,464 @@
+---
+title: "Lab 4: Code showcase"
+subtitle: <h5 style="font-style:normal">STAT-462 - Regression Analysis</h4>
+author: <h5 style="font-style:normal">Dr Helen Greatrex</h4>
+output: 
+  html_document:
+    toc: true 
+    toc_depth: 4
+    toc_float:
+      collapsed: no
+    number_sections: no
+---
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+
+
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+
+
+\
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+library(tidyverse)
+library(dplyr)
+library(ggpubr)
+library(skimr)
+library(ggplot2)
+library(plotly)
+library(ISLR)
+library(equatiomatic)
+library(olsrr)
+library(Stat2Data)
+library(readxl)
+library(corrplot)
+library(kableExtra)
+data("HousesNY")
+
+```
+
+# Learning objectives 
+
+
+**It's nearly spring break, so this lab is one big code showcase to get comfortable with the commands**.
+
+By the end of this week's lab, you will be able to:
+
+1. Feel comfortable reading in and filtering data
+2. Feel comfortable with the core regression commands.
+3. Look at LINE assumptions
+
+<br>
+
+<p class="comment">**Assignment 4 is due by midnight before spring break.**   [See here](https://psu.instructure.com/courses/2174925/assignments/13762850) I PROVIDE HELP UNTIL THE END OF NEXT WEEK'S LAB. After next week's lab (All of Wed night/Thurs/Fri) is for your own finishing up.</p>
+
+<br>
+
+## I need help
+
+1. There is a TEAMS discussion for lab help [CLICK HERE](https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e).  Remember to include a screenshot of the issue and a short description of the problem.  Also try googling the error first.
+
+2. Every time you re-open R studio check you are using your project file (does it say Lab 4 at the top?).  
+
+3. EVERY TIME YOU RE-OPEN R-STUDIO YOU NEED TO RE-RUN **ALL** YOUR CODE CHUNKS.  The easiest way to do this is to press the "Run All" button (see the Run menu at the top of your script)
+
+4. **If the labs are causing major problems or your computer hardware is struggling (or you have any other software issue), Talk to Dr Greatrex**. We can fix this and there are other free/cheap options for using R online.
+ 
+
+
+<br>  
+
+# STEP1: Lab set-up. DO NOT SKIP!
+
+
+1. Create a new project for Lab 4.  If you are stuck, see previous labs or [Tutorial 2.1](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects).
+
+<br>
+
+2. Copy your lab template to your lab 4 folder, **rename as  STAT-462_Lab4_EMAILID.Rmd** (e.g.STAT-462_Lab4_hlg5155.Rmd) and open.  THIS LAB IS ONE BIG CODE SHOWCASE.  Delete all the headings/subheadings after Code Show case.  
+
+<br>
+
+3. In the library section, add a new code chunk and use this code to load the following libraries. <br><br>If some don't exist on your computer or on the cloud, use [Tutorial 2.3]( https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package) to install/download them first.<br><br> To make sure they loaded OK, run the code chunk TWICE.  The second time any welcome text will disappear unless there are errors.
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggpubr)
+library(GGally)
+library(skimr)
+library(ggplot2)
+library(plotly)
+library(equatiomatic)
+library(olsrr)
+library(Stat2Data)
+library(readxl)
+library(yarrr)
+```
+
+<br>
+
+4. Finally, press knit to check the html works and it looks like this (with your theme)
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("./Figures/Lab4_fig1.png")
+```
+
+<br>
+<br>
+
+# STEP 2: Code showcase
+
+This lab is a series of mini challenges.  For each challenge, please add a new sub-heading to make it easy to grade.
+
+*You might want to make a second .Rmd file to practice the tutorials, so you can save your practice but only write up what is needed in your report*
+
+You will need the code from these NEW TUTORIALS:
+
+ - [TUTORIAL 10: Reading in data](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#10_Reading_in_and_loading_data)
+ - [TUTORIAL 11: Filtering/choosing/sub-setting data](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#11_Filtering_and_selecting_data)
+
+
+## Challenge 1: Leaf Analysis
+
+The aim of this question is to support you with some of the learning objectives of question 4 in the exam.
+
+```{r, include=FALSE}
+data(LeafWidth)
+```
+
+1. Use the data command to load the `LeafWidth` dataset(make sure you have run the library code chunk first).  Look at the help file for the dataset to understand what you are looking at and what the column names mean. In the text, identify the *specific* unit of analysis. 
+
+```{r}
+boxplot(LeafWidth$Year)
+boxplot(LeafWidth$Length)
+shapiro.test(LeafWidth$Year)
+shapiro.test(LeafWidth$Length)
+
+# one sided test
+# 
+```
+
+
+You are looking at two variables:
+  a. Year the leaves were collected
+  b. Average length of each leaf (in mm)
+
+2. For **EACH of the two variables above**
+
+   a. Create a professional looking boxplot <br>
+      + with either title or axis title
+   b. Below the boxplot, write whether you believe the variable is likely to be Normally distributed and why.   <br>
+   c. Add a guess of a p-value in a Wilk-Shapiro test. (you are not being graded on whether your answer is 'correct')  <br>
+   d. Formally assess the normality of the variable using a Wilk-Shapiro test at a critical value of 5%.  Include your H0, H1 and your conclusions. Write a comment on whether the result matches your guess.  (you could also have a look at a histogram).  <br>
+      + H0, H1, to either refer or use the numbers in the output and conclusions
+   
+3. Is the Wilk-Shapiro test one-sided or two-sided? (google it!)  
+  + one sided
+
+4. Someone adds a new leaf to the dataset.  Calculate the range of lengths are you 99% sure the new leaf will have.  
+
+```{r}
+# prediction interval
+ybar <- mean(LeafWidth$Length)
+sy <- sd(LeafWidth$Length)
+n <- nrow(LeafWidth)
+
+lowerPI <- ybar - qt(0.995,n-1)*(sy*(sqrt( (1+ (1/n)))))
+upperPI <- ybar + qt(0.995,n-1)*(sy*(sqrt( (1+ (1/n)))))
+lowerPI
+upperPI
+```
+
+
+5. Someone collects a whole new sample from your population.  Given your data, what is your estimate of their average leaf length, with a 95% level of certainty.
+
+```{r}
+# confidence interval
+ybar <- mean(LeafWidth$Length)
+sy <- sd(LeafWidth$Length)
+n <- nrow(LeafWidth)
+
+lowerCI <- ybar - qt(0.975,n-1)*(sy/(sqrt(n)))
+upperCI <- ybar + qt(0.975,n-1)*(sy/(sqrt(n)))
+lowerCI
+upperCI
+
+t.test(LeafWidth$Length)
+```
+
+6. Given the Wilk-Shapiro test results above, would it have been appropriate to calculate the ranges from [4] and [5] for a variable as skewed as 'the year the leaves were collected?' Explain your answer. (Hint Lecture 9)
+
+_You can use a confidence interval cos clt, but vastly inappropriate to use your model for prediction or prediction intervals.)_
+
+
+## Challenge 2: Filtering Data
+
+You might find [TUTORIAL 11: Filtering/choosing/sub-setting data](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#11_Filtering_and_selecting_data) useful (the code is in there!). 
+
+```{r}
+data("pirates", package = "yarrr")
+piratenew <- dplyr::filter(pirates,parrots > 3)
+mean(piratenew$tattoos)
+
+
+
+```
+
+
+1. Load the `pirates` dataset from the `yarrr` package.  Take a look at it and the help file.
+
+2. Select the value of the pirates dataset for the 15th row and 4th column (I need to see the R code!)   
+
+3. Filter the full pirates data so that it just includes pirates with more than 3 parrots and save to a new variable (see the tutorial..).  
+
+   a. What is the average number of tattoos of pirates with more than 3 parrots
+   b. How many 3+ parrot owning, *male* pirates *also* have more than 3 tattoos.
+
+4. Remove the 17th row and overwrite
+
+5. Remove the row containing the tallest pirate (let's say the data was entered incorrectly) 
+
+
+
+## Challenge 3: Public safety spending  
+
+*Suburban towns often spend a large fraction of their municipal budgets on public safety services (police, fire, and ambulance). A taxpayers’ group felt that tiny towns were likely to spend large amounts per person because they have such small financial bases. The group obtained data on the per-capita (per-person) spending on public safety for 29 suburban towns in a metropolitan area, as well as the population of each town in units of 1000 people.  If you used 10000 thats fine *
+
+They sent you the data in the file `expenditure.xslx`, which you can get from Canvas.
+
+
+```{r}
+exp <- read_excel("expenditure copy.xlsx")
+exp
+```
+
+
+1. Download this from canvas and put it into your lab 4 folder.  If you are on the cloud, just download it for now (see step 2) 
+
+BEFORE you read a file into R, it is good to look at column names.  It's very frustrating in R when column names have spaces, special characters or anything else that is difficult to type.  It makes it especially hard to refer to a column/variable by name, e.g. table$columnname.  You *can* change this in R using the  `names()` command.  But *much easier* is to fix the issue BEFORE reading it into R.  So:
+
+2. Open `expenditure.xlsx` in Excel and take a look!  Rename the column titles so that no column names contains spaces/special characters & check you are happy with the data. Save and close.  If you are on the cloud, upload to your Lab 4 project.
+
+3. Use [TUTORIAL 10: Reading in data](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#10_Reading_in_and_loading_data) to read it into R.  
+
+4. Use inline code to write a sentence in your report telling me the number of towns in the sample and the average population of the sampled towns. (See Lab 3 / [Tutorial 4.8, Inline code](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#48_Inline_code)).  Summarize what the aim of the study is (see above), the unit of analysis, the response and predictor variables and what the taxpayer's group expects the results to be.
+
+
+```{r}
+skimr::skim(exp)
+```
+
+
+5. *If the taxpayer’s group is correct*, write (in a full sentence) whether you think the slope of Simple Linear regression model between your response and predictor should be negative or positive?
+
+"A taxpayers’ group felt that tiny towns were likely to spend large amounts per person because they have such small financial bases."
+_should be negative_
+
+
+
+6. Make a professional looking scatter-plot of your response and predictor (good enough to give to the taxpayers group).  Describe it fully using this to help ([KHAN SCATTER DESCRIPTIONS:](https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/scatterplots-correlation/a/describing-scatterplots-form-direction-strength-outliers?modal=1))
+ 
+```{r}
+plot(exp,col="red",pch=16)
+```
+ 
+ 
+7. Use [Tutorial 9](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models) to fit a regression model to the data and save it as a variable called `model1`.  Examine the coefficients and the summary of the model fit using OLSRR (in the tutorial).  
+
+```{r}
+model1 <- lm(Expend ~Population,data=exp)
+
+```
+
+
+
+```{r}
+ols_regress(Expend ~Population,data=exp)
+```
+
+
+8. In the text of your report, write formally write the model equation either using the equation knowledge from labs 2/3 or equatiomatic to extract the equation for the model as described in  [Tutorial 9](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models).
+
+# use greek letter or equation format, units..
+
+```{r,asis=TRUE}
+extract_eq(model1,use_coefs = T)
+```
+
+
+
+
+8. Explain the slope and intercept within the context of the data. Explain if the slope in the output confirms the opinion of the community group?   
+
+
+
+
+9. Add the line of best fit to a new version of the scatter-plot. Explain why this initial regression might be misleading.
+```{r}
+plot(exp,col="red",pch=16)
+abline(model1)
+```
+
+
+10. Use Tutorial 11 to remove the outlier. Repeat the linear regression and scatter-plot with the new data and save it as a variable called `model2`.  Explain how this has changed your assessment of the relationship between the variables.
+
+```{r}
+exp2 <- filter(exp, Expend < 250)
+
+model2 <- lm(Expend ~Population,data=exp2)
+ols_regress(Expend ~Population,data=exp2)
+
+plot(exp2,col="red",pch=16)
+abline(model2)
+```
+
+
+11.  Normally, to calculate the correlation coefficient between two variables, we use the `cor()` command or we could look at the output from `ols_regress()`. Let's imagine that these have mysteriously broken.  From only the information provided in the command `summary(model2)`, explain how you can quickly calculate the correlation coefficient and state what it is.
+
+
+```{r}
+summary(model2)
+sqrt(0.5526)
+```
+
+
+12. Look at the ANOVA table (middle part of `ols_regress(model2)` or `anova(model2)`). Using the information provided there, calculate the R^2^ value.
+
+```{r}
+ols_regress(model2)
+#Multiple R-squared:  0.5526,
+```
+
+
+
+13. Test if the slope is significantly different to 1 (Monday-28 lecture).  Show all your workings and professionally format any equations.  Note, I mean is it different to 1!  For half marks, you can test if it is different to zero. 
+
+```{r}
+
+-1.3531 - 1 / (0.2388)
+
+
+```
+
+
+
+<br>
+
+
+## Challenge 4: Mystery data
+
+1. Download the mystery dataset from canvas into your lab 4 folder.  
+
+2. Read it into R using [TUTORIAL 10: Reading in data](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#10_Reading_in_and_loading_data) and calculate the correlation coefficient.  
+
+3. Explain why this correlation coefficient is vastly inappropriate!
+
+
+```{r}
+mystery <- read.csv("MysteryData.csv")
+cor(mystery)
+plot(mystery,asp=1)
+
+```
+
+
+
+There is no show me something new this lab.
+
+
+# Submitting your Lab
+
+Remember to save your work throughout and to spell check your writing (next to the save button). 
+
+Now, press the knit button for the final time. 
+
+If you have not made any mistakes in the code then R should create a html file in your lab 4 folder which includes your answers. If you look at your lab 4 folder, you should see this there - complete with a very recent time-stamp.
+
+In that folder, double click on the html file.  This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.
+
+If you are on R studio cloud, see Tutorial 1 for how to download your files
+
+Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 4.
+
+```{r, echo=FALSE}
+knitr::include_graphics("./Figures/Lab1_Basics_2022_fig1.png")
+```
+
+<br>
+
+# Grading Rubric/checklist
+
+See the table below for what this means - 100% is hard to get!
+
+**HTML FILE SUBMISSION - 10 marks**
+
+**RMD CODE SUBMISSION - 10 marks**
+
+**WRITING/CODE STYLE - 10 MARKS**
+
+Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT.  There is also a spell check next to the save button.  You have used headings and subheadings to make the report easier to follow.
+
+You have written your answers below the relevant code chunk *in full sentences* in a way that is easy to find and grade. It is clear what your answers are referring to. You have used units throughout and fully explained your workings IN YOUR OWN WORDS (we put these through 'Turn It In'. 
+    
+**LEAF ANALYSIS: 15 MARKS** 
+
+You have successfully attempted/completed the 6 steps.  2 marks lost for each error. 
+
+**FILTERING DATA: 15 MARKS** 
+
+You have successfully attempted/completed the 5 steps.  2 marks lost for each error. 
+
+**PUBLIC SAFETY Q1-Q7: 15 MARKS** 
+
+You have successfully attempted/completed the 7 steps.  2 marks lost for each error. 
+
+**PUBLIC SAFETY Q8-Q13: 15 MARKS** 
+
+You have successfully attempted/completed the 6 steps.  2 marks lost for each error. 
+
+**MYSTERY DATA: 10 MARKS** 
+
+6/10 for reading into R and calculating the correlation coefficient.  Final 4 for explaining why its wrong/inappropriate.
+ 
+[100 marks total]
+
+
+Overall, here is what your lab should correspond to:
+
+```{r, echo=FALSE}
+rubric <- readxl::read_excel("STAT462_22_LRubric.xlsx")
+knitr::kable(rubric) %>%   
+  kable_classic_2() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
+
+
+```
+

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 5: LINE</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT-462</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="T1_R_Basics.html">Tutorials</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STAT462_22_L1Basics.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab2.html">Lab 2: Exploratory Data Analysis (EDA)</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab3.html">Lab 3: Scatterplots</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab4.html">Lab 4: Regression Code showcase</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab5.html">Lab 5: LINE Assumptions</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="STAT462_LabEXAMPLE.html">LAB EXAMPLE</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 5: LINE</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+STAT-462 - Regression Analysis
+</h4></h3>
+<h4 class="author"><h5 style="font-style:normal">
+Dr Helen Greatrex
+</h4></h4>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="learning-objectives" class="section level1">
+<h1>Learning objectives</h1>
+<p class="comment">
+<strong>Assignment 5 is due by midnight NEXT WEDNESDAY (1 week lab)</strong> <a href="https://psu.instructure.com/courses/2174925/assignments/13762850">See here</a> I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB. After next week’s lab (All of Wed evening) is for your own finishing up.
+</p>
+<p>By the end of this week’s lab, you will be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Feel comfortable working through a simple linear regression analysis</li>
+<li>Feel comfortable discovering outliers.</li>
+<li>Feel comfortable assessing LINE assumptions</li>
+</ol>
+<p>There is a TEAMS discussion for lab help <a href="https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&amp;tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e">CLICK HERE</a>. Remember to include a screenshot of the issue and a short description of the problem. Also try googling the error first.</p>
+<p><br></p>
+</div>
+<div id="part-1-lab-set-up.-do-not-skip" class="section level1">
+<h1>PART 1: Lab set-up. DO NOT SKIP!</h1>
+<p><br></p>
+<p><strong>Step A:</strong> Create a new project for Lab 5. If you are stuck, see previous labs or <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects">Tutorial 2.1</a>.</p>
+<p><br></p>
+<p><strong>Step B:</strong> Copy your lab template to your lab 4 folder, rename as <code>STAT-462_Lab5_EMAILID.Rmd</code> and open (e.g.STAT-462_Lab5_hlg5155.Rmd). This should have your theme, your table of contents and your headings.</p>
+<p><br></p>
+<p><strong>Step C:</strong> In the library section, add a new code chunk and use this code to load the libraries below.</p>
+<ul>
+<li><p>If some don’t exist on your computer or on the cloud, use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package">Tutorial 2.3</a> to install/download them first. NEVER put install.packages in your code chunk, run it in the console.</p></li>
+<li><p>To make sure they loaded OK, run the code chunk TWICE. The second time any welcome text will disappear unless there are errors.</p></li>
+<li><p>Sometimes you might need an extra package later in the lab. Install it using the instructions above and add the library command to your library code chunk.</p></li>
+</ul>
+<pre class="r"><code># Load libraries
+library(&quot;tidyverse&quot;) # Lots of data processing commands
+library(&quot;knitr&quot;)     # Helps make good output files
+library(&quot;ggplot2&quot;)   # Output plots
+library(&quot;rmarkdown&quot;) # Helps make good output files
+library(&quot;lattice&quot;)   # Makes nice plots
+library(&quot;RColorBrewer&quot;) # Makes nice color-scales
+library(&quot;skimr&quot;)     # Summary statistics
+library(&quot;Stat2Data&quot;) # Regression specific commands
+library(&quot;corrplot&quot;)  # correlation plots
+library(&quot;GGally&quot;)    # correlation plots
+library(&quot;ggpubr&quot;)    # QQplots
+library(&quot;olsrr&quot;)     # Regression specific commands
+library(&quot;plotly&quot;)    # Interactive plots
+library(&quot;readxl&quot;)    # Read from excel files
+library(&quot;equatiomatic&quot;) # extract equations
+
+## you may need additional libraries.  Just add them to this list if you get errors.</code></pre>
+<p><br></p>
+<p><strong>Step D:</strong> Finally, press knit to check the html works and your theme works.</p>
+<p><br></p>
+</div>
+<div id="part-2-code-showcase" class="section level1">
+<h1>PART 2: Code showcase</h1>
+<p>IF YOU IGNORED THE STEPS ABOVE GO BACK AND DO THEM! You lose marks for things like no theme, poor headings (remember there is a space between the # and the text), or accidentally printing out package loading text.</p>
+<p><br></p>
+<p><strong>Step 1:</strong> Describe the lINE assumptions for your client in plain language and why each is important.</p>
+<p><br></p>
+<p><strong>Step 2:</strong> Go to <a href="https://stephenturner.github.io/drawmydata/" class="uri">https://stephenturner.github.io/drawmydata/</a>. Create and save 3 datasets into your Lab 5 folder. Read all of them into R and assign to testdata1, testdata2 and testdata3</p>
+<ul>
+<li>One that meets all the assumptions of simple linear regression</li>
+<li>One that breaks the assumption of linearity</li>
+<li>One that breaks the assumption of equal variance/heteroskadisity</li>
+</ul>
+<p><br></p>
+<p><strong>Step 3:</strong> Use NEW TUTORIAL, Tutorial 10, and <a href="https://online.stat.psu.edu/stat501/lesson/4" class="uri">https://online.stat.psu.edu/stat501/lesson/4</a> to assess the LINE assumptions for your three datasets.</p>
+<p><br></p>
+</div>
+<div id="part-3-house-plant-advertising" class="section level1">
+<h1>PART 3: House Plant advertising</h1>
+<div id="lab-report-format" class="section level2 unnumbered">
+<h2 class="unnumbered">Lab report format</h2>
+<p>Imagine this is a real report you are submitting to an advertising company. You will be graded on the professionality of your final report. In all of your answers below, I expect good formatting, appropriate units and full sentences to explain your answers. Please also make sure that you use headings, sub-headings and the spell check to make your lab easier to follow and grade.</p>
+<p>Think about using any/all of the markdown features we have learned so far, for example equations, text formatting, pictures, code-chunk options or anything else that makes your report look more professional.</p>
+<p class="comment">
+The headings in the template are guidelines. If it helps to use your own or to tweak them, this is OK.
+</p>
+<p><br></p>
+</div>
+<div id="instructions" class="section level2 unnumbered">
+<h2 class="unnumbered">Instructions:</h2>
+<p>Houseplants are now very popular. You have been hired by an advertising executive who has been collecting data on how well their marketing campaigns have been running.</p>
+<p>They have run 200 marketing campaigns over the last few years. For each one, they recorded:</p>
+<ul>
+<li>how much they spent (in units of thousands of dollars) on
+<ul>
+<li>TV,</li>
+<li>radio</li>
+<li>and newspaper adverts<br />
+</li>
+</ul></li>
+<li>How many houseplants were sold (in thousands of plants).<br />
+</li>
+<li>The “X-Factor” of how popular that plant was at the time (percentage popularity),</li>
+<li>And typically how tall that type plant was in inches.</li>
+</ul>
+<p>The company wish to know which type of advertising campaigns are the most effective.</p>
+<p>Follow the instructions below to answer their questions.</p>
+<p><br></p>
+<div id="describe-the-study" class="section level3">
+<h3>1. Describe the study</h3>
+<p class="comment">
+Hint: IF YOU ARE AN HONORS STUDENT USE YOUR OWN DATA FROM THE FIRST PART OF THE SEMESTER
+</p>
+<p><br></p>
+<p><strong>Step 1:</strong> If you skipped it, go back and read the brief above. Seriously, it will save you time.</p>
+<p><br></p>
+<p><strong>Step 2:</strong> If you skipped making/copying/using the lab report template, go back and do it - or these instructions will not make sense <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#5_Report_template">Tutorial 5</a>.</p>
+<p><br></p>
+<p><strong>Step 3:</strong> Read the data into R. In the <code>Data Description</code> and <code>Study Aim</code> sections, use the first part of the <a href="https://psu.instructure.com/courses/2174925/files/132549205">teaching notes</a> to help you write about the following: <br></p>
+<ul>
+<li>The background of the study <em>(imagine this is a real report to a real customer, google things like <em>house plant sales increasing</em> for ideas, include a picture!)</em></li>
+<li>A short description of the data source.</li>
+<li>The object of analysis</li>
+<li>A reasonable population <em>(what population could your results be extrapolated to)</em></li>
+<li>The response variable <em>(and units - if they are not provided, state that!)</em></li>
+<li>A bullet point list of your predictor variables <em>(and units)</em></li>
+<li>The amount of data</li>
+<li>Statements to answer the questions on page 3 of the teaching notes</li>
+<li>A short paragraph to summarise the study <em>(Example for penguins on page 3 of the teaching notes)</em></li>
+</ul>
+<p class="comment">
+There are also guidelines in the template. You do NOT need to repeat yourself, so ignore anything you have already done or refer to it in your answers e.g. “As shown in the histogram above….”.
+</p>
+<p><br></p>
+</div>
+<div id="explore-the-data" class="section level3">
+<h3>2. Explore the data</h3>
+<p><strong>Step 4:</strong> Under <code>Exploratory Analysis | Response Variable</code> in your report, explore your response variable and describe it in the report, working through page 4-6 of the teaching notes (Step 2) and commenting on all the questions. E.g. if there are no outliers, SAY there are no outliers (Step 2). <br><br> Again, there are additional hints in the template - you do not need to answer things twice.</p>
+<p class="comment">
+Hint: For full marks, plots like histograms should have proper x and y axis labels and titles. All the tutorial examples in <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#7_Making_plots">Tutorial 7</a> can be copy/pasted, why not choose a more sophisticated one..
+</p>
+<p><br></p>
+<p><strong>Step 5:</strong> Under <code>Exploratory analysis</code>, make a new sub-section called <code>Correlation</code>. Make a correlation plot of the variables against your response <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation">See Tutorial 6.4</a>. Which predictor has the largest <em>negative</em> correlation against your response?</p>
+<p><br></p>
+</div>
+<div id="make-some-models" class="section level3">
+<h3>3. Make some models</h3>
+<p>Your client wishes to know which advertising campaign is the most effective out of.</p>
+<ul>
+<li>Model1 - Plant Sales vs Newspaper adverts</li>
+<li>Model2 - Plant Sales vs TV adverts</li>
+</ul>
+<p>To do this, we are going to create and compare TWO models. Adjust your report headings to look like this</p>
+<p><br></p>
+<p><strong>Step 6:</strong> FOR BOTH MODELS, under <code>model fitting</code> use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 8</a> and <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a> to help you:</p>
+<ul>
+<li>Make a professional looking scatterplot (this should have proper x,y axis labels etc)</li>
+<li>Describe the scatterplot (e.g. strength, association etc)</li>
+<li>Create a linear model</li>
+<li>Show the model summary</li>
+<li>Use equatiomatic or any other method to formally write out the equation and coefficients.</li>
+</ul>
+<p><br></p>
+<p><strong>Step 7:</strong> Use the NEW TUTORIAL, <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 1</a> to help you assess each LINE assumption for BOTH model 1 and model 2. For each model, comment if it meets the requirements for simple linear regression, referring back to the diagnostic plots.</p>
+<p><br></p>
+<p><strong>Step 8:</strong> Under <code>Comparing models</code>, refer to your analysis (or do new analysis as appropriate) to answer the following questions.</p>
+<ol style="list-style-type: decimal">
+<li><p>Out of model 1 and model 2, where do you see the greatest increase in sales if you increase the advertising budget? <br> Provide evidence to justify your answer (thinking about uncertainties on your estimate).</p></li>
+<li><p>Which model explains the most variability in the sales data? Provide evidence to justify your answer.</p></li>
+</ol>
+<p><br></p>
+<p><strong>Step 9:</strong> Under <code>Customer questions</code>, refer to your analysis (or do new analysis as appropriate) to answer the following questions.</p>
+<ol style="list-style-type: decimal">
+<li><p><em>Peace lily dilemma:</em> Your customer has a client who needs to sell 8000 “peace lily” plants but hates newspapers. Conduct an hypothesis test to assess whether you typically sell less than 8000 plants in a situation where you spend zero-money on newspaper advertising. You are happy to be wrong one time in 25. Advise the company whether is OK to stop advertising in newspapers.</p></li>
+<li><p><em>TV fears:</em> Another client is skeptical of TV. Use the ANOVA table output to conduct a hypothesis test to examine if there is evidence to suggest a relationship between TV advertising and plant sales, with a critical significance of 1%. (Fridays lecture or see textbook)</p></li>
+<li><p><em>Best day ever:</em> A new client has approached the company with a brand new plant!!! (the rainbow-monstera-fig). This is <em>very</em> popular. The magazine “Plants Daily” rates its popularity at 70%! <br> Thinking about the plant popularity independently of advertising type, what is the predicted range of sales for your new campaign? (at a 99% confidence level). Note, you may need to make a section for a new model… (Friday’s lecture or see textbook)</p></li>
+</ol>
+<p><br></p>
+<p><strong>Step 10:</strong> Under <code>Conclusions</code>, summarise for the customer what you have learned. Explain how multiple regression might have allowed you to conduct a better analysis.</p>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="part-4-show-me-something-new" class="section level1">
+<h1>PART 4: Show me something new</h1>
+<p>Remember that an A is 94%, so you can ignore this section and still easily get an A. But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.</p>
+<p><strong>To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.</strong></p>
+<ul>
+<li>You get 2/4 for doing something new in any way BEYOND THE LAB INSTRUCTIONS/CODE</li>
+<li>You get 4/4 for something really impressive or multiple small things.</li>
+<li>You must tell us in your R script what you did!</li>
+</ul>
+<p>Here are some ideas:</p>
+<ul>
+<li>You found a cool new plot from R graph gallery or flowingdata.com and made it work</li>
+<li>You did something neat in Markdown such as embedding a pdf</li>
+<li>You found a new package/command that did something relevant</li>
+<li>You found something cool on data camp and applied it here</li>
+<li>You tweaked your mapping/plotting code to be better</li>
+</ul>
+<p><br></p>
+</div>
+<div id="submitting-your-lab" class="section level1">
+<h1>Submitting your Lab</h1>
+<p>Remember to save your work throughout and to spell check your writing (next to the save button).</p>
+<p>Now, press the knit button for the final time.</p>
+<p>If you have not made any mistakes in the code then R should create a html file in your lab 5 folder which includes your answers. If you look at your lab 5 folder, you should see this there - complete with a very recent time-stamp.</p>
+<p>In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.</p>
+<p>If you are on R studio cloud, see Tutorial 1 for how to download your files</p>
+<p>Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 5.</p>
+<p><br></p>
+</div>
+<div id="grading-rubricchecklist" class="section level1">
+<h1>Grading Rubric/checklist</h1>
+<p>[100 marks total]</p>
+<p>Overall, here is what your lab should correspond to:</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

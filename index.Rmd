@@ -1,5 +1,5 @@
 ---
-title: 'GEOG-462 - Applied Regression'
+title: 'STAT462 - Applied Regression'
 subtitle: <h4 style="font-style:normal">Dr Helen Greatrex</h4>
 author: <h4 style="font-style:normal">Penn State, Dept Statistics</h4>
 date: <h4 style="font-style:normal">Jan, 2022</h4>

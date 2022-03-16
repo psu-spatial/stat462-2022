@@ -482,20 +482,89 @@ library(yarrr)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Use the data command to load the <code>LeafWidth</code> dataset(make sure you have run the library code chunk first). Look at the help file for the dataset to understand what you are looking at and what the column names mean. In the text, identify the <em>specific</em> unit of analysis.</li>
 </ol>
+<pre class="r"><code>boxplot(LeafWidth$Year)</code></pre>
+<p><img src="STAT462_Lab4ANSWER_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>boxplot(LeafWidth$Length)</code></pre>
+<p><img src="STAT462_Lab4ANSWER_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>shapiro.test(LeafWidth$Year)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  LeafWidth$Year
+## W = 0.85624, p-value = 1.412e-14</code></pre>
+<pre class="r"><code>shapiro.test(LeafWidth$Length)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  LeafWidth$Length
+## W = 0.98691, p-value = 0.02123</code></pre>
+<pre class="r"><code># one sided test
+# </code></pre>
 <p>You are looking at two variables: a. Year the leaves were collected b. Average length of each leaf (in mm)</p>
 <ol start="2" style="list-style-type: decimal">
 <li><p>For <strong>EACH of the two variables above</strong></p>
 <ol style="list-style-type: lower-alpha">
-<li>Create a professional looking boxplot <br></li>
+<li>Create a professional looking boxplot <br>
+<ul>
+<li>with either title or axis title</li>
+</ul></li>
 <li>Below the boxplot, write whether you believe the variable is likely to be Normally distributed and why. <br></li>
 <li>Add a guess of a p-value in a Wilk-Shapiro test. (you are not being graded on whether your answer is ‘correct’) <br></li>
-<li>Formally assess the normality of the variable using a Wilk-Shapiro test at a critical value of 5%. Include your H0, H1 and your conclusions. Write a comment on whether the result matches your guess. (you could also have a look at a histogram). <br></li>
+<li>Formally assess the normality of the variable using a Wilk-Shapiro test at a critical value of 5%. Include your H0, H1 and your conclusions. Write a comment on whether the result matches your guess. (you could also have a look at a histogram). <br>
+<ul>
+<li>H0, H1, to either refer or use the numbers in the output and conclusions</li>
+</ul></li>
 </ol></li>
-<li><p>Is the Wilk-Shapiro test one-sided or two-sided? (google it!)</p></li>
-<li><p>Someone adds a new leaf to the dataset. Calculate the range of lengths are you 99% sure the new leaf will have.</p></li>
-<li><p>Someone collects a whole new sample from your population. Given your data, what is your estimate of their average leaf length, with a 95% level of certainty.</p></li>
-<li><p>Given the Wilk-Shapiro test results above, would it have been appropriate to calculate the ranges from [4] and [5] for a variable as skewed as ‘the year the leaves were collected?’ Explain your answer. (Hint Lecture 9)</p></li>
+<li><p>Is the Wilk-Shapiro test one-sided or two-sided? (google it!)<br />
+</p></li>
 </ol>
+<ul>
+<li>one sided</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Someone adds a new leaf to the dataset. Calculate the range of lengths are you 99% sure the new leaf will have.</li>
+</ol>
+<pre class="r"><code># prediction interval
+ybar &lt;- mean(LeafWidth$Length)
+sy &lt;- sd(LeafWidth$Length)
+n &lt;- nrow(LeafWidth)
+
+lowerPI &lt;- ybar - qt(0.995,n-1)*(sy*(sqrt( (1+ (1/n)))))
+upperPI &lt;- ybar + qt(0.995,n-1)*(sy*(sqrt( (1+ (1/n)))))
+lowerPI</code></pre>
+<pre><code>## [1] 27.10081</code></pre>
+<pre class="r"><code>upperPI</code></pre>
+<pre><code>## [1] 92.57546</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Someone collects a whole new sample from your population. Given your data, what is your estimate of their average leaf length, with a 95% level of certainty.</li>
+</ol>
+<pre class="r"><code># confidence interval
+ybar &lt;- mean(LeafWidth$Length)
+sy &lt;- sd(LeafWidth$Length)
+n &lt;- nrow(LeafWidth)
+
+lowerCI &lt;- ybar - qt(0.975,n-1)*(sy/(sqrt(n)))
+upperCI &lt;- ybar + qt(0.975,n-1)*(sy/(sqrt(n)))
+lowerCI</code></pre>
+<pre><code>## [1] 58.27643</code></pre>
+<pre class="r"><code>upperCI</code></pre>
+<pre><code>## [1] 61.39984</code></pre>
+<pre class="r"><code>t.test(LeafWidth$Length)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  LeafWidth$Length
+## t = 75.462, df = 251, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  58.27643 61.39984
+## sample estimates:
+## mean of x 
+##  59.83814</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Given the Wilk-Shapiro test results above, would it have been appropriate to calculate the ranges from [4] and [5] for a variable as skewed as ‘the year the leaves were collected?’ Explain your answer. (Hint Lecture 9)</li>
+</ol>
+<p><em>You can use a confidence interval cos clt, but vastly inappropriate to use your model for prediction or prediction intervals.)</em></p>
 </div>
 <div id="challenge-2-filtering-data" class="section level2">
 <h2>Challenge 2: Filtering Data</h2>
@@ -520,6 +589,22 @@ mean(piratenew$tattoos)</code></pre>
 <h2>Challenge 3: Public safety spending</h2>
 <p><em>Suburban towns often spend a large fraction of their municipal budgets on public safety services (police, fire, and ambulance). A taxpayers’ group felt that tiny towns were likely to spend large amounts per person because they have such small financial bases. The group obtained data on the per-capita (per-person) spending on public safety for 29 suburban towns in a metropolitan area, as well as the population of each town in units of 1000 people. If you used 10000 thats fine </em></p>
 <p>They sent you the data in the file <code>expenditure.xslx</code>, which you can get from Canvas.</p>
+<pre class="r"><code>exp &lt;- read_excel(&quot;expenditure copy.xlsx&quot;)
+exp</code></pre>
+<pre><code>## # A tibble: 29 × 2
+##    Population Expend
+##         &lt;dbl&gt;  &lt;dbl&gt;
+##  1         14   140 
+##  2         20   142 
+##  3         22   165 
+##  4         22   175 
+##  5         24   143 
+##  6         24   141 
+##  7         26   142 
+##  8         28   144 
+##  9         29   144.
+## 10         30   138 
+## # … with 19 more rows</code></pre>
 <ol style="list-style-type: decimal">
 <li>Download this from canvas and put it into your lab 4 folder. If you are on the cloud, just download it for now (see step 2)</li>
 </ol>
@@ -528,18 +613,357 @@ mean(piratenew$tattoos)</code></pre>
 <li><p>Open <code>expenditure.xlsx</code> in Excel and take a look! Rename the column titles so that no column names contains spaces/special characters &amp; check you are happy with the data. Save and close. If you are on the cloud, upload to your Lab 4 project.</p></li>
 <li><p>Use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#10_Reading_in_and_loading_data">TUTORIAL 10: Reading in data</a> to read it into R.</p></li>
 <li><p>Use inline code to write a sentence in your report telling me the number of towns in the sample and the average population of the sampled towns. (See Lab 3 / <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#48_Inline_code">Tutorial 4.8, Inline code</a>). Summarize what the aim of the study is (see above), the unit of analysis, the response and predictor variables and what the taxpayer’s group expects the results to be.</p></li>
-<li><p><em>If the taxpayer’s group is correct</em>, write (in a full sentence) whether you think the slope of Simple Linear regression model between your response and predictor should be negative or positive?</p></li>
-<li><p>Make a professional looking scatter-plot of your response and predictor (good enough to give to the taxpayers group). Describe it fully using this to help (<a href="https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/scatterplots-correlation/a/describing-scatterplots-form-direction-strength-outliers?modal=1">KHAN SCATTER DESCRIPTIONS:</a>)</p></li>
-<li><p>Use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a> to fit a regression model to the data and save it as a variable called <code>model1</code>. Examine the coefficients and the summary of the model fit using OLSRR (in the tutorial).</p></li>
-<li><p>In the text of your report, write formally write the model equation either using the equation knowledge from labs 2/3 or equatiomatic to extract the equation for the model as described in <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a>.</p></li>
-<li><p>Explain the slope and intercept within the context of the data. Explain if the slope in the output confirms the opinion of the community group?</p></li>
-<li><p>Add the line of best fit to a new version of the scatter-plot. Explain why this initial regression might be misleading.</p></li>
-<li><p>Use Tutorial 11 to remove the outlier. Repeat the linear regression and scatter-plot with the new data and save it as a variable called <code>model2</code>. Explain how this has changed your assessment of the relationship between the variables.</p></li>
-<li><p>Normally, to calculate the correlation coefficient between two variables, we use the <code>cor()</code> command or we could look at the output from <code>ols_regress()</code>. Let’s imagine that these have mysteriously broken. From only the information provided in the command <code>summary(model2)</code>, explain how you can quickly calculate the correlation coefficient and state what it is.</p></li>
-<li><p>Look at the ANOVA table (middle part of <code>ols_regress(model2)</code> or <code>anova(model2)</code>). Using the information provided there, calculate the R<sup>2</sup> value.</p></li>
-<li><p>Test if the slope is significantly different to 1 (Monday-28 lecture). Show all your workings and professionally format any equations. Note, I mean is it different to 1! For half marks, you can test if it is different to zero. <br></p></li>
+</ol>
+<pre class="r"><code>skimr::skim(exp)</code></pre>
+<table style="width: auto;" class="table table-condensed">
+<caption>
+Data summary
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Name
+</td>
+<td style="text-align:left;">
+exp
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of rows
+</td>
+<td style="text-align:left;">
+29
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Number of columns
+</td>
+<td style="text-align:left;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+_______________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Column type frequency:
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+________________________
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Group variables
+</td>
+<td style="text-align:left;">
+None
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+p0
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p100
+</th>
+<th style="text-align:left;">
+hist
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Population
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+35.19
+</td>
+<td style="text-align:right;">
+12.98
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+28
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+40
+</td>
+<td style="text-align:right;">
+76
+</td>
+<td style="text-align:left;">
+▃▇▃▁▁
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Expend
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+140.78
+</td>
+<td style="text-align:right;">
+37.59
+</td>
+<td style="text-align:right;">
+70
+</td>
+<td style="text-align:right;">
+135
+</td>
+<td style="text-align:right;">
+138
+</td>
+<td style="text-align:right;">
+142
+</td>
+<td style="text-align:right;">
+310
+</td>
+<td style="text-align:left;">
+▁▇▁▁▁
+</td>
+</tr>
+</tbody>
+</table>
+<ol start="5" style="list-style-type: decimal">
+<li><em>If the taxpayer’s group is correct</em>, write (in a full sentence) whether you think the slope of Simple Linear regression model between your response and predictor should be negative or positive?</li>
+</ol>
+<p>“A taxpayers’ group felt that tiny towns were likely to spend large amounts per person because they have such small financial bases.” <em>should be negative</em></p>
+<ol start="6" style="list-style-type: decimal">
+<li>Make a professional looking scatter-plot of your response and predictor (good enough to give to the taxpayers group). Describe it fully using this to help (<a href="https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/scatterplots-correlation/a/describing-scatterplots-form-direction-strength-outliers?modal=1">KHAN SCATTER DESCRIPTIONS:</a>)</li>
+</ol>
+<pre class="r"><code>plot(exp,col=&quot;red&quot;,pch=16)</code></pre>
+<p><img src="STAT462_Lab4ANSWER_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<ol start="7" style="list-style-type: decimal">
+<li>Use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a> to fit a regression model to the data and save it as a variable called <code>model1</code>. Examine the coefficients and the summary of the model fit using OLSRR (in the tutorial).</li>
+</ol>
+<pre class="r"><code>model1 &lt;- lm(Expend ~Population,data=exp)</code></pre>
+<pre class="r"><code>ols_regress(Expend ~Population,data=exp)</code></pre>
+<pre><code>##                           Model Summary                           
+## -----------------------------------------------------------------
+## R                        0.227       RMSE                 37.279 
+## R-Squared                0.052       Coef. Var            26.480 
+## Adj. R-Squared           0.017       MSE                1389.758 
+## Pred R-Squared          -0.905       MAE                  19.972 
+## -----------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                ANOVA                                 
+## --------------------------------------------------------------------
+##                  Sum of                                             
+##                 Squares        DF    Mean Square      F        Sig. 
+## --------------------------------------------------------------------
+## Regression     2044.358         1       2044.358    1.471    0.2357 
+## Residual      37523.464        27       1389.758                    
+## Total         39567.821        28                                   
+## --------------------------------------------------------------------
+## 
+##                                    Parameter Estimates                                    
+## -----------------------------------------------------------------------------------------
+##       model       Beta    Std. Error    Std. Beta      t       Sig      lower      upper 
+## -----------------------------------------------------------------------------------------
+## (Intercept)    117.614        20.318                 5.789    0.000    75.925    159.304 
+##  Population      0.658         0.543        0.227    1.213    0.236    -0.455      1.772 
+## -----------------------------------------------------------------------------------------</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>In the text of your report, write formally write the model equation either using the equation knowledge from labs 2/3 or equatiomatic to extract the equation for the model as described in <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a>.</li>
 </ol>
 </div>
+</div>
+<div id="use-greek-letter-or-equation-format-units.." class="section level1">
+<h1>use greek letter or equation format, units..</h1>
+<pre class="r"><code>extract_eq(model1,use_coefs = T)</code></pre>
+<p><span class="math display">\[
+\operatorname{\widehat{Expend}} = 117.61 + 0.66(\operatorname{Population})
+\]</span></p>
+<ol start="8" style="list-style-type: decimal">
+<li><p>Explain the slope and intercept within the context of the data. Explain if the slope in the output confirms the opinion of the community group?</p></li>
+<li><p>Add the line of best fit to a new version of the scatter-plot. Explain why this initial regression might be misleading.</p></li>
+</ol>
+<pre class="r"><code>plot(exp,col=&quot;red&quot;,pch=16)
+abline(model1)</code></pre>
+<p><img src="STAT462_Lab4ANSWER_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<ol start="10" style="list-style-type: decimal">
+<li>Use Tutorial 11 to remove the outlier. Repeat the linear regression and scatter-plot with the new data and save it as a variable called <code>model2</code>. Explain how this has changed your assessment of the relationship between the variables.</li>
+</ol>
+<pre class="r"><code>exp2 &lt;- filter(exp, Expend &lt; 250)
+
+model2 &lt;- lm(Expend ~Population,data=exp2)
+ols_regress(Expend ~Population,data=exp2)</code></pre>
+<pre><code>##                          Model Summary                          
+## ---------------------------------------------------------------
+## R                       0.743       RMSE                13.060 
+## R-Squared               0.553       Coef. Var            9.692 
+## Adj. R-Squared          0.535       MSE                170.551 
+## Pred R-Squared          0.429       MAE                  8.473 
+## ---------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                ANOVA                                 
+## --------------------------------------------------------------------
+##                 Sum of                                              
+##                Squares        DF    Mean Square      F         Sig. 
+## --------------------------------------------------------------------
+## Regression    5476.351         1       5476.351     32.11    0.0000 
+## Residual      4434.336        26        170.551                     
+## Total         9910.687        27                                    
+## --------------------------------------------------------------------
+## 
+##                                     Parameter Estimates                                     
+## -------------------------------------------------------------------------------------------
+##       model       Beta    Std. Error    Std. Beta      t        Sig       lower      upper 
+## -------------------------------------------------------------------------------------------
+## (Intercept)    180.381         8.424                 21.412    0.000    163.065    197.698 
+##  Population     -1.353         0.239       -0.743    -5.667    0.000     -1.844     -0.862 
+## -------------------------------------------------------------------------------------------</code></pre>
+<pre class="r"><code>plot(exp2,col=&quot;red&quot;,pch=16)
+abline(model2)</code></pre>
+<p><img src="STAT462_Lab4ANSWER_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<ol start="11" style="list-style-type: decimal">
+<li>Normally, to calculate the correlation coefficient between two variables, we use the <code>cor()</code> command or we could look at the output from <code>ols_regress()</code>. Let’s imagine that these have mysteriously broken. From only the information provided in the command <code>summary(model2)</code>, explain how you can quickly calculate the correlation coefficient and state what it is.</li>
+</ol>
+<pre class="r"><code>summary(model2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Expend ~ Population, data = exp2)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -40.022  -3.450   2.020   4.682  24.386 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 180.3812     8.4243  21.412  &lt; 2e-16 ***
+## Population   -1.3531     0.2388  -5.667 5.84e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 13.06 on 26 degrees of freedom
+## Multiple R-squared:  0.5526, Adjusted R-squared:  0.5354 
+## F-statistic: 32.11 on 1 and 26 DF,  p-value: 5.844e-06</code></pre>
+<pre class="r"><code>sqrt(0.5526)</code></pre>
+<pre><code>## [1] 0.7433707</code></pre>
+<ol start="12" style="list-style-type: decimal">
+<li>Look at the ANOVA table (middle part of <code>ols_regress(model2)</code> or <code>anova(model2)</code>). Using the information provided there, calculate the R<sup>2</sup> value.</li>
+</ol>
+<pre class="r"><code>ols_regress(model2)</code></pre>
+<pre><code>##                          Model Summary                          
+## ---------------------------------------------------------------
+## R                       0.743       RMSE                13.060 
+## R-Squared               0.553       Coef. Var            9.692 
+## Adj. R-Squared          0.535       MSE                170.551 
+## Pred R-Squared          0.429       MAE                  8.473 
+## ---------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                ANOVA                                 
+## --------------------------------------------------------------------
+##                 Sum of                                              
+##                Squares        DF    Mean Square      F         Sig. 
+## --------------------------------------------------------------------
+## Regression    5476.351         1       5476.351     32.11    0.0000 
+## Residual      4434.336        26        170.551                     
+## Total         9910.687        27                                    
+## --------------------------------------------------------------------
+## 
+##                                     Parameter Estimates                                     
+## -------------------------------------------------------------------------------------------
+##       model       Beta    Std. Error    Std. Beta      t        Sig       lower      upper 
+## -------------------------------------------------------------------------------------------
+## (Intercept)    180.381         8.424                 21.412    0.000    163.065    197.698 
+##  Population     -1.353         0.239       -0.743    -5.667    0.000     -1.844     -0.862 
+## -------------------------------------------------------------------------------------------</code></pre>
+<pre class="r"><code>#Multiple R-squared:  0.5526,</code></pre>
+<ol start="13" style="list-style-type: decimal">
+<li>Test if the slope is significantly different to 1 (Monday-28 lecture). Show all your workings and professionally format any equations. Note, I mean is it different to 1! For half marks, you can test if it is different to zero.</li>
+</ol>
+<pre class="r"><code>-1.3531 - 1 / (0.2388)</code></pre>
+<pre><code>## [1] -5.540705</code></pre>
+<p><br></p>
 <div id="challenge-4-mystery-data" class="section level2">
 <h2>Challenge 4: Mystery data</h2>
 <ol style="list-style-type: decimal">
@@ -547,6 +971,13 @@ mean(piratenew$tattoos)</code></pre>
 <li><p>Read it into R using <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#10_Reading_in_and_loading_data">TUTORIAL 10: Reading in data</a> and calculate the correlation coefficient.</p></li>
 <li><p>Explain why this correlation coefficient is vastly inappropriate!</p></li>
 </ol>
+<pre class="r"><code>mystery &lt;- read.csv(&quot;MysteryData.csv&quot;)
+cor(mystery)</code></pre>
+<pre><code>##            x          y
+## x  1.0000000 -0.5560607
+## y -0.5560607  1.0000000</code></pre>
+<pre class="r"><code>plot(mystery,asp=1)</code></pre>
+<p><img src="STAT462_Lab4ANSWER_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>There is no show me something new this lab.</p>
 </div>
 </div>

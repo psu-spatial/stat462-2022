@@ -1,7 +1,7 @@
-name: "STAT-462, SP 2022"
+name: "STAT-462 Spring 2022"
 output_dir: "."
 navbar:
-  title: "STAT-462 Labs"
+  title: "STAT-462"
   left:
     - text: "Home"
       href: index.html
@@ -16,7 +16,9 @@ navbar:
         - text: "Lab 3: Scatterplots"
           href: STAT462_Lab3.html  
         - text: "Lab 4: Regression Code showcase"
-          href: STAT462_Lab4.html  
+          href: STAT462_Lab4.html
+        - text: "Lab 5: LINE Assumptions"
+          href: STAT462_Lab5.html
     - text: "LAB EXAMPLE"
       href: STAT462_LabEXAMPLE.html 
 output:  

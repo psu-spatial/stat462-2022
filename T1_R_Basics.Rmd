@@ -30,6 +30,7 @@ library(RColorBrewer)
 library(GGally) # correlation plots
 library(tidyverse)
 library(plotly)
+library(readxl)
 ```
 
 # Accessing R & Settings {#Tut1_WhatisR}
@@ -2990,4 +2991,310 @@ arrange(frost, desc(Avg_DOY_SpringFrost))
 
 <br>
 <br>
+
+
+# Checking LINE Assumptions
+
+
+We know from the lectures that there are multiple assumptions underpinning whether a regression is a good model or not.These are described in detail in:
+
+ - Online STAT-462 - Lesson 4 (https://online.stat.psu.edu/stat462/node/116/)
+ 
+Regression diagnostics are a set of tools we can use to assess these assumptions.  Many regression diagnostics include plots of standardized residuals, which we will focus on today.
+
+Let's use the example from the online textbook. Some researchers (Urbano-Marquez, et al., 1989) were interested in determining whether or not alcohol consumption was linearly related to muscle strength. The researchers measured the total lifetime consumption of alcohol (x) on a random sample of n = 50 alcoholic men. They also measured the strength (y) of the deltoid muscle in each person's nondominant arm. 
+
+```{r}
+testdata <- read.csv("alcoholstrength.csv")
+mymodel <- lm(strength~alcohol,data=testdata)
+plot(testdata$alcohol,testdata$strength,xlab="Alcohol",ylab="Strength",pch=16)
+abline(mymodel)
+```
+
+## Residual plots  {#S.Tutorial.5B.1}
+
+It can be difficult looking at the raw data to assess whether many of the assumptions are true or not.  So in this case we can look at the residuals
+
+We can access the residuals and many other model elements directly from the model.  First, remind yourself what a residual is (see here for a good example, or Lesson 2 in the textbook.  https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/xfb5d8e68:residuals/v/regression-residual-intro)
+
+### Residuals vs fitted values
+
+First, we could look at the residual vs the predicted value (otherwise called the "fitted value") e.g.
+
+```{r, Tut10Fig1, echo=FALSE, fig.cap = "*Plot from here, which also as an interactive demonstration, http://www.shodor.org/interactivate/discussions/FindingResiduals/*",fig.align='center'}
+knitr::include_graphics('./Figures/pg_Tut10_resod_fig1.png')
+```
+
+First, here is how to find/see the residuals
+
+
+```{r}
+# Here are the things we can look at from the model summary
+names(mymodel)
+# see ?lm for more explanation
+```
+
+```{r}
+testdata$strength_predicted <- mymodel$fitted.values
+testdata$residuals          <- mymodel$residuals
+head(testdata)
+```
+
+
+#### Residuals vs fitted values {-}
+
+The most common residual plot you will see is residuals vs predicted values for each point.  You can see how to interpret it here: https://online.stat.psu.edu/stat462/node/117/
+
+Manually this is:
+
+```{r}
+plot(testdata$strength_predicted,testdata$residuals, pch=16)
+abline(h=0) #plot a horizontal line
+```
+
+```{r, include=FALSE,message=FALSE, warning=FALSE}
+library(olsrr)
+```
+
+
+However R has many built in functions for this one:
+
+```{r,resplot,fig.cap="A residual plot for data that likely passes all the tests for linear regression"}
+# using the olsrr package
+ols_plot_resid_fit(mymodel)
+```
+
+We want our residuals to be normally distributed, random (e.g. independent) and showing no pattern or unequal variance.  IF YOU SEE ANY PATTERN AT ALL THAT IS NOT RANDOM IT SUGGESTS THAT ONE OF THE LINE ASSUMPTIONS IS BROKEN.
+
+#### Residuals vs predictor {-}
+
+Alternatively, we can use this to manually make a plot of the residuals against the x-values (the predictor) - see here for how to interpret this and compare it to the fitted value plot https://online.stat.psu.edu/stat462/node/118/
+
+```{r}
+plot(testdata$alcohol,testdata$residuals, pch=16)
+abline(h=0) #plot a horizontal line
+```
+
+Let's use these to see how we can test the four assumptions underpinning linear regression (LINE).
+
+Further residual interpretation can be seen here: https://online.stat.psu.edu/stat462/node/124/
+
+## Checking Linearity {#S.Tutorial.5B.2}
+
+**THE AIM HERE IS TO SEE IF A CURVE (or pattern) WOULD FIT THE DATA BETTER THAN A LINE.  JUST RANDOM POINTS IS OK, A CURVE/DINOSAUR IS BAD.**
+
+If you are applying a linear model to data which is non-linear, you are in all sorts of trouble.  Your model is simply a bad model and you will need some sort of transformation, or simply a better model altogether.
+
+```{r,echo=FALSE,fig.cap="Don't be the person who makes this linear model!"}
+mystery <- read.csv("MysteryData.csv")
+mystmodel <- lm(mystery)
+plot(mystery,pch=16,asp=1)
+abline(mystmodel)
+```
+
+ALWAYS PLOT YOUR DATA AND LOOK AT IT (even if I don't tell you to explicitly).  For more examples of why this is useful to do, see here: https://online.stat.psu.edu/stat462/node/123/
+
+However, in real life, it can often be difficult to assess whether the fit is linear by looking at the scatterplot alone.  So instead, we look at the residuals, whcih often show a pattern much more clearly.  For example
+
+```{r, fig.cap="This looks relatively linear, but...."}
+treadwear <- read.csv("treadwear.csv")
+tread_model <- lm(mileage~groove,data=treadwear)
+plot(treadwear$groove,treadwear$mileage,xlab="groove",ylab="mileage",pch=16)
+abline(tread_model)
+```
+
+```{r,fig.cap="A parabola would clearly fit the data better than a straight line"}
+# using the olsrr package
+ols_plot_resid_fit(tread_model)
+```
+
+
+Compare this residual plot to the strength/alcohol example above in Figure \@ref(fig:resplot).  You can see in the treadwear data, the residuals depart from 0 in a very systematic manner. They are clearly positive for small x values, negative for medium x values, and positive again for large x values. Clearly, a non-linear model would better describe the relationship between the two variables. In future classes we will touch upon polynomial models that you might use to deal with this.
+
+## Checking Independence {#S.Tutorial.5B.3}
+
+This is a tough one.  Essentially we are asking if each row in our table is independent and representative of the population. So essentially we are looking for confounding variables.  Or to put it another way, is there another variable that we need to include in our model.  
+
+A classic example is that the order in which the sample was taken influences the result.  For example, imagine I was plotting exam score against class attendance, but really the time it took for the student to finish was a better predictor, I might make the wrong assumptions.
+
+Let's say our data is not independent but we notice.  What happens? First off, this isn't so terrible compared to if linearity is broken. The linear relationship likely still stands between our predictor and our response variable.  So for example, there really is a relationship between height and weight that's relatively linear.  Or house prices in our State College pre-regression example might really be taken from a normal distribution.
+
+BUT, it we had taken into account this new variable ALSO, we might have done an even better job.  So for example, the relationship between height and weight is definitely affected by someone's gender.  Or in the example from Lab 3, knowing how close a house is to "downtown" is a better predictor of price than knowing how far East/West it is.  
+
+Equally, the non independence of our data makes it hard for us to be sure how good our model is or for us to make predictions. For example, if we were looking at height and weight and our sample was made up only of people who identified as women, then there might be clear limitations in predicting the weight of the men's basketball team.
+
+Because every case is different, there is no "set method" for checking independence, but there are a few common ways to check things that you are suspicious of.  So the first item is to think about the problem.  What might impact your response variable that you have not taken into account.
+
+USE COMMON SENSE TO THINK THROUGH WHAT NON INDEPENDENCE YOUR DATA MIGHT HAVE.  FOR LAB 5, MAYBE THE ORDER IN WHICH YOU CLICKED....
+
+#### Independence check 1: Covariance matrix {-}
+
+Looking at correlations is a quick (but often misleading) way to assess what is happening.  Essentially we can look at the correlation between each column of data.
+
+The basic way to do this is very quick and easy.  For example, let's look at our Star Wars height/data.  
+
+The GGally function allows us to see the histogram of each column we choose to plot - along with the correlation of any numeric pairs.  Let's look at this for a new dataset looking at how much people are tipped in New York restaurants.
+
+```{r,message=FALSE,warning=FALSE}
+# Quick display of two capabilities of GGally, to assess the distribution and correlation of variables 
+house <- read_excel("Lab03_house.xlsx")
+
+# Choose column names - let's say I don't care about location
+colnames(house)
+
+# Create plot - note I have message=TRUE and warning=TRUE turned on at the top of my code chunk
+ggpairs(house[,c("House.Price" ,"House.Age","Distance.Station","Number.Shops" )])
+
+```
+
+You can simply look at the correlations of any NUMERIC columns using the corrplot code, as we did in Lab 3.
+
+```{r}
+library(corrplot)
+house.subset <- house[ , sapply(house,is.numeric)]
+corrplot(cor(house.subset),method="ellipse",type="lower")
+```
+
+There are LOADS of other ways to run correlation plots here: https://www.r-graph-gallery.com/correlogram.html
+Feel free to choose a favourite.
+
+Importantly, remember back to this website - https://www.tylervigen.com/spurious-correlations.  Just because another variable is correlated with our response does not mean it HAS to be in the model.  It simply means that you might want to consider whether there is a reason for that correlation.
+
+
+#### Scatterplots and residual plots with a suspected confounding variable {-}
+
+A second way we looked at in a previous lab was to add colour to our scatterplot and see if we can see any influence from a suspected confounding variable.  
+
+```{r}
+# Create a plot
+p <- house %>%                  
+  ggplot( aes(Latitude,House.Price, col= Distance.Station)) +
+  geom_point() +
+  theme_classic()+
+  scale_color_gradient(low="blue", high="red")
+
+# and actually plot it
+ggplotly(p)
+```
+
+However, this can be hard to see - so instead we can plot the residuals, but have the x-axis as the the variable we think is affecting independence.  For example
+
+```{r, fig.cap="These residuals do not look randomly distributed on the page.."}
+housemodel            <- lm(House.Price~Latitude,data=house)
+house$price_predicted <- housemodel$fitted.values
+house$residuals       <- housemodel$residuals
+
+plot(house$Distance.Station, house$residuals)
+```
+
+This definitely doesn't look like a random cloud!  It looks like distance to the station is really impacting the linear model between house price and latitude.
+
+In this case we will use MULITPLE REGRESSION. (later in the course)
+
+#### If your data includes a date or time-stamp {-}
+
+Then you have time-series data and there is an ENTIRE COURSE on modelling it (https://online.stat.psu.edu/stat510/).  For now, if your data contains any time stamp or date, be very cautious.  Changes are that your data contains auto-correlation e.g. the response tomorrow is likely to be affected by the response today.  
+
+In the short term, if you know the order in which your data was collected, you could plot a residuals/order plot as described here: https://online.stat.psu.edu/stat462/node/121/. 
+
+
+#### If your data includes a location {-}
+
+Spatial data is often not independent due to Tobler's Law (close together things are more similar than those further apart).  For example, imagine you were looking at the correlation between money spent on alcohol and undergraduate degree score  Your relationship might be different in areas with lower drinking age-limits, or in countries where drinking is outlawed.  
+
+So knowing the location of your sample is important.  The easiest thing we can do here to check for independence is to make a literal map of the residuals.  For example, remember in lab 3 - let's do something similar
+
+```{r,eval=FALSE}
+# Command from the sf library
+# Make a spatial version of the data using the Longitide and Latitude columns
+library(sp)
+library(sf)
+house.spatial <- st_as_sf(house,coords=c("Longitude","Latitude"),crs = 4326)
+
+library(tmap)
+# make interactive, for static set as "plot", for interactive set as "view"
+tmap_mode("plot")
+
+# Command from the tmap library
+# and plot
+qtm("Esri.WorldTopoMap") + 
+     qtm(house.spatial, # data
+         symbols.col="residuals", # which column for the symbols
+         symbols.size=.4, # how big
+         symbols.palette="RdBu",
+         midpoint=0) # color breaks
+```
+
+There definitely looks like the residuals are not randomly distributed in space, which makes me suspicious that there is spatial autocorrelation (e.g. correlation with itself - the location of a point impacts the residual).  
+
+We can test this through a statistic called Moran's I - which compares the residual at each point against its residuals for surrounding points.  In my spatial statistics course, we spend about 3 weeks on Moran's I, so there is a lot of nuance we are skipping over here.  For more, see https://mgimond.github.io/Spatial/spatial-autocorrelation.html 
+### Checking Normality {#S.Tutorial.5B.4}
+
+There are three things we might want to check around normality and regression - but essentially we are testing whether the RESIDUALS are normal around the regression line.  To get the best estimates of parameters such as B0 and B1, the residuals must be normally distributed around the regression line.  but this has a much smaller effect typically than non-linearity or breaking assumptions of independence.
+
+Breaking normality is only important in the calculation of p values for significance testing and confidence intervals, but this is only a problem when the sample size is  small.  When the sample size is  largeer (>200), the Central Limit Theorem ensures that the distribution of residuals will approximate normality when calculating parameters.
+ 
+So never throw away your data if it breaks normality. But it's good to take a look.
+
+Let's go back to our original test data:
+
+```{r}
+mymodel <- lm(strength~alcohol,data=testdata)
+plot(testdata$alcohol,testdata$strength,xlab="Alcohol",ylab="Strength",pch=16)
+abline(mymodel)
+```
+
+To test normality, we can use OLSRR to:
+
+```{r}
+#Create a QQ plot of the residuals
+ols_plot_resid_qq(mymodel)
+#Create a histogram of the residuals
+ols_plot_resid_hist(mymodel)
+#Run a Wilks-Shapiro test for normality
+ols_test_normality(mymodel)
+```
+
+In this case, our residuals look very normal.
+
+Compare that to our house dataset, which suggests that the data is mildly non normal.
+
+```{r}
+housemodel <- lm(House.Price~Latitude,data=house)
+plot(house$House.Price~house$Latitude,xlab="Latitude",ylab="House Price",pch=16)
+abline(housemodel)
+#Create a QQ plot of the residuals
+ols_plot_resid_qq(housemodel)
+#Create a histogram of the residuals
+ols_plot_resid_hist(housemodel)
+#Run a Wilks-Shapiro test for normality
+ols_test_normality(housemodel)
+```
+
+The answer to non-normal data is to use a GLM (Generalised Linear Model), which again we will get to later in the semester.
+
+Alternatively you can use your linear model, but make the significance level more rigarous (say 1% rather than 5%) to take into account the fact that the assumptions underpinning the calculations might be flawed.
+
+In terms of detailed interpretation, read this page: https://online.stat.psu.edu/stat462/node/122/ 
+ 
+### Checking Equal Variance/homoskadisity {#S.Tutorial.5B.5}
+
+The easiest thing to do here is to plot the residuals, then see if you see any variations in variance.  For example in our house regression, the residuals look like this - you are looking for some areas where there are small residuals and some areas with large residuals (e.g. a cone shape, a bow-tie) vs just random dots.
+
+```{r}
+ols_plot_resid_fit(housemodel)
+```
+
+You can clearly see here that for low values of the fitted data, there is not much variance - but there is a lot of variance between 30-50
+
+You can also run statistical tests, explained in more detail here: https://rpubs.com/tskam/Session06
+
+```{r}
+# F test - assumes residuals are  independent and identically distributed (i.i.d.)
+ols_test_f(housemodel)
+```
+
+In this case, we can see that perhaps we neeed to worry less about unequal variance,  
+
+There is also another test available, the Breusch Pagan Test - but this relies on the residuals being normally distributed.
 
