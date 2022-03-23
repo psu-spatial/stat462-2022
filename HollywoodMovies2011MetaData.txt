@@ -1,0 +1,11 @@
+| Variable Name       | Description                                                                      |
+|---------------------|----------------------------------------------------------------------------------|
+| _RottenTomatoes_    | Percentage total rating from critical reviews, from the Rotten Tomatoes website  |
+| _AudienceScore_     | Percentage audience rating from opening weekend surveys                          |
+| _TheatersOpenWeek_  | Number of cinemas showing the movie on opening weekend                           |
+| _BOAverageOpenWeek_ | Average box office revenue per theater opening week-end, in dollars              |
+| _DomesticGross_     | Gross revenue in the US by the end of 2011, in millions of dollars               |
+| _Profitability_     | Percent of the budget recovered in profits                                       |
+|---------------------|----------------------------------------------------------------------------------|
+
+

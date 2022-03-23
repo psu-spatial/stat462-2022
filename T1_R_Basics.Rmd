@@ -3377,5 +3377,520 @@ predict(lm.pirate,newdata=new.pirates,interval="predict",level=0.95)
 
 Her weight is likely to be somewhere between 53Kg and 69Kg with 95% certainty given our sample.
 
+# Checking outliers, leverage and influential points
 
+There are three key things to know when it comes to outliers:
+
+1. We use the word __outlier__ to describe an observation (point on the scatterplot) that has a very different response from the predicted response from the model e.g. it does not follow the trend determined by the rest of the dataset.  We consider it an outlier _only_ if it is an extreme "y" value e.g. an extreme response.
+
+2. If a data point has an x-value that is extremely different (either too high or too low) from the rest of the data points, we call this a __high leverage__ point.  It might, or might not be an outlier.
+
+3. We call a data point an __influential point__ if that data point has a considerable impact on the regression model. For instance, if the model fit changes considerably by removing a point, such data point is called an influential point.  Influential points tend to be further from the mean.  We know the regression lines goes through the mean of x and the mean of y, they tent to tilt like a see-saw.
+
+Both outliers and the leverage points can be influential depending on where they located in a scatterplot. We can easily see them using a fits vs residuals plot (we'll get to this below)
+
+For more details here, see  https://online.stat.psu.edu/stat501/lesson/11/11.1
+
+## Visual inspection 
+
+The first way we can check for simple linear regression is to plot the data and take a look. Here are some examples that we can assess by eye which show the different effects.
+
+#### No outliers, influential or high leverage points {-}
+
+```{r,echo=FALSE,message=FALSE,fig.cap="No outliers, influential values or high leverage points"}
+data <- read.csv("neither.csv")
+layout(matrix(c(1,2), 1, 2, byrow = TRUE))
+plot(data$x,data$y,pch=16,xlab="x",ylab="y",main="Dataset A")
+plot(data$x,data$y,pch=16,xlab="x",ylab="y",main="Dataset A"); abline(lm(y~x,data=data))
+
+```
+
+In the figure above, all of the data points follow the general trend of the rest of the data, so there are no outliers (in the y direction). And, none of the data points are extreme with respect to x, so there are no high leverage points. Overall, none of the data points would appear to be influential with respect to the location of the best fitting line. e.g. if we removed any one point, the line would probably be the same.
+
+#### An outlier with no leverage {-}
+
+```{r,echo=FALSE,message=FALSE,fig.cap="One outlier. The red-dashed line is the model including all the points. The black-solid line is the model with the red point removed "}
+data1 <- read.csv("outlier.csv")
+data1b <- data1[-21,]
+
+layout(matrix(c(1,2), 1, 2, byrow = TRUE))
+plot(data1$x,data1$y,pch=16,xlab="x",ylab="y",main="Dataset B",col="red")
+lines(data1b$x,data1b$y,pch=16,xlab="x" ,ylab="y",main="Dataset B",type="p")
+plot(data1$x,data1$y,pch=16,xlab="x",ylab="y",main="Dataset B",col="red")
+lines(data1b$x,data1b$y,pch=16,xlab="x",ylab="y",main="DatasetB",type="p")
+abline(lm(y~x,data=data1b))
+abline(lm(y~x,data=data1),col="red",lty="dashed")
+
+```
+
+In the figure above, most of the data points follow the general trend of the rest of the data, but there is one clear outlier (one point that is unusual in the y direction). However, no point has an extreme x value, so there are no high leverage points. Overall, none of the data points would appear to be influential with respect to the location of the best fitting line. e.g.when we removed the red point,the line of best fit remains relatively stable.
+
+#### A high leverage point that isn't an outlier {-}
+
+```{r,echo=FALSE,message=FALSE,fig.cap="No outliers,but one high leverage point. The red-dashed line is the model including all the points. The black-solid line is the model with the red point removed"}
+data2 <- read.csv("leverage.csv")
+data2b <- data2[-25,]
+
+layout(matrix(c(1,2), 1, 2, byrow = TRUE))
+plot(data2$x,data2$y,pch=16,xlab="x",ylab="y",main="Dataset C",col="red",ylim=c(0,120))
+lines(data2b$x,data2b$y,pch=16,xlab="x" ,ylab="y",main="Dataset C",type="p")
+plot(data2$x,data2$y,pch=16,xlab="x",ylab="y",main="Dataset C",col="red",ylim=c(0,120))
+lines(data2b$x,data2b$y,pch=16,xlab="x",ylab="y",main="DatasetC",type="p")
+abline(lm(y~x,data=data2b))
+abline(lm(y~x,data=data2),col="red",lty="dashed")
+
+```
+In the figure above, most of the data points follow the general trend of the rest of the data, so there are no outliers (in the y direction). But one data points is extreme with respect to x. Overall, none of the data points would appear to be influential with respect to the location of the best fitting line. e.g.when we removed the red point,the line of best fit remained relatively stable.
+
+
+#### An influential high leverage outlier {-}
+
+```{r,echo=FALSE,message=FALSE,fig.cap="One influential high leverage outlier. The red-dashed line is the model including all the points. The black-solid line is the model with the red point removed" }
+data2 <- read.csv("influential.csv")
+data2b <- data2[-25,]
+
+layout(matrix(c(1,2), 1, 2, byrow = TRUE))
+plot(data2$x,data2$y,pch=16,xlab="x",ylab="y",main="Dataset D",col="red",ylim=c(0,120))
+lines(data2b$x,data2b$y,pch=16,xlab="x" ,ylab="y",main="Dataset D",type="p")
+plot(data2$x,data2$y,pch=16,xlab="x",ylab="y",main="Dataset D",col="red",ylim=c(0,120))
+lines(data2b$x,data2b$y,pch=16,xlab="x",ylab="y",main="Dataset D",type="p")
+abline(lm(y~x,data=data2b))
+abline(lm(y~x,data=data2),col="red",lty="dashed")
+
+```
+In the figure above, most of the data points follow the general trend of the rest of the data, with one clear outlier. This point also has high leverage abd appears to be very influential. e.g.when we removed the red point,the line of best fit changes hugely,
+
+Here with a simple regression, we can easily see outliers.  This is much harder when we have many predictors.  So as well as examining the data by eye, we can use diagnostic plots.
+
+## Detecting leverage
+
+Leverage ($h_{ii}$): is used for for measuring unusual observations in x-direction (high leverage point).   Essentially, the leverage quantifies the influence that the observed response  has on its predicted value. That is, if the leverage is small, then the observed response plays only a small role in the value of the predicted/modelled response. On the other hand, if the leverage is large, then the observed response plays a large role in the value of the predicted response. 
+
+This quantity is based on
+
+ - The distance of $x_{i}$ from the bulk of the x’s.
+ - The extent tjat the fitted regression line is attracted by the given point.
+ 
+The Leverage, $h_{ii}$ associated with the ith datapoint is:
+
+$$h_{ii}=\frac{1}{n}+\frac{\left(x_i-\overline{\left(x\right)}\right)^2}{\ \left\{\sum_{i=1}^n\left(x_j-\overline{\left\{x\right\}}\right)^2\right\}}$$
+
+and is described further in https://online.stat.psu.edu/stat501/lesson/11/11.2
+
+You don't need to remember the equation as R does the calculation for you, but here are some important properties of the leverages:
+
+1. The leverage  is a measure of the distance between the x value for the  data point and the mean of the x values for all n data points.
+2. The leverage  is a number between 0 and 1, inclusive.
+3. The sum of the  equals p, the number of parameters (regression coefficients including the intercept).
+
+A rule of thumb would be to classify classify $x_{i}$ as a high leverage point if 
+
+$$h_{ii}>\frac{2p}{n}$$
+where p = number of regression coefficients (2 for SLR) and n = number of observations
+
+We can calculate and plot the leverage easily for each point in either the base package (`hatvalues`), or using OLSRR (`ols_leverage`).  
+
+Let's see how this works for our scenarios above. If you are coding this, you don't necessarily need the left hand plot - but it's helpful for me showing you what is going on.
+
+```{r,message=FALSE,fig.cap="No outliers, influential values or high leverage points.  Thr highest x point is around the threshold for high leverage, but nothing special here"}
+# read the data
+data <- read.csv("neither.csv")
+
+#calculate the model
+model <- lm(y~x,data=data)
+leverage <- ols_leverage(model) 
+
+# Set up 2 sub-plots one next to each other
+layout(matrix(c(1,2), 1, 2, byrow = TRUE))
+
+# plot 1 (left hand side)
+plot(data$x,data$y,pch=16,xlab="x",ylab="y",main="Dataset A"); 
+abline(model)
+
+# plot 2 (right hand side). Remember to choose your own ylim
+plot(data$x,leverage,pch=16,ylim=c(0,.6),
+     xlab="x",ylab="y",type="h",
+     main="Dataset A leverage"); 
+
+# Calculate the critical value of leverage and add to plot
+n=nrow(data)
+p=length(coefficients(model))
+cutLev=2*p/n
+abline(h=cutLev,col="blue",lty=2)
+
+```
+
+```{r,echo=FALSE,message=FALSE,fig.cap="No outliers,but one high leverage point. The red-dashed line is the model including all the points. The black-solid line is the model with the red point removed"}
+data1           <- read.csv("leverage.csv")
+data1minuspoint <- data2[-25,]
+
+#calculate the model
+model1 <- lm(y~x,data=data1)
+leverage1 <- ols_leverage(model1) 
+
+# Set up 2 sub-plots one next to each other
+layout(matrix(c(1,2), 1, 2, byrow = TRUE))
+
+# plot 1 (left hand side)
+plot(data1$x,data1$y,pch=16,xlab="x",ylab="y",main="Dataset B",col="red") 
+lines(data1minuspoint$x,data1minuspoint$y,pch=16,type="p")
+abline(model1)
+
+# plot 2 (right hand side). Remember to choose your own ylim
+plot(data1$x,leverage1,pch=16,ylim=c(0,.6),
+     xlab="x",ylab="y",type="h",
+     main="Dataset B leverage"); 
+
+# Calculate the critical value of leverage and add to plot
+n=nrow(data1)
+p=length(coefficients(model1))
+cutLev=2*p/n
+abline(h=cutLev,col="blue",lty=2)
+
+```
+
+#### An important distinction! {-}
+
+There is such an important distinction between a data point that has high leverage and one that has high influence that it is worth saying it one more time:
+
+ - The leverage merely quantifies the potential for a data point to exert strong influence on the regression analysis.
+ - The leverage depends only on the predictor values.
+ - Whether the data point is influential or not also depends on the observed value of the reponse.
+
+## Detecting outliers 
+
+In lab 5, we mentioned two measures that we use to help identify outliers. They are:
+
+ - Residuals
+ - Studentized residuals (or internally studentized residuals) (often called standardized residuals)
+
+First, briefly review these measures using this page: https://online.stat.psu.edu/stat501/lesson/11/11.3
+ 
+OLSRR also offers several more plots and tests including :
+
+ - Cook’s D Bar Plot
+ - Cook’s D Chart
+ - DFBETAs Panel
+ - DFFITs Plot
+ - Studentized Residual Plot
+ - Standardized Residual Chart
+ - Studentized Residuals vs Leverage Plot
+ - Deleted Studentized Residual vs Fitted Values Plot
+ - Hadi Plot
+ - Potential Residual Plot
+
+For now, we will focus on one of the most effective ways to assess residuals, the studentized residual/fits plot.
+
+
+For example for our test data:
+
+```{r,message=FALSE}
+# read the data
+data <- read.csv("neither.csv")
+
+#calculate the model
+model <- lm(y~x,data=data)
+leverage <- ols_leverage(model) 
+
+# plot 1 (left hand side)
+plot(data$x,data$y,pch=16,xlab="x",ylab="y",main="Dataset C"); 
+abline(model)
+
+# plot 2 (right hand side). Remember to choose your own ylim
+ols_plot_resid_stud(model)
+
+```
+
+There should be no absolute cut-off here (around 2-3 is a warning sign).  Instead, take these as an opportunity to explore those points further.  For example here is our plot with the residual:
+
+
+```{r,message=FALSE}
+# read the data
+data1 <- read.csv("outlier.csv")
+
+#calculate the model
+model1 <- lm(y~x,data=data1)
+
+# plot 1 (left hand side)
+plot(data1$x,data1$y,pch=16,xlab="x",ylab="y",main="Dataset B"); 
+abline(model1)
+
+# plot 2 (right hand side). Remember to choose your own ylim
+ols_plot_resid_stand(model1)
+
+```
+
+Here the plot is telling me that it thinks row 21 of the dataset might be an outlier
+
+```{r}
+data1[21,]
+```
+
+
+## Detecting influential points {#Tutorial.6AC}
+
+
+If a point is both an outlier AND has leverage, chances are it will be influential over the fit.  
+
+OLSRR has a nice way of summarising both statistics.  For example here are our four plots together:
+
+
+```{r,message=FALSE,fig.cap="Our four examples"}
+# read the data
+data <- read.csv("neither.csv")
+data2 <- read.csv("outlier.csv")
+data2b <- data2[-21,]
+data3 <- read.csv("leverage.csv")
+data3b <- data3[-25,]
+data4 <- read.csv("influential.csv")
+data4b <- data4[-25,]
+
+#calculate the model
+model <- lm(y~x,data=data)
+model2 <- lm(y~x,data=data2)
+model3 <- lm(y~x,data=data3)
+model4 <- lm(y~x,data=data4)
+
+# Set up 4 sub-plots one next to each other
+layout(matrix(c(1,2,3,4), 2, 2, byrow = TRUE))
+
+plot(data$x,data$y,pch=16,xlab="x",ylab="y",main="Dataset A",col="black") 
+abline(model)
+
+plot(data2$x,data2$y,pch=16,xlab="x",ylab="y",main="Dataset B",col="red") 
+lines(data2b$x,data2b$y,pch=16,type="p")
+abline(model2)
+
+plot(data3$x,data3$y,pch=16,xlab="x",ylab="y",main="Dataset C",col="red") 
+lines(data3b$x,data3b$y,pch=16,type="p")
+abline(model3)
+
+plot(data4$x,data4$y,pch=16,xlab="x",ylab="y",main="Dataset D",col="red",ylim=c(0,100)) 
+lines(data4b$x,data4b$y,pch=16,type="p")
+abline(model4)
+
+```
+
+```{r}
+# model A
+ols_plot_resid_lev(model)
+# model B
+ols_plot_resid_lev(model2)
+# model C
+ols_plot_resid_lev(model3)
+# model D
+ols_plot_resid_lev(model4)
+```
+
+Cook’s Distance is another method for identifying influential points
+
+Cook’s distance, $D_i$,  is measured by deleting one observation at a time and each time re-fitting the regression line on the remaining observations. By comparing the results from the n observations to the results with ith observation deleted, we can get an idea about the influence from the ith observation on the fitted model.
+
+While there is no set cut-off for flagging a datapoint as an influential point, an observation with $D_i$ would most likely be an influential point.
+
+Again for our four examples:
+
+```{r}
+# model A
+ols_plot_cooksd_bar(model)
+# model B
+ols_plot_cooksd_bar(model2)
+# model C
+ols_plot_cooksd_bar(model3)
+# model D
+ols_plot_cooksd_bar(model4)
+
+```
+
+## Making a table of your residual diagnostics 
+
+If your data is not huge, making a table of your residual diagnostics often makes it much easier to work out which points you are looking at.
+
+In fact we can do this very easily simply by making new columns in our table of data.  Let's try it with our influential dataset.
+
+```{r}
+testdata <- read.csv("influential.csv")
+mymodel <- lm(y~x,data=testdata)
+
+# Make a new column with the predicted y value
+testdata$y_predicted <- mymodel$fitted.values
+
+# Make a new column with the raw residuals
+testdata$residuals_raw <- mymodel$residuals
+
+# Make a new column with the standardisd/studentised residuals
+library(MASS)
+testdata$residuals_stud <- studres(mymodel)
+
+# Make a new column with the leverage
+testdata$x_leverage <- ols_leverage(mymodel)
+
+# Make a new column with the Cook's distance. OLSRR package
+testdata$cooks.distance <- cooks.distance(mymodel)
+
+# Print out the table
+head(testdata)
+```
+
+If you click on the NAME of the table (e.g. testdata in the environment tab) then it will open the table in a new tab which makes it easier to view things. 
+
+```{r,tablelookup, echo=FALSE, fig.cap = "How to sort the table in R-Studio. click the tiny arrows"}
+knitr::include_graphics('./Figures/Fig06_3Table.png')
+```
+
+If you're sick of looking at things in R, you can save the table to a csv file and open it in excel.  If you are running your project, this should save into the folder where your project file is (you can add a different directory if required)
+
+```{r}
+write.csv(testdata,"Output.csv",quote=FALSE)
+```
+
+Finally, there might be too much data to look at things manually.  You can now use commands like filter on your new table to find which rows are of interest
+
+```{r}
+# Filter rows with high cooks distance
+dplyr::filter(testdata,  cooks.distance>1)
+```
+
+
+If you decide to remove an outlier, you can do it in excel! (save the file as something new first, then read that back in).  
+
+Or you can remove a specific row with the - symbol
+
+```{r}
+row_highcooks <- which(testdata$cooks.distance > 1)
+print(paste("Row number: ", row_highcooks))
+
+newdata <- testdata[-row_highcooks]
+
+## BE CAREFUL.  AS YOU REMOVE A DATA POINT ALL THE ROW NUMBERS WILL SHIFT AROUND, SO RUN THE WHICH COMMAND EACH TIME
+```
+
+
+Or you can simply use filter the other way around, but again be careful that you only remove the data you mean to
+
+```{r}
+# Filter rows with high cooks distance
+newdata <- dplyr::filter(testdata,  cooks.distance <= 1)
+```
+
+<br>
+
+# Transformations 
+
+We will talk in the class (or read here! https://online.stat.psu.edu/stat501/lesson/9 ) about *why* to apply transformations.  Here I will simply show you how.
+
+This is very similar to the method in 6a.  We simply make a new column and use maths to fill in the value.
+
+For example:
+
+```{r,message=FALSE}
+# read the data
+data <- read.csv("neither.csv")
+head(data)
+```
+
+To make a column with $\frac{1}{x}$ as the predictor, we do
+
+```{r,message=FALSE}
+# Note I am trying to avoid spaces  or special characters in my data
+data$transform_1overx <- 1/data$x
+```
+
+
+To make a column with $x^2$ as the predictor, we do
+
+```{r,message=FALSE}
+# Note I am trying to avoid spaces  or special characters in my data
+data$transform_xsquare <- data$x^2
+```
+
+To make a column with $\log(x)$ as the predictor, we do (this is the NATURAL LOG)
+
+```{r,message=FALSE}
+# Note I am trying to avoid spaces  or special characters in my data
+data$transform_lnx <- log(data$x)
+```
+
+To make a column with $\log_{10}(x)$ as the predictor, we do 
+
+```{r,message=FALSE}
+# Note I am trying to avoid spaces  or special characters in my data
+data$transform_logx <- log(data$x,base=10)
+```
+
+To make a column with $\sqrt{x}$ as the predictor, we do 
+
+```{r,message=FALSE}
+# Note I am trying to avoid spaces  or special characters in my data
+data$transform_sqrtx <- sqrt(data$x)
+```
+
+And let's see the output
+
+```{r}
+head(data)
+```
+We could now perform our linear regression with any of these as our predictor.  For example
+
+
+```{r}
+newmodel <- lm(y~transform_sqrtx,data=data)
+plot(data$y~data$transform_sqrtx,xlab="Sqrt(x) UNITS",ylab="y UNITS")
+```
+
+You don't *have* to make a new column in advance, you can do the maths within the regression itself:
+
+```{r}
+newmodel2 <- lm(y~sqrt(x),data=data)
+
+# For Polynomial regression you can use the poly command e.g. X+X^2 
+
+newmodel3 <- lm(y ~ poly(x,2),data=data)
+
+```
+
+```{r}
+summary(newmodel3)
+```
+
+```{r}
+equatiomatic::extract_eq(newmodel3)
+```
+
+
+# Basic model comparisons 
+
+You are now being asked to assess two (or more) models and decide "which is best".
+
+We will talk about this in more detail later in the semester, but for now, there are two easy ways we can compare different models.
+
+##### Coefficient of Determination $R^2$ {-}
+
+We could look first at the coefficient of variation for each model in the model summary.  e.g. which model explains more variation in your response variable.
+
+##### AIC {-}
+
+There is another measure called AIC (read more here: https://online.stat.psu.edu/stat501/lesson/10/10.5).  For now, know that the lower the AIC, the "better" the model.  This is a non parametric test that takes into account the number of predictors and the amount of data, so is often more robust to bad linear fits than $R^2$ (which needs LINE to be true)
+
+Let's compare two models now, using our transformed data:
+
+```{r}
+model1 <- lm(y~x,data=data)
+model2 <- lm(y~sqrt(x),data=data)
+
+model1summary <- summary(model1)
+model2summary <- summary(model2)
+
+# Adjusted R2
+paste("Model 1:",round(model1summary$adj.r.squared,2) )
+paste("Model 2:",round(model2summary$adj.r.squared,2) )
+
+# AIC
+AIC(model1,model2)
+
+```
+
+We can see here that although $adj-R^2$ is higher for model 2, the AIC suggests that model 1 does a better job.
+
+YOU SHOULD NEVER USE THESE NUMBERS IN ISOLATION.  Also look at the data and use your common sense.  Use them as guidelines.
 
