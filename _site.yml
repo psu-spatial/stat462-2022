@@ -19,6 +19,8 @@ navbar:
           href: STAT462_Lab4.html
         - text: "Lab 5: LINE Assumptions"
           href: STAT462_Lab5.html
+        - text: "Lab 6: Outliers & Transformations"
+          href: STAT462_Lab6.html
     - text: "LAB EXAMPLE"
       href: STAT462_LabEXAMPLE.html 
 output:  

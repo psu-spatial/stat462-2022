@@ -235,7 +235,8 @@ corrplot(mat)
 
 <br>
 
-**Step 5:**  Under `Exploratory analysis`, make a new sub-section called `Correlation`.  Make a correlation plot of the variables against your response [See Tutorial 6.4](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation).  Which predictor has the largest _negative_ correlation against your response?
+**Step 5:**  Under `Exploratory analysis`, make a new sub-section called `Correlation`.  Make a correlation plot of the variables against your response [See Tutorial 6.4](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation).  
+**CLARIFICATION: Which predictor has the smallest and largest correlation vs your response?**
 
 <br>
 

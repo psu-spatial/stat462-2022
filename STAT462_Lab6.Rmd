@@ -1,5 +1,5 @@
 ---
-title: "Lab 5: LINE"
+title: "Lab 6: Outliers, Transformations & MLR"
 subtitle: <h5 style="font-style:normal">STAT-462 - Regression Analysis</h4>
 author: <h5 style="font-style:normal">Dr Helen Greatrex</h4>
 output: 
@@ -59,21 +59,20 @@ library(Stat2Data)
 library(readxl)
 library(corrplot)
 library(kableExtra)
-
+library(visreg)
 ```
 
 
 # Learning objectives 
 
 
-<p class="comment">**Assignment 5 is due by midnight NEXT WEDNESDAY (1 week lab)**   [See here](https://psu.instructure.com/courses/2174925/assignments/13762850) I PROVIDE HELP UNTIL THE END OF NEXT WEEK'S LAB. After next week's lab (All of Wed evening) is for your own finishing up.</p>
-
+<p class="comment">**Assignment 6 is due by midnight NEXT WEDNESDAY (1 week lab)**   [See here](https://psu.instructure.com/courses/2174925/assignments/13762850) I PROVIDE HELP UNTIL THE END OF NEXT WEEK'S LAB. After next week's lab (All of Wed evening) is for your own finishing up.</p>
 
 By the end of this week's lab, you will be able to:
 
-1. Feel comfortable working through a simple linear regression analysis
-2. Feel comfortable discovering outliers.
-3. Feel comfortable assessing LINE assumptions
+1. Feel comfortable working with outliers
+2. Feel comfortable using transformations to fix LINE problems
+3. Start running MLR.
 
 There is a TEAMS discussion for lab help [CLICK HERE](https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e).  Remember to include a screenshot of the issue and a short description of the problem.  Also try googling the error first.
 
@@ -83,11 +82,11 @@ There is a TEAMS discussion for lab help [CLICK HERE](https://teams.microsoft.co
 
 <br>  
 
-**Step A:** Create a new project for Lab 5.  If you are stuck, see previous labs or [Tutorial 2.1](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects).
+**Step A:** Create a new project for Lab 6.  If you are stuck, see previous labs or [Tutorial 2.1](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects).
 
 <br>  
 
-**Step B:** Copy your lab template to your lab 4 folder, rename as `STAT-462_Lab5_EMAILID.Rmd` and open (e.g.STAT-462_Lab5_hlg5155.Rmd). This should have your theme, your table of contents and your headings. 
+**Step B:** Copy your lab template to your lab 6 folder, rename as `STAT-462_Lab6_EMAILID.Rmd` and open (e.g.STAT-462_Lab6_hlg5155.Rmd). This should have your theme, your table of contents and your headings. 
 
 <br>
 
@@ -97,7 +96,7 @@ There is a TEAMS discussion for lab help [CLICK HERE](https://teams.microsoft.co
 
  - To make sure they loaded OK, run the code chunk TWICE.  The second time any welcome text will disappear unless there are errors.
  
- - Sometimes you might need an extra package later in the lab.  Install it using the instructions above and add the library command to your library code chunk.
+ - Sometimes you might need an extra package later in the lab.  Install it using the instructions above and add the library commands to your library code chunk.
 
 ```{r, eval=FALSE}
 # Load libraries
@@ -116,6 +115,7 @@ library("olsrr")     # Regression specific commands
 library("plotly")    # Interactive plots
 library("readxl")    # Read from excel files
 library("equatiomatic") # extract equations
+library("ggstatsplot")
 
 ## you may need additional libraries.  Just add them to this list if you get errors.
 
@@ -129,31 +129,68 @@ library("equatiomatic") # extract equations
 
 # PART 2: Code showcase
 
-IF YOU IGNORED THE STEPS ABOVE GO BACK AND DO THEM!  You lose marks for things like no theme, poor headings (remember there is a space between the # and the text), or accidentally printing out package loading text.  
+Copy any of your old datasets into your lab 6 folder and read it in.  Make a linear model between your response and predictor. Now go to the packages tab and install the `visreg` model.  Add `library(visreg)` to your library code chunk and re-run.
+
+`OLSRR`, `ggstatsplot` and `visreg` are three relatively new packages for regression and they are adding new cool things every day.  Here are tutorials for them:
+ - https://pbreheny.github.io/visreg/ and more details (https://journal.r-project.org/archive/2017/RJ-2017-046/RJ-2017-046.pdf)
+ - https://cran.r-project.org/web/packages/olsrr/vignettes/intro.html
+ - https://indrajeetpatil.github.io/ggstatsplot/ 
+ - https://indrajeetpatil.github.io/ggstatsplot_slides/slides/ggstatsplot_presentation.html 
+ - https://cran.r-project.org/web/packages/jtools/vignettes/summ.html
+ - 
+Glance at some tutorials and have a play - see what plots and visualisions are there and try a few on your test data.
+
+Describe at least one thing you think I should add in the tutorials and show me an example.
+
 
 <br>  
 
-**Step 1:** Describe the lINE assumptions for your client in plain language and why each is important.
+# PART 3: Florida Fish and Mercury poisoning
 
-<br>  
+```{r,echo=FALSE,include=FALSE}
+ bass <- read.csv("bass.csv")
+```
 
-**Step 2:** Go to https://stephenturner.github.io/drawmydata/.  Create and save 3 datasets into your Lab 5 folder. Read all of them into R and assign to testdata1, testdata2 and testdata3
 
- - One that meets all the assumptions of simple linear regression
- - One that breaks the assumption of linearity
- - One that breaks the assumption of equal variance/heteroskadisity
+## Background
 
-<br>  
+Small amounts of the element mercury are present in many everyday foods.  These do not normally affect your health, but too much mercury can be poisonous. Mercury itself is naturally occurring, but the amounts in the environment have been on the rise from industrialization. The metal can make its way into soil and water, and eventually build up in animals like fish, which are then eaten by people.  More details here:
 
-**Step 3:** Use NEW TUTORIAL, Tutorial 10, and https://online.stat.psu.edu/stat501/lesson/4 to assess the LINE assumptions for your three datasets.
+ - https://www.wearecognitive.com/project/extra-narrative/bbc-mercury
+ - https://medium.com/predict/mercury-pollution-reaches-the-deep-sea-f59a4938dc7c
 
-<br>  
+In the late 1980s, there were widespread public safety concerns in Florida about high mercury concentrations in sport fish. In 1989, the State of Florida issued an advisory urging the public to limit consumption of "top level" predatory fish from Lake Tohopekaliga and connected waters: including largemouth bass (Micropterus salmoides), bowfin (Amia calva), and gar (Lepisosteus spp.).  This severely impacted tourism and the economy in the area. Urgent research was required to inform public policy about which lakes needed to be closed.
 
-# PART 3: House Plant advertising
+
+```{r, out.width = "100%", echo=FALSE,fig.align='center',fig.cap="a. (Left): The mercury food chain in fish.(Wikimedia commons, Bretwood Higman, Ground Truth Trekking) b. (middle) A large bass caught and released in a central Florida lake (https://www.wired2fish.com/news/young-man-catches-releases-huge-bass-from-bank/) c. (right). The location of the lakes in Florida (Google maps)"}
+knitr::include_graphics('Figures/Fig06_2Fish.png')
+```
+## Goal
+
+We are going to reproduce part of one study on the topic conducted by T.R. Lange in 1993. 
+
+Dr Lange and their team took samples from 53 lakes in the Central Florida area. Using water samples collected from each of the lakes, the researchers measured the pH level, as well as the amount of chlorophyll, calcium and alkalinity. The Mercury concentration in the muscle tissue of lake fish was also recorded.
+
+The units of the your dataset are: 
+
+| **Variable** |           **Unit**          |
+|:------------:|:---------------------------:|
+|  Chlorophyll | micrograms/Litre, $\mu g/L$ |
+|  Alkalinity  |   miligrams/Litre, $mg/L$   |
+|      pH      |           Unitless          |
+|    Calcium   |   miligrams/Litre, $mg/L$   |
+|    Mercury   |     Micrograms, $\mu g$     |
+
+The data is stored on Canvas in __bass.csv__.
+
+You can see part of the paper here: https://www.researchgate.net/publication/15388314_Mercury_accumulation_in_largemouth_bass_Micropterus_salmoides_in_a_Florida_Lake 
+
+__You have been asked to assess whether the alkalinity levels of a lake might impact Mercury levels in largemouth bass. You will be presenting your results to the Mayor of Orlando in order to set new fishing regulations.  She has asked for a report to provide your full thinking and workflow in how you decide on your final model.__  
+
 
 ## Lab report format {-}
 
-Imagine this is a real report you are submitting to an advertising company. You will be graded on the professionality of your final report.   In all of your answers below, I expect good formatting, appropriate units and full sentences to explain your answers.  Please also make sure that you use headings, sub-headings and the spell check to make your lab easier to follow and grade.  
+Imagine this is a formal report you are submitting to the Mayor of Orlando. You will be graded on the professionality of your final report.   In all of your answers below, I expect good formatting, appropriate units and full sentences to explain your answers.  Please also make sure that you use headings, sub-headings and the spell check to make your lab easier to follow and grade.  
 
 Think about using any/all of the markdown features we have learned so far, for example equations, text formatting, pictures, code-chunk options or anything else that makes your report look more professional.  
 
@@ -161,36 +198,11 @@ Think about using any/all of the markdown features we have learned so far, for e
 
 <br>  
 
-
-## Instructions: {-}
-
-```{r,echo=FALSE,include=FALSE}
-adverts <- read.csv("Advertising.csv")
-```
-
-Houseplants are now very popular.  You have been hired by an advertising executive who has been collecting data on how well their marketing campaigns have been running.
-
-They have run 200 marketing campaigns over the last few years.  For each one, they recorded:
-
- - how much they spent (in units of thousands of dollars) on 
-     + TV, 
-     + radio 
-     + and newspaper adverts  
- - How many houseplants were sold (in thousands of plants).  
- - The "X-Factor" of how popular that plant was at the time (percentage popularity), 
- - And typically how tall that type plant was in inches.
-
-The company wish to know which type of advertising campaigns are the most effective.
-
 Follow the instructions below to answer their questions.
 
 <br>
 
 ### 1. Describe the study
-
-<p class="comment">Hint: IF YOU ARE AN HONORS STUDENT USE YOUR OWN DATA FROM THE FIRST PART OF THE SEMESTER</p>
-
-<br>  
 
 **Step 1:**  If you skipped it, go back and read the brief above. Seriously, it will save you time.
 
@@ -202,10 +214,10 @@ Follow the instructions below to answer their questions.
 
 **Step 3:**  Read the data into R.  In the `Data Description` and `Study Aim` sections, use the first part of the [teaching notes](https://psu.instructure.com/courses/2174925/files/132549205) to help you write about the following: <br> 
 
- - The background of the study *(imagine this is a real report to a real customer, google things like _house plant sales increasing_ for ideas, include a picture!)*
- - A short description of the data source.
+ - The background of the study *(imagine this is a real report and the Mayor doesn't know the background)*
+ - A short description of the data.
  - The object of analysis
- - A reasonable population *(what population could your results be extrapolated to)*
+ - A reasonable population *(what population could your results be extrapolated to/  All water in the universe in all time?)*
  - The response variable *(and units - if they are not provided, state that!)*
  - A bullet point list of your predictor variables *(and units)*
  - The amount of data
@@ -226,91 +238,129 @@ Follow the instructions below to answer their questions.
 
 ```{r,include=FALSE, echo=FALSE}
 library(corrplot)
-mat <- cor(adverts)
+mat <- cor(bass[-2])
 corrplot(mat)
 ```
 
 <br>
 
-**Step 5:**  Under `Exploratory analysis`, make a new sub-section called `Correlation`.  Make a correlation plot of the variables against your response [See Tutorial 6.4](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation).  Which predictor has the largest _negative_ correlation against your response?
+**Step 5:** Inside `Exploratory analysis`, make a new sub-section called `Correlation`.  Look at the correlation between your predictor variables and your response.  Comment on what you find out [See Tutorial 6.4](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation).  
 
 <br>
 
-### 3. Make some models
+### 3. Initial model
 
-Your client wishes to know which advertising campaign is the most effective out of.
+**Step 6:**  Set up the model
 
- - Model1 - Plant Sales vs Newspaper adverts
- - Model2 - Plant Sales vs TV adverts 
+Using the study aim I wrote above, identify your response and specific predictor variable for this study.  Under `Model 1:`
+
+ a. Create a linear model 
  
-To do this, we are going to create and compare TWO models.  Adjust your report headings to look like this
+ b. Make a professional looking scatterplot (this should have proper x,y axis labels etc) with the line of best fit plotted from the model 
  
-```{r, echo=FALSE, eval=FALSE}
-knitr::include_graphics("./Figures/Lab5_fig1.png")
+ c. Describe the scatter-plot (e.g. strength, association etc) 
+ 
+ d. Show the model summary
+ 
+ e. Use equatiomatic or any other method to formally write out the equation and coefficients.
+ 
+ f. The Mayor doesn't know regression.  Clearly interpret the estimated model parameters (slope & intercept)/model summary-statistics in the the context of the problem, in a way that would be understandable to a policy maker. <br><br> By this I mean explain what the slope/intercept means in term of the problem, highlighting if this is useful or nonsensical (like knowing weight of someone with zero height is not useful). <br> I also mean talking about the percentage of variation explained by the model and whether from your analysis so far, you think Simple Linear Regression might/might not be appropriate in this case.
+ 
+<br>
+
+**Step 7:**  Under `Model Validity`, use [Tutorial 12](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions) to help you formally assess each LINE assumption for model 1.  Comment if it meets the requirements for simple linear regression, referring back to your plots.
+
+<br>
+
+**Step 8:** Use [Tutorial 12](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions) to show your workings/R-code/thought process and identify:
+
+  a. The name of the lake with highest residual mercury value 
+  
+  b. The name of the lake with highest leverage 
+  
+  c. The name of the lake with highest Cook's distance
+
+```{r, include=FALSE}
+plot(bass$Mercury~bass$Alkalinity)
+model1 <- lm(Mercury~Alkalinity,data=bass)
+olsrr::ols_plot_resid_fit(model1)
+olsrr::ols_plot_cooksd_chart(model1)
+olsrr::ols_plot_resid_lev(model1)
+
 ```
 
 
- 
+**Step 9:** 
+Another analyst looked at your results and suggested that there are four Lakes which appear to be close to Influential Outliers. In your analysis, use Cook's distance to explain why they think this and identify the Lakes they are  worried about. Do you agree with their comment? Explain your reasoning and provide evidence. 
 
 <br>
 
-**Step 6:**  FOR BOTH MODELS, under `model fitting` use [Tutorial 8](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots) and [Tutorial 9](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models) to help you:
+### 4. Transformations
 
- - Make a professional looking scatterplot (this should have proper x,y axis labels etc)
- - Describe the scatterplot (e.g. strength, association etc)
- - Create a linear model
- - Show the model summary
- - Use equatiomatic or any other method to formally write out the equation and coefficients.
- 
- 
-<br>
-
-**Step 7:**  Use the NEW TUTORIAL, [Tutorial 1](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models) to help you assess each LINE assumption for BOTH model 1 and model 2.  For each model, comment if it meets the requirements for simple linear regression, referring back to the diagnostic plots.
+After examining the data, the results were double-checked and it was decided to keep ALL of the data points - we could find no reason that they were wrong or from another population.  Another team member suggested (and hopefully agreed with you!) that perhaps the observed residual diagnostics are weird because the there is a lack of linearity between the two variables of interest.  They proposed you should apply a transformation and refit the data.  
 
 <br>
 
-**Step 8:**  Under `Comparing models`, refer to your analysis (or do new analysis as appropriate) to answer the following questions.  
-
-1. Out of model 1 and model 2, where do you see the greatest increase in sales if you increase the advertising budget? <br>  Provide evidence to justify your answer (thinking about uncertainties on your estimate).
- 
-2. Which model explains the most variability in the sales data? Provide evidence to justify your answer.
+**Step 9:** 
+[FROM FRIDAY'S LECTURE] Using the lecture notes/class discussions about possible starting points for transformations, write how you would proceed? (i.e. For a lack of linearity, would you transform the response variable, explanatory variable or both? What transformations could you use?) Clearly explain why you came to this conclusion.  Just write a few sentences, then move to step 10. 
 
 <br>
 
-**Step 9:**  Under `Customer questions`, refer to your analysis (or do new analysis as appropriate) to answer the following questions.  
+**Step 10:** 
+After some research, two models were proposed that might fit the data:
 
-1. _Peace lily dilemma:_ Your customer has a client who needs to sell 8000 "peace lily" plants but hates newspapers. Conduct an hypothesis test to assess whether you typically sell less than 8000 plants in a situation where you spend zero-money on newspaper advertising. You are happy to be wrong one time in 25.  Advise the company whether is OK to stop advertising in newspapers.  
- 
+  a. A log transformation on the explanatory variable (`log()` command)
+  b. The square root of the explanatory variable (`sqrt()` command)
 
-2. _TV fears:_  Another client is skeptical of TV.  Use the ANOVA table output to conduct a hypothesis test to examine if there is evidence to suggest a relationship between TV advertising and plant sales, with a critical significance of 1%. (Fridays lecture or see textbook)
- 
-3. _Best day ever:_ A new client has approached the company with a brand new plant!!! (the rainbow-monstera-fig).  This is *very* popular.  The magazine "Plants Daily" rates its popularity at 70%!  <br> Thinking about the plant popularity independently of advertising type, what is the predicted range of sales for your new campaign? (at a 99% confidence level). Note, you may need to make a section for a new model... (Friday's lecture or see textbook)
+Make a new section after `Model 1` called `Testing Transformations`.  In that section, apply the two transformations to the data and decide which one is the best fit statistically. 
 
-<br>
-
-**Step 10:**  Under `Conclusions`, summarise for the customer what you have learned.  Explain how multiple regression might have allowed you to conduct a better analysis.
-
-
+Explain your reasoning referring to any goodness of fit measures that you used. Hint, you do not need to do all the LINE assumptions here. Just a quick plot and the linear model.
 
 <br>
 
-# PART 4: Show me something new
+**Step 11:** 
+After talking with some marine biologists, you decide to use the log transformation because it has more physical relevance.
 
-Remember that an A is 94%, so you can ignore this section and still easily get an A. But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.
+Rename `Model 2`, `Final Model`, and fully summarise your log model e.g. repeat Step 6 and Step 7 for the final log model.
 
-**To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.** 
+So here I am hoping for a good scatterplot, a description of the model, an assessment of whether the new model meets each of the assumptions needed for linear regression and  if there are any influential outliers. Is this model closer to LINE than the original one?
 
- - You get 2/4 for doing something new in any way BEYOND THE LAB INSTRUCTIONS/CODE
- - You get 4/4 for something really impressive or multiple small things.
- - You must tell us in your R script what you did!   
+<br>
 
-Here are some ideas:
+**Step 12:** Model comparisons
 
- - You found a cool new plot from R graph gallery or flowingdata.com and made it work
- - You did something neat in Markdown such as embedding a pdf
- - You found a new package/command that did something relevant
- - You found something cool on data camp and applied it here
- - You tweaked your mapping/plotting code to be better
+Using AIC and R_2_ compare your Log model and the original one.  Explain what AIC and R_2_ show in the text and which model appears to fit the data better.  Google and the textbook will help here (and the lectures..)
+
+<br>
+
+**Step 13:**  New lake
+
+Make a new subsection called `Analysis Questions`
+
+The Governor recently had a question from a member if the public who went fishing in a new lake that was not part of the study.  We know the alkalinity level of that lake was 40mg/L.  The member of the public wants to be 99% sure that they won't exceed the Florida Health Advisory level for Mercury levels in Fish, which is 1 $\mu g$ of Mercury.
+
+Should they eat the fish?  Explain your answer and show your evidence for how you came to your conclusion.
+
+<br>
+
+**Step 14:**  More complex (5 marks, instead of show me something new)
+
+_This question is designed to be more difficult and realistic.  I will answer points of clarification, but I will not help anyone work through it before the labs are submitted. However I will award partial marks for workings and how far you get_
+
+The Florida Health Advisory level for Mercury levels in Fish is 1 $\mu g$ of Mercury. The Governor has accepted your model and is requiring state-wide alkalinity tests.
+
+What is your safety cut-off value of alkalinity for new lakes?  (You would like to be 95% sure that you aren't just seeing this result by chance).  Provide evidence of how you got to your answer
+
+**Step 15:**  Multiple regression
+
+This is leading into Lab 7.. Finally, the mayor thinks that Calcium AND Alkalinity impact Mercury levels on fish. Make an initial Multiple linear regression model and write out the model equation (hint equatiomatric works the same way).  These tutorials might help:
+
+ - http://www.sthda.com/english/articles/40-regression-analysis/168-multiple-linear-regression-in-r/
+ - https://www.r-bloggers.com/2021/10/multiple-linear-regression-made-simple/
+
+<br>
+
+**Step 16:**  Under `Conclusions`, summarise for the Mayor what the key points are of your analysis.
 
 <br>
 
@@ -337,9 +387,41 @@ knitr::include_graphics("./Figures/Lab1_Basics_2022_fig1.png")
 
 # Grading Rubric/checklist
 
+See the table below for what this means - 100% is hard to get!
 
+**HTML FILE SUBMISSION - 10 marks**
+
+**RMD CODE SUBMISSION - 10 marks**
+    
+**CODE SHOWCASE 30 MARKS** 
+
+ - You have successfully created and read in the three datasets.  
+ - You have fully explained what each LINE assumption is 
+ - You have fully explained WHY each is important
+ - You have assessed the LINE assumptions for your own data
+
+**HOUSEPLANT DATA 1: Professional report 15 MARKS** 
+
+Full marks for a report that _I_ would take into a job interview.  You have done things like fully labeled plots using words, tried more sophisticated plots than just the basics, written full paragraphs/sentences, used equation formats, sub-headings, used spell check, explained results in clear language, included units, used a theme and table of contents..  Lose marks for each thing that makes it look non-professional.
+
+**HOUSEPLANT DATA 2: Exploratory Analysis and Study Aim 10 MARKS** 
+
+You have clearly and neatly explored and written up your study aim and exploratory data analysis
+
+**HOUSEPLANT DATA 3: Making models Aim 10 MARKS** 
+
+You have successfully completed steps 6 - 8
+
+**HOUSEPLANT DATA 4: Answering questions 15 MARKS** 
+
+You have managed to answer each of the questions in step 9 (5 for each)
+
+**SHOW ME SOMETHING NEW: 5 MARKS** 
+
+See above
  
 [100 marks total]
+ 
 
 
 Overall, here is what your lab should correspond to:

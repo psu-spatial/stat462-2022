@@ -11,7 +11,7 @@
 
 
 
-<title>Lab 5: LINE</title>
+<title>Lab 6: Outliers, Transformations &amp; MLR</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -352,6 +352,9 @@ div.tocify {
     <li>
       <a href="STAT462_Lab5.html">Lab 5: LINE Assumptions</a>
     </li>
+    <li>
+      <a href="STAT462_Lab6.html">Lab 6: Outliers &amp; Transformations</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -369,7 +372,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Lab 5: LINE</h1>
+<h1 class="title toc-ignore">Lab 6: Outliers, Transformations &amp; MLR</h1>
 <h3 class="subtitle"><h5 style="font-style:normal">
 STAT-462 - Regression Analysis
 </h4></h3>
@@ -411,13 +414,13 @@ h2.title {
 <div id="learning-objectives" class="section level1">
 <h1>Learning objectives</h1>
 <p class="comment">
-<strong>Assignment 5 is due by midnight NEXT WEDNESDAY (1 week lab)</strong> <a href="https://psu.instructure.com/courses/2174925/assignments/13762850">See here</a> I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB. After next week’s lab (All of Wed evening) is for your own finishing up.
+<strong>Assignment 6 is due by midnight NEXT WEDNESDAY (1 week lab)</strong> <a href="https://psu.instructure.com/courses/2174925/assignments/13762850">See here</a> I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB. After next week’s lab (All of Wed evening) is for your own finishing up.
 </p>
 <p>By the end of this week’s lab, you will be able to:</p>
 <ol style="list-style-type: decimal">
-<li>Feel comfortable working through a simple linear regression analysis</li>
-<li>Feel comfortable discovering outliers.</li>
-<li>Feel comfortable assessing LINE assumptions</li>
+<li>Feel comfortable working with outliers</li>
+<li>Feel comfortable using transformations to fix LINE problems</li>
+<li>Start running MLR.</li>
 </ol>
 <p>There is a TEAMS discussion for lab help <a href="https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&amp;tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e">CLICK HERE</a>. Remember to include a screenshot of the issue and a short description of the problem. Also try googling the error first.</p>
 <p><br></p>
@@ -425,15 +428,15 @@ h2.title {
 <div id="part-1-lab-set-up.-do-not-skip" class="section level1">
 <h1>PART 1: Lab set-up. DO NOT SKIP!</h1>
 <p><br></p>
-<p><strong>Step A:</strong> Create a new project for Lab 5. If you are stuck, see previous labs or <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects">Tutorial 2.1</a>.</p>
+<p><strong>Step A:</strong> Create a new project for Lab 6. If you are stuck, see previous labs or <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects">Tutorial 2.1</a>.</p>
 <p><br></p>
-<p><strong>Step B:</strong> Copy your lab template to your lab 4 folder, rename as <code>STAT-462_Lab5_EMAILID.Rmd</code> and open (e.g.STAT-462_Lab5_hlg5155.Rmd). This should have your theme, your table of contents and your headings.</p>
+<p><strong>Step B:</strong> Copy your lab template to your lab 6 folder, rename as <code>STAT-462_Lab6_EMAILID.Rmd</code> and open (e.g.STAT-462_Lab6_hlg5155.Rmd). This should have your theme, your table of contents and your headings.</p>
 <p><br></p>
 <p><strong>Step C:</strong> In the library section, add a new code chunk and use this code to load the libraries below.</p>
 <ul>
 <li><p>If some don’t exist on your computer or on the cloud, use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package">Tutorial 2.3</a> to install/download them first. NEVER put install.packages in your code chunk, run it in the console.</p></li>
 <li><p>To make sure they loaded OK, run the code chunk TWICE. The second time any welcome text will disappear unless there are errors.</p></li>
-<li><p>Sometimes you might need an extra package later in the lab. Install it using the instructions above and add the library command to your library code chunk.</p></li>
+<li><p>Sometimes you might need an extra package later in the lab. Install it using the instructions above and add the library commands to your library code chunk.</p></li>
 </ul>
 <pre class="r"><code># Load libraries
 library(&quot;tidyverse&quot;) # Lots of data processing commands
@@ -451,6 +454,7 @@ library(&quot;olsrr&quot;)     # Regression specific commands
 library(&quot;plotly&quot;)    # Interactive plots
 library(&quot;readxl&quot;)    # Read from excel files
 library(&quot;equatiomatic&quot;) # extract equations
+library(&quot;ggstatsplot&quot;)
 
 ## you may need additional libraries.  Just add them to this list if you get errors.</code></pre>
 <p><br></p>
@@ -459,67 +463,89 @@ library(&quot;equatiomatic&quot;) # extract equations
 </div>
 <div id="part-2-code-showcase" class="section level1">
 <h1>PART 2: Code showcase</h1>
-<p>IF YOU IGNORED THE STEPS ABOVE GO BACK AND DO THEM! You lose marks for things like no theme, poor headings (remember there is a space between the # and the text), or accidentally printing out package loading text.</p>
-<p><br></p>
-<p><strong>Step 1:</strong> Describe the lINE assumptions for your client in plain language and why each is important.</p>
-<p><br></p>
-<p><strong>Step 2:</strong> Go to <a href="https://stephenturner.github.io/drawmydata/" class="uri">https://stephenturner.github.io/drawmydata/</a>. Create and save 3 datasets into your Lab 5 folder. Read all of them into R and assign to testdata1, testdata2 and testdata3</p>
-<ul>
-<li>One that meets all the assumptions of simple linear regression</li>
-<li>One that breaks the assumption of linearity</li>
-<li>One that breaks the assumption of equal variance/heteroskadisity</li>
-</ul>
-<p><br></p>
-<p><strong>Step 3:</strong> Use NEW TUTORIAL, Tutorial 10, and <a href="https://online.stat.psu.edu/stat501/lesson/4" class="uri">https://online.stat.psu.edu/stat501/lesson/4</a> to assess the LINE assumptions for your three datasets.</p>
+<p>Copy any of your old datasets into your lab 6 folder and read it in. Make a linear model between your response and predictor. Now go to the packages tab and install the <code>visreg</code> model. Add <code>library(visreg)</code> to your library code chunk and re-run.</p>
+<p><code>OLSRR</code>, <code>ggstatsplot</code> and <code>visreg</code> are three relatively new packages for regression and they are adding new cool things every day. Here are tutorials for them: - <a href="https://pbreheny.github.io/visreg/" class="uri">https://pbreheny.github.io/visreg/</a> and more details (<a href="https://journal.r-project.org/archive/2017/RJ-2017-046/RJ-2017-046.pdf" class="uri">https://journal.r-project.org/archive/2017/RJ-2017-046/RJ-2017-046.pdf</a>) - <a href="https://cran.r-project.org/web/packages/olsrr/vignettes/intro.html" class="uri">https://cran.r-project.org/web/packages/olsrr/vignettes/intro.html</a> - <a href="https://indrajeetpatil.github.io/ggstatsplot/" class="uri">https://indrajeetpatil.github.io/ggstatsplot/</a> - <a href="https://indrajeetpatil.github.io/ggstatsplot_slides/slides/ggstatsplot_presentation.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot_slides/slides/ggstatsplot_presentation.html</a> - <a href="https://cran.r-project.org/web/packages/jtools/vignettes/summ.html" class="uri">https://cran.r-project.org/web/packages/jtools/vignettes/summ.html</a> - Glance at some tutorials and have a play - see what plots and visualisions are there and try a few on your test data.</p>
+<p>Describe at least one thing you think I should add in the tutorials and show me an example.</p>
 <p><br></p>
 </div>
-<div id="part-3-house-plant-advertising" class="section level1">
-<h1>PART 3: House Plant advertising</h1>
+<div id="part-3-florida-fish-and-mercury-poisoning" class="section level1">
+<h1>PART 3: Florida Fish and Mercury poisoning</h1>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>Small amounts of the element mercury are present in many everyday foods. These do not normally affect your health, but too much mercury can be poisonous. Mercury itself is naturally occurring, but the amounts in the environment have been on the rise from industrialization. The metal can make its way into soil and water, and eventually build up in animals like fish, which are then eaten by people. More details here:</p>
+<ul>
+<li><a href="https://www.wearecognitive.com/project/extra-narrative/bbc-mercury" class="uri">https://www.wearecognitive.com/project/extra-narrative/bbc-mercury</a></li>
+<li><a href="https://medium.com/predict/mercury-pollution-reaches-the-deep-sea-f59a4938dc7c" class="uri">https://medium.com/predict/mercury-pollution-reaches-the-deep-sea-f59a4938dc7c</a></li>
+</ul>
+<p>In the late 1980s, there were widespread public safety concerns in Florida about high mercury concentrations in sport fish. In 1989, the State of Florida issued an advisory urging the public to limit consumption of “top level” predatory fish from Lake Tohopekaliga and connected waters: including largemouth bass (Micropterus salmoides), bowfin (Amia calva), and gar (Lepisosteus spp.). This severely impacted tourism and the economy in the area. Urgent research was required to inform public policy about which lakes needed to be closed.</p>
+<div class="figure" style="text-align: center">
+<img src="Figures/Fig06_2Fish.png" alt="a. (Left): The mercury food chain in fish.(Wikimedia commons, Bretwood Higman, Ground Truth Trekking) b. (middle) A large bass caught and released in a central Florida lake (https://www.wired2fish.com/news/young-man-catches-releases-huge-bass-from-bank/) c. (right). The location of the lakes in Florida (Google maps)" width="100%" />
+<p class="caption">
+<ol style="list-style-type: lower-alpha">
+<li>(Left): The mercury food chain in fish.(Wikimedia commons, Bretwood Higman, Ground Truth Trekking) b. (middle) A large bass caught and released in a central Florida lake (<a href="https://www.wired2fish.com/news/young-man-catches-releases-huge-bass-from-bank/" class="uri">https://www.wired2fish.com/news/young-man-catches-releases-huge-bass-from-bank/</a>) c. (right). The location of the lakes in Florida (Google maps)
+</p>
+</div>
+<h2 id="goal">Goal</h2></li>
+</ol>
+<p>We are going to reproduce part of one study on the topic conducted by T.R. Lange in 1993.</p>
+<p>Dr Lange and their team took samples from 53 lakes in the Central Florida area. Using water samples collected from each of the lakes, the researchers measured the pH level, as well as the amount of chlorophyll, calcium and alkalinity. The Mercury concentration in the muscle tissue of lake fish was also recorded.</p>
+<p>The units of the your dataset are:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"><strong>Variable</strong></th>
+<th align="center"><strong>Unit</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Chlorophyll</td>
+<td align="center">micrograms/Litre, <span class="math inline">\(\mu g/L\)</span></td>
+</tr>
+<tr class="even">
+<td align="center">Alkalinity</td>
+<td align="center">miligrams/Litre, <span class="math inline">\(mg/L\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center">pH</td>
+<td align="center">Unitless</td>
+</tr>
+<tr class="even">
+<td align="center">Calcium</td>
+<td align="center">miligrams/Litre, <span class="math inline">\(mg/L\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center">Mercury</td>
+<td align="center">Micrograms, <span class="math inline">\(\mu g\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The data is stored on Canvas in <strong>bass.csv</strong>.</p>
+<p>You can see part of the paper here: <a href="https://www.researchgate.net/publication/15388314_Mercury_accumulation_in_largemouth_bass_Micropterus_salmoides_in_a_Florida_Lake" class="uri">https://www.researchgate.net/publication/15388314_Mercury_accumulation_in_largemouth_bass_Micropterus_salmoides_in_a_Florida_Lake</a></p>
+<p><strong>You have been asked to assess whether the alkalinity levels of a lake might impact Mercury levels in largemouth bass. You will be presenting your results to the Mayor of Orlando in order to set new fishing regulations. She has asked for a report to provide your full thinking and workflow in how you decide on your final model.</strong></p>
+</div>
 <div id="lab-report-format" class="section level2 unnumbered">
 <h2 class="unnumbered">Lab report format</h2>
-<p>Imagine this is a real report you are submitting to an advertising company. You will be graded on the professionality of your final report. In all of your answers below, I expect good formatting, appropriate units and full sentences to explain your answers. Please also make sure that you use headings, sub-headings and the spell check to make your lab easier to follow and grade.</p>
+<p>Imagine this is a formal report you are submitting to the Mayor of Orlando. You will be graded on the professionality of your final report. In all of your answers below, I expect good formatting, appropriate units and full sentences to explain your answers. Please also make sure that you use headings, sub-headings and the spell check to make your lab easier to follow and grade.</p>
 <p>Think about using any/all of the markdown features we have learned so far, for example equations, text formatting, pictures, code-chunk options or anything else that makes your report look more professional.</p>
 <p class="comment">
 The headings in the template are guidelines. If it helps to use your own or to tweak them, this is OK.
 </p>
 <p><br></p>
-</div>
-<div id="instructions" class="section level2 unnumbered">
-<h2 class="unnumbered">Instructions:</h2>
-<p>Houseplants are now very popular. You have been hired by an advertising executive who has been collecting data on how well their marketing campaigns have been running.</p>
-<p>They have run 200 marketing campaigns over the last few years. For each one, they recorded:</p>
-<ul>
-<li>how much they spent (in units of thousands of dollars) on
-<ul>
-<li>TV,</li>
-<li>radio</li>
-<li>and newspaper adverts<br />
-</li>
-</ul></li>
-<li>How many houseplants were sold (in thousands of plants).<br />
-</li>
-<li>The “X-Factor” of how popular that plant was at the time (percentage popularity),</li>
-<li>And typically how tall that type plant was in inches.</li>
-</ul>
-<p>The company wish to know which type of advertising campaigns are the most effective.</p>
 <p>Follow the instructions below to answer their questions.</p>
 <p><br></p>
 <div id="describe-the-study" class="section level3">
 <h3>1. Describe the study</h3>
-<p class="comment">
-Hint: IF YOU ARE AN HONORS STUDENT USE YOUR OWN DATA FROM THE FIRST PART OF THE SEMESTER
-</p>
-<p><br></p>
 <p><strong>Step 1:</strong> If you skipped it, go back and read the brief above. Seriously, it will save you time.</p>
 <p><br></p>
 <p><strong>Step 2:</strong> If you skipped making/copying/using the lab report template, go back and do it - or these instructions will not make sense <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#5_Report_template">Tutorial 5</a>.</p>
 <p><br></p>
 <p><strong>Step 3:</strong> Read the data into R. In the <code>Data Description</code> and <code>Study Aim</code> sections, use the first part of the <a href="https://psu.instructure.com/courses/2174925/files/132549205">teaching notes</a> to help you write about the following: <br></p>
 <ul>
-<li>The background of the study <em>(imagine this is a real report to a real customer, google things like <em>house plant sales increasing</em> for ideas, include a picture!)</em></li>
-<li>A short description of the data source.</li>
+<li>The background of the study <em>(imagine this is a real report and the Mayor doesn’t know the background)</em></li>
+<li>A short description of the data.</li>
 <li>The object of analysis</li>
-<li>A reasonable population <em>(what population could your results be extrapolated to)</em></li>
+<li>A reasonable population <em>(what population could your results be extrapolated to/ All water in the universe in all time?)</em></li>
 <li>The response variable <em>(and units - if they are not provided, state that!)</em></li>
 <li>A bullet point list of your predictor variables <em>(and units)</em></li>
 <li>The amount of data</li>
@@ -538,65 +564,74 @@ There are also guidelines in the template. You do NOT need to repeat yourself, s
 Hint: For full marks, plots like histograms should have proper x and y axis labels and titles. All the tutorial examples in <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#7_Making_plots">Tutorial 7</a> can be copy/pasted, why not choose a more sophisticated one..
 </p>
 <p><br></p>
-<p><strong>Step 5:</strong> Under <code>Exploratory analysis</code>, make a new sub-section called <code>Correlation</code>. Make a correlation plot of the variables against your response <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation">See Tutorial 6.4</a>. Which predictor has the largest <em>negative</em> correlation against your response?</p>
+<p><strong>Step 5:</strong> Inside <code>Exploratory analysis</code>, make a new sub-section called <code>Correlation</code>. Look at the correlation between your predictor variables and your response. Comment on what you find out <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation">See Tutorial 6.4</a>.</p>
 <p><br></p>
 </div>
-<div id="make-some-models" class="section level3">
-<h3>3. Make some models</h3>
-<p>Your client wishes to know which advertising campaign is the most effective out of.</p>
-<ul>
-<li>Model1 - Plant Sales vs Newspaper adverts</li>
-<li>Model2 - Plant Sales vs TV adverts</li>
-</ul>
-<p>To do this, we are going to create and compare TWO models. Adjust your report headings to look like this</p>
-<p><br></p>
-<p><strong>Step 6:</strong> FOR BOTH MODELS, under <code>model fitting</code> use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 8</a> and <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a> to help you:</p>
-<ul>
-<li>Make a professional looking scatterplot (this should have proper x,y axis labels etc)</li>
-<li>Describe the scatterplot (e.g. strength, association etc)</li>
-<li>Create a linear model</li>
-<li>Show the model summary</li>
-<li>Use equatiomatic or any other method to formally write out the equation and coefficients.</li>
-</ul>
-<p><br></p>
-<p><strong>Step 7:</strong> Use the NEW TUTORIAL, <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 1</a> to help you assess each LINE assumption for BOTH model 1 and model 2. For each model, comment if it meets the requirements for simple linear regression, referring back to the diagnostic plots.</p>
-<p><br></p>
-<p><strong>Step 8:</strong> Under <code>Comparing models</code>, refer to your analysis (or do new analysis as appropriate) to answer the following questions.</p>
-<ol style="list-style-type: decimal">
-<li><p>Out of model 1 and model 2, where do you see the greatest increase in sales if you increase the advertising budget? <br> Provide evidence to justify your answer (thinking about uncertainties on your estimate).</p></li>
-<li><p>Which model explains the most variability in the sales data? Provide evidence to justify your answer.</p></li>
+<div id="initial-model" class="section level3">
+<h3>3. Initial model</h3>
+<p><strong>Step 6:</strong> Set up the model</p>
+<p>Using the study aim I wrote above, identify your response and specific predictor variable for this study. Under <code>Model 1:</code></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Create a linear model</p></li>
+<li><p>Make a professional looking scatterplot (this should have proper x,y axis labels etc) with the line of best fit plotted from the model</p></li>
+<li><p>Describe the scatter-plot (e.g. strength, association etc)</p></li>
+<li><p>Show the model summary</p></li>
+<li><p>Use equatiomatic or any other method to formally write out the equation and coefficients.</p></li>
+<li><p>The Mayor doesn’t know regression. Clearly interpret the estimated model parameters (slope &amp; intercept)/model summary-statistics in the the context of the problem, in a way that would be understandable to a policy maker. <br><br> By this I mean explain what the slope/intercept means in term of the problem, highlighting if this is useful or nonsensical (like knowing weight of someone with zero height is not useful). <br> I also mean talking about the percentage of variation explained by the model and whether from your analysis so far, you think Simple Linear Regression might/might not be appropriate in this case.</p></li>
 </ol>
 <p><br></p>
-<p><strong>Step 9:</strong> Under <code>Customer questions</code>, refer to your analysis (or do new analysis as appropriate) to answer the following questions.</p>
-<ol style="list-style-type: decimal">
-<li><p><em>Peace lily dilemma:</em> Your customer has a client who needs to sell 8000 “peace lily” plants but hates newspapers. Conduct an hypothesis test to assess whether you typically sell less than 8000 plants in a situation where you spend zero-money on newspaper advertising. You are happy to be wrong one time in 25. Advise the company whether is OK to stop advertising in newspapers.</p></li>
-<li><p><em>TV fears:</em> Another client is skeptical of TV. Use the ANOVA table output to conduct a hypothesis test to examine if there is evidence to suggest a relationship between TV advertising and plant sales, with a critical significance of 1%. (Fridays lecture or see textbook)</p></li>
-<li><p><em>Best day ever:</em> A new client has approached the company with a brand new plant!!! (the rainbow-monstera-fig). This is <em>very</em> popular. The magazine “Plants Daily” rates its popularity at 70%! <br> Thinking about the plant popularity independently of advertising type, what is the predicted range of sales for your new campaign? (at a 99% confidence level). Note, you may need to make a section for a new model… (Friday’s lecture or see textbook)</p></li>
+<p><strong>Step 7:</strong> Under <code>Model Validity</code>, use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions">Tutorial 12</a> to help you formally assess each LINE assumption for model 1. Comment if it meets the requirements for simple linear regression, referring back to your plots.</p>
+<p><br></p>
+<p><strong>Step 8:</strong> Use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions">Tutorial 12</a> to show your workings/R-code/thought process and identify:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The name of the lake with highest residual mercury value</p></li>
+<li><p>The name of the lake with highest leverage</p></li>
+<li><p>The name of the lake with highest Cook’s distance</p></li>
 </ol>
+<p><strong>Step 9:</strong> Another analyst looked at your results and suggested that there are four Lakes which appear to be close to Influential Outliers. In your analysis, use Cook’s distance to explain why they think this and identify the Lakes they are worried about. Do you agree with their comment? Explain your reasoning and provide evidence.</p>
 <p><br></p>
-<p><strong>Step 10:</strong> Under <code>Conclusions</code>, summarise for the customer what you have learned. Explain how multiple regression might have allowed you to conduct a better analysis.</p>
+</div>
+<div id="transformations" class="section level3">
+<h3>4. Transformations</h3>
+<p>After examining the data, the results were double-checked and it was decided to keep ALL of the data points - we could find no reason that they were wrong or from another population. Another team member suggested (and hopefully agreed with you!) that perhaps the observed residual diagnostics are weird because the there is a lack of linearity between the two variables of interest. They proposed you should apply a transformation and refit the data.</p>
 <p><br></p>
-</div>
-</div>
-</div>
-<div id="part-4-show-me-something-new" class="section level1">
-<h1>PART 4: Show me something new</h1>
-<p>Remember that an A is 94%, so you can ignore this section and still easily get an A. But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.</p>
-<p><strong>To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.</strong></p>
+<p><strong>Step 9:</strong> [FROM FRIDAY’S LECTURE] Using the lecture notes/class discussions about possible starting points for transformations, write how you would proceed? (i.e. For a lack of linearity, would you transform the response variable, explanatory variable or both? What transformations could you use?) Clearly explain why you came to this conclusion. Just write a few sentences, then move to step 10.</p>
+<p><br></p>
+<p><strong>Step 10:</strong> After some research, two models were proposed that might fit the data:</p>
+<ol style="list-style-type: lower-alpha">
+<li>A log transformation on the explanatory variable (<code>log()</code> command)</li>
+<li>The square root of the explanatory variable (<code>sqrt()</code> command)</li>
+</ol>
+<p>Make a new section after <code>Model 1</code> called <code>Testing Transformations</code>. In that section, apply the two transformations to the data and decide which one is the best fit statistically.</p>
+<p>Explain your reasoning referring to any goodness of fit measures that you used. Hint, you do not need to do all the LINE assumptions here. Just a quick plot and the linear model.</p>
+<p><br></p>
+<p><strong>Step 11:</strong> After talking with some marine biologists, you decide to use the log transformation because it has more physical relevance.</p>
+<p>Rename <code>Model 2</code>, <code>Final Model</code>, and fully summarise your log model e.g. repeat Step 6 and Step 7 for the final log model.</p>
+<p>So here I am hoping for a good scatterplot, a description of the model, an assessment of whether the new model meets each of the assumptions needed for linear regression and if there are any influential outliers. Is this model closer to LINE than the original one?</p>
+<p><br></p>
+<p><strong>Step 12:</strong> Model comparisons</p>
+<p>Using AIC and R_2_ compare your Log model and the original one. Explain what AIC and R_2_ show in the text and which model appears to fit the data better. Google and the textbook will help here (and the lectures..)</p>
+<p><br></p>
+<p><strong>Step 13:</strong> New lake</p>
+<p>Make a new subsection called <code>Analysis Questions</code></p>
+<p>The Governor recently had a question from a member if the public who went fishing in a new lake that was not part of the study. We know the alkalinity level of that lake was 40mg/L. The member of the public wants to be 99% sure that they won’t exceed the Florida Health Advisory level for Mercury levels in Fish, which is 1 <span class="math inline">\(\mu g\)</span> of Mercury.</p>
+<p>Should they eat the fish? Explain your answer and show your evidence for how you came to your conclusion.</p>
+<p><br></p>
+<p><strong>Step 14:</strong> More complex (5 marks, instead of show me something new)</p>
+<p><em>This question is designed to be more difficult and realistic. I will answer points of clarification, but I will not help anyone work through it before the labs are submitted. However I will award partial marks for workings and how far you get</em></p>
+<p>The Florida Health Advisory level for Mercury levels in Fish is 1 <span class="math inline">\(\mu g\)</span> of Mercury. The Governor has accepted your model and is requiring state-wide alkalinity tests.</p>
+<p>What is your safety cut-off value of alkalinity for new lakes? (You would like to be 95% sure that you aren’t just seeing this result by chance). Provide evidence of how you got to your answer</p>
+<p><strong>Step 15:</strong> Multiple regression</p>
+<p>This is leading into Lab 7.. Finally, the mayor thinks that Calcium AND Alkalinity impact Mercury levels on fish. Make an initial Multiple linear regression model and write out the model equation (hint equatiomatric works the same way). These tutorials might help:</p>
 <ul>
-<li>You get 2/4 for doing something new in any way BEYOND THE LAB INSTRUCTIONS/CODE</li>
-<li>You get 4/4 for something really impressive or multiple small things.</li>
-<li>You must tell us in your R script what you did!</li>
-</ul>
-<p>Here are some ideas:</p>
-<ul>
-<li>You found a cool new plot from R graph gallery or flowingdata.com and made it work</li>
-<li>You did something neat in Markdown such as embedding a pdf</li>
-<li>You found a new package/command that did something relevant</li>
-<li>You found something cool on data camp and applied it here</li>
-<li>You tweaked your mapping/plotting code to be better</li>
+<li><a href="http://www.sthda.com/english/articles/40-regression-analysis/168-multiple-linear-regression-in-r/" class="uri">http://www.sthda.com/english/articles/40-regression-analysis/168-multiple-linear-regression-in-r/</a></li>
+<li><a href="https://www.r-bloggers.com/2021/10/multiple-linear-regression-made-simple/" class="uri">https://www.r-bloggers.com/2021/10/multiple-linear-regression-made-simple/</a></li>
 </ul>
 <p><br></p>
+<p><strong>Step 16:</strong> Under <code>Conclusions</code>, summarise for the Mayor what the key points are of your analysis.</p>
+<p><br></p>
+</div>
+</div>
 </div>
 <div id="submitting-your-lab" class="section level1">
 <h1>Submitting your Lab</h1>
@@ -610,6 +645,27 @@ Hint: For full marks, plots like histograms should have proper x and y axis labe
 </div>
 <div id="grading-rubricchecklist" class="section level1">
 <h1>Grading Rubric/checklist</h1>
+<p>See the table below for what this means - 100% is hard to get!</p>
+<p><strong>HTML FILE SUBMISSION - 10 marks</strong></p>
+<p><strong>RMD CODE SUBMISSION - 10 marks</strong></p>
+<p><strong>CODE SHOWCASE 30 MARKS</strong></p>
+<ul>
+<li>You have successfully created and read in the three datasets.<br />
+</li>
+<li>You have fully explained what each LINE assumption is</li>
+<li>You have fully explained WHY each is important</li>
+<li>You have assessed the LINE assumptions for your own data</li>
+</ul>
+<p><strong>HOUSEPLANT DATA 1: Professional report 15 MARKS</strong></p>
+<p>Full marks for a report that <em>I</em> would take into a job interview. You have done things like fully labeled plots using words, tried more sophisticated plots than just the basics, written full paragraphs/sentences, used equation formats, sub-headings, used spell check, explained results in clear language, included units, used a theme and table of contents.. Lose marks for each thing that makes it look non-professional.</p>
+<p><strong>HOUSEPLANT DATA 2: Exploratory Analysis and Study Aim 10 MARKS</strong></p>
+<p>You have clearly and neatly explored and written up your study aim and exploratory data analysis</p>
+<p><strong>HOUSEPLANT DATA 3: Making models Aim 10 MARKS</strong></p>
+<p>You have successfully completed steps 6 - 8</p>
+<p><strong>HOUSEPLANT DATA 4: Answering questions 15 MARKS</strong></p>
+<p>You have managed to answer each of the questions in step 9 (5 for each)</p>
+<p><strong>SHOW ME SOMETHING NEW: 5 MARKS</strong></p>
+<p>See above</p>
 <p>[100 marks total]</p>
 <p>Overall, here is what your lab should correspond to:</p>
 </div>
