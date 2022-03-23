@@ -132,6 +132,7 @@ library("ggstatsplot")
 Copy any of your old datasets into your lab 6 folder and read it in.  Make a linear model between your response and predictor. Now go to the packages tab and install the `visreg` model.  Add `library(visreg)` to your library code chunk and re-run.
 
 `OLSRR`, `ggstatsplot` and `visreg` are three relatively new packages for regression and they are adding new cool things every day.  Here are tutorials for them:
+
  - https://pbreheny.github.io/visreg/ and more details (https://journal.r-project.org/archive/2017/RJ-2017-046/RJ-2017-046.pdf)
  - https://cran.r-project.org/web/packages/olsrr/vignettes/intro.html
  - https://indrajeetpatil.github.io/ggstatsplot/ 
