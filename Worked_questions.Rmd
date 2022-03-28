@@ -678,7 +678,7 @@ predict(Model1,new_bird,interval ="prediction",levels=0.9)
 
 If our model is true, a new bird is likely to weigh between 2215g and 3876g.
 
-## PREDICION INTERVALS ARE BIGGER THAN CONFIDENCE INTERVALS
+## PREDICTION INTERVALS ARE BIGGER THAN CONFIDENCE INTERVALS
 
 If you are confused, see the textbook or the many resources online.. here are just two..
 

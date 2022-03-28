@@ -365,7 +365,7 @@ div.tocify {
   <a href="STAT462_LabEXAMPLE.html">LAB EXAMPLE</a>
 </li>
 <li>
-  <a href="STAT462-Worked-questions.html">Worked questions</a>
+  <a href="Worked_questions.html">Worked questions</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -428,168 +428,391 @@ library(palmerpenguins)  # contains the penguin dataset</code></pre>
 <pre class="r"><code>#?penguins
 data(&quot;penguins&quot;)</code></pre>
 <pre class="r"><code>skimr::skim(penguins)</code></pre>
-<table>
-<caption>Data summary</caption>
+<table style="width: auto;" class="table table-condensed">
+<caption>
+Data summary
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
 <tbody>
-<tr class="odd">
-<td align="left">Name</td>
-<td align="left">penguins</td>
+<tr>
+<td style="text-align:left;">
+Name
+</td>
+<td style="text-align:left;">
+penguins
+</td>
 </tr>
-<tr class="even">
-<td align="left">Number of rows</td>
-<td align="left">344</td>
+<tr>
+<td style="text-align:left;">
+Number of rows
+</td>
+<td style="text-align:left;">
+344
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Number of columns</td>
-<td align="left">8</td>
+<tr>
+<td style="text-align:left;">
+Number of columns
+</td>
+<td style="text-align:left;">
+8
+</td>
 </tr>
-<tr class="even">
-<td align="left">_______________________</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+_______________________
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Column type frequency:</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+Column type frequency:
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="even">
-<td align="left">factor</td>
-<td align="left">3</td>
+<tr>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:left;">
+3
+</td>
 </tr>
-<tr class="odd">
-<td align="left">numeric</td>
-<td align="left">5</td>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+5
+</td>
 </tr>
-<tr class="even">
-<td align="left">________________________</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+________________________
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Group variables</td>
-<td align="left">None</td>
+<tr>
+<td style="text-align:left;">
+Group variables
+</td>
+<td style="text-align:left;">
+None
+</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Variable type: factor</strong></p>
 <table>
 <thead>
-<tr class="header">
-<th align="left">skim_variable</th>
-<th align="right">n_missing</th>
-<th align="right">complete_rate</th>
-<th align="left">ordered</th>
-<th align="right">n_unique</th>
-<th align="left">top_counts</th>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:left;">
+ordered
+</th>
+<th style="text-align:right;">
+n_unique
+</th>
+<th style="text-align:left;">
+top_counts
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">species</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="left">FALSE</td>
-<td align="right">3</td>
-<td align="left">Ade: 152, Gen: 124, Chi: 68</td>
+<tr>
+<td style="text-align:left;">
+species
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Ade: 152, Gen: 124, Chi: 68
+</td>
 </tr>
-<tr class="even">
-<td align="left">island</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="left">FALSE</td>
-<td align="right">3</td>
-<td align="left">Bis: 168, Dre: 124, Tor: 52</td>
+<tr>
+<td style="text-align:left;">
+island
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Bis: 168, Dre: 124, Tor: 52
+</td>
 </tr>
-<tr class="odd">
-<td align="left">sex</td>
-<td align="right">11</td>
-<td align="right">0.97</td>
-<td align="left">FALSE</td>
-<td align="right">2</td>
-<td align="left">mal: 168, fem: 165</td>
+<tr>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+mal: 168, fem: 165
+</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Variable type: numeric</strong></p>
 <table>
 <thead>
-<tr class="header">
-<th align="left">skim_variable</th>
-<th align="right">n_missing</th>
-<th align="right">complete_rate</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
-<th align="right">p0</th>
-<th align="right">p25</th>
-<th align="right">p50</th>
-<th align="right">p75</th>
-<th align="right">p100</th>
-<th align="left">hist</th>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+p0
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p100
+</th>
+<th style="text-align:left;">
+hist
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">bill_length_mm</td>
-<td align="right">2</td>
-<td align="right">0.99</td>
-<td align="right">43.92</td>
-<td align="right">5.46</td>
-<td align="right">32.1</td>
-<td align="right">39.23</td>
-<td align="right">44.45</td>
-<td align="right">48.5</td>
-<td align="right">59.6</td>
-<td align="left">▃▇▇▆▁</td>
+<tr>
+<td style="text-align:left;">
+bill_length_mm
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+43.92
+</td>
+<td style="text-align:right;">
+5.46
+</td>
+<td style="text-align:right;">
+32.1
+</td>
+<td style="text-align:right;">
+39.23
+</td>
+<td style="text-align:right;">
+44.45
+</td>
+<td style="text-align:right;">
+48.5
+</td>
+<td style="text-align:right;">
+59.6
+</td>
+<td style="text-align:left;">
+▃▇▇▆▁
+</td>
 </tr>
-<tr class="even">
-<td align="left">bill_depth_mm</td>
-<td align="right">2</td>
-<td align="right">0.99</td>
-<td align="right">17.15</td>
-<td align="right">1.97</td>
-<td align="right">13.1</td>
-<td align="right">15.60</td>
-<td align="right">17.30</td>
-<td align="right">18.7</td>
-<td align="right">21.5</td>
-<td align="left">▅▅▇▇▂</td>
+<tr>
+<td style="text-align:left;">
+bill_depth_mm
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+17.15
+</td>
+<td style="text-align:right;">
+1.97
+</td>
+<td style="text-align:right;">
+13.1
+</td>
+<td style="text-align:right;">
+15.60
+</td>
+<td style="text-align:right;">
+17.30
+</td>
+<td style="text-align:right;">
+18.7
+</td>
+<td style="text-align:right;">
+21.5
+</td>
+<td style="text-align:left;">
+▅▅▇▇▂
+</td>
 </tr>
-<tr class="odd">
-<td align="left">flipper_length_mm</td>
-<td align="right">2</td>
-<td align="right">0.99</td>
-<td align="right">200.92</td>
-<td align="right">14.06</td>
-<td align="right">172.0</td>
-<td align="right">190.00</td>
-<td align="right">197.00</td>
-<td align="right">213.0</td>
-<td align="right">231.0</td>
-<td align="left">▂▇▃▅▂</td>
+<tr>
+<td style="text-align:left;">
+flipper_length_mm
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+200.92
+</td>
+<td style="text-align:right;">
+14.06
+</td>
+<td style="text-align:right;">
+172.0
+</td>
+<td style="text-align:right;">
+190.00
+</td>
+<td style="text-align:right;">
+197.00
+</td>
+<td style="text-align:right;">
+213.0
+</td>
+<td style="text-align:right;">
+231.0
+</td>
+<td style="text-align:left;">
+▂▇▃▅▂
+</td>
 </tr>
-<tr class="even">
-<td align="left">body_mass_g</td>
-<td align="right">2</td>
-<td align="right">0.99</td>
-<td align="right">4201.75</td>
-<td align="right">801.95</td>
-<td align="right">2700.0</td>
-<td align="right">3550.00</td>
-<td align="right">4050.00</td>
-<td align="right">4750.0</td>
-<td align="right">6300.0</td>
-<td align="left">▃▇▆▃▂</td>
+<tr>
+<td style="text-align:left;">
+body_mass_g
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+4201.75
+</td>
+<td style="text-align:right;">
+801.95
+</td>
+<td style="text-align:right;">
+2700.0
+</td>
+<td style="text-align:right;">
+3550.00
+</td>
+<td style="text-align:right;">
+4050.00
+</td>
+<td style="text-align:right;">
+4750.0
+</td>
+<td style="text-align:right;">
+6300.0
+</td>
+<td style="text-align:left;">
+▃▇▆▃▂
+</td>
 </tr>
-<tr class="odd">
-<td align="left">year</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">2008.03</td>
-<td align="right">0.82</td>
-<td align="right">2007.0</td>
-<td align="right">2007.00</td>
-<td align="right">2008.00</td>
-<td align="right">2009.0</td>
-<td align="right">2009.0</td>
-<td align="left">▇▁▇▁▇</td>
+<tr>
+<td style="text-align:left;">
+year
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+2008.03
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+<td style="text-align:right;">
+2007.0
+</td>
+<td style="text-align:right;">
+2007.00
+</td>
+<td style="text-align:right;">
+2008.00
+</td>
+<td style="text-align:right;">
+2009.0
+</td>
+<td style="text-align:right;">
+2009.0
+</td>
+<td style="text-align:left;">
+▇▁▇▁▇
+</td>
 </tr>
 </tbody>
 </table>
@@ -617,168 +840,391 @@ data(&quot;penguins&quot;)</code></pre>
 <pre class="r"><code>#?penguins
 data(&quot;penguins&quot;)
 skimr::skim(penguins)</code></pre>
-<table>
-<caption>Data summary</caption>
+<table style="width: auto;" class="table table-condensed">
+<caption>
+Data summary
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
 <tbody>
-<tr class="odd">
-<td align="left">Name</td>
-<td align="left">penguins</td>
+<tr>
+<td style="text-align:left;">
+Name
+</td>
+<td style="text-align:left;">
+penguins
+</td>
 </tr>
-<tr class="even">
-<td align="left">Number of rows</td>
-<td align="left">344</td>
+<tr>
+<td style="text-align:left;">
+Number of rows
+</td>
+<td style="text-align:left;">
+344
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Number of columns</td>
-<td align="left">8</td>
+<tr>
+<td style="text-align:left;">
+Number of columns
+</td>
+<td style="text-align:left;">
+8
+</td>
 </tr>
-<tr class="even">
-<td align="left">_______________________</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+_______________________
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Column type frequency:</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+Column type frequency:
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="even">
-<td align="left">factor</td>
-<td align="left">3</td>
+<tr>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:left;">
+3
+</td>
 </tr>
-<tr class="odd">
-<td align="left">numeric</td>
-<td align="left">5</td>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+5
+</td>
 </tr>
-<tr class="even">
-<td align="left">________________________</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+________________________
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Group variables</td>
-<td align="left">None</td>
+<tr>
+<td style="text-align:left;">
+Group variables
+</td>
+<td style="text-align:left;">
+None
+</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Variable type: factor</strong></p>
 <table>
 <thead>
-<tr class="header">
-<th align="left">skim_variable</th>
-<th align="right">n_missing</th>
-<th align="right">complete_rate</th>
-<th align="left">ordered</th>
-<th align="right">n_unique</th>
-<th align="left">top_counts</th>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:left;">
+ordered
+</th>
+<th style="text-align:right;">
+n_unique
+</th>
+<th style="text-align:left;">
+top_counts
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">species</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="left">FALSE</td>
-<td align="right">3</td>
-<td align="left">Ade: 152, Gen: 124, Chi: 68</td>
+<tr>
+<td style="text-align:left;">
+species
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Ade: 152, Gen: 124, Chi: 68
+</td>
 </tr>
-<tr class="even">
-<td align="left">island</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="left">FALSE</td>
-<td align="right">3</td>
-<td align="left">Bis: 168, Dre: 124, Tor: 52</td>
+<tr>
+<td style="text-align:left;">
+island
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Bis: 168, Dre: 124, Tor: 52
+</td>
 </tr>
-<tr class="odd">
-<td align="left">sex</td>
-<td align="right">11</td>
-<td align="right">0.97</td>
-<td align="left">FALSE</td>
-<td align="right">2</td>
-<td align="left">mal: 168, fem: 165</td>
+<tr>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.97
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+mal: 168, fem: 165
+</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Variable type: numeric</strong></p>
 <table>
 <thead>
-<tr class="header">
-<th align="left">skim_variable</th>
-<th align="right">n_missing</th>
-<th align="right">complete_rate</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
-<th align="right">p0</th>
-<th align="right">p25</th>
-<th align="right">p50</th>
-<th align="right">p75</th>
-<th align="right">p100</th>
-<th align="left">hist</th>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+p0
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p100
+</th>
+<th style="text-align:left;">
+hist
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">bill_length_mm</td>
-<td align="right">2</td>
-<td align="right">0.99</td>
-<td align="right">43.92</td>
-<td align="right">5.46</td>
-<td align="right">32.1</td>
-<td align="right">39.23</td>
-<td align="right">44.45</td>
-<td align="right">48.5</td>
-<td align="right">59.6</td>
-<td align="left">▃▇▇▆▁</td>
+<tr>
+<td style="text-align:left;">
+bill_length_mm
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+43.92
+</td>
+<td style="text-align:right;">
+5.46
+</td>
+<td style="text-align:right;">
+32.1
+</td>
+<td style="text-align:right;">
+39.23
+</td>
+<td style="text-align:right;">
+44.45
+</td>
+<td style="text-align:right;">
+48.5
+</td>
+<td style="text-align:right;">
+59.6
+</td>
+<td style="text-align:left;">
+▃▇▇▆▁
+</td>
 </tr>
-<tr class="even">
-<td align="left">bill_depth_mm</td>
-<td align="right">2</td>
-<td align="right">0.99</td>
-<td align="right">17.15</td>
-<td align="right">1.97</td>
-<td align="right">13.1</td>
-<td align="right">15.60</td>
-<td align="right">17.30</td>
-<td align="right">18.7</td>
-<td align="right">21.5</td>
-<td align="left">▅▅▇▇▂</td>
+<tr>
+<td style="text-align:left;">
+bill_depth_mm
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+17.15
+</td>
+<td style="text-align:right;">
+1.97
+</td>
+<td style="text-align:right;">
+13.1
+</td>
+<td style="text-align:right;">
+15.60
+</td>
+<td style="text-align:right;">
+17.30
+</td>
+<td style="text-align:right;">
+18.7
+</td>
+<td style="text-align:right;">
+21.5
+</td>
+<td style="text-align:left;">
+▅▅▇▇▂
+</td>
 </tr>
-<tr class="odd">
-<td align="left">flipper_length_mm</td>
-<td align="right">2</td>
-<td align="right">0.99</td>
-<td align="right">200.92</td>
-<td align="right">14.06</td>
-<td align="right">172.0</td>
-<td align="right">190.00</td>
-<td align="right">197.00</td>
-<td align="right">213.0</td>
-<td align="right">231.0</td>
-<td align="left">▂▇▃▅▂</td>
+<tr>
+<td style="text-align:left;">
+flipper_length_mm
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+200.92
+</td>
+<td style="text-align:right;">
+14.06
+</td>
+<td style="text-align:right;">
+172.0
+</td>
+<td style="text-align:right;">
+190.00
+</td>
+<td style="text-align:right;">
+197.00
+</td>
+<td style="text-align:right;">
+213.0
+</td>
+<td style="text-align:right;">
+231.0
+</td>
+<td style="text-align:left;">
+▂▇▃▅▂
+</td>
 </tr>
-<tr class="even">
-<td align="left">body_mass_g</td>
-<td align="right">2</td>
-<td align="right">0.99</td>
-<td align="right">4201.75</td>
-<td align="right">801.95</td>
-<td align="right">2700.0</td>
-<td align="right">3550.00</td>
-<td align="right">4050.00</td>
-<td align="right">4750.0</td>
-<td align="right">6300.0</td>
-<td align="left">▃▇▆▃▂</td>
+<tr>
+<td style="text-align:left;">
+body_mass_g
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+4201.75
+</td>
+<td style="text-align:right;">
+801.95
+</td>
+<td style="text-align:right;">
+2700.0
+</td>
+<td style="text-align:right;">
+3550.00
+</td>
+<td style="text-align:right;">
+4050.00
+</td>
+<td style="text-align:right;">
+4750.0
+</td>
+<td style="text-align:right;">
+6300.0
+</td>
+<td style="text-align:left;">
+▃▇▆▃▂
+</td>
 </tr>
-<tr class="odd">
-<td align="left">year</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">2008.03</td>
-<td align="right">0.82</td>
-<td align="right">2007.0</td>
-<td align="right">2007.00</td>
-<td align="right">2008.00</td>
-<td align="right">2009.0</td>
-<td align="right">2009.0</td>
-<td align="left">▇▁▇▁▇</td>
+<tr>
+<td style="text-align:left;">
+year
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+2008.03
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+<td style="text-align:right;">
+2007.0
+</td>
+<td style="text-align:right;">
+2007.00
+</td>
+<td style="text-align:right;">
+2008.00
+</td>
+<td style="text-align:right;">
+2009.0
+</td>
+<td style="text-align:right;">
+2009.0
+</td>
+<td style="text-align:left;">
+▇▁▇▁▇
+</td>
 </tr>
 </tbody>
 </table>
@@ -832,11 +1278,11 @@ glimpse(penguins)</code></pre>
                           normal.curve = TRUE,
                           xlab   = &quot;Penguin mass (g)&quot;,
                           title  = &quot;Palmer penguin body mass&quot;)</code></pre>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>This histogram shows the distribution of penguin weights in grams for the <em>sample</em> of 344 Adélie, Chinstrap and Gentoo penguins in the Palmer penguin dataset.</p>
 <p>The distribution looks approximately univariate with a mean penguin mass of 4201.75g. There does appear to be some left skew:</p>
 <pre class="r"><code>ggpubr::ggqqplot(penguins$body_mass_g,col=&quot;blue&quot;)</code></pre>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <pre class="r"><code>WS.test &lt;- shapiro.test(penguins$body_mass_g)
 WS.test</code></pre>
 <pre><code>## 
@@ -857,172 +1303,395 @@ WS.test</code></pre>
                centrality.point.args=list(color = &quot;darkblue&quot;)
                ,pairwise.display = &quot;significant&quot;,centrality.plotting=FALSE,
                results.subtitle = FALSE)</code></pre>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>The data is clearly not independent. So from now onwards I will simply select a single species.</p>
 <pre class="r"><code>adelie &lt;- dplyr::filter(penguins, species==&quot;Adelie&quot;)
 skim(adelie)</code></pre>
-<table>
-<caption>Data summary</caption>
+<table style="width: auto;" class="table table-condensed">
+<caption>
+Data summary
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
 <tbody>
-<tr class="odd">
-<td align="left">Name</td>
-<td align="left">adelie</td>
+<tr>
+<td style="text-align:left;">
+Name
+</td>
+<td style="text-align:left;">
+adelie
+</td>
 </tr>
-<tr class="even">
-<td align="left">Number of rows</td>
-<td align="left">152</td>
+<tr>
+<td style="text-align:left;">
+Number of rows
+</td>
+<td style="text-align:left;">
+152
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Number of columns</td>
-<td align="left">8</td>
+<tr>
+<td style="text-align:left;">
+Number of columns
+</td>
+<td style="text-align:left;">
+8
+</td>
 </tr>
-<tr class="even">
-<td align="left">_______________________</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+_______________________
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Column type frequency:</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+Column type frequency:
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="even">
-<td align="left">factor</td>
-<td align="left">3</td>
+<tr>
+<td style="text-align:left;">
+factor
+</td>
+<td style="text-align:left;">
+3
+</td>
 </tr>
-<tr class="odd">
-<td align="left">numeric</td>
-<td align="left">5</td>
+<tr>
+<td style="text-align:left;">
+numeric
+</td>
+<td style="text-align:left;">
+5
+</td>
 </tr>
-<tr class="even">
-<td align="left">________________________</td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+________________________
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Group variables</td>
-<td align="left">None</td>
+<tr>
+<td style="text-align:left;">
+Group variables
+</td>
+<td style="text-align:left;">
+None
+</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Variable type: factor</strong></p>
 <table>
 <thead>
-<tr class="header">
-<th align="left">skim_variable</th>
-<th align="right">n_missing</th>
-<th align="right">complete_rate</th>
-<th align="left">ordered</th>
-<th align="right">n_unique</th>
-<th align="left">top_counts</th>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:left;">
+ordered
+</th>
+<th style="text-align:right;">
+n_unique
+</th>
+<th style="text-align:left;">
+top_counts
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">species</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="left">FALSE</td>
-<td align="right">1</td>
-<td align="left">Ade: 152, Chi: 0, Gen: 0</td>
+<tr>
+<td style="text-align:left;">
+species
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Ade: 152, Chi: 0, Gen: 0
+</td>
 </tr>
-<tr class="even">
-<td align="left">island</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="left">FALSE</td>
-<td align="right">3</td>
-<td align="left">Dre: 56, Tor: 52, Bis: 44</td>
+<tr>
+<td style="text-align:left;">
+island
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+Dre: 56, Tor: 52, Bis: 44
+</td>
 </tr>
-<tr class="odd">
-<td align="left">sex</td>
-<td align="right">6</td>
-<td align="right">0.96</td>
-<td align="left">FALSE</td>
-<td align="right">2</td>
-<td align="left">fem: 73, mal: 73</td>
+<tr>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+fem: 73, mal: 73
+</td>
 </tr>
 </tbody>
 </table>
 <p><strong>Variable type: numeric</strong></p>
 <table>
 <thead>
-<tr class="header">
-<th align="left">skim_variable</th>
-<th align="right">n_missing</th>
-<th align="right">complete_rate</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
-<th align="right">p0</th>
-<th align="right">p25</th>
-<th align="right">p50</th>
-<th align="right">p75</th>
-<th align="right">p100</th>
-<th align="left">hist</th>
+<tr>
+<th style="text-align:left;">
+skim_variable
+</th>
+<th style="text-align:right;">
+n_missing
+</th>
+<th style="text-align:right;">
+complete_rate
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+p0
+</th>
+<th style="text-align:right;">
+p25
+</th>
+<th style="text-align:right;">
+p50
+</th>
+<th style="text-align:right;">
+p75
+</th>
+<th style="text-align:right;">
+p100
+</th>
+<th style="text-align:left;">
+hist
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">bill_length_mm</td>
-<td align="right">1</td>
-<td align="right">0.99</td>
-<td align="right">38.79</td>
-<td align="right">2.66</td>
-<td align="right">32.1</td>
-<td align="right">36.75</td>
-<td align="right">38.8</td>
-<td align="right">40.75</td>
-<td align="right">46.0</td>
-<td align="left">▁▆▇▆▁</td>
+<tr>
+<td style="text-align:left;">
+bill_length_mm
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+38.79
+</td>
+<td style="text-align:right;">
+2.66
+</td>
+<td style="text-align:right;">
+32.1
+</td>
+<td style="text-align:right;">
+36.75
+</td>
+<td style="text-align:right;">
+38.8
+</td>
+<td style="text-align:right;">
+40.75
+</td>
+<td style="text-align:right;">
+46.0
+</td>
+<td style="text-align:left;">
+▁▆▇▆▁
+</td>
 </tr>
-<tr class="even">
-<td align="left">bill_depth_mm</td>
-<td align="right">1</td>
-<td align="right">0.99</td>
-<td align="right">18.35</td>
-<td align="right">1.22</td>
-<td align="right">15.5</td>
-<td align="right">17.50</td>
-<td align="right">18.4</td>
-<td align="right">19.00</td>
-<td align="right">21.5</td>
-<td align="left">▂▆▇▃▁</td>
+<tr>
+<td style="text-align:left;">
+bill_depth_mm
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+18.35
+</td>
+<td style="text-align:right;">
+1.22
+</td>
+<td style="text-align:right;">
+15.5
+</td>
+<td style="text-align:right;">
+17.50
+</td>
+<td style="text-align:right;">
+18.4
+</td>
+<td style="text-align:right;">
+19.00
+</td>
+<td style="text-align:right;">
+21.5
+</td>
+<td style="text-align:left;">
+▂▆▇▃▁
+</td>
 </tr>
-<tr class="odd">
-<td align="left">flipper_length_mm</td>
-<td align="right">1</td>
-<td align="right">0.99</td>
-<td align="right">189.95</td>
-<td align="right">6.54</td>
-<td align="right">172.0</td>
-<td align="right">186.00</td>
-<td align="right">190.0</td>
-<td align="right">195.00</td>
-<td align="right">210.0</td>
-<td align="left">▁▆▇▅▁</td>
+<tr>
+<td style="text-align:left;">
+flipper_length_mm
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+189.95
+</td>
+<td style="text-align:right;">
+6.54
+</td>
+<td style="text-align:right;">
+172.0
+</td>
+<td style="text-align:right;">
+186.00
+</td>
+<td style="text-align:right;">
+190.0
+</td>
+<td style="text-align:right;">
+195.00
+</td>
+<td style="text-align:right;">
+210.0
+</td>
+<td style="text-align:left;">
+▁▆▇▅▁
+</td>
 </tr>
-<tr class="even">
-<td align="left">body_mass_g</td>
-<td align="right">1</td>
-<td align="right">0.99</td>
-<td align="right">3700.66</td>
-<td align="right">458.57</td>
-<td align="right">2850.0</td>
-<td align="right">3350.00</td>
-<td align="right">3700.0</td>
-<td align="right">4000.00</td>
-<td align="right">4775.0</td>
-<td align="left">▅▇▇▃▂</td>
+<tr>
+<td style="text-align:left;">
+body_mass_g
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.99
+</td>
+<td style="text-align:right;">
+3700.66
+</td>
+<td style="text-align:right;">
+458.57
+</td>
+<td style="text-align:right;">
+2850.0
+</td>
+<td style="text-align:right;">
+3350.00
+</td>
+<td style="text-align:right;">
+3700.0
+</td>
+<td style="text-align:right;">
+4000.00
+</td>
+<td style="text-align:right;">
+4775.0
+</td>
+<td style="text-align:left;">
+▅▇▇▃▂
+</td>
 </tr>
-<tr class="odd">
-<td align="left">year</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">2008.01</td>
-<td align="right">0.82</td>
-<td align="right">2007.0</td>
-<td align="right">2007.00</td>
-<td align="right">2008.0</td>
-<td align="right">2009.00</td>
-<td align="right">2009.0</td>
-<td align="left">▇▁▇▁▇</td>
+<tr>
+<td style="text-align:left;">
+year
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+2008.01
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+<td style="text-align:right;">
+2007.0
+</td>
+<td style="text-align:right;">
+2007.00
+</td>
+<td style="text-align:right;">
+2008.0
+</td>
+<td style="text-align:right;">
+2009.00
+</td>
+<td style="text-align:right;">
+2009.0
+</td>
+<td style="text-align:left;">
+▇▁▇▁▇
+</td>
 </tr>
 </tbody>
 </table>
@@ -1035,9 +1704,9 @@ skim(adelie)</code></pre>
                           normal.curve = TRUE,
                           xlab   = &quot;mass (g)&quot;,
                           title  = &quot;Palmer penguin body mass: Species- Adelie&quot;)</code></pre>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <pre class="r"><code>ggpubr::ggqqplot(adelie$body_mass_g,col=&quot;blue&quot;)</code></pre>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <pre class="r"><code>WS.test &lt;- shapiro.test(adelie$body_mass_g)
 WS.test</code></pre>
 <pre><code>## 
@@ -1055,7 +1724,7 @@ WS.test</code></pre>
 <h2><span class="header-section-number">3.5</span> Describe correlations</h2>
 <p><strong>Describe the correlation between Adelie penguin’s mass vs other variables</strong></p>
 <pre class="r"><code>GGally::ggpairs( adelie[ , sapply(adelie,is.numeric)])</code></pre>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>For our sample, there appears to be moderate positive correlation between adelie penguin mass and both bill depth and flipper length. There is very little correlation with bill length.</p>
 </div>
 </div>
@@ -1077,7 +1746,7 @@ ggstatsplot::ggscatterstats(adelie,
                             results.subtitle=FALSE,
                             xlab=&quot;Flipper length (mm)&quot;,
                             ylab=&quot;body mass (g)&quot;)</code></pre>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>The relationship can be expressed as:</p>
 <pre class="r"><code>equatiomatic::extract_eq(Model1,use_coefs = TRUE)</code></pre>
 <p><span class="math display">\[
@@ -1197,7 +1866,7 @@ t = \frac{b_1 − 0}{se(b_1)}=\frac{32.832}{5.076}=6.468085
 <li>H_1_ : <span class="math inline">\(\beta_{1} != 0\)</span></li>
 </ul>
 <p>We have a 10% significance level. So let’s imagine a t-distribution</p>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <pre class="r"><code>Model2 &lt;- lm(body_mass_g ~ year, data=adelie)
 summary(Model2)</code></pre>
 <pre><code>## 
@@ -1227,7 +1896,7 @@ t = \frac{b_1 − 0}{se(b_1)}=\frac{-16.37}{45.78}=-0.3575797
 <pre class="r"><code>pt(-0.3575797,df=149,lower.tail = FALSE)</code></pre>
 <pre><code>## [1] 0.6394181</code></pre>
 <p>Here we can see that 36% of the T-distribution is on the lower side of the test statistic (e.g. by random chance we expect 36% of slopes to be smaller than -16.37) and 64% of the T-distribution is on the upper side of the test statistic. As the red line is in the white zone, we do not have enough evidence to reject H0.</p>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>Alternatively, as the T-distribution is symmetrical, we can simply multiply the p-value by two:</p>
 <pre class="r"><code>pt(-0.3575797,df=149,lower.tail = TRUE) * 2</code></pre>
 <pre><code>## [1] 0.7211639</code></pre>
@@ -1247,7 +1916,7 @@ t = \frac{b_1 − 0}{se(b_1)}=\frac{-16.37}{45.78}=-0.3575797
 </ul>
 <p>The reason that H0 is an equals is that H0 is always the model we set up to test our scenario.</p>
 <p>OK, so here is the point where I find drawing the diagram helps. So if the scientist was correct, then higher slopes are to be expected. We only care if it is low.</p>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p><span class="math display">\[
 t = \frac{b_1 − 40}{se(b_1)}=\frac{32.832-40}{5.076}=-1.412136
 \]</span></p>
@@ -1265,7 +1934,7 @@ polygon(c(lower,x,4),c(0,dt(x,149),0),col=&quot;white&quot;)
 text(0,0.05,&quot;95%&quot;);text(-3,0.05,&quot;5%&quot;);
 abline(v=-1.412136,col=&quot;red&quot;,lwd=2)
 text(-2.3,0.3,&quot;&lt;- 7.973%&quot;,col=&quot;red&quot;);text(-0.7,0.3,&quot;92% -&gt;&quot;,col=&quot;red&quot;)</code></pre>
-<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="Worked_questions_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <p>To recap:</p>
 <p><strong>A famous penguin researcher thinks that the slope between mass and flipper length is <em>at least</em> 40 mm/g. Given your sample, do you believe this is true, with a critical significance of 5%</strong></p>
 <ul>
@@ -1490,8 +2159,8 @@ predict(Model1,new_bird,interval =&quot;prediction&quot;,levels=0.9)</code></pre
 ## 1 3045.55 2215.056 3876.045</code></pre>
 <p>If our model is true, a new bird is likely to weigh between 2215g and 3876g.</p>
 </div>
-<div id="predicion-intervals-are-bigger-than-confidence-intervals" class="section level2" number="8.2">
-<h2><span class="header-section-number">8.2</span> PREDICION INTERVALS ARE BIGGER THAN CONFIDENCE INTERVALS</h2>
+<div id="prediction-intervals-are-bigger-than-confidence-intervals" class="section level2" number="8.2">
+<h2><span class="header-section-number">8.2</span> PREDICTION INTERVALS ARE BIGGER THAN CONFIDENCE INTERVALS</h2>
 <p>If you are confused, see the textbook or the many resources online.. here are just two..</p>
 <p><a href="https://www.indeed.com/career-advice/career-development/prediction-interval-vs-confidence-interval" class="uri">https://www.indeed.com/career-advice/career-development/prediction-interval-vs-confidence-interval</a></p>
 <p><a href="https://www.statology.org/confidence-interval-vs-prediction-interval/" class="uri">https://www.statology.org/confidence-interval-vs-prediction-interval/</a></p>

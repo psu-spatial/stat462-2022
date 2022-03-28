@@ -363,7 +363,7 @@ div.tocify {
   <a href="STAT462_LabEXAMPLE.html">LAB EXAMPLE</a>
 </li>
 <li>
-  <a href="STAT462-Worked-questions.html">Worked questions</a>
+  <a href="Worked_questions.html">Worked questions</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -608,16 +608,8 @@ shapiro.test(mpg$hwy)</code></pre>
 <h5><span class="header-section-number">1.2.4.3.6</span> 6e Normal distributions</h5>
 <p>Now we’re going to move onto some commands that allow us to calculate normal probabilities using R, rather than slowly by hand. Using the R functions <code>pnorm()</code> and <code>qnorm()</code>, we can find the cumulative probabilities and normal quantiles for any normal distribution.</p>
 <p>For example, Cat lifespans have a normal distribution with a mean of 15.4 and a standard deviation of 2.3. What’s the probability of a cat lifespan less than 14 years?</p>
-<pre class="r"><code>?pnorm # use the help file of ?pnorm to see what lower.tail=TRUE/FALSE does</code></pre>
-<pre><code>## Help on topic &#39;pnorm&#39; was found in the following packages:
-## 
-##   Package               Library
-##   Rmpfr                 /Users/hlg5155/Library/R/x86_64/4.1/library
-##   stats                 /Library/Frameworks/R.framework/Versions/4.1/Resources/library
-## 
-## 
-## Using the first match ...</code></pre>
-<pre class="r"><code>pnorm(14,mean=15.4,sd=2.4,lower.tail = TRUE)</code></pre>
+<pre class="r"><code>?pnorm # use the help file of ?pnorm to see what lower.tail=TRUE/FALSE does
+pnorm(14,mean=15.4,sd=2.4,lower.tail = TRUE)</code></pre>
 <pre><code>## [1] 0.2798345</code></pre>
 <p>So, it’s 0.2798 - or ~28%</p>
 <p>What about the probability of a cat being older than 20?</p>

@@ -24,7 +24,7 @@ navbar:
     - text: "LAB EXAMPLE"
       href: STAT462_LabEXAMPLE.html 
     - text: "Worked questions"
-      href: STAT462-Worked-questions.html      
+      href: Worked_questions.html      
 output:  
   html_document:  
     self_contained: no  
