@@ -1,0 +1,686 @@
+---
+title: "STAT-462 Worked questions"
+author: "hlg5155"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true 
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+    number_sections: yes
+    theme: lumen
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+All the questions and plots here are on the Palmer Penguins dataset, to carry on the penguin health theme of the course. You don't need to do this, but so you can see where each command comes from, I have also added the package e.g. `ggstatsplott::gghistostats` is the same as `library(ggstatsplot)` followed by `gghistostats()`
+
+## Load Data and Packages
+
+```{r, message=FALSE, warning=FALSE}
+# Important core packages
+library(tidyverse) 
+library(knitr)     
+library(rmarkdown) 
+library(skimr)     
+library(Stat2Data) 
+library(readxl)
+library(ggpubr)    
+
+# Regression packages
+library(olsrr)     
+library(Stat2Data) 
+library(nortest)   
+library(lmtest)    
+library(IMTest)     
+library(MASS)      
+library(visreg)
+library(ggstatsplot)
+
+# Plotting packages
+library(lattice)   
+library(RColorBrewer) 
+library(viridis) 
+library(corrplot)  
+library(plotly)
+library(car)      
+library(GGally)
+
+# Datasets
+library(ISLR)      # contains a credit dataset
+library(yarrr)     # contains a toy dataset about pirates
+library(palmerpenguins)  # contains the penguin dataset
+```
+
+## Load data
+
+I use the data command because the data already exists inside Note, because the data is already "pre-loaded into R", I don't need to give it a variable name. In fact this command loads TWO datasets: penguins and penguins_raw. If in doubt see the help file e.g. ?penguins.
+
+```{r}
+#?penguins
+data("penguins")
+```
+
+```{r}
+skimr::skim(penguins)
+```
+
+Check column names
+
+```{r}
+names(penguins)
+```
+
+## Descriptive questions
+
+### What is the unit of analysis
+
+The "thing" the study is about. I used the help file, `?penguins` and `?penguinsraw` to show that the unit of analysis is a single penguin. There are 151 penguins in the sample. n=151 (there is one missing).
+
+### What is a reasonable population?
+
+This is the boundaries that the study can be extrapoled to.
+
+Again, using the helpfile, `?penguins`: The study collected data on nesting observations, penguin size data, and isotope measurements from blood samples for foraging adult Adélie, Chinstrap, and Gentoo near Palmer Station, Antarctica.
+
+I would say a reasonable population would be either adult Antarctic penguins of those breeds (maybe splitting into a smaller geographic area after consulting with subject experts). If I split the sample into individual species (I do this later on), then I expect I might be able to use these results for all populations of that penguin breed, again after consulting with experts.
+
+### What variables exist in the dataset?
+
+Here is our dataset:
+
+```{r}
+#?penguins
+data("penguins")
+skimr::skim(penguins)
+```
+
+or alternatively
+
+```{r}
+glimpse(penguins)
+```
+
+Our data is comprised of a sample of 344 penguins, with variables:
+
+-   `species`: *factor, nominal categorical* Penguin species (Adélie, Chinstrap and Gentoo)
+-   `island`: *factor, nominal categorical* Island in Palmer Archipelago, Antarctica (Biscoe, Dream or Torgersen) that the penguin was observed on
+-   `bill_length_mm` : *numeric* Bill (beak) length (millimeters)
+-   `bill_length_mm` : *numeric* Bill depth (millimeters)
+-   `flipper_length_mm` : *integer, numeric* Flipper length (millimeters)
+-   `body_mass_g` : *integer, numeric* Body mass (grams)
+-   `sex` *factor, nominal categorical* Penguin sex (female, male)
+-   `year` *integer, numeric* Study year (2007, 2008, or 2009)
+
+Most of our data stored as an integer is not "true" integer data e.g. it's *physically possible* to have a body mass of 45.295g. So I will convert my integer columns to numeric
+
+```{r}
+# take all the integers in penguins, convert to float numeric and overwrite.
+penguins <- dplyr::mutate_if( penguins, 
+                              is.integer, as.numeric)
+
+# and check - yep, dbl means "double float"
+glimpse(penguins)
+```
+
+### Describe a single variable (including W-S Normality)
+
+**Describe the body mass of Palmer Penguins**
+
+```{r}
+ggstatsplot::gghistostats(data=penguins, 
+                          x=body_mass_g,
+                          results.subtitle=FALSE,
+                          normal.curve = TRUE,
+                          xlab   = "Penguin mass (g)",
+                          title  = "Palmer penguin body mass")
+```
+
+This histogram shows the distribution of penguin weights in grams for the *sample* of 344 Adélie, Chinstrap and Gentoo penguins in the Palmer penguin dataset.
+
+The distribution looks approximately univariate with a mean penguin mass of 4201.75g. There does appear to be some left skew:
+
+```{r, message=FALSE, warning=FALSE}
+ggpubr::ggqqplot(penguins$body_mass_g,col="blue")
+
+```
+
+```{r}
+WS.test <- shapiro.test(penguins$body_mass_g)
+WS.test
+```
+
+-   H~0~ : The sample comes from a population which has a normal distribution. Wilks Shapiro test statistic would be close to 1: $W = 1$
+-   H~1~ : The sample is unlikely to come from a population which has a normal distribution. Wilks Shapiro test statistic would be LESS than 1: $W < 1$
+
+The results above suggest that the test-statistic, W is `r WS.test$statistic` (relatively normal), but the likelyhood of seeing this result with a large sample of 344 penguins is exceptionally small (p = `WS.test$p.value`). It is important to note that the sample is large, so this test is very sensitive.
+
+Finally, I expect that that the data is not fully independent, which would affect the normality of test results. The dataset is comprised of three individual species. Breaking these apart:
+
+```{r}
+ggbetweenstats(data = penguins,
+               x = species,
+               y = body_mass_g , 
+               plot.type = "box",xlab   = "Penguin mass (g)",
+               centrality.point.args=list(color = "darkblue")
+               ,pairwise.display = "significant",centrality.plotting=FALSE,
+               results.subtitle = FALSE)
+
+```
+
+The data is clearly not independent. So from now onwards I will simply select a single species.
+
+```{r}
+adelie <- dplyr::filter(penguins, species=="Adelie")
+skim(adelie)
+```
+
+-   **New unit of analysis:** an individual Adelie penguin -**New reasonable population:** All Adélie penguins - although I would want to talk to a biologist before extrapolating results beyond either the specific penguin colony or Antarctia.
+
+```{r}
+ggstatsplot::gghistostats(data=adelie, 
+                          x=body_mass_g,
+                          results.subtitle=FALSE,
+                          normal.curve = TRUE,
+                          xlab   = "mass (g)",
+                          title  = "Palmer penguin body mass: Species- Adelie")
+```
+
+```{r, message=FALSE, warning=FALSE}
+ggpubr::ggqqplot(adelie$body_mass_g,col="blue")
+
+```
+
+```{r}
+WS.test <- shapiro.test(adelie$body_mass_g)
+WS.test
+```
+
+-   H~0~ : The sample comes from a population which has a normal distribution. Wilks Shapiro test statistic would be close to 1: $W = 1$
+-   H~1~ : The sample is unlikely to come from a population which has a normal distribution. Wilks Shapiro test statistic would be LESS than 1: $W < 1$
+
+The results above suggest that the sampled test-statistic, W is `r WS.test$statistic` close to Normal. The p-value is still relatively low at p = `WS.test$p.value`, but good enough to proceed.
+
+### Describe correlations
+
+**Describe the correlation between Adelie penguin's mass vs other variables**
+
+```{r, message=FALSE, warning=FALSE}
+
+GGally::ggpairs( adelie[ , sapply(adelie,is.numeric)])
+```
+
+For our sample, there appears to be moderate positive correlation between adelie penguin mass and both bill depth and flipper length. There is very little correlation with bill length.
+
+## Simple Linear Models
+
+### Set up a linear model
+
+**Create a linear model between Adelie Penguin mass and Flipper Length**
+
+-   Unit of analysis: An individual Adelie penguin
+
+-   Response (Y) : Penguin mass
+
+-   Predictor (X1) : Flipper length
+
+```{r}
+Model1 <- lm(body_mass_g ~ flipper_length_mm, data=adelie)
+```
+
+```{r}
+# INSTALL GGSIDE IN THE CONSOLE
+ggstatsplot::ggscatterstats(adelie,
+                            x=flipper_length_mm,
+                            y=body_mass_g,
+                            results.subtitle=FALSE,
+                            xlab="Flipper length (mm)",
+                            ylab="body mass (g)")
+```
+
+The relationship can be expressed as:
+
+```{r,asis=TRUE}
+equatiomatic::extract_eq(Model1,use_coefs = TRUE)
+```
+
+```{r}
+Model1.Summary <- olsrr::ols_regress(Model1)
+Model1.Summary
+```
+
+### Describe the intercept
+
+If our sample regression is:
+
+$$
+\operatorname{\widehat{y}} = b_{0} + b_{1}x 
+$$
+
+Then the intercept is the MODELLED AVERAGE value of y when x is 0.
+
+In our case, the intercept is the *average* mass of penguins with no flippers (zero flipper length), which corresponds to `r Model1.Summary$betas[1]` grams.
+
+This is extrapolating far beyond the observed data and thus has no physical meaning. Equally, a penguin with no flippers is likely to have other physical differences which impact how much it weighs. The relationship is no longer likely to be linear.
+
+### Describe the slope
+
+If our sample regression is:
+
+$$
+\operatorname{\widehat{y}} = b_{0} + b_{1}x 
+$$
+
+Then the gradient/slope is the change in the MODELLED AVERAGE value of y with a unit increase in x.
+
+The slope suggests that as the flipper length increases by 1mm, the mass increases by `r Model1.Summary$betas[2]` grams.
+
+### R^2^ - how much variability is explained.
+
+R^2^ is the percentage of the variability in our response that can be "explained" by our predictor.  For example 96% of the variability in building height can be "explained" by how many floors/stories is has. 
+
+R^2^ is also known as the coefficient of determination.
+
+See here for more: https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/assessing-fit-least-squares-regression/a/r-squared-intuition 
+
+We can see from this model summary that `r Model1.Summary$rsq*100`% of the variability in our sampled Penguin mass can be explained by flipper length. 
+
+## Hypothesis test on slope
+
+### T-test on slope, Is $\beta_{1} = 0$?
+
+AKA IS THERE A LINEAR RELATIONSHIP BETWEEN.....
+
+**Is there a linear relationship between mass and flipper length? (AKA is $\beta_{1} = 0$?)**
+
+See here for a worked example in detail: https://www.econometrics-with-r.org/5-1-testing-two-sided-hypotheses-concerning-the-slope-coefficient.html
+
+Remember that
+
+$$
+t = \frac{Estimated.Value − Hypothesized.Value}{Standard.Error.Of.Estimate}
+$$
+
+If x does not impact y, then the slope of our _population scatterplot_ would be zero.  E.g. x does not explain any of the variability in y.  So in this case, we are assessing how likely it is to see our sample in a world where the TRUE population slope is zero.   
+
+So for our null hypothesis, we set up a world where the population slope is zero.  We don't care if there is a negative or a positive slope here, so this is a _two sided_ T-test.
+
+ - H_0_ : $\beta_{1} = 0$
+ - H_1_ : $\beta_{1} != 0$ _AKA our sample has an unusual slope if H0 really was true_
+
+So for us:
+
+$$
+t = \frac{b_1 − \beta_{1}}{se(b_1)}
+$$
+So 
+
+$$
+t = \frac{b_1 − 0}{se(b_1)}=\frac{32.832}{5.076}=6.468085
+$$
+
+This is such a common question that you can simply see this T value in the R summary output. THE P-VALUE IN THIS IS FOR A TWO SIDED TEST.
+
+```{r}
+summary(Model1)
+```
+
+We can see that the probability is exceedingly small, so we have a lot of evidence to reject H_0_ and suggest there is a relationship between body mass and flipper length.
+
+### T-test on slope, calculate p for 2 sided test
+
+Let's choose an example with a larger p value.
+
+**Is there a relationship between body mass and study year, at a 10% critical significance?**
+
+- H_0_ : $\beta_{1} = 0$
+- H_1_ : $\beta_{1} != 0$
+
+We have a 10% significance level.  So let's imagine a t-distribution
+
+```{r, echo=FALSE}
+x=seq(-4,4,length=2000)
+plot(x,dt(x,149),type="l",lwd=2,col="blue",
+     xlab="t-statistic",ylab="")
+lower <- qt(0.05,149)
+upper <- qt(0.95,149)
+polygon(c(lower,x,upper),c(0,dt(x,149),0),col="gray")
+x=seq(lower,upper,length=2000)
+polygon(c(lower,x,upper),c(0,dt(x,149),0),col="white")
+text(0,0.05,"90% (H0)");text(-3,0.05,"5% (H1)");text(3,0.05,"5% (H1)")
+```
+
+```{r}
+Model2 <- lm(body_mass_g ~ year, data=adelie)
+summary(Model2)
+```
+
+You can see from this that the summary t-statistic is -0.358  and the associated p value is 0.721. Let's show where it comes from.
+
+$$
+t = \frac{b_1 − 0}{se(b_1)}=\frac{-16.37}{45.78}=-0.3575797
+$$
+
+and
+
+```{r}
+pt(-0.3575797,df=149,lower.tail = TRUE)
+pt(-0.3575797,df=149,lower.tail = FALSE)
+
+```
+
+Here we can see that 36% of the T-distribution is on the lower side of the test statistic (e.g. by random chance we expect 36% of slopes to be smaller than -16.37) and 64% of the T-distribution is on the upper side of the test statistic. As the red line is in the white zone, we do not have enough evidence to reject H0.
+
+```{r, echo=FALSE}
+x=seq(-4,4,length=2000)
+plot(x,dt(x,149),type="l",lwd=2,col="blue",
+     xlab="t-statistic",ylab="")
+lower <- qt(0.05,149)
+upper <- qt(0.95,149)
+polygon(c(lower,x,upper),c(0,dt(x,149),0),col="gray")
+x=seq(lower,upper,length=2000)
+polygon(c(lower,x,upper),c(0,dt(x,149),0),col="white")
+text(0,0.05,"90%");text(-3,0.05,"5%");text(3,0.05,"5%")
+abline(v=-0.3575797,col="red",lwd=2)
+text(-1.3,0.3,"<- 36.05%",col="red");text(0.7,0.3,"63.948% ->",col="red")
+```
+
+Alternatively, as the T-distribution is symmetrical, we can simply multiply the p-value by two:
+
+```{r}
+pt(-0.3575797,df=149,lower.tail = TRUE) * 2
+```
+
+E.g. 0.721 is greater than 0.1 so we do not have enough evidence to reject H0.  This is what the R summary does.
+
+SO R-SUMMARY T-TEST STATISTICS ARE TWO SIDED e.g. H1: B1 != 0 or B0 !=0
+You can actually see this directly in the summary, Pr(>|t|) e.g. the p value for negative t and positive t.
+
+### T-test on slope, one sided & $\beta_{1}$ is a number.
+
+**A famous penguin researcher thinks that the slope between mass and flipper length is _at least_ 40 mm/g.  Given your sample, do you believe this is true, with a critical significance of 5%**
+
+We can no longer use the R summary.
+
+ - H_0_ : $\beta_{1} = 40$ 
+
+If our person's statement really was true, then at a MINIMUM, it should be 40 mm/g. So it would be pretty typical to get a higher slope from our sample.  What would be unusual would be to get a lower slope.
+
+ - H_1_ : $\beta_{1} < 40$ It would be unusual to see a slope as _low_ as our sample if H0 really was true.
+ 
+The reason that H0 is an equals is that H0 is always the model we set up to test our scenario.
+ 
+OK, so here is the point where I find drawing the diagram helps.  So if the scientist was correct, then higher slopes are to be expected. We only care if it is low.
+
+```{r,echo=FALSE}
+x=seq(40-(4*5.076),40+(4*5.076),length=2000)
+plot(x,dnorm(x,mean = 40,sd=5.076),type="l",lwd=2,col="blue",
+     xlab="H0, Beta1=40",ylab="",axes=FALSE,mgp=c(1,1,0))
+box()
+axis(2)
+axis(1,labels=FALSE)
+abline(v=32.832,col="red")
+```
+
+$$
+t = \frac{b_1 − 40}{se(b_1)}=\frac{32.832-40}{5.076}=-1.412136
+$$
+
+So in this case, we use lower.tail=TRUE
+
+```{r}
+pt(-1.412136,df=149,lower.tail = TRUE)
+```
+
+The p-value is 0.08 - as this is above 0.05, we do not have enough evidence to reject H0. E.g.
+
+```{r}
+x=seq(-4,4,length=2000)
+plot(x,dt(x,149),type="l",lwd=2,col="blue",
+     xlab="t-statistic",ylab="")
+polygon(c(lower,x,upper),c(0,dt(x,149),0),col="gray")
+lower <- qt(0.05,149)
+x=seq(lower,4,length=2000)
+polygon(c(lower,x,4),c(0,dt(x,149),0),col="white")
+text(0,0.05,"95%");text(-3,0.05,"5%");
+abline(v=-1.412136,col="red",lwd=2)
+text(-2.3,0.3,"<- 7.973%",col="red");text(-0.7,0.3,"92% ->",col="red")
+```
+
+To recap:
+
+**A famous penguin researcher thinks that the slope between mass and flipper length is _at least_ 40 mm/g.  Given your sample, do you believe this is true, with a critical significance of 5%**
+
+ - H_0_ : $\beta_{1} = 40$ 
+ - H_1_ : $\beta_{1} < 40$ It would be unusual to see a slope as _low_ as our sample if H0 really was true.
+
+We found a 7% chance of seeing a slope lower or equal to our sample. As this is above our 5% critical significance, we do not have enough evidence to reject H0.  Therefore our sample is likely consistent with the scientist's statement.
+
+
+### Using a confidence interval on the slope
+
+It's a bit more convoluted, but just as easy to use a confidence interval instead of a t-test. Is the slope 0 at a critical significance of 5%?
+
+ - H_0_ : $\beta_{1} = 40$ 
+ - H_1_ : $\beta_{1} < 40$ It would be unusual to see a slope as _low_ as our sample if H0 really was true.
+
+
+```{r}
+ols_regress(Model1)
+```
+
+The ols regress output gives you the 95% confidence interval on the slope. AKA What range of values you expect the TRUE population slope to lie between.
+
+We can see that the 95% confidence interval ON THE SLOPE is between 22.801 and 42.862 mm/g.  As there are values greater than 35 mm/g inside the confidence interval, it would be reasonable to agree with the scientist's theory.   E.g. we don't have evidence to suggest our sample slope would always be lower than 40 mm/g.
+
+So we do not have evidence to reject H0.
+
+
+
+### F-test on slope, Is $\beta_{1} = 0$?
+
+If we simply want to see if our model is explaining any variation in y (e.g. is our predictor explaining the variability in our response), we can use an F test.
+
+**Is there a relationship between body mass and study year, at a 1% critical significance?**
+
+```{r}
+anova(Model2)
+```
+
+ - H_0_ : $\beta_{1} = 0$
+ - H_1_ : $\beta_{1} != 0$
+
+The test statistic is the F statistic.
+
+As always, the P-value is obtained by answering the question: "What is the probability that we’d get an F* statistic as large as we did, if the null hypothesis is true?"
+
+The P-value is determined by comparing F* to an F distribution with 1 numerator degree of freedom and n-2 denominator degrees of freedom.
+
+Here we can see that the p-value is 0.72, which is well above 0.01.  So we choose H0.  We can confirm that there is no evidence to suggest a relationship between body mass and study year.
+
+### Is the F test one tailed or two tailed?
+
+This is a common confusion!  See http://daniellakens.blogspot.com/2016/04/one-sided-f-tests-and-halving-p-values.html
+
+and
+  https://psycnet.apa.org/record/1981-00280-001:
+_"I pointed out to my student that although t distributions and F distributions each have probability values associated with both tails of their respective curves, the curves bear an exponential relationship, not a linear one. I reminded them that for d.f. = l/n, F = P. Thus, while
+values of t can be both positive and negative, values of F are limited to positive numbers. They saw the point immediately, and told me that in the case of a t curve, the areas contained in, for example, the extreme 5% of each of the two tails, positive plus negative, would be combined and found in one tail of the F curve, the tail of the curve for the values of F greater than one. I agreed and then asked them what the probability associated with an F of that size would be. It was clear to them that the area beneath the F curve which contained the 5% end of the positive tail of the corresponding t curve and the 5% end of the negative tail of the t curve, was 10%. Now they understood why they should have compared the F values of his anlyses with significance levels corresponding to 10%, not 5%-the Ftest is a one-tailed two-tailed test"_
+
+
+
+## Hypothesis test on the intercept
+
+### T-test on intercept. Is $\beta_{0} = 0$?
+
+**For our model 1, is there evidence to suggest that penguins with no flippers have greater than zero weight, with a critical significance of 1%?**
+
+Not the most useful real life question.. Remember that
+
+$$
+mass = \beta_0+\beta_{1}Flipper.Length
+$$
+
+If a penguin has no flippers then x = 0 and mass = $\beta_0$.  So the _Intercept_ of our _population scatterplot_ would be zero.  So in this case, we are assessing how likely it is to see our sample in a world where the TRUE population intercept is zero.   
+
+$$
+t = \frac{Estimated.Value − Hypothesized.Value}{Standard.Error.Of.Estimate}
+$$
+
+
+So for us:
+
+$$
+t = \frac{b_0 − \beta_{0}}{se(b_0)}
+$$
+
+For our null hypothesis, we set up a world where the population intercept is zero.  We don't care if there is a negative or a positive intercept here, so this is a _two sided_ T-test.
+
+ - H_0_ : $\beta_{0} = 0$
+ - H_1_ : $\beta_{1} != 0$ _AKA our sample has an unusual intercept if H0 really was true_
+
+$$
+t = \frac{-2535.837 − 0}{964.798}=-2.628
+$$
+And because the test is two sided, we look at 2 x the associated p value (see slope version for why)
+
+```{r}
+2*pt(-2.628,df=149)
+```
+
+As our p value of 0.009 is *just* below 0.01, we have enough evidence to reject the null hypothesis and suggest that the intercept is not zero.  JUST!
+
+We could also do this by calculating the 99% confidence interval:
+
+$$
+Sample.Estimate ± (T.multiplier_{(df,1-\alpha/2)} × Standard.Error)
+$$
+E.g.
+
+$$
+b_0 ± (T.multiplier × se(b_0))
+$$
+
+```{r}
+lower <- -2535.837 - qt(0.995,df=149) * 964.798
+upper <- -2535.837 + qt(0.995,df=149) * 964.798
+lower;upper
+```
+
+So you can see that the range of values for the intercept does not include zero at 99%.  
+
+We can again get the t-test statistic and p value from the R output (with the 95% confidence interval)
+
+```{r}
+ols_regress(Model1)
+```
+
+
+## Confidence intervals
+
+These ALL have the formula, e.g. we are looking at the error bar on the TRUE population parameter given our imperfect sample.  
+
+$$
+Sample.Estimate ± (T.multiplier_{(df,1-\alpha/2)} × Standard.Error.On.Estimate)
+$$
+
+### 95% Confidence interval on the slope.
+
+$$
+Sample.Estimate ± (T.multiplier_{(df,1-\alpha/2)} × Standard.Error.On.Estimate)
+$$
+So
+
+$$
+b_1 ± T.multiplier_{(df,1-\alpha/2)} × se(b_1)
+$$
+
+Here's how to get the slope and intercept
+
+```{r}
+Model1.Summary <- ols_regress(Model1)
+intercept <- Model1.Summary$betas[1]
+se.intercept <- Model1.Summary$std_errors[1]
+
+slope <- Model1.Summary$betas[2]
+se.slope <- Model1.Summary$std_errors[2]
+```
+
+So the 95% interval on the slope for model 1 is between 22.8 mm/g and 42.86 mm/g
+
+```{r}
+lower <- slope - qt(0.975,df=149)*se.slope
+upper <- slope + qt(0.975,df=149)*se.slope
+lower
+upper
+```
+
+
+### 99% Confidence interval on the intercept
+
+$$
+Sample.Estimate ± (T.multiplier_{(df,1-\alpha/2)} × Standard.Error.On.Estimate)
+$$
+So
+
+$$
+b_0 ± T.multiplier_{(df,1-\alpha/2)} × se(b_0)
+$$
+
+```{r}
+Model1.Summary <- ols_regress(Model1)
+intercept <- Model1.Summary$betas[1]
+se.intercept <- Model1.Summary$std_errors[1]
+```
+
+So the 99% error bar /confidence interval on the intercept for model 1 is between -5053g and -18.5g.
+
+```{r}
+lower <- intercept - qt(0.995,df=149)*se.intercept
+upper <- intercept + qt(0.995,df=149)*se.intercept
+lower
+upper
+```
+
+
+### 90% Confidence interval on the model when flipperlength=170mm
+
+So we need to know the range of values of the best fit line when flipperlength=170mm.  We use the predict function
+
+```{r}
+test_location <- data.frame(flipper_length_mm=170)
+predict(Model1,test_location,interval ="confidence",levels=0.9)
+```
+
+The 99% error bar on the AVERAGE mass of penguins with flipper length = 170mm is between 2834g and 3526g.
+
+
+
+## Prediction intervals
+
+### 90% PREDICTION interval on the model when flipperlength=170mm
+
+If the confidence interval is "where is the true regression line when x=170", the prediction interval is, where is the _cloud of points_ for x=170mm.
+
+AKA if I had a new penguin with flipper length of 170mm, what is our best guess of the range of weights it might have
+
+```{r}
+new_bird <- data.frame(flipper_length_mm=170)
+predict(Model1,new_bird,interval ="prediction",levels=0.9)
+```
+
+If our model is true, a new bird is likely to weigh between 2215g and 3876g.
+
+#### PREDICION INTERVALS ARE BIGGER THAN CONFIDENCE INTERVALS
+
+If you are confused, see the textbook or the many resources online.. here are just two..
+
+https://www.indeed.com/career-advice/career-development/prediction-interval-vs-confidence-interval
+
+https://www.statology.org/confidence-interval-vs-prediction-interval/
+
+

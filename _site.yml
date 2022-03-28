@@ -23,6 +23,8 @@ navbar:
           href: STAT462_Lab6.html
     - text: "LAB EXAMPLE"
       href: STAT462_LabEXAMPLE.html 
+    - text: "Worked questions"
+      href: STAT462-Worked-questions.html      
 output:  
   html_document:  
     self_contained: no  

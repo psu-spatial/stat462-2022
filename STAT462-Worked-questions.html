@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="hlg5155" />
+
+<meta name="date" content="2022-03-28" />
+
+<title>STAT-462 Worked questions</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT-462</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="T1_R_Basics.html">Tutorials</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STAT462_22_L1Basics.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab2.html">Lab 2: Exploratory Data Analysis (EDA)</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab3.html">Lab 3: Scatterplots</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab4.html">Lab 4: Regression Code showcase</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab5.html">Lab 5: LINE Assumptions</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab6.html">Lab 6: Outliers &amp; Transformations</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="STAT462_LabEXAMPLE.html">LAB EXAMPLE</a>
+</li>
+<li>
+  <a href="STAT462-Worked-questions.html">Worked questions</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">STAT-462 Worked questions</h1>
+<h4 class="author">hlg5155</h4>
+<h4 class="date">2022-03-28</h4>
+
+</div>
+
+
+<p>All the questions and plots here are on the Palmer Penguins dataset, to carry on the penguin health theme of the course. You don’t need to do this, but so you can see where each command comes from, I have also added the package e.g. <code>ggstatsplott::gghistostats</code> is the same as <code>library(ggstatsplot)</code> followed by <code>gghistostats()</code></p>
+<div id="load-data-and-packages" class="section level2" number="0.1">
+<h2><span class="header-section-number">0.1</span> Load Data and Packages</h2>
+<pre class="r"><code># Important core packages
+library(tidyverse) 
+library(knitr)     
+library(rmarkdown) 
+library(skimr)     
+library(Stat2Data) 
+library(readxl)
+library(ggpubr)    
+
+# Regression packages
+library(olsrr)     
+library(Stat2Data) 
+library(nortest)   
+library(lmtest)    
+library(IMTest)     
+library(MASS)      
+library(visreg)
+library(ggstatsplot)
+
+# Plotting packages
+library(lattice)   
+library(RColorBrewer) 
+library(viridis) 
+library(corrplot)  
+library(plotly)
+library(car)      
+library(GGally)
+
+# Datasets
+library(ISLR)      # contains a credit dataset
+library(yarrr)     # contains a toy dataset about pirates
+library(palmerpenguins)  # contains the penguin dataset</code></pre>
+</div>
+<div id="load-data" class="section level2" number="0.2">
+<h2><span class="header-section-number">0.2</span> Load data</h2>
+<p>I use the data command because the data already exists inside Note, because the data is already “pre-loaded into R”, I don’t need to give it a variable name. In fact this command loads TWO datasets: penguins and penguins_raw. If in doubt see the help file e.g. ?penguins.</p>
+<pre class="r"><code>#?penguins
+data(&quot;penguins&quot;)</code></pre>
+<pre class="r"><code>skimr::skim(penguins)</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">penguins</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">344</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">8</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">factor</td>
+<td align="left">3</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">ordered</th>
+<th align="right">n_unique</th>
+<th align="left">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">species</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Ade: 152, Gen: 124, Chi: 68</td>
+</tr>
+<tr class="even">
+<td align="left">island</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Bis: 168, Dre: 124, Tor: 52</td>
+</tr>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="right">11</td>
+<td align="right">0.97</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="left">mal: 168, fem: 165</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bill_length_mm</td>
+<td align="right">2</td>
+<td align="right">0.99</td>
+<td align="right">43.92</td>
+<td align="right">5.46</td>
+<td align="right">32.1</td>
+<td align="right">39.23</td>
+<td align="right">44.45</td>
+<td align="right">48.5</td>
+<td align="right">59.6</td>
+<td align="left">▃▇▇▆▁</td>
+</tr>
+<tr class="even">
+<td align="left">bill_depth_mm</td>
+<td align="right">2</td>
+<td align="right">0.99</td>
+<td align="right">17.15</td>
+<td align="right">1.97</td>
+<td align="right">13.1</td>
+<td align="right">15.60</td>
+<td align="right">17.30</td>
+<td align="right">18.7</td>
+<td align="right">21.5</td>
+<td align="left">▅▅▇▇▂</td>
+</tr>
+<tr class="odd">
+<td align="left">flipper_length_mm</td>
+<td align="right">2</td>
+<td align="right">0.99</td>
+<td align="right">200.92</td>
+<td align="right">14.06</td>
+<td align="right">172.0</td>
+<td align="right">190.00</td>
+<td align="right">197.00</td>
+<td align="right">213.0</td>
+<td align="right">231.0</td>
+<td align="left">▂▇▃▅▂</td>
+</tr>
+<tr class="even">
+<td align="left">body_mass_g</td>
+<td align="right">2</td>
+<td align="right">0.99</td>
+<td align="right">4201.75</td>
+<td align="right">801.95</td>
+<td align="right">2700.0</td>
+<td align="right">3550.00</td>
+<td align="right">4050.00</td>
+<td align="right">4750.0</td>
+<td align="right">6300.0</td>
+<td align="left">▃▇▆▃▂</td>
+</tr>
+<tr class="odd">
+<td align="left">year</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">2008.03</td>
+<td align="right">0.82</td>
+<td align="right">2007.0</td>
+<td align="right">2007.00</td>
+<td align="right">2008.00</td>
+<td align="right">2009.0</td>
+<td align="right">2009.0</td>
+<td align="left">▇▁▇▁▇</td>
+</tr>
+</tbody>
+</table>
+<p>Check column names</p>
+<pre class="r"><code>names(penguins)</code></pre>
+<pre><code>## [1] &quot;species&quot;           &quot;island&quot;            &quot;bill_length_mm&quot;   
+## [4] &quot;bill_depth_mm&quot;     &quot;flipper_length_mm&quot; &quot;body_mass_g&quot;      
+## [7] &quot;sex&quot;               &quot;year&quot;</code></pre>
+</div>
+<div id="descriptive-questions" class="section level2" number="0.3">
+<h2><span class="header-section-number">0.3</span> Descriptive questions</h2>
+<div id="what-is-the-unit-of-analysis" class="section level3" number="0.3.1">
+<h3><span class="header-section-number">0.3.1</span> What is the unit of analysis</h3>
+<p>The “thing” the study is about. I used the help file, <code>?penguins</code> and <code>?penguinsraw</code> to show that the unit of analysis is a single penguin. There are 151 penguins in the sample. n=151 (there is one missing).</p>
+</div>
+<div id="what-is-a-reasonable-population" class="section level3" number="0.3.2">
+<h3><span class="header-section-number">0.3.2</span> What is a reasonable population?</h3>
+<p>This is the boundaries that the study can be extrapoled to.</p>
+<p>Again, using the helpfile, <code>?penguins</code>: The study collected data on nesting observations, penguin size data, and isotope measurements from blood samples for foraging adult Adélie, Chinstrap, and Gentoo near Palmer Station, Antarctica.</p>
+<p>I would say a reasonable population would be either adult Antarctic penguins of those breeds (maybe splitting into a smaller geographic area after consulting with subject experts). If I split the sample into individual species (I do this later on), then I expect I might be able to use these results for all populations of that penguin breed, again after consulting with experts.</p>
+</div>
+<div id="what-variables-exist-in-the-dataset" class="section level3" number="0.3.3">
+<h3><span class="header-section-number">0.3.3</span> What variables exist in the dataset?</h3>
+<p>Here is our dataset:</p>
+<pre class="r"><code>#?penguins
+data(&quot;penguins&quot;)
+skimr::skim(penguins)</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">penguins</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">344</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">8</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">factor</td>
+<td align="left">3</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">ordered</th>
+<th align="right">n_unique</th>
+<th align="left">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">species</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Ade: 152, Gen: 124, Chi: 68</td>
+</tr>
+<tr class="even">
+<td align="left">island</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Bis: 168, Dre: 124, Tor: 52</td>
+</tr>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="right">11</td>
+<td align="right">0.97</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="left">mal: 168, fem: 165</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bill_length_mm</td>
+<td align="right">2</td>
+<td align="right">0.99</td>
+<td align="right">43.92</td>
+<td align="right">5.46</td>
+<td align="right">32.1</td>
+<td align="right">39.23</td>
+<td align="right">44.45</td>
+<td align="right">48.5</td>
+<td align="right">59.6</td>
+<td align="left">▃▇▇▆▁</td>
+</tr>
+<tr class="even">
+<td align="left">bill_depth_mm</td>
+<td align="right">2</td>
+<td align="right">0.99</td>
+<td align="right">17.15</td>
+<td align="right">1.97</td>
+<td align="right">13.1</td>
+<td align="right">15.60</td>
+<td align="right">17.30</td>
+<td align="right">18.7</td>
+<td align="right">21.5</td>
+<td align="left">▅▅▇▇▂</td>
+</tr>
+<tr class="odd">
+<td align="left">flipper_length_mm</td>
+<td align="right">2</td>
+<td align="right">0.99</td>
+<td align="right">200.92</td>
+<td align="right">14.06</td>
+<td align="right">172.0</td>
+<td align="right">190.00</td>
+<td align="right">197.00</td>
+<td align="right">213.0</td>
+<td align="right">231.0</td>
+<td align="left">▂▇▃▅▂</td>
+</tr>
+<tr class="even">
+<td align="left">body_mass_g</td>
+<td align="right">2</td>
+<td align="right">0.99</td>
+<td align="right">4201.75</td>
+<td align="right">801.95</td>
+<td align="right">2700.0</td>
+<td align="right">3550.00</td>
+<td align="right">4050.00</td>
+<td align="right">4750.0</td>
+<td align="right">6300.0</td>
+<td align="left">▃▇▆▃▂</td>
+</tr>
+<tr class="odd">
+<td align="left">year</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">2008.03</td>
+<td align="right">0.82</td>
+<td align="right">2007.0</td>
+<td align="right">2007.00</td>
+<td align="right">2008.00</td>
+<td align="right">2009.0</td>
+<td align="right">2009.0</td>
+<td align="left">▇▁▇▁▇</td>
+</tr>
+</tbody>
+</table>
+<p>or alternatively</p>
+<pre class="r"><code>glimpse(penguins)</code></pre>
+<pre><code>## Rows: 344
+## Columns: 8
+## $ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+## $ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+## $ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+## $ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+## $ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+## $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+<p>Our data is comprised of a sample of 344 penguins, with variables:</p>
+<ul>
+<li><code>species</code>: <em>factor, nominal categorical</em> Penguin species (Adélie, Chinstrap and Gentoo)</li>
+<li><code>island</code>: <em>factor, nominal categorical</em> Island in Palmer Archipelago, Antarctica (Biscoe, Dream or Torgersen) that the penguin was observed on</li>
+<li><code>bill_length_mm</code> : <em>numeric</em> Bill (beak) length (millimeters)</li>
+<li><code>bill_length_mm</code> : <em>numeric</em> Bill depth (millimeters)</li>
+<li><code>flipper_length_mm</code> : <em>integer, numeric</em> Flipper length (millimeters)</li>
+<li><code>body_mass_g</code> : <em>integer, numeric</em> Body mass (grams)</li>
+<li><code>sex</code> <em>factor, nominal categorical</em> Penguin sex (female, male)</li>
+<li><code>year</code> <em>integer, numeric</em> Study year (2007, 2008, or 2009)</li>
+</ul>
+<p>Most of our data stored as an integer is not “true” integer data e.g. it’s <em>physically possible</em> to have a body mass of 45.295g. So I will convert my integer columns to numeric</p>
+<pre class="r"><code># take all the integers in penguins, convert to float numeric and overwrite.
+penguins &lt;- dplyr::mutate_if( penguins, 
+                              is.integer, as.numeric)
+
+# and check - yep, dbl means &quot;double float&quot;
+glimpse(penguins)</code></pre>
+<pre><code>## Rows: 344
+## Columns: 8
+## $ species           &lt;fct&gt; Adelie, Adelie, Adelie, Adelie, Adelie, Adelie, Adel…
+## $ island            &lt;fct&gt; Torgersen, Torgersen, Torgersen, Torgersen, Torgerse…
+## $ bill_length_mm    &lt;dbl&gt; 39.1, 39.5, 40.3, NA, 36.7, 39.3, 38.9, 39.2, 34.1, …
+## $ bill_depth_mm     &lt;dbl&gt; 18.7, 17.4, 18.0, NA, 19.3, 20.6, 17.8, 19.6, 18.1, …
+## $ flipper_length_mm &lt;dbl&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190, 186…
+## $ body_mass_g       &lt;dbl&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
+## $ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
+## $ year              &lt;dbl&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+</div>
+<div id="describe-a-single-variable-including-w-s-normality" class="section level3" number="0.3.4">
+<h3><span class="header-section-number">0.3.4</span> Describe a single variable (including W-S Normality)</h3>
+<p><strong>Describe the body mass of Palmer Penguins</strong></p>
+<pre class="r"><code>ggstatsplot::gghistostats(data=penguins, 
+                          x=body_mass_g,
+                          results.subtitle=FALSE,
+                          normal.curve = TRUE,
+                          xlab   = &quot;Penguin mass (g)&quot;,
+                          title  = &quot;Palmer penguin body mass&quot;)</code></pre>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>This histogram shows the distribution of penguin weights in grams for the <em>sample</em> of 344 Adélie, Chinstrap and Gentoo penguins in the Palmer penguin dataset.</p>
+<p>The distribution looks approximately univariate with a mean penguin mass of 4201.75g. There does appear to be some left skew:</p>
+<pre class="r"><code>ggpubr::ggqqplot(penguins$body_mass_g,col=&quot;blue&quot;)</code></pre>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>WS.test &lt;- shapiro.test(penguins$body_mass_g)
+WS.test</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  penguins$body_mass_g
+## W = 0.95921, p-value = 3.679e-08</code></pre>
+<ul>
+<li>H<sub>0</sub> : The sample comes from a population which has a normal distribution. Wilks Shapiro test statistic would be close to 1: <span class="math inline">\(W = 1\)</span></li>
+<li>H<sub>1</sub> : The sample is unlikely to come from a population which has a normal distribution. Wilks Shapiro test statistic would be LESS than 1: <span class="math inline">\(W &lt; 1\)</span></li>
+</ul>
+<p>The results above suggest that the test-statistic, W is 0.9592112 (relatively normal), but the likelyhood of seeing this result with a large sample of 344 penguins is exceptionally small (p = <code>WS.test$p.value</code>). It is important to note that the sample is large, so this test is very sensitive.</p>
+<p>Finally, I expect that that the data is not fully independent, which would affect the normality of test results. The dataset is comprised of three individual species. Breaking these apart:</p>
+<pre class="r"><code>ggbetweenstats(data = penguins,
+               x = species,
+               y = body_mass_g , 
+               plot.type = &quot;box&quot;,xlab   = &quot;Penguin mass (g)&quot;,
+               centrality.point.args=list(color = &quot;darkblue&quot;)
+               ,pairwise.display = &quot;significant&quot;,centrality.plotting=FALSE,
+               results.subtitle = FALSE)</code></pre>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>The data is clearly not independent. So from now onwards I will simply select a single species.</p>
+<pre class="r"><code>adelie &lt;- dplyr::filter(penguins, species==&quot;Adelie&quot;)
+skim(adelie)</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">adelie</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">152</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">8</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">factor</td>
+<td align="left">3</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">5</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: factor</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">ordered</th>
+<th align="right">n_unique</th>
+<th align="left">top_counts</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">species</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">1</td>
+<td align="left">Ade: 152, Chi: 0, Gen: 0</td>
+</tr>
+<tr class="even">
+<td align="left">island</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="left">FALSE</td>
+<td align="right">3</td>
+<td align="left">Dre: 56, Tor: 52, Bis: 44</td>
+</tr>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="right">6</td>
+<td align="right">0.96</td>
+<td align="left">FALSE</td>
+<td align="right">2</td>
+<td align="left">fem: 73, mal: 73</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">bill_length_mm</td>
+<td align="right">1</td>
+<td align="right">0.99</td>
+<td align="right">38.79</td>
+<td align="right">2.66</td>
+<td align="right">32.1</td>
+<td align="right">36.75</td>
+<td align="right">38.8</td>
+<td align="right">40.75</td>
+<td align="right">46.0</td>
+<td align="left">▁▆▇▆▁</td>
+</tr>
+<tr class="even">
+<td align="left">bill_depth_mm</td>
+<td align="right">1</td>
+<td align="right">0.99</td>
+<td align="right">18.35</td>
+<td align="right">1.22</td>
+<td align="right">15.5</td>
+<td align="right">17.50</td>
+<td align="right">18.4</td>
+<td align="right">19.00</td>
+<td align="right">21.5</td>
+<td align="left">▂▆▇▃▁</td>
+</tr>
+<tr class="odd">
+<td align="left">flipper_length_mm</td>
+<td align="right">1</td>
+<td align="right">0.99</td>
+<td align="right">189.95</td>
+<td align="right">6.54</td>
+<td align="right">172.0</td>
+<td align="right">186.00</td>
+<td align="right">190.0</td>
+<td align="right">195.00</td>
+<td align="right">210.0</td>
+<td align="left">▁▆▇▅▁</td>
+</tr>
+<tr class="even">
+<td align="left">body_mass_g</td>
+<td align="right">1</td>
+<td align="right">0.99</td>
+<td align="right">3700.66</td>
+<td align="right">458.57</td>
+<td align="right">2850.0</td>
+<td align="right">3350.00</td>
+<td align="right">3700.0</td>
+<td align="right">4000.00</td>
+<td align="right">4775.0</td>
+<td align="left">▅▇▇▃▂</td>
+</tr>
+<tr class="odd">
+<td align="left">year</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">2008.01</td>
+<td align="right">0.82</td>
+<td align="right">2007.0</td>
+<td align="right">2007.00</td>
+<td align="right">2008.0</td>
+<td align="right">2009.00</td>
+<td align="right">2009.0</td>
+<td align="left">▇▁▇▁▇</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>New unit of analysis:</strong> an individual Adelie penguin -<strong>New reasonable population:</strong> All Adélie penguins - although I would want to talk to a biologist before extrapolating results beyond either the specific penguin colony or Antarctia.</li>
+</ul>
+<pre class="r"><code>ggstatsplot::gghistostats(data=adelie, 
+                          x=body_mass_g,
+                          results.subtitle=FALSE,
+                          normal.curve = TRUE,
+                          xlab   = &quot;mass (g)&quot;,
+                          title  = &quot;Palmer penguin body mass: Species- Adelie&quot;)</code></pre>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>ggpubr::ggqqplot(adelie$body_mass_g,col=&quot;blue&quot;)</code></pre>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>WS.test &lt;- shapiro.test(adelie$body_mass_g)
+WS.test</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  adelie$body_mass_g
+## W = 0.98071, p-value = 0.0324</code></pre>
+<ul>
+<li>H<sub>0</sub> : The sample comes from a population which has a normal distribution. Wilks Shapiro test statistic would be close to 1: <span class="math inline">\(W = 1\)</span></li>
+<li>H<sub>1</sub> : The sample is unlikely to come from a population which has a normal distribution. Wilks Shapiro test statistic would be LESS than 1: <span class="math inline">\(W &lt; 1\)</span></li>
+</ul>
+<p>The results above suggest that the sampled test-statistic, W is 0.9807079 close to Normal. The p-value is still relatively low at p = <code>WS.test$p.value</code>, but good enough to proceed.</p>
+</div>
+<div id="describe-correlations" class="section level3" number="0.3.5">
+<h3><span class="header-section-number">0.3.5</span> Describe correlations</h3>
+<p><strong>Describe the correlation between Adelie penguin’s mass vs other variables</strong></p>
+<pre class="r"><code>GGally::ggpairs( adelie[ , sapply(adelie,is.numeric)])</code></pre>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>For our sample, there appears to be moderate positive correlation between adelie penguin mass and both bill depth and flipper length. There is very little correlation with bill length.</p>
+</div>
+</div>
+<div id="simple-linear-models" class="section level2" number="0.4">
+<h2><span class="header-section-number">0.4</span> Simple Linear Models</h2>
+<div id="set-up-a-linear-model" class="section level3" number="0.4.1">
+<h3><span class="header-section-number">0.4.1</span> Set up a linear model</h3>
+<p><strong>Create a linear model between Adelie Penguin mass and Flipper Length</strong></p>
+<ul>
+<li><p>Unit of analysis: An individual Adelie penguin</p></li>
+<li><p>Response (Y) : Penguin mass</p></li>
+<li><p>Predictor (X1) : Flipper length</p></li>
+</ul>
+<pre class="r"><code>Model1 &lt;- lm(body_mass_g ~ flipper_length_mm, data=adelie)</code></pre>
+<pre class="r"><code># INSTALL GGSIDE IN THE CONSOLE
+ggstatsplot::ggscatterstats(adelie,
+                            x=flipper_length_mm,
+                            y=body_mass_g,
+                            results.subtitle=FALSE,
+                            xlab=&quot;Flipper length (mm)&quot;,
+                            ylab=&quot;body mass (g)&quot;)</code></pre>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>The relationship can be expressed as:</p>
+<pre class="r"><code>equatiomatic::extract_eq(Model1,use_coefs = TRUE)</code></pre>
+<p><span class="math display">\[
+\operatorname{\widehat{body\_mass\_g}} = -2535.84 + 32.83(\operatorname{flipper\_length\_mm})
+\]</span></p>
+<pre class="r"><code>Model1.Summary &lt;- olsrr::ols_regress(Model1)
+Model1.Summary</code></pre>
+<pre><code>##                           Model Summary                            
+## ------------------------------------------------------------------
+## R                       0.468       RMSE                  406.556 
+## R-Squared               0.219       Coef. Var              10.986 
+## Adj. R-Squared          0.214       MSE                165288.105 
+## Pred R-Squared          0.200       MAE                   330.120 
+## ------------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                   ANOVA                                   
+## -------------------------------------------------------------------------
+##                     Sum of                                               
+##                    Squares         DF    Mean Square      F         Sig. 
+## -------------------------------------------------------------------------
+## Regression     6914506.061          1    6914506.061    41.833    0.0000 
+## Residual      24627927.713        149     165288.105                     
+## Total         31542433.775        150                                    
+## -------------------------------------------------------------------------
+## 
+##                                          Parameter Estimates                                           
+## ------------------------------------------------------------------------------------------------------
+##             model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------------
+##       (Intercept)    -2535.837       964.798                 -2.628    0.009    -4442.291    -629.382 
+## flipper_length_mm       32.832         5.076        0.468     6.468    0.000       22.801      42.862 
+## ------------------------------------------------------------------------------------------------------</code></pre>
+</div>
+<div id="describe-the-intercept" class="section level3" number="0.4.2">
+<h3><span class="header-section-number">0.4.2</span> Describe the intercept</h3>
+<p>If our sample regression is:</p>
+<p><span class="math display">\[
+\operatorname{\widehat{y}} = b_{0} + b_{1}x 
+\]</span></p>
+<p>Then the intercept is the MODELLED AVERAGE value of y when x is 0.</p>
+<p>In our case, the intercept is the <em>average</em> mass of penguins with no flippers (zero flipper length), which corresponds to -2535.8368022 grams.</p>
+<p>This is extrapolating far beyond the observed data and thus has no physical meaning. Equally, a penguin with no flippers is likely to have other physical differences which impact how much it weighs. The relationship is no longer likely to be linear.</p>
+</div>
+<div id="describe-the-slope" class="section level3" number="0.4.3">
+<h3><span class="header-section-number">0.4.3</span> Describe the slope</h3>
+<p>If our sample regression is:</p>
+<p><span class="math display">\[
+\operatorname{\widehat{y}} = b_{0} + b_{1}x 
+\]</span></p>
+<p>Then the gradient/slope is the change in the MODELLED AVERAGE value of y with a unit increase in x.</p>
+<p>The slope suggests that as the flipper length increases by 1mm, the mass increases by 32.8316898 grams.</p>
+</div>
+<div id="r2---how-much-variability-is-explained." class="section level3" number="0.4.4">
+<h3><span class="header-section-number">0.4.4</span> R<sup>2</sup> - how much variability is explained.</h3>
+<p>R<sup>2</sup> is the percentage of the variability in our response that can be “explained” by our predictor. For example 96% of the variability in building height can be “explained” by how many floors/stories is has.</p>
+<p>R<sup>2</sup> is also known as the coefficient of determination.</p>
+<p>See here for more: <a href="https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/assessing-fit-least-squares-regression/a/r-squared-intuition" class="uri">https://www.khanacademy.org/math/ap-statistics/bivariate-data-ap/assessing-fit-least-squares-regression/a/r-squared-intuition</a></p>
+<p>We can see from this model summary that 21.9212826% of the variability in our sampled Penguin mass can be explained by flipper length.</p>
+</div>
+</div>
+<div id="hypothesis-test-on-slope" class="section level2" number="0.5">
+<h2><span class="header-section-number">0.5</span> Hypothesis test on slope</h2>
+<div id="t-test-on-slope-is-beta_1-0" class="section level3" number="0.5.1">
+<h3><span class="header-section-number">0.5.1</span> T-test on slope, Is <span class="math inline">\(\beta_{1} = 0\)</span>?</h3>
+<p>AKA IS THERE A LINEAR RELATIONSHIP BETWEEN…..</p>
+<p><strong>Is there a linear relationship between mass and flipper length? (AKA is <span class="math inline">\(\beta_{1} = 0\)</span>?)</strong></p>
+<p>See here for a worked example in detail: <a href="https://www.econometrics-with-r.org/5-1-testing-two-sided-hypotheses-concerning-the-slope-coefficient.html" class="uri">https://www.econometrics-with-r.org/5-1-testing-two-sided-hypotheses-concerning-the-slope-coefficient.html</a></p>
+<p>Remember that</p>
+<p><span class="math display">\[
+t = \frac{Estimated.Value − Hypothesized.Value}{Standard.Error.Of.Estimate}
+\]</span></p>
+<p>If x does not impact y, then the slope of our <em>population scatterplot</em> would be zero. E.g. x does not explain any of the variability in y. So in this case, we are assessing how likely it is to see our sample in a world where the TRUE population slope is zero.</p>
+<p>So for our null hypothesis, we set up a world where the population slope is zero. We don’t care if there is a negative or a positive slope here, so this is a <em>two sided</em> T-test.</p>
+<ul>
+<li>H_0_ : <span class="math inline">\(\beta_{1} = 0\)</span></li>
+<li>H_1_ : <span class="math inline">\(\beta_{1} != 0\)</span> <em>AKA our sample has an unusual slope if H0 really was true</em></li>
+</ul>
+<p>So for us:</p>
+<p><span class="math display">\[
+t = \frac{b_1 − \beta_{1}}{se(b_1)}
+\]</span> So</p>
+<p><span class="math display">\[
+t = \frac{b_1 − 0}{se(b_1)}=\frac{32.832}{5.076}=6.468085
+\]</span></p>
+<p>This is such a common question that you can simply see this T value in the R summary output. THE P-VALUE IN THIS IS FOR A TWO SIDED TEST.</p>
+<pre class="r"><code>summary(Model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = body_mass_g ~ flipper_length_mm, data = adelie)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -875.68 -331.10  -14.53  265.74 1144.81 
+## 
+## Coefficients:
+##                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       -2535.837    964.798  -2.628  0.00948 ** 
+## flipper_length_mm    32.832      5.076   6.468 1.34e-09 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 406.6 on 149 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.2192, Adjusted R-squared:  0.214 
+## F-statistic: 41.83 on 1 and 149 DF,  p-value: 1.343e-09</code></pre>
+<p>We can see that the probability is exceedingly small, so we have a lot of evidence to reject H_0_ and suggest there is a relationship between body mass and flipper length.</p>
+</div>
+<div id="t-test-on-slope-calculate-p-for-2-sided-test" class="section level3" number="0.5.2">
+<h3><span class="header-section-number">0.5.2</span> T-test on slope, calculate p for 2 sided test</h3>
+<p>Let’s choose an example with a larger p value.</p>
+<p><strong>Is there a relationship between body mass and study year, at a 10% critical significance?</strong></p>
+<ul>
+<li>H_0_ : <span class="math inline">\(\beta_{1} = 0\)</span></li>
+<li>H_1_ : <span class="math inline">\(\beta_{1} != 0\)</span></li>
+</ul>
+<p>We have a 10% significance level. So let’s imagine a t-distribution</p>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>Model2 &lt;- lm(body_mass_g ~ year, data=adelie)
+summary(Model2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = body_mass_g ~ year, data = adelie)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -850.99 -342.80  -17.35  307.20 1090.38 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 36563.84   91918.68   0.398    0.691
+## year          -16.37      45.78  -0.358    0.721
+## 
+## Residual standard error: 459.9 on 149 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.0008571,  Adjusted R-squared:  -0.005849 
+## F-statistic: 0.1278 on 1 and 149 DF,  p-value: 0.7212</code></pre>
+<p>You can see from this that the summary t-statistic is -0.358 and the associated p value is 0.721. Let’s show where it comes from.</p>
+<p><span class="math display">\[
+t = \frac{b_1 − 0}{se(b_1)}=\frac{-16.37}{45.78}=-0.3575797
+\]</span></p>
+<p>and</p>
+<pre class="r"><code>pt(-0.3575797,df=149,lower.tail = TRUE)</code></pre>
+<pre><code>## [1] 0.3605819</code></pre>
+<pre class="r"><code>pt(-0.3575797,df=149,lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.6394181</code></pre>
+<p>Here we can see that 36% of the T-distribution is on the lower side of the test statistic (e.g. by random chance we expect 36% of slopes to be smaller than -16.37) and 64% of the T-distribution is on the upper side of the test statistic. As the red line is in the white zone, we do not have enough evidence to reject H0.</p>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Alternatively, as the T-distribution is symmetrical, we can simply multiply the p-value by two:</p>
+<pre class="r"><code>pt(-0.3575797,df=149,lower.tail = TRUE) * 2</code></pre>
+<pre><code>## [1] 0.7211639</code></pre>
+<p>E.g. 0.721 is greater than 0.1 so we do not have enough evidence to reject H0. This is what the R summary does.</p>
+<p>SO R-SUMMARY T-TEST STATISTICS ARE TWO SIDED e.g. H1: B1 != 0 or B0 !=0 You can actually see this directly in the summary, Pr(&gt;|t|) e.g. the p value for negative t and positive t.</p>
+</div>
+<div id="t-test-on-slope-one-sided-beta_1-is-a-number." class="section level3" number="0.5.3">
+<h3><span class="header-section-number">0.5.3</span> T-test on slope, one sided &amp; <span class="math inline">\(\beta_{1}\)</span> is a number.</h3>
+<p><strong>A famous penguin researcher thinks that the slope between mass and flipper length is <em>at least</em> 40 mm/g. Given your sample, do you believe this is true, with a critical significance of 5%</strong></p>
+<p>We can no longer use the R summary.</p>
+<ul>
+<li>H_0_ : <span class="math inline">\(\beta_{1} = 40\)</span></li>
+</ul>
+<p>If our person’s statement really was true, then at a MINIMUM, it should be 40 mm/g. So it would be pretty typical to get a higher slope from our sample. What would be unusual would be to get a lower slope.</p>
+<ul>
+<li>H_1_ : <span class="math inline">\(\beta_{1} &lt; 40\)</span> It would be unusual to see a slope as <em>low</em> as our sample if H0 really was true.</li>
+</ul>
+<p>The reason that H0 is an equals is that H0 is always the model we set up to test our scenario.</p>
+<p>OK, so here is the point where I find drawing the diagram helps. So if the scientist was correct, then higher slopes are to be expected. We only care if it is low.</p>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><span class="math display">\[
+t = \frac{b_1 − 40}{se(b_1)}=\frac{32.832-40}{5.076}=-1.412136
+\]</span></p>
+<p>So in this case, we use lower.tail=TRUE</p>
+<pre class="r"><code>pt(-1.412136,df=149,lower.tail = TRUE)</code></pre>
+<pre><code>## [1] 0.07999751</code></pre>
+<p>The p-value is 0.08 - as this is above 0.05, we do not have enough evidence to reject H0. E.g.</p>
+<pre class="r"><code>x=seq(-4,4,length=2000)
+plot(x,dt(x,149),type=&quot;l&quot;,lwd=2,col=&quot;blue&quot;,
+     xlab=&quot;t-statistic&quot;,ylab=&quot;&quot;)
+polygon(c(lower,x,upper),c(0,dt(x,149),0),col=&quot;gray&quot;)
+lower &lt;- qt(0.05,149)
+x=seq(lower,4,length=2000)
+polygon(c(lower,x,4),c(0,dt(x,149),0),col=&quot;white&quot;)
+text(0,0.05,&quot;95%&quot;);text(-3,0.05,&quot;5%&quot;);
+abline(v=-1.412136,col=&quot;red&quot;,lwd=2)
+text(-2.3,0.3,&quot;&lt;- 7.973%&quot;,col=&quot;red&quot;);text(-0.7,0.3,&quot;92% -&gt;&quot;,col=&quot;red&quot;)</code></pre>
+<p><img src="STAT462-Worked-questions_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>To recap:</p>
+<p><strong>A famous penguin researcher thinks that the slope between mass and flipper length is <em>at least</em> 40 mm/g. Given your sample, do you believe this is true, with a critical significance of 5%</strong></p>
+<ul>
+<li>H_0_ : <span class="math inline">\(\beta_{1} = 40\)</span></li>
+<li>H_1_ : <span class="math inline">\(\beta_{1} &lt; 40\)</span> It would be unusual to see a slope as <em>low</em> as our sample if H0 really was true.</li>
+</ul>
+<p>We found a 7% chance of seeing a slope lower or equal to our sample. As this is above our 5% critical significance, we do not have enough evidence to reject H0. Therefore our sample is likely consistent with the scientist’s statement.</p>
+</div>
+<div id="using-a-confidence-interval-on-the-slope" class="section level3" number="0.5.4">
+<h3><span class="header-section-number">0.5.4</span> Using a confidence interval on the slope</h3>
+<p>It’s a bit more convoluted, but just as easy to use a confidence interval instead of a t-test. Is the slope 0 at a critical significance of 5%?</p>
+<ul>
+<li>H_0_ : <span class="math inline">\(\beta_{1} = 40\)</span></li>
+<li>H_1_ : <span class="math inline">\(\beta_{1} &lt; 40\)</span> It would be unusual to see a slope as <em>low</em> as our sample if H0 really was true.</li>
+</ul>
+<pre class="r"><code>ols_regress(Model1)</code></pre>
+<pre><code>##                           Model Summary                            
+## ------------------------------------------------------------------
+## R                       0.468       RMSE                  406.556 
+## R-Squared               0.219       Coef. Var              10.986 
+## Adj. R-Squared          0.214       MSE                165288.105 
+## Pred R-Squared          0.200       MAE                   330.120 
+## ------------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                   ANOVA                                   
+## -------------------------------------------------------------------------
+##                     Sum of                                               
+##                    Squares         DF    Mean Square      F         Sig. 
+## -------------------------------------------------------------------------
+## Regression     6914506.061          1    6914506.061    41.833    0.0000 
+## Residual      24627927.713        149     165288.105                     
+## Total         31542433.775        150                                    
+## -------------------------------------------------------------------------
+## 
+##                                          Parameter Estimates                                           
+## ------------------------------------------------------------------------------------------------------
+##             model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------------
+##       (Intercept)    -2535.837       964.798                 -2.628    0.009    -4442.291    -629.382 
+## flipper_length_mm       32.832         5.076        0.468     6.468    0.000       22.801      42.862 
+## ------------------------------------------------------------------------------------------------------</code></pre>
+<p>The ols regress output gives you the 95% confidence interval on the slope. AKA What range of values you expect the TRUE population slope to lie between.</p>
+<p>We can see that the 95% confidence interval ON THE SLOPE is between 22.801 and 42.862 mm/g. As there are values greater than 35 mm/g inside the confidence interval, it would be reasonable to agree with the scientist’s theory. E.g. we don’t have evidence to suggest our sample slope would always be lower than 40 mm/g.</p>
+<p>So we do not have evidence to reject H0.</p>
+</div>
+<div id="f-test-on-slope-is-beta_1-0" class="section level3" number="0.5.5">
+<h3><span class="header-section-number">0.5.5</span> F-test on slope, Is <span class="math inline">\(\beta_{1} = 0\)</span>?</h3>
+<p>If we simply want to see if our model is explaining any variation in y (e.g. is our predictor explaining the variability in our response), we can use an F test.</p>
+<p><strong>Is there a relationship between body mass and study year, at a 1% critical significance?</strong></p>
+<pre class="r"><code>anova(Model2)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sum Sq"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Mean Sq"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["F value"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Pr(>F)"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"27036.35","3":"27036.35","4":"0.1278238","5":"0.7212051","_rn_":"year"},{"1":"149","2":"31515397.42","3":"211512.73","4":"NA","5":"NA","_rn_":"Residuals"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<ul>
+<li>H_0_ : <span class="math inline">\(\beta_{1} = 0\)</span></li>
+<li>H_1_ : <span class="math inline">\(\beta_{1} != 0\)</span></li>
+</ul>
+<p>The test statistic is the F statistic.</p>
+<p>As always, the P-value is obtained by answering the question: “What is the probability that we’d get an F* statistic as large as we did, if the null hypothesis is true?”</p>
+<p>The P-value is determined by comparing F* to an F distribution with 1 numerator degree of freedom and n-2 denominator degrees of freedom.</p>
+<p>Here we can see that the p-value is 0.72, which is well above 0.01. So we choose H0. We can confirm that there is no evidence to suggest a relationship between body mass and study year.</p>
+</div>
+<div id="is-the-f-test-one-tailed-or-two-tailed" class="section level3" number="0.5.6">
+<h3><span class="header-section-number">0.5.6</span> Is the F test one tailed or two tailed?</h3>
+<p>This is a common confusion! See <a href="http://daniellakens.blogspot.com/2016/04/one-sided-f-tests-and-halving-p-values.html" class="uri">http://daniellakens.blogspot.com/2016/04/one-sided-f-tests-and-halving-p-values.html</a></p>
+<p>and <a href="https://psycnet.apa.org/record/1981-00280-001" class="uri">https://psycnet.apa.org/record/1981-00280-001</a>: <em>“I pointed out to my student that although t distributions and F distributions each have probability values associated with both tails of their respective curves, the curves bear an exponential relationship, not a linear one. I reminded them that for d.f. = l/n, F = P. Thus, while values of t can be both positive and negative, values of F are limited to positive numbers. They saw the point immediately, and told me that in the case of a t curve, the areas contained in, for example, the extreme 5% of each of the two tails, positive plus negative, would be combined and found in one tail of the F curve, the tail of the curve for the values of F greater than one. I agreed and then asked them what the probability associated with an F of that size would be. It was clear to them that the area beneath the F curve which contained the 5% end of the positive tail of the corresponding t curve and the 5% end of the negative tail of the t curve, was 10%. Now they understood why they should have compared the F values of his anlyses with significance levels corresponding to 10%, not 5%-the Ftest is a one-tailed two-tailed test”</em></p>
+</div>
+</div>
+<div id="hypothesis-test-on-the-intercept" class="section level2" number="0.6">
+<h2><span class="header-section-number">0.6</span> Hypothesis test on the intercept</h2>
+<div id="t-test-on-intercept.-is-beta_0-0" class="section level3" number="0.6.1">
+<h3><span class="header-section-number">0.6.1</span> T-test on intercept. Is <span class="math inline">\(\beta_{0} = 0\)</span>?</h3>
+<p><strong>For our model 1, is there evidence to suggest that penguins with no flippers have greater than zero weight, with a critical significance of 1%?</strong></p>
+<p>Not the most useful real life question.. Remember that</p>
+<p><span class="math display">\[
+mass = \beta_0+\beta_{1}Flipper.Length
+\]</span></p>
+<p>If a penguin has no flippers then x = 0 and mass = <span class="math inline">\(\beta_0\)</span>. So the <em>Intercept</em> of our <em>population scatterplot</em> would be zero. So in this case, we are assessing how likely it is to see our sample in a world where the TRUE population intercept is zero.</p>
+<p><span class="math display">\[
+t = \frac{Estimated.Value − Hypothesized.Value}{Standard.Error.Of.Estimate}
+\]</span></p>
+<p>So for us:</p>
+<p><span class="math display">\[
+t = \frac{b_0 − \beta_{0}}{se(b_0)}
+\]</span></p>
+<p>For our null hypothesis, we set up a world where the population intercept is zero. We don’t care if there is a negative or a positive intercept here, so this is a <em>two sided</em> T-test.</p>
+<ul>
+<li>H_0_ : <span class="math inline">\(\beta_{0} = 0\)</span></li>
+<li>H_1_ : <span class="math inline">\(\beta_{1} != 0\)</span> <em>AKA our sample has an unusual intercept if H0 really was true</em></li>
+</ul>
+<p><span class="math display">\[
+t = \frac{-2535.837 − 0}{964.798}=-2.628
+\]</span> And because the test is two sided, we look at 2 x the associated p value (see slope version for why)</p>
+<pre class="r"><code>2*pt(-2.628,df=149)</code></pre>
+<pre><code>## [1] 0.009488051</code></pre>
+<p>As our p value of 0.009 is <em>just</em> below 0.01, we have enough evidence to reject the null hypothesis and suggest that the intercept is not zero. JUST!</p>
+<p>We could also do this by calculating the 99% confidence interval:</p>
+<p><span class="math display">\[
+Sample.Estimate ± (T.multiplier_{(df,1-\alpha/2)} × Standard.Error)
+\]</span> E.g.</p>
+<p><span class="math display">\[
+b_0 ± (T.multiplier × se(b_0))
+\]</span></p>
+<pre class="r"><code>lower &lt;- -2535.837 - qt(0.995,df=149) * 964.798
+upper &lt;- -2535.837 + qt(0.995,df=149) * 964.798
+lower;upper</code></pre>
+<pre><code>## [1] -5053.215</code></pre>
+<pre><code>## [1] -18.45913</code></pre>
+<p>So you can see that the range of values for the intercept does not include zero at 99%.</p>
+<p>We can again get the t-test statistic and p value from the R output (with the 95% confidence interval)</p>
+<pre class="r"><code>ols_regress(Model1)</code></pre>
+<pre><code>##                           Model Summary                            
+## ------------------------------------------------------------------
+## R                       0.468       RMSE                  406.556 
+## R-Squared               0.219       Coef. Var              10.986 
+## Adj. R-Squared          0.214       MSE                165288.105 
+## Pred R-Squared          0.200       MAE                   330.120 
+## ------------------------------------------------------------------
+##  RMSE: Root Mean Square Error 
+##  MSE: Mean Square Error 
+##  MAE: Mean Absolute Error 
+## 
+##                                   ANOVA                                   
+## -------------------------------------------------------------------------
+##                     Sum of                                               
+##                    Squares         DF    Mean Square      F         Sig. 
+## -------------------------------------------------------------------------
+## Regression     6914506.061          1    6914506.061    41.833    0.0000 
+## Residual      24627927.713        149     165288.105                     
+## Total         31542433.775        150                                    
+## -------------------------------------------------------------------------
+## 
+##                                          Parameter Estimates                                           
+## ------------------------------------------------------------------------------------------------------
+##             model         Beta    Std. Error    Std. Beta      t        Sig         lower       upper 
+## ------------------------------------------------------------------------------------------------------
+##       (Intercept)    -2535.837       964.798                 -2.628    0.009    -4442.291    -629.382 
+## flipper_length_mm       32.832         5.076        0.468     6.468    0.000       22.801      42.862 
+## ------------------------------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+<div id="confidence-intervals" class="section level2" number="0.7">
+<h2><span class="header-section-number">0.7</span> Confidence intervals</h2>
+<p>These ALL have the formula, e.g. we are looking at the error bar on the TRUE population parameter given our imperfect sample.</p>
+<p><span class="math display">\[
+Sample.Estimate ± (T.multiplier_{(df,1-\alpha/2)} × Standard.Error.On.Estimate)
+\]</span></p>
+<div id="confidence-interval-on-the-slope." class="section level3" number="0.7.1">
+<h3><span class="header-section-number">0.7.1</span> 95% Confidence interval on the slope.</h3>
+<p><span class="math display">\[
+Sample.Estimate ± (T.multiplier_{(df,1-\alpha/2)} × Standard.Error.On.Estimate)
+\]</span> So</p>
+<p><span class="math display">\[
+b_1 ± T.multiplier_{(df,1-\alpha/2)} × se(b_1)
+\]</span></p>
+<p>Here’s how to get the slope and intercept</p>
+<pre class="r"><code>Model1.Summary &lt;- ols_regress(Model1)
+intercept &lt;- Model1.Summary$betas[1]
+se.intercept &lt;- Model1.Summary$std_errors[1]
+
+slope &lt;- Model1.Summary$betas[2]
+se.slope &lt;- Model1.Summary$std_errors[2]</code></pre>
+<p>So the 95% interval on the slope for model 1 is between 22.8 mm/g and 42.86 mm/g</p>
+<pre class="r"><code>lower &lt;- slope - qt(0.975,df=149)*se.slope
+upper &lt;- slope + qt(0.975,df=149)*se.slope
+lower</code></pre>
+<pre><code>## flipper_length_mm 
+##          22.80117</code></pre>
+<pre class="r"><code>upper</code></pre>
+<pre><code>## flipper_length_mm 
+##          42.86221</code></pre>
+</div>
+<div id="confidence-interval-on-the-intercept" class="section level3" number="0.7.2">
+<h3><span class="header-section-number">0.7.2</span> 99% Confidence interval on the intercept</h3>
+<p><span class="math display">\[
+Sample.Estimate ± (T.multiplier_{(df,1-\alpha/2)} × Standard.Error.On.Estimate)
+\]</span> So</p>
+<p><span class="math display">\[
+b_0 ± T.multiplier_{(df,1-\alpha/2)} × se(b_0)
+\]</span></p>
+<pre class="r"><code>Model1.Summary &lt;- ols_regress(Model1)
+intercept &lt;- Model1.Summary$betas[1]
+se.intercept &lt;- Model1.Summary$std_errors[1]</code></pre>
+<p>So the 99% error bar /confidence interval on the intercept for model 1 is between -5053g and -18.5g.</p>
+<pre class="r"><code>lower &lt;- intercept - qt(0.995,df=149)*se.intercept
+upper &lt;- intercept + qt(0.995,df=149)*se.intercept
+lower</code></pre>
+<pre><code>## (Intercept) 
+##   -5053.216</code></pre>
+<pre class="r"><code>upper</code></pre>
+<pre><code>## (Intercept) 
+##   -18.45782</code></pre>
+</div>
+<div id="confidence-interval-on-the-model-when-flipperlength170mm" class="section level3" number="0.7.3">
+<h3><span class="header-section-number">0.7.3</span> 90% Confidence interval on the model when flipperlength=170mm</h3>
+<p>So we need to know the range of values of the best fit line when flipperlength=170mm. We use the predict function</p>
+<pre class="r"><code>test_location &lt;- data.frame(flipper_length_mm=170)
+predict(Model1,test_location,interval =&quot;confidence&quot;,levels=0.9)</code></pre>
+<pre><code>##       fit      lwr      upr
+## 1 3045.55 2834.998 3256.103</code></pre>
+<p>The 99% error bar on the AVERAGE mass of penguins with flipper length = 170mm is between 2834g and 3526g.</p>
+</div>
+</div>
+<div id="prediction-intervals" class="section level2" number="0.8">
+<h2><span class="header-section-number">0.8</span> Prediction intervals</h2>
+<div id="prediction-interval-on-the-model-when-flipperlength170mm" class="section level3" number="0.8.1">
+<h3><span class="header-section-number">0.8.1</span> 90% PREDICTION interval on the model when flipperlength=170mm</h3>
+<p>If the confidence interval is “where is the true regression line when x=170”, the prediction interval is, where is the <em>cloud of points</em> for x=170mm.</p>
+<p>AKA if I had a new penguin with flipper length of 170mm, what is our best guess of the range of weights it might have</p>
+<pre class="r"><code>new_bird &lt;- data.frame(flipper_length_mm=170)
+predict(Model1,new_bird,interval =&quot;prediction&quot;,levels=0.9)</code></pre>
+<pre><code>##       fit      lwr      upr
+## 1 3045.55 2215.056 3876.045</code></pre>
+<p>If our model is true, a new bird is likely to weigh between 2215g and 3876g.</p>
+<div id="predicion-intervals-are-bigger-than-confidence-intervals" class="section level4" number="0.8.1.1">
+<h4><span class="header-section-number">0.8.1.1</span> PREDICION INTERVALS ARE BIGGER THAN CONFIDENCE INTERVALS</h4>
+<p>If you are confused, see the textbook or the many resources online.. here are just two..</p>
+<p><a href="https://www.indeed.com/career-advice/career-development/prediction-interval-vs-confidence-interval" class="uri">https://www.indeed.com/career-advice/career-development/prediction-interval-vs-confidence-interval</a></p>
+<p><a href="https://www.statology.org/confidence-interval-vs-prediction-interval/" class="uri">https://www.statology.org/confidence-interval-vs-prediction-interval/</a></p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
