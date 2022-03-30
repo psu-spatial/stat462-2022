@@ -3335,7 +3335,9 @@ In this case, we can see that perhaps we need to worry less about unequal varian
 There is also another test available, the Breusch Pagan Test - but this relies on the residuals being normally distributed.
 
 
-# Regression Confidence and Prediction Intervals 
+# Confidence and Prediction Intervals 
+
+## What are they?
 
 Essentially these are two different things:
 
@@ -3358,6 +3360,8 @@ lm.pirate <- lm(weight~height,data=pirates)
 summary(lm.pirate)
 ```
 
+## Calculating a confidence interval
+
 ```{r}
 # What are the AVERAGE WEIGHTS (and uncertainty on our estimate) 
 # of pirates whose heights are 150cm and 170cm?
@@ -3365,6 +3369,8 @@ new.pirates <- data.frame(height=c(150,170))
 predict(lm.pirate,newdata=new.pirates,interval="confidence",level=0.95)
 
 ```
+
+## Calculating a prediction interval
 
 So we are 95% certain that on average, the AVERAGE weight of pirates who are 150cm tall falls between 52.8Kg and 53.74Kg
 
@@ -3377,7 +3383,7 @@ predict(lm.pirate,newdata=new.pirates,interval="predict",level=0.95)
 
 Her weight is likely to be somewhere between 53Kg and 69Kg with 95% certainty given our sample.
 
-# Checking outliers, leverage and influential points
+# Outliers, leverage and influential points
 
 There are three key things to know when it comes to outliers:
 
