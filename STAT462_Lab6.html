@@ -481,6 +481,7 @@ library(&quot;ggstatsplot&quot;)
 </div>
 <div id="part-3-florida-fish-and-mercury-poisoning" class="section level1">
 <h1>PART 3: Florida Fish and Mercury poisoning</h1>
+<p>NEW TUTORIALS: TRANSFORMATIONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations</a> and MODEL COMPARISONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons</a></p>
 <div id="background" class="section level2">
 <h2>Background</h2>
 <p>Small amounts of the element mercury are present in many everyday foods. These do not normally affect your health, but too much mercury can be poisonous. Mercury itself is naturally occurring, but the amounts in the environment have been on the rise from industrialization. The metal can make its way into soil and water, and eventually build up in animals like fish, which are then eaten by people. More details here:</p>
@@ -599,14 +600,17 @@ Hint: For full marks, plots like histograms should have proper x and y axis labe
 <li><p>The name of the lake with highest leverage</p></li>
 <li><p>The name of the lake with highest Cook’s distance</p></li>
 </ol>
+<p>HINT! <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#145_Making_a_table_of_your_residual_diagnostics" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#145_Making_a_table_of_your_residual_diagnostics</a></p>
 <p><strong>Step 9:</strong> Another analyst looked at your results and suggested that there are four Lakes which appear to be close to Influential Outliers. In your analysis, use Cook’s distance to explain why they think this and identify the Lakes they are worried about. Do you agree with their comment? Explain your reasoning and provide evidence.</p>
 <p><br></p>
 </div>
 <div id="transformations" class="section level3">
 <h3>4. Transformations</h3>
 <p>After examining the data, the results were double-checked and it was decided to keep ALL of the data points - we could find no reason that they were wrong or from another population. Another team member suggested (and hopefully agreed with you!) that perhaps the observed residual diagnostics are weird because the there is a lack of linearity between the two variables of interest. They proposed you should apply a transformation and refit the data.</p>
+<p>NEW TUTORIALS: TRANSFORMATIONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations</a> and MODEL COMPARISONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons</a></p>
 <p><br></p>
-<p><strong>Step 9:</strong> [FROM FRIDAY’S LECTURE] Using the lecture notes/class discussions about possible starting points for transformations, write how you would proceed? (i.e. For a lack of linearity, would you transform the response variable, explanatory variable or both? What transformations could you use?) Clearly explain why you came to this conclusion. Just write a few sentences, then move to step 10.</p>
+<p><strong>Step 9:</strong> Using the lecture notes/class discussions about possible starting points for transformations, write how you would proceed? (i.e. For a lack of linearity, would you transform the response variable, explanatory variable or both? What transformations could you use?) Clearly explain why you came to this conclusion. Just write a few sentences, then move to step 10.</p>
+<p>NEW TUTORIALS: TRANSFORMATIONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations</a> and MODEL COMPARISONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons</a></p>
 <p><br></p>
 <p><strong>Step 10:</strong> After some research, two models were proposed that might fit the data:</p>
 <ol style="list-style-type: lower-alpha">
@@ -615,13 +619,16 @@ Hint: For full marks, plots like histograms should have proper x and y axis labe
 </ol>
 <p>Make a new section after <code>Model 1</code> called <code>Testing Transformations</code>. In that section, apply the two transformations to the data and decide which one is the best fit statistically.</p>
 <p>Explain your reasoning referring to any goodness of fit measures that you used. Hint, you do not need to do all the LINE assumptions here. Just a quick plot and the linear model.</p>
+<p>NEW TUTORIALS: TRANSFORMATIONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations</a> and MODEL COMPARISONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons</a></p>
 <p><br></p>
 <p><strong>Step 11:</strong> After talking with some marine biologists, you decide to use the log transformation because it has more physical relevance.</p>
 <p>Rename <code>Model 2</code>, <code>Final Model</code>, and fully summarise your log model e.g. repeat Step 6 and Step 7 for the final log model.</p>
 <p>So here I am hoping for a good scatterplot, a description of the model, an assessment of whether the new model meets each of the assumptions needed for linear regression and if there are any influential outliers. Is this model closer to LINE than the original one?</p>
+<p>NEW TUTORIALS: TRANSFORMATIONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations</a> and MODEL COMPARISONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons</a></p>
 <p><br></p>
 <p><strong>Step 12:</strong> Model comparisons</p>
 <p>Using AIC and R_2_ compare your Log model and the original one. Explain what AIC and R_2_ show in the text and which model appears to fit the data better. Google and the textbook will help here (and the lectures..)</p>
+<p>and MODEL COMPARISONS : <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons" class="uri">https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons</a></p>
 <p><br></p>
 <p><strong>Step 13:</strong> New lake</p>
 <p>Make a new subsection called <code>Analysis Questions</code></p>

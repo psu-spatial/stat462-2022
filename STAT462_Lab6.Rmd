@@ -152,6 +152,8 @@ Describe at least one thing you think I should add in the tutorials and show me 
  bass <- read.csv("bass.csv")
 ```
 
+NEW TUTORIALS: TRANSFORMATIONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations
+and MODEL COMPARISONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons
 
 ## Background
 
@@ -290,6 +292,8 @@ olsrr::ols_plot_resid_lev(model1)
 
 ```
 
+HINT!  https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#145_Making_a_table_of_your_residual_diagnostics 
+ 
 
 **Step 9:** 
 Another analyst looked at your results and suggested that there are four Lakes which appear to be close to Influential Outliers. In your analysis, use Cook's distance to explain why they think this and identify the Lakes they are  worried about. Do you agree with their comment? Explain your reasoning and provide evidence. 
@@ -300,10 +304,18 @@ Another analyst looked at your results and suggested that there are four Lakes w
 
 After examining the data, the results were double-checked and it was decided to keep ALL of the data points - we could find no reason that they were wrong or from another population.  Another team member suggested (and hopefully agreed with you!) that perhaps the observed residual diagnostics are weird because the there is a lack of linearity between the two variables of interest.  They proposed you should apply a transformation and refit the data.  
 
+NEW TUTORIALS: TRANSFORMATIONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations
+and MODEL COMPARISONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons
+
+
 <br>
 
 **Step 9:** 
-[FROM FRIDAY'S LECTURE] Using the lecture notes/class discussions about possible starting points for transformations, write how you would proceed? (i.e. For a lack of linearity, would you transform the response variable, explanatory variable or both? What transformations could you use?) Clearly explain why you came to this conclusion.  Just write a few sentences, then move to step 10. 
+Using the lecture notes/class discussions about possible starting points for transformations, write how you would proceed? (i.e. For a lack of linearity, would you transform the response variable, explanatory variable or both? What transformations could you use?) Clearly explain why you came to this conclusion.  Just write a few sentences, then move to step 10. 
+
+NEW TUTORIALS: TRANSFORMATIONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations
+and MODEL COMPARISONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons
+
 
 <br>
 
@@ -317,6 +329,10 @@ Make a new section after `Model 1` called `Testing Transformations`.  In that se
 
 Explain your reasoning referring to any goodness of fit measures that you used. Hint, you do not need to do all the LINE assumptions here. Just a quick plot and the linear model.
 
+NEW TUTORIALS: TRANSFORMATIONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations
+and MODEL COMPARISONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons
+
+
 <br>
 
 **Step 11:** 
@@ -326,11 +342,18 @@ Rename `Model 2`, `Final Model`, and fully summarise your log model e.g. repeat 
 
 So here I am hoping for a good scatterplot, a description of the model, an assessment of whether the new model meets each of the assumptions needed for linear regression and  if there are any influential outliers. Is this model closer to LINE than the original one?
 
+
+NEW TUTORIALS: TRANSFORMATIONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#15_Transformations
+and MODEL COMPARISONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons
+
 <br>
 
 **Step 12:** Model comparisons
 
 Using AIC and R_2_ compare your Log model and the original one.  Explain what AIC and R_2_ show in the text and which model appears to fit the data better.  Google and the textbook will help here (and the lectures..)
+
+
+and MODEL COMPARISONS : https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#16_Basic_model_comparisons
 
 <br>
 
