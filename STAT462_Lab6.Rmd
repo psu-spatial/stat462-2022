@@ -449,17 +449,20 @@ You have have thoughtfully answered these questions and followed instructiion
 
 You have correctly refitted and interpreted the transformed models, following steps 11 and 12
 
-**Prediction - 10 MARKS**
+**Prediction and Q15 - 10 MARKS**
 
-You have correctly predicted the new lake in step 13.
+You have correctly predicted the new lake in step 13 and talked about multiple regression in Q15
 
 **Hard part - 5 MARKS**
 
 You have answered Q.14 correctly and shown your workings..
 
+1/4 you try anything
+(2-3)/4 Right idea but didn't get far
+4/5 nearly there
+5/5 perfect
 
-See above
- 
+
  
 [100 marks total]
  
