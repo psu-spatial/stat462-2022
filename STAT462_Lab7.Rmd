@@ -194,7 +194,7 @@ Follow the instructions below to answer their questions.
 
 
 ```{r,include=FALSE, echo=FALSE}
-movies <- read.csv("movies2.csv")
+movies <- read.csv("movies.csv")
 movies <- movies[movies$RottenTomatoes >= 0,]
 ```
 

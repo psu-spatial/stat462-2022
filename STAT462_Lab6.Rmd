@@ -412,11 +412,54 @@ knitr::include_graphics("./Figures/Lab1_Basics_2022_fig1.png")
 # Grading Rubric/checklist
 
 
-```{r, echo=FALSE, eval=FALSE}
-knitr::include_graphics("./Figures/Lab7_Rubric.png")
-```
+See the table below for what this means - 100% is hard to get!
+
+**HTML FILE SUBMISSION - 10 marks**
+
+**RMD CODE SUBMISSION - 10 marks**
+
+**Professional report 15 MARKS** 
+
+Full marks for a report that _I_ would take into a job interview.  You have done things like fully labeled plots using words, tried more sophisticated plots than just the basics, written full paragraphs/sentences, used equation formats, sub-headings, used spell check, explained results in clear language, included units, used a theme and table of contents..  Lose marks for each thing that makes it look non-professional.
+
+**Code showcase - 10 MARKS** 
+
+You have shown me a plot or some other command that helps with your regression work (might be a new format of scatterplot or something else) and your code to show it off works.
+
+**Study data and EDA - 10 Marks** 
+
+You have explored the data using the guide, conducted quality control where you removed the observation that was clearly wrong and written up your results clearly.  You have created the correlation matrix plot and sensitively described the relationship between your response and your predictors.
 
 
+**First model and LINE - 10 MARKS** 
+
+You created the model correctly.  In your write up you have summarised the model equation  (including the coefficients as numbers) & summarising units afterwards. You have produced a model summary and written how much variability in the Rotten Tomatoes score is explained by your model.  You have clearly assessed whether the model meets LINE assumptions (2 for each). 
+
+**Residual Analysis - 10 MARKS** 
+
+You have assessed whether there are outliers and whether they are influential. You have correctly answered the residual questions and shown why.
+
+
+**Steps 9 and 10- 10 MARKS** 
+
+You have have thoughtfully answered these questions and followed instructiion
+
+
+**Transformed model, making the model - 10 MARKS**
+
+You have correctly refitted and interpreted the transformed models, following steps 11 and 12
+
+**Prediction - 10 MARKS**
+
+You have correctly predicted the new lake in step 13.
+
+**Hard part - 5 MARKS**
+
+You have answered Q.14 correctly and shown your workings..
+
+
+See above
+ 
  
 [100 marks total]
  
