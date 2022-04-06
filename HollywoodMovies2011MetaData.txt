@@ -5,7 +5,9 @@
 | _TheatersOpenWeek_  | Number of cinemas showing the movie on opening weekend                           |
 | _BOAverageOpenWeek_ | Average box office revenue per theater opening week-end, in dollars              |
 | _DomesticGross_     | Gross revenue in the US by the end of 2011, in millions of dollars               |
-| _Profitability_     | Percent of the budget recovered in profits                                       |
+| _Budget_            | Movie budget in millions of dollars                                               
+| _Profitability_     | Percent of the budget recovered in profits. So 300 means 300% of the budget      |
+|                     |   spent on making the movie was recovered as profit, from movie+advertising etc  |
+| _Domestic Gross     | Amount returned in cash from ticket sales, Million dollars 
 |---------------------|----------------------------------------------------------------------------------|
-
 

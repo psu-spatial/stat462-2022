@@ -1,0 +1,448 @@
+---
+title: "Lab 7: Multiple Regression"
+subtitle: <h5 style="font-style:normal">STAT-462 - Regression Analysis</h4>
+author: <h5 style="font-style:normal">Dr Helen Greatrex</h4>
+output: 
+  html_document:
+    toc: true 
+    toc_depth: 4
+    toc_float:
+      collapsed: no
+    number_sections: no
+---
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+
+
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+
+
+\
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+library(tidyverse)
+library(dplyr)
+library(ggpubr)
+library(skimr)
+library(ggplot2)
+library(plotly)
+library(ISLR)
+library(equatiomatic)
+library(olsrr)
+library(Stat2Data)
+library(readxl)
+library(corrplot)
+library(kableExtra)
+library(MASS)
+library(visreg)
+library("ggstatsplot")
+
+```
+
+
+# Learning objectives 
+
+
+<p class="comment">**Assignment 7 is due by midnight NEXT WEDNESDAY (1 week lab)**   [See here](https://psu.instructure.com/courses/2174925/assignments/13762850) I PROVIDE HELP UNTIL THE END OF NEXT WEEK'S LAB. After next week's lab (All of Wed evening) is for your own finishing up.</p>
+
+By the end of this week's lab, you will be able to:
+
+1. Create Multiple Regression Models
+2. Assess Multiple Regression Models
+3. Model selection
+
+There is a TEAMS discussion for lab help [CLICK HERE](https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e).  Remember to include a screenshot of the issue and a short description of the problem.  Also try googling the error first.
+
+<br>  
+
+# PART 1: Lab set-up. DO NOT SKIP!
+
+<br>  
+
+**Step A:** Create a new project for Lab 7.  If you are stuck, see previous labs or [Tutorial 2.1](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects).
+
+<br>  
+
+**Step B:** Copy your lab template to your lab 7 folder, rename as `STAT-462_Lab7_EMAILID.Rmd` and open (e.g.STAT-462_Lab6_hlg5155.Rmd). This should have your theme, your table of contents and your headings. 
+
+<br>
+
+**Step C:** In the library section, add a new code chunk and use this code to load the libraries below.
+
+ - If some don't exist on your computer or on the cloud, use [Tutorial 2.3]( https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package) to install/download them first. NEVER put install.packages in your code chunk, run it in the console.
+
+ - To make sure they loaded OK, run the code chunk TWICE.  The second time any welcome text will disappear unless there are errors.
+ 
+ - Sometimes you might need an extra package later in the lab.  Install it using the instructions above and add the library commands to your library code chunk.
+
+```{r, eval=FALSE}
+# Load libraries
+library("tidyverse") # Lots of data processing commands
+library("knitr")     # Helps make good output files
+library("ggplot2")   # Output plots
+library("rmarkdown") # Helps make good output files
+library("lattice")   # Makes nice plots
+library("RColorBrewer") # Makes nice color-scales
+library("skimr")     # Summary statistics
+library("Stat2Data") # Regression specific commands
+library("corrplot")  # correlation plots
+library("GGally")    # correlation plots
+library("ggpubr")    # QQplots
+library("olsrr")     # Regression specific commands
+library("plotly")    # Interactive plots
+library("readxl")    # Read from excel files
+library("equatiomatic") # extract equations
+library("ggstatsplot")
+library("MASS")
+
+## you may need additional libraries.  Just add them to this list if you get errors.
+
+```
+
+<br>  
+
+**Step D:** Finally, press knit to check the html works and your theme works.   
+
+<br>  
+
+# PART 2: Code showcase
+
+There is no code showcase this week so you have more time for revision etc.
+
+# PART 3: Movie Ratings
+
+## Background
+
+You are an analyst for a Hollywood studio.  The studio wants to understand how well a movie will perform on the review website Rotten Tomatoes.   They have paid you to build a model to predict the movie's Rotten Tomatoes score.  
+
+Download the two files from Canvas which contain the data.
+
+ - The file _HollywoodMovies2011.csv_ is the data itself, which includes information on movies that came out of your Hollywood Studio in 2011. The dataset contains the Rotten Tomatoes score plus five predictor variables. Download it from Canvas and read it into R as a variable called movies.
+ - The meta data (the data explaining what the spreadsheet shows), is stored in _HollywoodMovies2011MetaData.txt_.  Download it from Canvas. You do not need to read it into R, but take a look as it provides vital information about what the data is showing.
+
+## Lab report format {-}
+
+Imagine this is a formal report you are submitting to the Studio. You will be graded on the professionality of your final report. In all of your answers below, I expect good formatting, appropriate units and full sentences to explain your answers.  Please also make sure that you use headings, sub-headings and the spell check to make your lab easier to follow and grade.  
+
+Think about using any/all of the markdown features we have learned so far, for example equations, text formatting, pictures, code-chunk options or anything else that makes your report look more professional.  
+
+<p class="comment">The headings in the template are guidelines. If it helps to use your own or to tweak them, this is OK.</p>
+
+<br>  
+
+Follow the instructions below to answer their questions. 
+
+<br>
+
+### Describe the study (Step 1)
+
+**Step 1:**  If you skipped it, go back and read the brief above. Seriously, it will save you time. If you skipped making/copying/using the lab report template, go back and do it - or these instructions will not make sense [Tutorial 5](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#5_Report_template).
+
+<br>  
+
+### Exploratory Data Analysis (Step 2-5)
+
+
+**Step 2:**  Read the data into R.  In the `Data Description` and `Study Aim` sections, use the first part of the [teaching notes](https://psu.instructure.com/courses/2174925/files/132549205) to help you write about the following: <br> 
+
+ - The background of the study *(imagine this is a real report and the Mayor doesn't know the background)*
+ - A short description of the data.
+ - The object of analysis
+ - A reasonable population *(what population could your results be extrapolated to/  All water in the universe in all time?)*
+ - The response variable *(and units - if they are not provided, state that!)*
+ - A bullet point list the other variables *(and units)* that could potentially be a predictor.
+ - The amount of data
+ - Statements to answer the questions on page 3 of the teaching notes 
+ - A short paragraph to summarise the study *(Example for penguins on page 3 of the teaching notes)*
+    
+ <p class="comment">There are also guidelines in the template. You do NOT need to repeat yourself, so ignore/delete any prompts you have already done or refer to it in your answers e.g. "As shown in the histogram above....".</p>
+
+<br>
+
+**Step 3:**  Under `Exploratory Analysis | Response Variable` in your report, explore your response variable and describe it in the report, working through page 4-6 of the teaching notes (Step 2) and commenting on all the questions.  E.g. if there are no outliers, SAY there are no outliers (Step 2). <br><br> Again, there are additional hints in the template - you do not need to answer things twice.  
+
+ <p class="comment">Hint: There is DEFINITELY something wrong with this data that needs addressing.</p>
+
+
+ <p class="comment">Hint: For full marks, plots like histograms should have proper x and y axis labels and titles. All the tutorial examples in [Tutorial 7](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#7_Making_plots) can be copy/pasted, why not choose a more sophisticated one..</p>
+
+
+```{r,include=FALSE, echo=FALSE}
+movies <- read.csv("movies2.csv")
+movies <- movies[movies$RottenTomatoes >= 0,]
+```
+
+<br>
+
+**Step 4:** **Download/Install**  the` `ggcorrplot` package and add it to your library code chunk (remember to re-run!).  Inside `Exploratory analysis`, make a new sub-section called `Correlation`.  Use the `ggcorrmat` command to create a plot https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html.  The most common errors here are that you are missing another package.  If so, install *that* package, and re-run. Repeat for each package needed until the error goes away. Note, look at the help file and online tutorials for loads of color and style options.
+
+<br>
+
+```{r,include=FALSE, echo=FALSE}
+ggcorrmat(movies)
+```
+
+
+**Step 5:** Use the correlation plot to describe the relationship between your response variable and each of your predictors.  Which predictors do you think will have the strongest impact on a movie's Rotten Tomatoes score.  If it helps to make individual scatterplots with your response to see the relationship, feel free!
+
+<br>
+
+### Original model (Step 6 - 10)
+
+**Step 6:**  Set up a multiple regression model. Under `Model 1:`
+
+ a. Fit a full multiple regression model to the data, with RottenTomatoes as your response and ALL of the other variables as your predictors.  Hint, if you haven't already done this, *first* remove the TEST_TEST movie row from the excel file and re-run.  
+
+ b. Show the model summary
+ 
+ c. Use equatiomatic or any other method to formally write out the equation and coefficients.
+ 
+ d. The Mayor doesn't know regression.  Clearly interpret each of the estimated model parameters (slope & intercept)/model summary-statistics in the the context of the problem, in a way that would be understandable to your customer. <br><br> By this I mean explain what the slopes and intercept means in term of the problem, highlighting if this is useful or nonsensical (like knowing weight of someone with zero height is not useful). <br> 
+ 
+ e. State the percentage of variability in  Rotten Tomatoes score is explained by your model, and exactly which statistic you chose for this.
+ 
+<br>
+ 
+ **Step 7:**  Under `Model Validity`, use [Tutorial 12](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions) to help you formally assess each LINE assumption for model 1.  Comment if it meets the requirements for simple linear regression, referring back to your plots. Remember this is the same as for a simple linear model!
+
+
+
+```{r, include=FALSE}
+
+fit.1 <- lm(RottenTomatoes~AudienceScore+Profitability+TheatersOpenWeek+BOAverageOpenWeek+DomesticGross,data=movies)
+summary(fit.1)
+```
+
+<br>
+
+**Step 8:** Use [Tutorial 14 on outliers](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#14_Outliers,_leverage_and_influential_points) to assess if any movie appears to be an influential outlier.  If a movie does fit the criteria of influential outlier, do not remove anything from the dataset.  Instead, in your write-up, please provide its name and justify why you think it is influential.  
+
+<br>
+
+```{r, include=FALSE}
+ols_plot_resid_fit(fit.1)
+ols_plot_resid_qq(fit.1)
+ols_plot_resid_hist(fit.1)
+ols_test_normality(fit.1)
+# residuals
+ols_plot_resid_stud(fit.1)
+
+# influential piints
+ols_plot_resid_lev(fit.1)
+
+# Make a new column with the predicted y value
+movies$price_predicted <- fit.1$fitted.values
+
+# Make a new column with the raw residuals
+movies$residuals_raw <- fit.1$residuals
+
+# Make a new column with the standardisd/studentised residuals
+movies$residuals_stud <- studres(fit.1)
+
+# Make a new column with the leverage
+movies$x_leverage <- ols_leverage(fit.1)
+
+# Make a new column with the Cook's distance. OLSRR package
+movies$cooks.distance <- cooks.distance(fit.1)
+
+ols_regress(fit.1)
+
+```
+
+
+<br>
+
+**Step 9:**  Write a hypothesis test using the F-Statistic/ANOVA to test whether our model contains at least one predictor useful in predicting Rotten Tomatoes score.
+
+<br>
+
+**Step 10:** Partial Slopes
+
+_"The test-results for partial slopes" is a fancy way of saying "look at the T-test result and corresponding p-value of each variable in the model summary".  Essentially, they are the likelihood of that variable being an important part of the model IF EVERYTHING ELSE WAS HELD CONSTANT._
+  
+By looking at the test results for the partial slopes (at a 10% level of significance), identify any predictor variable/s you would like to drop/delete from your model.    Provide reasons for your choice(s). Does this meet your expectations from the correlation matrix? You do not have to write down any steps for hypothesis testing here, but you do need to justify your decision.
+
+
+<br>
+
+### New models (Step 11-12)
+
+
+**Step 11:** Let's make a better model. Under `Model 2:`
+
+ - Fit a NEW model by eliminating the variables you decided to drop in the previous question. 
+ - Show the model summary and the model regression line equation. 
+ - Quickly if that model meets LINE assumptions. Don't worry about changing anything if it doesn't, just comment on your findings.
+ 
+```{r, include=FALSE}
+fit.2 <- lm(RottenTomatoes~AudienceScore+BOAverageOpenWeek+DomesticGross+Profitability,data=movies)
+summary(fit.2)
+```
+ 
+<br>
+
+**Step 12:** Compare Model 1 and Model 2 using $AdjR^2$ and AIC.  Which model do you consider to be a better fit and why? 
+
+```{r, include=FALSE}
+summaryfit1 <- ols_regress(fit.1)
+summaryfit2 <- ols_regress(fit.2)
+summaryfit1$adjr
+summaryfit2$adjr
+
+print(AIC(fit.1,fit.2))
+```
+
+ <br>
+
+**Step 13:**  The studio has just trialed a new movie with details:
+
+| Variable Name       | Value                                       |
+|---------------------|---------------------------------------------|
+| _Name_              | "Hunt of the Killer Cactus"                 |
+| _TheatresOpenWeek_  | 100 weeks                                   |
+| _AudienceScore_     | 59%                                         |
+| _TheatersOpenWeek_  | 15 cinemas                                  |
+| _BOAverageOpenWeek_ | $5200                                       |
+| _Budget_            | 43 Million                                  |
+| _DomesticGross_     | 16.38 million USD                           |
+| _Profitability_     | 150% of the budget recovered in profits     |
+
+Under prediction (or the appropriate subheading in model 2), estimate this new movie's Rotten Tomatoes score? Show the 99% range of uncertainty on your estimate. 
+
+Hint, this is _similar_ code to [Tutorial 13 on confidence/prediction intervals](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#13_Confidence_and_Prediction_Intervals).  To see a worked example and code for multiple regression, see here. https://online.stat.psu.edu/stat501/lesson/r-help-7-mlr-estimation-prediction-model-assumptions
+
+
+```{r,include=FALSE}
+newdata <- data.frame(Name="Hunt of the Killer Cactus", AudienceScore=59, TheatersOpenWeek=15, BOAverageOpenWeek=5200,
+                      DomesticGross=16.38,Profitability=150)
+# See ?predict.lm for more options
+predict(fit.2,newdata=newdata,interval="prediction",level=0.99)
+```
+
+
+<br>
+
+### Stepwise regression and model selection (Step 14)
+
+
+**Step 14:**   Find the "optimum"/"best model.   There are many models/combinations of predictors that we could use to predict our response variable.  We want to find the best model possible, but we also don't want to overfit.  
+
+So far, we manually compared two models.  In fact there is a way to compare all the combinations of predictors.  This is using the `ols_step_best_subset()` command.  Run this on your ORIGINAL linear model fit (Model1, the one including all the variables).  e.g. `ols_step_best_subset(mymodel)`.
+
+Describe what the "best subset" method is doing. Hint, we will go over this in lectures, but also https://online.stat.psu.edu/stat501/lesson/10/10.3 
+
+Use the subset method to assess the optimal fit using at least 3 goodness of fit measures.  Which model is your final favourite.  Take a quick look at LINE assumptions but you don't need to find a new model if it's not valid (just talk about what you find)
+
+```{r, include=FALSE}
+ols_step_best_subset(fit.1)
+```
+
+
+## Show me something new
+
+No show me something new so you can focus on revision/exams.
+
+<br>
+
+# Submitting your Lab
+
+Remember to save your work throughout and to spell check your writing (next to the save button). 
+
+Now, press the knit button for the final time. 
+
+If you have not made any mistakes in the code then R should create a html file in your lab 7 folder which includes your answers. If you look at your lab 7 folder, you should see this there - complete with a very recent time-stamp. In that folder, double click on the html file.  This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.
+
+If you are on R studio cloud, see Tutorial 1 for how to download your files Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 7.
+
+```{r, echo=FALSE, eval=FALSE}
+knitr::include_graphics("./Figures/Lab1_Basics_2022_fig1.png")
+```
+
+
+<br>
+
+# Grading Rubric/checklist
+
+See the table below for what this means - 100% is hard to get!
+
+**HTML FILE SUBMISSION - 10 marks**
+
+**RMD CODE SUBMISSION - 5 marks**
+
+**Professional report 15 MARKS** 
+
+Full marks for a report that _I_ would take into a job interview.  You have done things like fully labeled plots using words, tried more sophisticated plots than just the basics, written full paragraphs/sentences, used equation formats, sub-headings, used spell check, explained results in clear language, included units, used a theme and table of contents..  Lose marks for each thing that makes it look non-professional.
+
+**Describe the data and EDA - 10 MARKS** 
+
+You have explored the data using the guide, conducted quality control where you removed the observation that was clearly wrong and written up your results clearly.  You have created the correlation matrix plot and sensitively described the relationship between your response and your predictors.
+
+**First model - 10 MARKS** 
+
+You created the model correctly.  In your write up you have summarised the model equation  (including the coefficients as numbers) & summarising units afterwards. You have produced a model summary and written how much variability in the Rotten Tomatoes score is explained by your model. 
+
+**LINE and outliers- 10 MARKS** 
+
+You have clearly assessed whether the model meets LINE assumptions (2 for each). You have assessed whether there are outliers and whether they are influential. You have identified any movies which are influential.
+
+**Model Fit - 10 MARKS** 
+
+You have correctly conducted a hypothesis test to assess model fit. You have assessed which variables do not add to the model using partial slopes.
+
+
+**New model, making the model - 10 MARKS**
+
+You have correctly refitted and interpreted the model. You have compared the models using 3 goodness of fit metrics
+
+**Prediction - 10 MARKS**
+
+You have correctly predicted the rotten tomatoes score of Hunt of the killer cactus.
+
+**Stepwise - 10 MARKS**
+
+You have found the "optimal model" and commented on what the best subset command is doing,.
+
+
+See above
+ 
+[100 marks total]
+ 
+
+
+Overall, here is what your lab should correspond to:
+
+```{r, echo=FALSE, eval=FALSE}
+rubric <- readxl::read_excel("STAT462_22_LRubric.xlsx")
+knitr::kable(rubric) %>%   
+  kable_classic_2() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
+
+
+```
+    

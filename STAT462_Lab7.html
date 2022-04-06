@@ -11,7 +11,7 @@
 
 
 
-<title>Lab 5: LINE</title>
+<title>Lab 7: Multiple Regression</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -378,7 +378,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Lab 5: LINE</h1>
+<h1 class="title toc-ignore">Lab 7: Multiple Regression</h1>
 <h3 class="subtitle"><h5 style="font-style:normal">
 STAT-462 - Regression Analysis
 </h4></h3>
@@ -420,13 +420,13 @@ h2.title {
 <div id="learning-objectives" class="section level1">
 <h1>Learning objectives</h1>
 <p class="comment">
-<strong>Assignment 5 is due by midnight NEXT WEDNESDAY (1 week lab)</strong> <a href="https://psu.instructure.com/courses/2174925/assignments/13762850">See here</a> I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB. After next week’s lab (All of Wed evening) is for your own finishing up.
+<strong>Assignment 7 is due by midnight NEXT WEDNESDAY (1 week lab)</strong> <a href="https://psu.instructure.com/courses/2174925/assignments/13762850">See here</a> I PROVIDE HELP UNTIL THE END OF NEXT WEEK’S LAB. After next week’s lab (All of Wed evening) is for your own finishing up.
 </p>
 <p>By the end of this week’s lab, you will be able to:</p>
 <ol style="list-style-type: decimal">
-<li>Feel comfortable working through a simple linear regression analysis</li>
-<li>Feel comfortable discovering outliers.</li>
-<li>Feel comfortable assessing LINE assumptions</li>
+<li>Create Multiple Regression Models</li>
+<li>Assess Multiple Regression Models</li>
+<li>Model selection</li>
 </ol>
 <p>There is a TEAMS discussion for lab help <a href="https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&amp;tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e">CLICK HERE</a>. Remember to include a screenshot of the issue and a short description of the problem. Also try googling the error first.</p>
 <p><br></p>
@@ -434,15 +434,15 @@ h2.title {
 <div id="part-1-lab-set-up.-do-not-skip" class="section level1">
 <h1>PART 1: Lab set-up. DO NOT SKIP!</h1>
 <p><br></p>
-<p><strong>Step A:</strong> Create a new project for Lab 5. If you are stuck, see previous labs or <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects">Tutorial 2.1</a>.</p>
+<p><strong>Step A:</strong> Create a new project for Lab 7. If you are stuck, see previous labs or <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#21_Projects">Tutorial 2.1</a>.</p>
 <p><br></p>
-<p><strong>Step B:</strong> Copy your lab template to your lab 4 folder, rename as <code>STAT-462_Lab5_EMAILID.Rmd</code> and open (e.g.STAT-462_Lab5_hlg5155.Rmd). This should have your theme, your table of contents and your headings.</p>
+<p><strong>Step B:</strong> Copy your lab template to your lab 7 folder, rename as <code>STAT-462_Lab7_EMAILID.Rmd</code> and open (e.g.STAT-462_Lab6_hlg5155.Rmd). This should have your theme, your table of contents and your headings.</p>
 <p><br></p>
 <p><strong>Step C:</strong> In the library section, add a new code chunk and use this code to load the libraries below.</p>
 <ul>
 <li><p>If some don’t exist on your computer or on the cloud, use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#23_Adding_a_new_package">Tutorial 2.3</a> to install/download them first. NEVER put install.packages in your code chunk, run it in the console.</p></li>
 <li><p>To make sure they loaded OK, run the code chunk TWICE. The second time any welcome text will disappear unless there are errors.</p></li>
-<li><p>Sometimes you might need an extra package later in the lab. Install it using the instructions above and add the library command to your library code chunk.</p></li>
+<li><p>Sometimes you might need an extra package later in the lab. Install it using the instructions above and add the library commands to your library code chunk.</p></li>
 </ul>
 <pre class="r"><code># Load libraries
 library(&quot;tidyverse&quot;) # Lots of data processing commands
@@ -460,6 +460,8 @@ library(&quot;olsrr&quot;)     # Regression specific commands
 library(&quot;plotly&quot;)    # Interactive plots
 library(&quot;readxl&quot;)    # Read from excel files
 library(&quot;equatiomatic&quot;) # extract equations
+library(&quot;ggstatsplot&quot;)
+library(&quot;MASS&quot;)
 
 ## you may need additional libraries.  Just add them to this list if you get errors.</code></pre>
 <p><br></p>
@@ -468,189 +470,189 @@ library(&quot;equatiomatic&quot;) # extract equations
 </div>
 <div id="part-2-code-showcase" class="section level1">
 <h1>PART 2: Code showcase</h1>
-<p>IF YOU IGNORED THE STEPS ABOVE GO BACK AND DO THEM! You lose marks for things like no theme, poor headings (remember there is a space between the # and the text), or accidentally printing out package loading text.</p>
-<p><br></p>
-<p><strong>Step 1:</strong> Describe the LINE assumptions for your client in plain language and why each is important.</p>
-<p><br></p>
-<p><strong>Step 2:</strong> Go to <a href="https://stephenturner.github.io/drawmydata/" class="uri">https://stephenturner.github.io/drawmydata/</a>. Create and save 3 datasets into your Lab 5 folder. Read all of them into R and assign to testdata1, testdata2 and testdata3. Consider making a scatterplot… (hint, if your column names have messed up, think about what we did in Lab 4 to adjust them)</p>
-<ul>
-<li>One that meets all the assumptions of simple linear regression</li>
-<li>One that breaks the assumption of linearity</li>
-<li>One that breaks the assumption of equal variance/heteroskadisity</li>
-</ul>
-<p class="comment">
-To make life easy for yourself, think about how many data points makes a reasonable regression (e.g. as we are modelling our response, how many would you need for a reasonable histogram..). Too few points will make your job impossible.
-</p>
-<p><br></p>
-<p><strong>Step 3:</strong> Use NEW TUTORIAL, [Tutorial 12](<a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions">Tutorial 12</a>, and <a href="https://online.stat.psu.edu/stat501/lesson/4" class="uri">https://online.stat.psu.edu/stat501/lesson/4</a> to assess the LINE assumptions for your three datasets. For independence especially, you do not have to run every plot, you can simply talk about if you are concerned about this.</p>
-<p><br></p>
+<p>There is no code showcase this week so you have more time for revision etc.</p>
 </div>
-<div id="part-3-house-plant-advertising" class="section level1">
-<h1>PART 3: House Plant advertising</h1>
+<div id="part-3-movie-ratings" class="section level1">
+<h1>PART 3: Movie Ratings</h1>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>You are an analyst for a Hollywood studio. The studio wants to understand how well a movie will perform on the review website Rotten Tomatoes. They have paid you to build a model to predict the movie’s Rotten Tomatoes score.</p>
+<p>Download the two files from Canvas which contain the data.</p>
+<ul>
+<li>The file <em>HollywoodMovies2011.csv</em> is the data itself, which includes information on movies that came out of your Hollywood Studio in 2011. The dataset contains the Rotten Tomatoes score plus five predictor variables. Download it from Canvas and read it into R as a variable called movies.</li>
+<li>The meta data (the data explaining what the spreadsheet shows), is stored in <em>HollywoodMovies2011MetaData.txt</em>. Download it from Canvas. You do not need to read it into R, but take a look as it provides vital information about what the data is showing.</li>
+</ul>
+</div>
 <div id="lab-report-format" class="section level2 unnumbered">
 <h2 class="unnumbered">Lab report format</h2>
-<p>Imagine this is a real report you are submitting to an advertising company. You will be graded on the professionality of your final report. In all of your answers below, I expect good formatting, appropriate units and full sentences to explain your answers. Please also make sure that you use headings, sub-headings and the spell check to make your lab easier to follow and grade.</p>
+<p>Imagine this is a formal report you are submitting to the Studio. You will be graded on the professionality of your final report. In all of your answers below, I expect good formatting, appropriate units and full sentences to explain your answers. Please also make sure that you use headings, sub-headings and the spell check to make your lab easier to follow and grade.</p>
 <p>Think about using any/all of the markdown features we have learned so far, for example equations, text formatting, pictures, code-chunk options or anything else that makes your report look more professional.</p>
 <p class="comment">
 The headings in the template are guidelines. If it helps to use your own or to tweak them, this is OK.
 </p>
 <p><br></p>
-</div>
-<div id="instructions" class="section level2 unnumbered">
-<h2 class="unnumbered">Instructions:</h2>
-<p>Houseplants are now very popular. You have been hired by an advertising executive who has been collecting data on how well their marketing campaigns have been running.</p>
-<p>They have run 200 marketing campaigns over the last few years. For each one, they recorded:</p>
-<ul>
-<li>how much they spent (in units of thousands of dollars) on
-<ul>
-<li>TV,</li>
-<li>radio</li>
-<li>and newspaper adverts<br />
-</li>
-</ul></li>
-<li>How many houseplants were sold (in thousands of plants).<br />
-</li>
-<li>The “X-Factor” of how popular that plant was at the time (percentage popularity),</li>
-<li>And typically how tall that type plant was in inches.</li>
-</ul>
-<p>The company wish to know which type of advertising campaigns are the most effective.</p>
 <p>Follow the instructions below to answer their questions.</p>
 <p><br></p>
-<div id="describe-the-study" class="section level3">
-<h3>1. Describe the study</h3>
-<p class="comment">
-IF YOU ARE AN HONORS STUDENT USE YOUR OWN DATA FROM THE FIRST PART OF THE SEMESTER. Choose who you are writing your report for, your dataset and response, then work through
-</p>
+<div id="describe-the-study-step-1" class="section level3">
+<h3>Describe the study (Step 1)</h3>
+<p><strong>Step 1:</strong> If you skipped it, go back and read the brief above. Seriously, it will save you time. If you skipped making/copying/using the lab report template, go back and do it - or these instructions will not make sense <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#5_Report_template">Tutorial 5</a>.</p>
 <p><br></p>
-<p><strong>Step 1:</strong> If you skipped it, go back and read the brief above. Seriously, it will save you time.</p>
-<p><br></p>
-<p><strong>Step 2:</strong> If you skipped making/copying/using the lab report template, go back and do it - or these instructions will not make sense <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#5_Report_template">Tutorial 5</a>.</p>
-<p><br></p>
-<p><strong>Step 3:</strong> Read the data into R. In the <code>Data Description</code> and <code>Study Aim</code> sections, use the first part of the <a href="https://psu.instructure.com/courses/2174925/files/132549205">teaching notes</a> to help you write about the following: <br></p>
+</div>
+<div id="exploratory-data-analysis-step-2-5" class="section level3">
+<h3>Exploratory Data Analysis (Step 2-5)</h3>
+<p><strong>Step 2:</strong> Read the data into R. In the <code>Data Description</code> and <code>Study Aim</code> sections, use the first part of the <a href="https://psu.instructure.com/courses/2174925/files/132549205">teaching notes</a> to help you write about the following: <br></p>
 <ul>
-<li>The background of the study <em>(imagine this is a real report to a real customer, google things like <em>house plant sales increasing</em> for ideas, include a picture!)</em></li>
-<li>A short description of the data source.</li>
+<li>The background of the study <em>(imagine this is a real report and the Mayor doesn’t know the background)</em></li>
+<li>A short description of the data.</li>
 <li>The object of analysis</li>
-<li>A reasonable population <em>(what population could your results be extrapolated to)</em></li>
+<li>A reasonable population <em>(what population could your results be extrapolated to/ All water in the universe in all time?)</em></li>
 <li>The response variable <em>(and units - if they are not provided, state that!)</em></li>
-<li>A bullet point list of your predictor variables <em>(and units)</em></li>
+<li>A bullet point list the other variables <em>(and units)</em> that could potentially be a predictor.</li>
 <li>The amount of data</li>
 <li>Statements to answer the questions on page 3 of the teaching notes</li>
 <li>A short paragraph to summarise the study <em>(Example for penguins on page 3 of the teaching notes)</em></li>
 </ul>
 <p class="comment">
-There are also guidelines in the template. You do NOT need to repeat yourself, so ignore anything you have already done or refer to it in your answers e.g. “As shown in the histogram above….”.
+There are also guidelines in the template. You do NOT need to repeat yourself, so ignore/delete any prompts you have already done or refer to it in your answers e.g. “As shown in the histogram above….”.
 </p>
 <p><br></p>
-</div>
-<div id="explore-the-data" class="section level3">
-<h3>2. Explore the data</h3>
-<p><strong>Step 4:</strong> Under <code>Exploratory Analysis | Response Variable</code> in your report, explore your response variable and describe it in the report, working through page 4-6 of the teaching notes (Step 2) and commenting on all the questions. E.g. if there are no outliers, SAY there are no outliers (Step 2). <br><br> Again, there are additional hints in the template - you do not need to answer things twice.</p>
+<p><strong>Step 3:</strong> Under <code>Exploratory Analysis | Response Variable</code> in your report, explore your response variable and describe it in the report, working through page 4-6 of the teaching notes (Step 2) and commenting on all the questions. E.g. if there are no outliers, SAY there are no outliers (Step 2). <br><br> Again, there are additional hints in the template - you do not need to answer things twice.</p>
+<p class="comment">
+Hint: There is DEFINITELY something wrong with this data that needs addressing.
+</p>
 <p class="comment">
 Hint: For full marks, plots like histograms should have proper x and y axis labels and titles. All the tutorial examples in <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#7_Making_plots">Tutorial 7</a> can be copy/pasted, why not choose a more sophisticated one..
 </p>
 <p><br></p>
-<p><strong>Step 5:</strong> Under <code>Exploratory analysis</code>, make a new sub-section called <code>Correlation</code>. Make a correlation plot of the variables against your response <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation">See Tutorial 6.4</a>.<br />
-<strong>CLARIFICATION: Which predictor has the smallest and largest correlation vs your response?</strong></p>
+<p><strong>Step 4:</strong> <strong>Download/Install</strong> the<code></code>ggcorrplot<code>package and add it to your library code chunk (remember to re-run!).  Inside</code>Exploratory analysis<code>, make a new sub-section called</code>Correlation<code>.  Use the</code>ggcorrmat` command to create a plot <a href="https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html" class="uri">https://indrajeetpatil.github.io/ggstatsplot/articles/web_only/ggcorrmat.html</a>. The most common errors here are that you are missing another package. If so, install <em>that</em> package, and re-run. Repeat for each package needed until the error goes away. Note, look at the help file and online tutorials for loads of color and style options.</p>
+<p><br></p>
+<p><strong>Step 5:</strong> Use the correlation plot to describe the relationship between your response variable and each of your predictors. Which predictors do you think will have the strongest impact on a movie’s Rotten Tomatoes score. If it helps to make individual scatterplots with your response to see the relationship, feel free!</p>
 <p><br></p>
 </div>
-<div id="make-some-models" class="section level3">
-<h3>3. Make some models</h3>
-<p class="comment">
-IF YOU ARE AN HONORS STUDENT, choose two likely predictor variables for your response and make your two models for those
-</p>
-<p>Your client wishes to know which advertising campaign is the most effective out of.</p>
-<ul>
-<li>Model1 - Plant Sales vs Newspaper adverts</li>
-<li>Model2 - Plant Sales vs TV adverts</li>
-</ul>
-<p>To do this, we are going to create and compare TWO models. Adjust your report headings to look like this</p>
-<p><br></p>
-<p><strong>Step 6:</strong> FOR BOTH MODELS, under <code>model fitting</code> use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#78_Scatterplots">Tutorial 8</a> and <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#9_Regression_models">Tutorial 9</a> to help you:</p>
-<ul>
-<li>Make a professional looking scatterplot (this should have proper x,y axis labels etc)</li>
-<li>Describe the scatterplot (e.g. strength, association etc)</li>
-<li>Create a linear model</li>
-<li>Show the model summary</li>
-<li>Use equatiomatic or any other method to formally write out the equation and coefficients.</li>
-</ul>
-<p><br></p>
-<p><strong>Step 7:</strong> Use the NEW TUTORIAL, <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions">Tutorial 12</a> to help you assess each LINE assumption for BOTH model 1 and model 2. For each model, comment if it meets the requirements for simple linear regression, referring back to the diagnostic plots.</p>
-<p><br></p>
-<p><strong>Step 8:</strong> Under <code>Comparing models</code>, refer to your analysis (or do new analysis as appropriate) to answer the following questions.</p>
-<ol style="list-style-type: decimal">
-<li><p>Out of model 1 and model 2, where do you see the greatest increase in sales if you increase the advertising budget? <br> Provide evidence to justify your answer (thinking about uncertainties on your estimate).</p></li>
-<li><p>Which model explains the most variability in the sales data? Provide evidence to justify your answer.</p></li>
+<div id="original-model-step-6---10" class="section level3">
+<h3>Original model (Step 6 - 10)</h3>
+<p><strong>Step 6:</strong> Set up a multiple regression model. Under <code>Model 1:</code></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Fit a full multiple regression model to the data, with RottenTomatoes as your response and ALL of the other variables as your predictors. Hint, if you haven’t already done this, <em>first</em> remove the TEST_TEST movie row from the excel file and re-run.</p></li>
+<li><p>Show the model summary</p></li>
+<li><p>Use equatiomatic or any other method to formally write out the equation and coefficients.</p></li>
+<li><p>The Mayor doesn’t know regression. Clearly interpret each of the estimated model parameters (slope &amp; intercept)/model summary-statistics in the the context of the problem, in a way that would be understandable to your customer. <br><br> By this I mean explain what the slopes and intercept means in term of the problem, highlighting if this is useful or nonsensical (like knowing weight of someone with zero height is not useful). <br></p></li>
+<li><p>State the percentage of variability in Rotten Tomatoes score is explained by your model, and exactly which statistic you chose for this.</p></li>
 </ol>
 <p><br></p>
-<p><strong>Step 9:</strong> Under <code>Customer questions</code>, refer to your analysis (or do new analysis as appropriate) to answer the following questions.</p>
-<ol style="list-style-type: decimal">
-<li><p><em>Peace lily dilemma:</em> Your customer has a client who needs to sell 8000 “peace lily” plants but hates newspapers. Conduct an hypothesis test to assess whether you typically sell less than 8000 plants in a situation where you spend zero-money on newspaper advertising. You are happy to be wrong one time in 25. Advise the company whether is OK to stop advertising in newspapers. (Monday’s lecture notes and worked example here: <a href="https://online.stat.psu.edu/stat501/lesson/2/2.12" class="uri">https://online.stat.psu.edu/stat501/lesson/2/2.12</a>)</p></li>
-<li><p><em>TV fears:</em> Another client is skeptical of TV. Use the ANOVA table output to conduct a hypothesis test to examine if there is evidence to suggest a relationship between TV advertising and plant sales, with a critical significance of 1%. (Fridays lecture or see a worked example here: <a href="https://online.stat.psu.edu/stat501/lesson/2/2.7" class="uri">https://online.stat.psu.edu/stat501/lesson/2/2.7</a>). See <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#93_ANOVA">Tutorial 9.3</a> for the ANOVA code or Monday’s lecture..</p></li>
-<li><p><em>Best day ever:</em> A new client has approached the company with a brand new plant!!! (the rainbow-monstera-fig). This is <em>very</em> popular. The magazine “Plants Daily” rates its popularity at 70%! <br> Thinking about the plant popularity independently of advertising type, what is the predicted range of sales for your new campaign? (at a 99% confidence level). Note, you may need to make a section for a new model… NEW TUTORIAL - <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#13_Confidence_and_Prediction_Intervals">Tutorial 13 Confidence and Prediction intervals</a> (Also Friday’s lecture or worked example here. <a href="https://online.stat.psu.edu/stat501/lesson/3" class="uri">https://online.stat.psu.edu/stat501/lesson/3</a>).</p></li>
-</ol>
-<p>If you are stuck on 3, think about the difference between a confidence interval and a prediction interval using the resources or google (or Lab 4..)</p>
-<p class="comment">
-IF YOU ARE AN HONORS STUDENT, for step 9:<br> a) Conduct a hypothesis test on either the intercept or the slope against a value that would be appropriate. <br> b) Conduct an F test using the ANOVA table on either model 1 or model 2. c) Create a prediction interval for a new data point
-</p>
+<p><strong>Step 7:</strong> Under <code>Model Validity</code>, use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#12_Checking_LINE_Assumptions">Tutorial 12</a> to help you formally assess each LINE assumption for model 1. Comment if it meets the requirements for simple linear regression, referring back to your plots. Remember this is the same as for a simple linear model!</p>
 <p><br></p>
-<p><strong>Step 10:</strong> Under <code>Conclusions</code>, summarise for the customer what you have learned. Explain how multiple regression might have allowed you to conduct a better analysis.</p>
+<p><strong>Step 8:</strong> Use <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#14_Outliers,_leverage_and_influential_points">Tutorial 14 on outliers</a> to assess if any movie appears to be an influential outlier. If a movie does fit the criteria of influential outlier, do not remove anything from the dataset. Instead, in your write-up, please provide its name and justify why you think it is influential.</p>
+<p><br></p>
+<p><br></p>
+<p><strong>Step 9:</strong> Write a hypothesis test using the F-Statistic/ANOVA to test whether our model contains at least one predictor useful in predicting Rotten Tomatoes score.</p>
+<p><br></p>
+<p><strong>Step 10:</strong> Partial Slopes</p>
+<p><em>“The test-results for partial slopes” is a fancy way of saying “look at the T-test result and corresponding p-value of each variable in the model summary”. Essentially, they are the likelihood of that variable being an important part of the model IF EVERYTHING ELSE WAS HELD CONSTANT.</em></p>
+<p>By looking at the test results for the partial slopes (at a 10% level of significance), identify any predictor variable/s you would like to drop/delete from your model. Provide reasons for your choice(s). Does this meet your expectations from the correlation matrix? You do not have to write down any steps for hypothesis testing here, but you do need to justify your decision.</p>
 <p><br></p>
 </div>
-</div>
-</div>
-<div id="part-4-show-me-something-new" class="section level1">
-<h1>PART 4: Show me something new</h1>
-<p>Remember that an A is 94%, so you can ignore this section and still easily get an A. But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.</p>
-<p><strong>To get the final 5 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.</strong></p>
+<div id="new-models-step-11-12" class="section level3">
+<h3>New models (Step 11-12)</h3>
+<p><strong>Step 11:</strong> Let’s make a better model. Under <code>Model 2:</code></p>
 <ul>
-<li>You get 2/4 for doing something new in any way BEYOND THE LAB INSTRUCTIONS/CODE</li>
-<li>You get 4/4 for something really impressive or multiple small things.</li>
-<li>You must tell us in your R script what you did!</li>
-</ul>
-<p>Here are some ideas:</p>
-<ul>
-<li>Something cool from data camp or a previous course you did in R.</li>
-<li>You found a cool new plot from R graph gallery or flowingdata.com and made it work</li>
-<li>You did something neat in Markdown such as embedding a pdf</li>
-<li>You found a new package/command that did something relevant</li>
-<li>You found something cool on data camp and applied it here</li>
-<li>You tweaked your mapping/plotting code to be better</li>
+<li>Fit a NEW model by eliminating the variables you decided to drop in the previous question.</li>
+<li>Show the model summary and the model regression line equation.</li>
+<li>Quickly if that model meets LINE assumptions. Don’t worry about changing anything if it doesn’t, just comment on your findings.</li>
 </ul>
 <p><br></p>
+<p><strong>Step 12:</strong> Compare Model 1 and Model 2 using <span class="math inline">\(AdjR^2\)</span> and AIC. Which model do you consider to be a better fit and why?</p>
+<p><br></p>
+<p><strong>Step 13:</strong> The studio has just trialed a new movie with details:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Name</em></td>
+<td>“Hunt of the Killer Cactus”</td>
+</tr>
+<tr class="even">
+<td><em>TheatresOpenWeek</em></td>
+<td>100 weeks</td>
+</tr>
+<tr class="odd">
+<td><em>AudienceScore</em></td>
+<td>59%</td>
+</tr>
+<tr class="even">
+<td><em>TheatersOpenWeek</em></td>
+<td>15 cinemas</td>
+</tr>
+<tr class="odd">
+<td><em>BOAverageOpenWeek</em></td>
+<td>$5200</td>
+</tr>
+<tr class="even">
+<td><em>Budget</em></td>
+<td>43 Million</td>
+</tr>
+<tr class="odd">
+<td><em>DomesticGross</em></td>
+<td>16.38 million USD</td>
+</tr>
+<tr class="even">
+<td><em>Profitability</em></td>
+<td>150% of the budget recovered in profits</td>
+</tr>
+</tbody>
+</table>
+<p>Under prediction (or the appropriate subheading in model 2), estimate this new movie’s Rotten Tomatoes score? Show the 99% range of uncertainty on your estimate.</p>
+<p>Hint, this is <em>similar</em> code to <a href="https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#13_Confidence_and_Prediction_Intervals">Tutorial 13 on confidence/prediction intervals</a>. To see a worked example and code for multiple regression, see here. <a href="https://online.stat.psu.edu/stat501/lesson/r-help-7-mlr-estimation-prediction-model-assumptions" class="uri">https://online.stat.psu.edu/stat501/lesson/r-help-7-mlr-estimation-prediction-model-assumptions</a></p>
+<p><br></p>
+</div>
+<div id="stepwise-regression-and-model-selection-step-14" class="section level3">
+<h3>Stepwise regression and model selection (Step 14)</h3>
+<p><strong>Step 14:</strong> Find the “optimum”/“best model. There are many models/combinations of predictors that we could use to predict our response variable. We want to find the best model possible, but we also don’t want to overfit.</p>
+<p>So far, we manually compared two models. In fact there is a way to compare all the combinations of predictors. This is using the <code>ols_step_best_subset()</code> command. Run this on your ORIGINAL linear model fit (Model1, the one including all the variables). e.g. <code>ols_step_best_subset(mymodel)</code>.</p>
+<p>Describe what the “best subset” method is doing. Hint, we will go over this in lectures, but also <a href="https://online.stat.psu.edu/stat501/lesson/10/10.3" class="uri">https://online.stat.psu.edu/stat501/lesson/10/10.3</a></p>
+<p>Use the subset method to assess the optimal fit using at least 3 goodness of fit measures. Which model is your final favourite. Take a quick look at LINE assumptions but you don’t need to find a new model if it’s not valid (just talk about what you find)</p>
+</div>
+</div>
+<div id="show-me-something-new" class="section level2">
+<h2>Show me something new</h2>
+<p>No show me something new so you can focus on revision/exams.</p>
+<p><br></p>
+</div>
 </div>
 <div id="submitting-your-lab" class="section level1">
 <h1>Submitting your Lab</h1>
 <p>Remember to save your work throughout and to spell check your writing (next to the save button).</p>
 <p>Now, press the knit button for the final time.</p>
-<p>If you have not made any mistakes in the code then R should create a html file in your lab 5 folder which includes your answers. If you look at your lab 5 folder, you should see this there - complete with a very recent time-stamp.</p>
-<p>In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.</p>
-<p>If you are on R studio cloud, see Tutorial 1 for how to download your files</p>
-<p>Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 5.</p>
+<p>If you have not made any mistakes in the code then R should create a html file in your lab 7 folder which includes your answers. If you look at your lab 7 folder, you should see this there - complete with a very recent time-stamp. In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.</p>
+<p>If you are on R studio cloud, see Tutorial 1 for how to download your files Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 7.</p>
 <p><br></p>
 </div>
 <div id="grading-rubricchecklist" class="section level1">
 <h1>Grading Rubric/checklist</h1>
 <p>See the table below for what this means - 100% is hard to get!</p>
 <p><strong>HTML FILE SUBMISSION - 10 marks</strong></p>
-<p><strong>RMD CODE SUBMISSION - 10 marks</strong></p>
-<p><strong>CODE SHOWCASE 30 MARKS</strong></p>
-<ul>
-<li>You have successfully created and read in the three datasets.<br />
-</li>
-<li>You have fully explained what each LINE assumption is</li>
-<li>You have fully explained WHY each is important</li>
-<li>You have assessed the LINE assumptions for your own data</li>
-</ul>
-<p><strong>HOUSEPLANT DATA 1: Professional report 15 MARKS</strong></p>
+<p><strong>RMD CODE SUBMISSION - 5 marks</strong></p>
+<p><strong>Professional report 15 MARKS</strong></p>
 <p>Full marks for a report that <em>I</em> would take into a job interview. You have done things like fully labeled plots using words, tried more sophisticated plots than just the basics, written full paragraphs/sentences, used equation formats, sub-headings, used spell check, explained results in clear language, included units, used a theme and table of contents.. Lose marks for each thing that makes it look non-professional.</p>
-<p><strong>HOUSEPLANT DATA 2: Exploratory Analysis and Study Aim 10 MARKS</strong></p>
-<p>You have clearly and neatly explored and written up your study aim and exploratory data analysis</p>
-<p><strong>HOUSEPLANT DATA 3: Making models Aim 10 MARKS</strong></p>
-<p>You have successfully completed steps 6 - 8</p>
-<p><strong>HOUSEPLANT DATA 4: Answering questions 15 MARKS</strong></p>
-<p>You have managed to answer each of the questions in step 9 (5 for each)</p>
-<p><strong>SHOW ME SOMETHING NEW: 5 MARKS</strong></p>
+<p><strong>Describe the data and EDA - 10 MARKS</strong></p>
+<p>You have explored the data using the guide, conducted quality control where you removed the observation that was clearly wrong and written up your results clearly. You have created the correlation matrix plot and sensitively described the relationship between your response and your predictors.</p>
+<p><strong>First model - 10 MARKS</strong></p>
+<p>You created the model correctly. In your write up you have summarised the model equation (including the coefficients as numbers) &amp; summarising units afterwards. You have produced a model summary and written how much variability in the Rotten Tomatoes score is explained by your model.</p>
+<p><strong>LINE and outliers- 10 MARKS</strong></p>
+<p>You have clearly assessed whether the model meets LINE assumptions (2 for each). You have assessed whether there are outliers and whether they are influential. You have identified any movies which are influential.</p>
+<p><strong>Model Fit - 10 MARKS</strong></p>
+<p>You have correctly conducted a hypothesis test to assess model fit. You have assessed which variables do not add to the model using partial slopes.</p>
+<p><strong>New model, making the model - 10 MARKS</strong></p>
+<p>You have correctly refitted and interpreted the model. You have compared the models using 3 goodness of fit metrics</p>
+<p><strong>Prediction - 10 MARKS</strong></p>
+<p>You have correctly predicted the rotten tomatoes score of Hunt of the killer cactus.</p>
+<p><strong>Stepwise - 10 MARKS</strong></p>
+<p>You have found the “optimal model” and commented on what the best subset command is doing,.</p>
 <p>See above</p>
 <p>[100 marks total]</p>
 <p>Overall, here is what your lab should correspond to:</p>

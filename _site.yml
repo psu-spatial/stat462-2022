@@ -21,6 +21,8 @@ navbar:
           href: STAT462_Lab5.html
         - text: "Lab 6: Outliers & Transformations"
           href: STAT462_Lab6.html
+        - text: "Lab 7: Multiple Regression"
+          href: STAT462_Lab7.html
     - text: "LAB EXAMPLE"
       href: STAT462_LabEXAMPLE.html 
     - text: "Worked questions"
