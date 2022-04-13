@@ -247,7 +247,7 @@ corrplot(mat)
 
 <br>
 
-**Step 5:** Inside `Exploratory analysis`, make a new sub-section called `Correlation`.  Look at the correlation between your predictor variables and your response.  Comment on what you find out [See Tutorial 6.4](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation).  
+**Step 5:** Inside `Exploratory analysis`, make a new sub-section called `Correlation`.  Look at the correlation between your predictor variables and your response (e.g. all the variables in the table as well as the 'main' predictor.  Comment on what you find out [See Tutorial 6.4](https://psu-spatial.github.io/stat462-2022/T1_R_Basics.html#64_Correlation).  
 
 <br>
 
@@ -280,8 +280,9 @@ Using the study aim I wrote above, identify your response and specific predictor
   a. The name of the lake with highest residual mercury value 
   
   b. The name of the lake with highest leverage 
-  
+
   c. The name of the lake with highest Cook's distance
+  
 
 ```{r, include=FALSE}
 plot(bass$Mercury~bass$Alkalinity)
@@ -289,6 +290,27 @@ model1 <- lm(Mercury~Alkalinity,data=bass)
 olsrr::ols_plot_resid_fit(model1)
 olsrr::ols_plot_cooksd_chart(model1)
 olsrr::ols_plot_resid_lev(model1)
+
+
+
+# Make a new column with the predicted y value
+bass$y_predicted <- model1$fitted.values
+
+# Make a new column with the raw residuals
+bass$residuals_raw <- model1$residuals
+
+# Make a new column with the standardisd/studentised residuals
+library(MASS)
+bass$residuals_stud <- studres(model1)
+
+# Make a new column with the leverage
+bass$x_leverage <- ols_leverage(model1)
+
+# Make a new column with the Cook's distance. OLSRR package
+bass$cooks.distance <- cooks.distance(model1)
+
+# Print out the table
+head(bass)
 
 ```
 
@@ -428,12 +450,11 @@ You have shown me a plot or some other command that helps with your regression w
 
 **Study data and EDA - 10 Marks** 
 
-You have explored the data using the guide, conducted quality control where you removed the observation that was clearly wrong and written up your results clearly.  You have created the correlation matrix plot and sensitively described the relationship between your response and your predictors.
-
+You have explored the data using the guide.  You have created the correlation matrix plot and sensitively described the relationship between your response and your predictors.
 
 **First model and LINE - 10 MARKS** 
 
-You created the model correctly.  In your write up you have summarised the model equation  (including the coefficients as numbers) & summarising units afterwards. You have produced a model summary and written how much variability in the Rotten Tomatoes score is explained by your model.  You have clearly assessed whether the model meets LINE assumptions (2 for each). 
+You created the model correctly.  In your write up you have summarised the model equation  (including the coefficients as numbers) & summarising units afterwards. 
 
 **Residual Analysis - 10 MARKS** 
 
@@ -442,7 +463,7 @@ You have assessed whether there are outliers and whether they are influential. Y
 
 **Steps 9 and 10- 10 MARKS** 
 
-You have have thoughtfully answered these questions and followed instructiion
+You have have thoughtfully answered these questions and followed instructions
 
 
 **Transformed model, making the model - 10 MARKS**
@@ -457,10 +478,10 @@ You have correctly predicted the new lake in step 13 and talked about multiple r
 
 You have answered Q.14 correctly and shown your workings..
 
-1/4 you try anything
-(2-3)/4 Right idea but didn't get far
-4/5 nearly there
-5/5 perfect
+ - 1/4 you try anything
+ - (2-3)/4 Right idea but didn't get far
+ - 4/5 nearly there
+ - 5/5 perfect
 
 
  
