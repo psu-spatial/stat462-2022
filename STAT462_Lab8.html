@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 8: Putting it all together</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">STAT-462</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="T1_R_Basics.html">Tutorials</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="STAT462_22_L1Basics.html">Lab 1:R-Basics</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab2.html">Lab 2: Exploratory Data Analysis (EDA)</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab3.html">Lab 3: Scatterplots</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab4.html">Lab 4: Regression Code showcase</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab5.html">Lab 5: LINE Assumptions</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab6.html">Lab 6: Outliers &amp; Transformations</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab7.html">Lab 7: Multiple Regression</a>
+    </li>
+    <li>
+      <a href="STAT462_Lab8.html">Lab 8: Putting it together</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="STAT462_LabEXAMPLE.html">LAB EXAMPLE</a>
+</li>
+<li>
+  <a href="Worked_questions.html">Worked questions</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 8: Putting it all together</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+STAT-462 - Regression Analysis
+</h4></h3>
+<h4 class="author"><h5 style="font-style:normal">
+Dr Helen Greatrex
+</h4></h4>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="learning-objectives" class="section level1">
+<h1>Learning objectives</h1>
+<p>When you finish your studies at Penn State, I hope you will be well equipped to face the world ahead. One of those skills will be choosing the best wine :) We are going to look at this problem as a class - although you will all have different training data.</p>
+<p>The learning objectives are putting what you have learned together and making your own reference guide on regression for the future. We will also look at model fitting.</p>
+<p>There is a TEAMS discussion for lab help <a href="https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&amp;tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e">CLICK HERE</a>.</p>
+<p>Here is the canvas page: <a href="https://psu.instructure.com/courses/2174925/assignments/" class="uri">https://psu.instructure.com/courses/2174925/assignments/</a></p>
+<p class="comment">
+<strong>Assignment 8 has TWO deadlines. <br> Before the final lecture April-29, you must have uploaded model parameters to Canvas. <br> The final report is due the Wednesday of exams week</strong>
+</p>
+<p class="comment">
+I PROVIDE HELP UNTIL THE END OF THE SEMESTER (April 29th). Exams week is for your own finishing up.
+</p>
+<p><br></p>
+</div>
+<div id="red-wine-prediction" class="section level1">
+<h1>RED wine prediction</h1>
+<p>This lab will examine the topic of Red wine quality from the Vinho Verde vinyard, from the Minho (northwest) region of Portugal. This wine accounts for 15% of total Portuguese production. Data was collected from May/2004 to February/2007 using only protected designation of origin samples that were tested at the official certification entity (CVRVV). The CVRVV is an inter-professional organization with the goal of improving the quality and marketing of Portugese wine.</p>
+<p>Most data was recorded by a computerized system (iLab), which automatically manages the process of wine sample testing from producer requests to laboratory and sensory analysis. Physicochemical laboratory tests routinely used to characterize wine include determination of density, alcohol or pH values. If you wish to know more about these tests you can see detailed info here: <a href="https://www.oiv.int/public/medias/2468/oiv-ma-as2-01b.pdf" class="uri">https://www.oiv.int/public/medias/2468/oiv-ma-as2-01b.pdf</a></p>
+<p>Other tests rely on human experts. To assess wine quality, each sample was evaluated by a minimum of three sensory assessors (using blind tastes), which graded the wine in a scale that ranges from 0 (very bad) to 10 (excellent).</p>
+<p>For more details on this (real) study, consult: <a href="https://www.vinhoverde.pt/en/statistics" class="uri">https://www.vinhoverde.pt/en/statistics</a> or the reference [Cortez et al,2009 - <a href="https://link.springer.com/chapter/10.1007/978-3-642-04747-3_8" class="uri">https://link.springer.com/chapter/10.1007/978-3-642-04747-3_8</a>].</p>
+<div id="overall-task" class="section level2">
+<h2>Overall task</h2>
+<p>I wish to understand what characteristics of red wines predict high quality. Each of you has been awarded an individual training sample of 300 Red wines.</p>
+<ul>
+<li>Unit of analysis: A single sample of Red wine from the vineyard</li>
+<li>Population: All Red wines from this vineyard</li>
+<li>Sample: 300 wine samples taken between 2004 and 2007</li>
+<li>Response variable: ‘quality’ (see above for details)</li>
+</ul>
+<p>You also have access to these variables which could potentially be used to predict quality.</p>
+<ul>
+<li>alcohol (% Vol)</li>
+<li>fixed_acidity (<span class="math inline">\(g(tartaric.acid)/dm^3\)</span>)</li>
+<li>citric_acid ( <em>low</em> | <em>medium</em> | <em>high</em>)</li>
+<li>residual_sugar (<span class="math inline">\(g/cm^3\)</span>)</li>
+<li>chlorides (<span class="math inline">\(g(sodium.chloride)/dm^3\)</span>)</li>
+<li>free_sulfur_dioxide (<span class="math inline">\(mg/dm^3\)</span>)</li>
+<li>total_sulfur_dioxide (<span class="math inline">\(mg/dm^3\)</span>)</li>
+<li>density (<span class="math inline">\(g/cm^3\)</span>) (mass per unit volume of wine or must at 20°C)</li>
+<li>pH</li>
+<li>sulphates (<span class="math inline">\(g/cm^3\)</span>)</li>
+</ul>
+<p><strong>Your task is to use your personal sample to predict wine quality. To the best of your ability need to find a model that is both valid (e.g. meets LINE) and ‘fits’ the best without over-fitting.</strong></p>
+<p><strong>I have a ‘new’ dataset of 200 red wines with the same variables. Once you are happy with your model, you will then predict the quality of those 200 wines and upload the model and your errors to canvas. We will then see as a class the range of models that you come up with.</strong></p>
+<p class="comment">
+This is real data, there is no right answer and you <em>will</em> get a different result to your classmates as you have individual training data.
+</p>
+<p><br></p>
+</div>
+<div id="specific-instructions" class="section level2">
+<h2>Specific instructions</h2>
+<p><strong>Step 1: SET-UP</strong></p>
+<p>Create a new project for Lab 8 and copy your lab template to your lab 8 folder | Rename and open. | In the library section, add a new code chunk and use this code to load the libraries below. You WILL need to install some first. | Hint, NEVER put install.packages in your code chunk, run it in the console. | Finally, press knit to check the html works and your theme works.</p>
+<p>If you struggle with any of this step, see previous labs and the tutorials for detailed help. Or ask for help.</p>
+<pre class="r"><code># Load libraries
+library(&quot;tidyverse&quot;) # Lots of data processing commands
+library(&quot;knitr&quot;)     # Helps make good output files
+library(&quot;ggplot2&quot;)   # Output plots
+library(&quot;rmarkdown&quot;) # Helps make good output files
+library(&quot;lattice&quot;)   # Makes nice plots
+library(&quot;RColorBrewer&quot;) # Makes nice color-scales
+library(&quot;skimr&quot;)     # Summary statistics
+library(&quot;Stat2Data&quot;) # Regression specific commands
+library(&quot;corrplot&quot;)  # correlation plots
+library(&quot;GGally&quot;)    # correlation plots
+library(&quot;ggpubr&quot;)    # QQplots
+library(&quot;olsrr&quot;)     # Regression specific commands
+library(&quot;plotly&quot;)    # Interactive plots
+library(&quot;readxl&quot;)    # Read from excel files
+library(&quot;equatiomatic&quot;) # extract equations
+library(&quot;ggstatsplot&quot;)
+library(&quot;MASS&quot;)
+
+# NEW
+library(DescTools)
+library(glmnet)
+
+## you may need additional libraries.  Just add them to this list if you get errors.</code></pre>
+<p><br></p>
+<p><strong>Step 2: READ IN THE DATA</strong></p>
+<p>Read both your personal training data AND the test data into R. Call the training dataset TrainData and the test dataset TestData.</p>
+<p><br></p>
+<p><strong>Step 3: STUDY DESCRIPTION</strong></p>
+<p>In the <code>Data Description</code> and <code>Study Aim</code> sections, use the first part of the <a href="https://psu.instructure.com/courses/2174925/files/132549205">teaching notes</a> and the overview to help you write about the following: <br></p>
+<ul>
+<li>The background of the study</li>
+<li>A short description of the data.</li>
+<li>The object of analysis</li>
+<li>A reasonable population</li>
+<li>The response variable</li>
+<li>A bullet point list the other variables that could potentially be a predictor.</li>
+<li>A description of your sample</li>
+<li>Statements to answer the questions on page 3 of the teaching notes</li>
+<li>A short paragraph to summarise the study <em>(Example for penguins on page 3 of the teaching notes)</em></li>
+</ul>
+<p class="comment">
+I have given you much of this, so you simply need to summarise in your own words, but including more about wine and the problem will gain extra marks. Essentially, make this a report you would be happy showing in a job interview. You are welcome to change the template in any way you like but you will be graded on clarity.”.
+</p>
+<p><br></p>
+<p><strong>Step 4: QUALITY CONTROL</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
+<p>Create a section called quality control. There are issues and errors within your training dataset which you will find as you explore the data. If you choose to remove any data points, summarise which ones you removed and why. Run all your models below on the final clean data.</p>
+<p><br></p>
+<p><strong>Step 5: EXPLORATORY ANALYSIS</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
+<p>Now your data is clean, using the example from previous labs, explore your response variable and the predictors. You could look at the type of data, it distributions, and any correlations/relationships that you see. Any plots should look professional and you should explain any plots/results (e.g. explain to me what a correlation matrix is and any interesting results, don’t just put it in).</p>
+<p><br></p>
+<p><strong>Step 6: MODEL BUILDING</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
+<p>It is now up to you to find the “optimum” model to predict the quality of <strong>red</strong> wine in your training dataset. This should meet L.I.N.E (+multicollinearity) assumptions as much as possible, you should have explored any outliers and it should have high model accuracy. For example, you could use your understanding of the situation, the correlation matrix, best-subsets stepwise regression, or anything else.</p>
+<p>In your report, should include details of <em>at least two</em> models. For each model,</p>
+<ul>
+<li>Make a sub-section and name the model</li>
+<li>Create the model and include its equation</li>
+<li>Assess model accuracy / “goodness of fit” (<a href="http://www.sthda.com/english/articles/38-regression-model-validation/158-regression-model-accuracy-metrics-r-square-aic-bic-cp-and-more/">hint</a> )</li>
+<li>Assess LINE and DISCUSS EACH L.I.N.E ASSUMPTION IN THE TEXT.</li>
+<li>Discuss if there are any spurious/confounding/lurking variables. E.g. are there things in your model that you don’t need, or is there something missing.</li>
+</ul>
+<p>As an example, a report might look like</p>
+<p>Model 1: - I chose this model through my knowledge of the situation - model_code - Does it meet L.I.N.E. + If not, what can I change? + If yes, how accurate is it? - State way forward: e.g “This model failed linearity, so I will try a transformation for model 2” | or “i wonder if there are variables I missed..”</p>
+<p>Model 2: - I chose this model through [reason above] - model_code - Does it meet L.I.N.E. + If not, what can I change? + If yes, how accurate is it and how does it compare to previous models. - State way forward for model 3…</p>
+<p>Repeat until you are happy. To help with this, here is a summary of the code I for each model. There are many options available. Feel free to edit/change! There are many more options in your past labs and the tutorials.</p>
+<pre class="r"><code># need to edit this each time. and I normally change &quot;mymodel&quot; a name that makes sense.
+mymodel &lt;- lm ( ResponseCol ~ PredictorCol1 + PredictorCol1,  data= tablename)</code></pre>
+<pre class="r"><code># Add asis=TRUE in the r curly brackets to automatically make the equation as you knit.
+equatiomatic::extract_eq(mymodel,use_coefs = TRUE,coef_digits = 4)</code></pre>
+<pre class="r"><code># LINE -----------------------
+# Residuals vs fitted
+ols_plot_resid_fit (mymodel)
+
+# Equal variance test (lecture 24)
+lmtest::bptest(mymodel)
+
+# Normality of residuals
+ols_plot_resid_hist(mymodel)
+ols_test_normality(mymodel)
+
+# Outliers
+ols_plot_resid_lev(mymodel)
+
+# Outliers
+ols_plot_comp_plus_resid(mymodel)
+
+# multicollinearity
+car::vif(mymodel)</code></pre>
+<pre class="r"><code># Summary / goodness of fit -----------------------
+#summary(mymodel)
+ols_regress(mymodel)
+anova(mymodel)</code></pre>
+<pre class="r"><code># Comparison  -----------------------
+anova(mymodel1 , mymodel2)
+AIC(mymodel1, mymodel2)</code></pre>
+<pre class="r"><code># Automated model building  -----------------------
+ols_step_best_subset(mymodel)</code></pre>
+<p><br></p>
+<p><strong>Step 7: COMPARING MODELS</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
+<p>This overlaps with the previous section. But include a small section comparing at least two models using AIC and an anova F-test. Remember to write out the test fully (e.g. include H0, H1, test statistic, p value, conclusion).</p>
+<p><strong>Step 8a: SUMMARISE FAVOURITE MODEL</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
+<p>Finally, briefly summarise your final choice of model, including:</p>
+<ul>
+<li>The model summary from R</li>
+<li>The equation</li>
+<li>Explain to me which predictors have the biggest impact on quality and which are most/least significant.<br />
+</li>
+<li>If there are categorical predictors in your model, explain what they mean.</li>
+<li>A sentence or two to summarise whether it met the LINE assumptions.</li>
+<li>The adjusted R^2</li>
+</ul>
+<p><strong>Step 8b:</strong></p>
+<p>We can see how good your model is by plotting your predicted quality against the actual quality.</p>
+<p>Add a column of the modelled values for your training data using this command, replacing ‘mymodel’ with the name of your favorite model.</p>
+<pre class="r"><code>TrainData$quality_predicted  &lt;- FINALMODEL$fitted.values
+TrainData$residual           &lt;- TrainData$quality - TrainData$quality_predicted
+
+RMSE_training &lt;- sqrt(mean(TrainData$residual^2))</code></pre>
+<p>Make a professional plot of quality vs predicted values.</p>
+<p><br></p>
+<p><strong>Step 8: PREDICTING THE NEW DATASET</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
+<p>As well as creating confidence and prediction intervals, we can use the predict command to predict many new values. We can summarise the size of the predictedresiduals using the Root Mean Squared Error of prediction (RMSE)..</p>
+<p>Assuming you read in your TestData in step 1</p>
+<pre class="r"><code># THIS IS FOR THE NEW TESTDATA
+TestData$quality_predicted &lt;- predict(FINALMODEL ,newdata=TestData)
+TestData$Residual   &lt;- TestData$quality - TestData$quality_predicted
+
+RMSE_training &lt;- sqrt(mean(TestData$residual^2))</code></pre>
+<p>Make a professional plot of quality vs predicted values and state the RMSE for your <strong>test dataset</strong>. Comment on how this model appears to fit on the test data.</p>
+<p><strong>Step 9: Upload values</strong>. GO TO CANVAS</p>
+<p>See the Canvas quiz. For your favourite model, enter the values of each model coefficient and your final RMSE. We will see the range of values obtained across the class.</p>
+</div>
+<div id="show-me-something-new-beyond-mlr" class="section level2">
+<h2>“Show me something new”, beyond MLR</h2>
+<p>This is worth 4 marks as always.</p>
+<p>One of the problems with Simple Linear Regression is that it tends to overfit to samples. In this new world of powerful computers, there are now several new techniques that go beyond Classical Linear Regression, for example LASSO, Ridge Regression and Elastic Net. These penalise variables that have a small effect.</p>
+<p>Here are two great tutorials about LASSO, ridge and elastic net. - <a href="https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net" class="uri">https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net</a> - <a href="https://www.pluralsight.com/guides/linear-lasso-and-ridge-regression-with-r" class="uri">https://www.pluralsight.com/guides/linear-lasso-and-ridge-regression-with-r</a></p>
+<p>Here is the code to run LASSO on your training data. Explain what LASSO is, see if you can get this up and running and write how it differs from the “best” model you found.</p>
+<pre class="r"><code>library(glmnet)
+
+#define response variable
+y &lt;- TrainingData$quality
+
+#find predictor columns
+predictor_cols &lt;- which(names(TrainingData) %in% c(&quot;alcohol&quot; ,&quot;fixed_acidity&quot; ,
+                                 &quot;citric_acid&quot;,&quot;residual_sugar&quot; ,&quot;chlorides&quot; , 
+                                 &quot;free_sulfur_dioxide&quot; , &quot;total_sulfur_dioxide&quot;,&quot;density&quot;, 
+                                 &quot;pH&quot;  ,&quot;sulphates&quot;  ))
+
+#define matrix of predictor variables
+x &lt;- data.matrix(TrainingData[, predictor_cols])
+
+#perform k-fold cross-validation to find optimal lambda value
+cv_model &lt;- cv.glmnet(x, y, alpha = 1)
+
+#find optimal lambda value that minimizes test MSE
+best_lambda &lt;- cv_model$lambda.min
+
+#find coefficients of best model
+LASSO_best_model &lt;- glmnet(x, y, alpha = 1, lambda = best_lambda)
+
+print(&quot;Lasso model coefficients&quot;)
+coef(LASSO_best_model)
+
+#predict
+predictor_cols &lt;- which(names(TrainingData) %in% c(&quot;alcohol&quot; ,&quot;fixed_acidity&quot; ,
+                                 &quot;citric_acid&quot;,&quot;residual_sugar&quot; ,&quot;chlorides&quot; , 
+                                 &quot;free_sulfur_dioxide&quot; , &quot;total_sulfur_dioxide&quot;,&quot;density&quot;, 
+                                 &quot;pH&quot;  ,&quot;sulphates&quot;  ))
+
+testx &lt;- data.matrix(TestData[, predictor_cols ])
+
+TestData$LASSOpredict &lt;- predict(LASSO_best_model, s = best_lambda, newx = testx)
+TestData$ResidualLASOO &lt;-TestData$quality - TestData$LASSOpredict
+
+RMSE &lt;- sqrt(mean(TestData$ResidualLASOO^2))
+print(&quot;RMSE of test data&quot;)
+RMSE</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="submitting-your-lab" class="section level1">
+<h1>Submitting your Lab</h1>
+<p>Press the knit button for the final time. If you have not made any mistakes in the code then R should create a html file in your lab 7 folder which includes your answers. If you look at your lab 8 folder, you should see this there - complete with a very recent time-stamp. In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.</p>
+<p><br></p>
+</div>
+<div id="grading-rubricchecklist" class="section level1">
+<h1>Grading Rubric/checklist</h1>
+<p>See the table below for what this means - 100% is hard to get!</p>
+<p><strong>HTML FILE SUBMISSION - 10 marks</strong></p>
+<p><strong>RMD CODE SUBMISSION - 5 marks</strong></p>
+<p><strong>Professional report 15 MARKS</strong></p>
+<p>Full marks for a report that <em>I</em> would take into a job interview. You have done things like fully labeled plots using words, tried more sophisticated plots than just the basics, written full paragraphs/sentences, used equation formats, sub-headings, used spell check, explained results in clear language, included units, used a theme and table of contents.. Lose marks for each thing that makes it look non-professional.</p>
+<p><strong>Describe the data and EDA - 15 MARKS</strong></p>
+<p>You have explored the data using the guide, conducted quality control where you removed the observation that was clearly wrong and written up your results clearly. You have created the correlation matrix plot and sensitively described the relationship between your response and your predictors.</p>
+<p><strong>Modelling - 30 MARKS</strong></p>
+<p>You clearly created, summarised and assessed each model. It was clear what your strategy was for a favourite.</p>
+<p><strong>Favorite and comparison - 20 MARKS</strong></p>
+<p>You properly compared the models, made your prediction and uploaded your results.</p>
+<p><strong>LASSO - 5 MARKS</strong></p>
+<p>You got the code running and explained what LASSO was and your results.</p>
+<p>See above</p>
+<p>[100 marks total]</p>
+<p>Overall, here is what your lab should correspond to:</p>
+<table class=" lightable-classic-2 table table-striped table-hover table-responsive" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Grade
+</th>
+<th style="text-align:left;">
+% Mark
+</th>
+<th style="text-align:left;">
+Rubric
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+A*
+</td>
+<td style="text-align:left;">
+98-100
+</td>
+<td style="text-align:left;">
+Exceptional.  Not only was it near perfect, but the graders learned something.  THIS IS HARD TO GET.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+96+
+</td>
+<td style="text-align:left;">
+You went above and beyond
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:left;">
+94+:
+</td>
+<td style="text-align:left;">
+Everything asked for with high quality.   Class example
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+A-
+</td>
+<td style="text-align:left;">
+90+
+</td>
+<td style="text-align:left;">
+The odd minor mistake, All code done but not written up in full sentences etc. A little less care
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B+
+</td>
+<td style="text-align:left;">
+87+
+</td>
+<td style="text-align:left;">
+More minor mistakes.  Things like missing units, getting the odd question wrong, no workings shown
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:left;">
+84+
+</td>
+<td style="text-align:left;">
+Solid work but the odd larger mistake or missing answer.  Completely misinterpreted something, that type of thing
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+B-
+</td>
+<td style="text-align:left;">
+80+
+</td>
+<td style="text-align:left;">
+Starting to miss entire/questions sections, or multiple larger mistakes. Still a solid attempt. 
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C+
+</td>
+<td style="text-align:left;">
+77+
+</td>
+<td style="text-align:left;">
+You made a good effort and did some things well, but there were a lot of problems. (e.g. you wrote up the text well, but messed up the code)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:left;">
+70+
+</td>
+<td style="text-align:left;">
+It’s clear you tried and learned something.  Just attending labs will get you this much as we can help you get to this stage
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:left;">
+60+
+</td>
+<td style="text-align:left;">
+You attempt the lab and submit something. Not clear you put in much effort or you had real issues
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+0+
+</td>
+<td style="text-align:left;">
+Didn’t submit, or incredibly limited attempt. 
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

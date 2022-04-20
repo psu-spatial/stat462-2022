@@ -63,6 +63,8 @@ library(MASS)
 library(visreg)
 library("ggstatsplot")
 
+## NOTE FOR 2023 - CHOOSE A BETTER DATASET - THIS ONE REJECTS MOST VALUES>
+
 ```
 
 
@@ -171,7 +173,7 @@ Follow the instructions below to answer their questions.
 
 **Step 2:**  Read the data into R.  In the `Data Description` and `Study Aim` sections, use the first part of the [teaching notes](https://psu.instructure.com/courses/2174925/files/132549205) to help you write about the following: <br> 
 
- - The background of the study *(imagine this is a real report and the Mayor doesn't know the background)*
+ - The background of the study *(imagine this is a real report and your customer doesn't know the background)*
  - A short description of the data.
  - The object of analysis
  - A reasonable population *(what population could your results be extrapolated to/  All water in the universe in all time?)*
@@ -223,7 +225,7 @@ ggcorrmat(movies)
  
  c. Use equatiomatic or any other method to formally write out the equation and coefficients.
  
- d. The Mayor doesn't know regression.  Clearly interpret each of the estimated model parameters (slope & intercept)/model summary-statistics in the the context of the problem, in a way that would be understandable to your customer. <br><br> By this I mean explain what the slopes and intercept means in term of the problem, highlighting if this is useful or nonsensical (like knowing weight of someone with zero height is not useful). <br> 
+ d. Clearly interpret each of the estimated model parameters (slope & intercept)/model summary-statistics in the the context of the problem, in a way that would be understandable to your customer. <br><br> By this I mean explain what the slopes and intercept means in term of Rotten Tomatoes scores, highlighting if this is useful or nonsensical (like knowing weight of someone with zero height is not useful). <br> 
  
  e. State the percentage of variability in  Rotten Tomatoes score is explained by your model, and exactly which statistic you chose for this.
  
@@ -287,6 +289,8 @@ ols_regress(fit.1)
 _"The test-results for partial slopes" is a fancy way of saying "look at the T-test result and corresponding p-value of each variable in the model summary".  Essentially, they are the likelihood of that variable being an important part of the model IF EVERYTHING ELSE WAS HELD CONSTANT._
   
 By looking at the test results for the partial slopes (at a 10% level of significance), identify any predictor variable/s you would like to drop/delete from your model.    Provide reasons for your choice(s). Does this meet your expectations from the correlation matrix? You do not have to write down any steps for hypothesis testing here, but you do need to justify your decision.
+
+Note, there might be quite a few things you decide to drop..
 
 
 <br>
@@ -357,11 +361,17 @@ So far, we manually compared two models.  In fact there is a way to compare all 
 
 Describe what the "best subset" method is doing. Hint, we will go over this in lectures, but also https://online.stat.psu.edu/stat501/lesson/10/10.3 
 
-Use the subset method to assess the optimal fit using at least 3 goodness of fit measures.  Which model is your final favourite.  Take a quick look at LINE assumptions but you don't need to find a new model if it's not valid (just talk about what you find)
+Use the subset method to assess the optimal fit using at least 3 goodness of fit measures.  Which model is your final favourite.  Fit the model and take a quick look at LINE assumptions but you don't need to find a new model if it's not valid (just talk about what you find)
 
 ```{r, include=FALSE}
 ols_step_best_subset(fit.1)
 ```
+
+
+### Bonus mark 1%
+
+Why are there suddenly variables in your "best" model that you would have dropped from your original model in Step 10.  
+
 
 
 ## Show me something new

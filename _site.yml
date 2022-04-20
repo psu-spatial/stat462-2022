@@ -23,6 +23,8 @@ navbar:
           href: STAT462_Lab6.html
         - text: "Lab 7: Multiple Regression"
           href: STAT462_Lab7.html
+        - text: "Lab 8: Putting it together"
+          href: STAT462_Lab8.html
     - text: "LAB EXAMPLE"
       href: STAT462_LabEXAMPLE.html 
     - text: "Worked questions"

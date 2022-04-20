@@ -287,11 +287,10 @@ Using the study aim I wrote above, identify your response and specific predictor
 ```{r, include=FALSE}
 plot(bass$Mercury~bass$Alkalinity)
 model1 <- lm(Mercury~Alkalinity,data=bass)
+abline(model1)
 olsrr::ols_plot_resid_fit(model1)
 olsrr::ols_plot_cooksd_chart(model1)
 olsrr::ols_plot_resid_lev(model1)
-
-
 
 # Make a new column with the predicted y value
 bass$y_predicted <- model1$fitted.values

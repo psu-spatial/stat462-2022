@@ -358,6 +358,9 @@ div.tocify {
     <li>
       <a href="STAT462_Lab7.html">Lab 7: Multiple Regression</a>
     </li>
+    <li>
+      <a href="STAT462_Lab8.html">Lab 8: Putting it together</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -502,7 +505,7 @@ The headings in the template are guidelines. If it helps to use your own or to t
 <h3>Exploratory Data Analysis (Step 2-5)</h3>
 <p><strong>Step 2:</strong> Read the data into R. In the <code>Data Description</code> and <code>Study Aim</code> sections, use the first part of the <a href="https://psu.instructure.com/courses/2174925/files/132549205">teaching notes</a> to help you write about the following: <br></p>
 <ul>
-<li>The background of the study <em>(imagine this is a real report and the Mayor doesn’t know the background)</em></li>
+<li>The background of the study <em>(imagine this is a real report and your customer doesn’t know the background)</em></li>
 <li>A short description of the data.</li>
 <li>The object of analysis</li>
 <li>A reasonable population <em>(what population could your results be extrapolated to/ All water in the universe in all time?)</em></li>
@@ -536,7 +539,7 @@ Hint: For full marks, plots like histograms should have proper x and y axis labe
 <li><p>Fit a full multiple regression model to the data, with RottenTomatoes as your response and ALL of the other variables as your predictors. Hint, if you haven’t already done this, <em>first</em> remove the TEST_TEST movie row from the excel file and re-run.</p></li>
 <li><p>Show the model summary</p></li>
 <li><p>Use equatiomatic or any other method to formally write out the equation and coefficients.</p></li>
-<li><p>The Mayor doesn’t know regression. Clearly interpret each of the estimated model parameters (slope &amp; intercept)/model summary-statistics in the the context of the problem, in a way that would be understandable to your customer. <br><br> By this I mean explain what the slopes and intercept means in term of the problem, highlighting if this is useful or nonsensical (like knowing weight of someone with zero height is not useful). <br></p></li>
+<li><p>Clearly interpret each of the estimated model parameters (slope &amp; intercept)/model summary-statistics in the the context of the problem, in a way that would be understandable to your customer. <br><br> By this I mean explain what the slopes and intercept means in term of Rotten Tomatoes scores, highlighting if this is useful or nonsensical (like knowing weight of someone with zero height is not useful). <br></p></li>
 <li><p>State the percentage of variability in Rotten Tomatoes score is explained by your model, and exactly which statistic you chose for this.</p></li>
 </ol>
 <p><br></p>
@@ -550,6 +553,7 @@ Hint: For full marks, plots like histograms should have proper x and y axis labe
 <p><strong>Step 10:</strong> Partial Slopes</p>
 <p><em>“The test-results for partial slopes” is a fancy way of saying “look at the T-test result and corresponding p-value of each variable in the model summary”. Essentially, they are the likelihood of that variable being an important part of the model IF EVERYTHING ELSE WAS HELD CONSTANT.</em></p>
 <p>By looking at the test results for the partial slopes (at a 10% level of significance), identify any predictor variable/s you would like to drop/delete from your model. Provide reasons for your choice(s). Does this meet your expectations from the correlation matrix? You do not have to write down any steps for hypothesis testing here, but you do need to justify your decision.</p>
+<p>Note, there might be quite a few things you decide to drop..</p>
 <p><br></p>
 </div>
 <div id="new-models-step-11-12" class="section level3">
@@ -615,7 +619,11 @@ Hint: For full marks, plots like histograms should have proper x and y axis labe
 <p><strong>Step 14:</strong> Find the “optimum”/“best model. There are many models/combinations of predictors that we could use to predict our response variable. We want to find the best model possible, but we also don’t want to overfit.</p>
 <p>So far, we manually compared two models. In fact there is a way to compare all the combinations of predictors. This is using the <code>ols_step_best_subset()</code> command. Run this on your ORIGINAL linear model fit (Model1, the one including all the variables). e.g. <code>ols_step_best_subset(mymodel)</code>.</p>
 <p>Describe what the “best subset” method is doing. Hint, we will go over this in lectures, but also <a href="https://online.stat.psu.edu/stat501/lesson/10/10.3" class="uri">https://online.stat.psu.edu/stat501/lesson/10/10.3</a></p>
-<p>Use the subset method to assess the optimal fit using at least 3 goodness of fit measures. Which model is your final favourite. Take a quick look at LINE assumptions but you don’t need to find a new model if it’s not valid (just talk about what you find)</p>
+<p>Use the subset method to assess the optimal fit using at least 3 goodness of fit measures. Which model is your final favourite. Fit the model and take a quick look at LINE assumptions but you don’t need to find a new model if it’s not valid (just talk about what you find)</p>
+</div>
+<div id="bonus-mark-1" class="section level3">
+<h3>Bonus mark 1%</h3>
+<p>Why are there suddenly variables in your “best” model that you would have dropped from your original model in Step 10.</p>
 </div>
 </div>
 <div id="show-me-something-new" class="section level2">

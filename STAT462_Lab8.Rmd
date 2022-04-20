@@ -1,0 +1,450 @@
+---
+title: "Lab 8: Putting it all together"
+subtitle: <h5 style="font-style:normal">STAT-462 - Regression Analysis</h4>
+author: <h5 style="font-style:normal">Dr Helen Greatrex</h4>
+output: 
+  html_document:
+    toc: true 
+    toc_depth: 4
+    toc_float:
+      collapsed: no
+    number_sections: no
+---
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+
+
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+
+
+\
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+library(tidyverse)
+library(dplyr)
+library(ggpubr)
+library(skimr)
+library(ggplot2)
+library(plotly)
+library(ISLR)
+library(equatiomatic)
+library(olsrr)
+library(Stat2Data)
+library(readxl)
+library(corrplot)
+library(kableExtra)
+library(MASS)
+library(visreg)
+library("ggstatsplot")
+
+## NOTE FOR 2023 - CHOOSE A BETTER DATASET - THIS ONE REJECTS MOST VALUES>
+
+```
+
+
+# Learning objectives 
+
+When you finish your studies at Penn State, I hope you will be well equipped to face the world ahead.  One of those skills will be choosing the best wine :)  We are going to look at this problem as a class - although you will all have different training data.
+
+The learning objectives are putting what you have learned together and making your own reference guide on regression for the future.  We will also look at model fitting.
+
+There is a TEAMS discussion for lab help [CLICK HERE](https://teams.microsoft.com/l/team/19%3aWabo92vghie-p1jKkmYOGJIOPMUExkoPb0JQMb_9dgw1%40thread.tacv2/conversations?groupId=bbc92dcc-56df-48e6-8da3-5cd766908eeb&tenantId=7cf48d45-3ddb-4389-a9c1-c115526eb52e).  
+
+Here is the canvas page: https://psu.instructure.com/courses/2174925/assignments/
+
+<p class="comment">**Assignment 8 has TWO deadlines. <br> Before the final lecture April-29, you must have uploaded model parameters to Canvas. <br> The final report is due the Wednesday of exams week**</p> 
+
+<p class="comment">I PROVIDE HELP UNTIL THE END OF THE SEMESTER (April 29th). Exams week is for your own finishing up.</p>
+
+<br>  
+
+
+# RED wine prediction
+
+This lab will examine the topic of Red wine quality from the Vinho Verde vinyard, from the Minho (northwest) region of Portugal. This wine accounts for 15% of total Portuguese production.  Data was collected from May/2004 to February/2007 using only protected designation of origin samples that were tested at the official certification entity (CVRVV). The CVRVV is an inter-professional organization with the goal of improving the quality and marketing of Portugese wine. 
+
+Most data was recorded by a computerized system (iLab), which automatically manages the process of wine sample testing from producer requests to laboratory and sensory analysis. Physicochemical laboratory tests routinely used to characterize wine include determination of density, alcohol or pH values. If you wish to know more about these tests you can see detailed info here: https://www.oiv.int/public/medias/2468/oiv-ma-as2-01b.pdf
+
+Other tests rely  on human experts. To assess wine quality, each sample was evaluated by a minimum of three sensory assessors (using blind tastes), which graded the wine in a scale that ranges from 0 (very bad) to 10 (excellent). 
+
+For more details on this (real) study, consult: https://www.vinhoverde.pt/en/statistics or the reference [Cortez et al,2009 - https://link.springer.com/chapter/10.1007/978-3-642-04747-3_8]. 
+
+
+## Overall task
+
+I wish to understand what characteristics of red wines predict high quality.  Each of you has been awarded an individual training sample of 300 Red wines.  
+
+ - Unit of analysis: A single sample of Red wine from the vineyard
+ - Population: All Red wines from this vineyard
+ - Sample: 300 wine samples taken between 2004 and 2007
+ - Response variable: 'quality' (see above for details)
+
+You also have access to these variables which could potentially be used to predict quality.  
+
+ - alcohol (% Vol)
+ - fixed_acidity ($g(tartaric.acid)/dm^3$)
+ - citric_acid ( _low_ | _medium_ | _high_)
+ - residual_sugar ($g/cm^3$)
+ - chlorides  ($g(sodium.chloride)/dm^3$)
+ - free_sulfur_dioxide ($mg/dm^3$)
+ - total_sulfur_dioxide ($mg/dm^3$)
+ - density ($g/cm^3$) (mass per unit volume of wine or must at 20°C)
+ - pH
+ - sulphates ($g/cm^3$)
+ 
+**Your task is to use your personal sample to predict wine quality. To the best of your ability need to find a model that is both valid (e.g. meets LINE) and 'fits' the best without over-fitting.** 
+
+**I have a 'new' dataset of 200 red wines with the same variables. Once you are happy with your model, you will then predict the quality of those 200 wines and upload the model and your errors to canvas.  We will then see as a class the range of models that you come up with.**
+
+<p class="comment">This is real data, there is no right answer and you _will_ get a different result to your classmates as you have individual training data.</p> 
+
+<br>
+
+
+## Specific instructions
+
+
+**Step 1: SET-UP** 
+
+Create a new project for Lab 8 and copy your lab template to your lab 8 folder | Rename and open. | In the library section, add a new code chunk and use this code to load the libraries below. You WILL need to install some first. |  Hint, NEVER put install.packages in your code chunk, run it in the console. | Finally, press knit to check the html works and your theme works. 
+
+If you struggle with any of this step, see previous labs and the tutorials for detailed help. Or ask for help.
+
+```{r, eval=FALSE}
+# Load libraries
+library("tidyverse") # Lots of data processing commands
+library("knitr")     # Helps make good output files
+library("ggplot2")   # Output plots
+library("rmarkdown") # Helps make good output files
+library("lattice")   # Makes nice plots
+library("RColorBrewer") # Makes nice color-scales
+library("skimr")     # Summary statistics
+library("Stat2Data") # Regression specific commands
+library("corrplot")  # correlation plots
+library("GGally")    # correlation plots
+library("ggpubr")    # QQplots
+library("olsrr")     # Regression specific commands
+library("plotly")    # Interactive plots
+library("readxl")    # Read from excel files
+library("equatiomatic") # extract equations
+library("ggstatsplot")
+library("MASS")
+
+# NEW
+library(DescTools)
+library(glmnet)
+
+## you may need additional libraries.  Just add them to this list if you get errors.
+
+```
+
+<br>
+
+**Step 2: READ IN THE DATA** 
+
+Read both your personal training data AND the test data into R.  Call the training dataset TrainData and the test dataset TestData.
+
+<br>
+
+**Step 3: STUDY DESCRIPTION**  
+
+In the `Data Description` and `Study Aim` sections, use the first part of the [teaching notes](https://psu.instructure.com/courses/2174925/files/132549205) and the overview to help you write about the following: <br> 
+
+ - The background of the study 
+ - A short description of the data.
+ - The object of analysis
+ - A reasonable population 
+ - The response variable 
+ - A bullet point list the other variables that could potentially be a predictor.
+ - A description of your sample
+ - Statements to answer the questions on page 3 of the teaching notes 
+ - A short paragraph to summarise the study *(Example for penguins on page 3 of the teaching notes)*
+    
+ <p class="comment">I have given you much of this, so you simply need to summarise in your own words, but including more about wine and the problem will gain extra marks.  Essentially, make this a report you would be happy showing in a job interview.  You are welcome to change the template in any way you like but you will be graded on clarity.".</p>
+
+<br>
+
+**Step 4: QUALITY CONTROL**.  YOU SHOULD BE USING THE TRAINING DATASET.  
+
+Create a section called quality control.  There are issues and errors within your training dataset which you will find as you explore the data.  If you choose to remove any data points, summarise which ones you removed and why.  Run all your models below on the final clean data.
+
+<br>
+
+**Step 5: EXPLORATORY ANALYSIS**. YOU SHOULD BE USING THE TRAINING DATASET. 
+
+Now your data is clean, using the example from previous labs, explore your response variable and the predictors. You could look at the type of data, it distributions, and any correlations/relationships that you see. Any plots should look professional and you should explain any plots/results (e.g. explain to me what a correlation matrix is and any interesting results, don't just put it in).
+
+<br>
+
+**Step 6: MODEL BUILDING**.  YOU SHOULD BE USING THE TRAINING DATASET.  
+
+It is now up to you to find the "optimum" model to predict the quality of **red** wine in your training dataset.  This should meet L.I.N.E (+multicollinearity) assumptions as much as possible, you should have explored any outliers and it should have high model accuracy. For example, you could use your understanding of the situation, the correlation matrix, best-subsets stepwise regression, or anything else. 
+
+In your report, should include details of _at least two_ models.  For each model,
+
+ - Make a sub-section and name the model
+ - Create the model and include its equation
+ - Assess model accuracy / "goodness of fit" ([hint](http://www.sthda.com/english/articles/38-regression-model-validation/158-regression-model-accuracy-metrics-r-square-aic-bic-cp-and-more/) )
+ - Assess LINE and DISCUSS EACH L.I.N.E ASSUMPTION IN THE TEXT.
+ - Discuss if there are any spurious/confounding/lurking variables. E.g. are there things in your model that you don't need, or is there something missing.
+ 
+As an example, a report might look like
+
+Model 1:
+ - I chose this model through my knowledge of the situation
+ - model_code
+ - Does it meet L.I.N.E.
+    + If not, what can I change? 
+    + If yes, how accurate is it?
+ - State way forward: e.g "This model failed linearity, so I will try a transformation for model 2" | or "i wonder if there are variables I missed.."
+ 
+Model 2: 
+ - I chose this model through [reason above]
+ - model_code
+ - Does it meet L.I.N.E.
+    + If not, what can I change? 
+    + If yes, how accurate is it and how does it compare to previous models.
+ - State way forward for model 3...
+ 
+Repeat until you are happy.  To help with this, here is a summary of the code I for each model. There are many options available. Feel free to edit/change!  There are many more options in your past labs and the tutorials.
+
+```{r, eval=FALSE}
+# need to edit this each time. and I normally change "mymodel" a name that makes sense.
+mymodel <- lm ( ResponseCol ~ PredictorCol1 + PredictorCol1,  data= tablename)
+```
+```{r,eval=FALSE}
+# Add asis=TRUE in the r curly brackets to automatically make the equation as you knit.
+equatiomatic::extract_eq(mymodel,use_coefs = TRUE,coef_digits = 4)
+```
+```{r, eval=FALSE}
+# LINE -----------------------
+# Residuals vs fitted
+ols_plot_resid_fit (mymodel)
+
+# Equal variance test (lecture 24)
+lmtest::bptest(mymodel)
+
+# Normality of residuals
+ols_plot_resid_hist(mymodel)
+ols_test_normality(mymodel)
+
+# Outliers
+ols_plot_resid_lev(mymodel)
+
+# Outliers
+ols_plot_comp_plus_resid(mymodel)
+
+# multicollinearity
+car::vif(mymodel)
+```
+```{r, eval=FALSE}
+# Summary / goodness of fit -----------------------
+#summary(mymodel)
+ols_regress(mymodel)
+anova(mymodel)
+```
+```{r, eval=FALSE}
+# Comparison  -----------------------
+anova(mymodel1 , mymodel2)
+AIC(mymodel1, mymodel2)
+```
+```{r, eval=FALSE}
+# Automated model building  -----------------------
+ols_step_best_subset(mymodel)
+```
+
+<br>
+
+**Step 7: COMPARING MODELS**.  YOU SHOULD BE USING THE TRAINING DATASET.  
+
+This overlaps with the previous section.  But include a small section comparing at least two models using AIC and an anova F-test. Remember to write out the test fully (e.g. include H0, H1, test statistic, p value, conclusion).
+
+**Step 8a: SUMMARISE FAVOURITE MODEL**.  YOU SHOULD BE USING THE TRAINING DATASET.  
+
+Finally, briefly summarise your final choice of model, including:
+
+ - The model summary from R
+ - The equation
+ - Explain to me which predictors have the biggest impact on quality and which are most/least significant.  
+ - If there are categorical predictors in your model, explain what they mean.
+ - A sentence or two to summarise whether it met the LINE assumptions. 
+ - The adjusted R^2
+
+**Step 8b:** 
+
+We can see how good your model is by plotting your predicted quality against the actual quality. 
+
+Add a column of the modelled values for your training data using this command, replacing 'mymodel' with the name of your favorite model.  
+
+```{r, eval=FALSE}
+TrainData$quality_predicted  <- FINALMODEL$fitted.values
+TrainData$residual           <- TrainData$quality - TrainData$quality_predicted
+
+RMSE_training <- sqrt(mean(TrainData$residual^2))
+```
+
+Make a professional plot of quality vs predicted values. 
+
+
+<br>
+
+**Step 8: PREDICTING THE NEW DATASET**.  YOU SHOULD BE USING THE TRAINING DATASET.  
+
+As well as creating confidence and prediction intervals, we can use the predict command to predict many new values.  We can summarise the size of the predictedresiduals using the Root Mean Squared Error of prediction (RMSE)..
+
+Assuming you read in your TestData in step 1
+
+```{r, eval=FALSE}
+# THIS IS FOR THE NEW TESTDATA
+TestData$quality_predicted <- predict(FINALMODEL ,newdata=TestData)
+TestData$Residual   <- TestData$quality - TestData$quality_predicted
+
+RMSE_training <- sqrt(mean(TestData$residual^2))
+
+```
+
+Make a professional plot of quality vs predicted values and state the RMSE for your **test dataset**.  Comment on how this model appears to fit on the test data.
+
+
+**Step 9: Upload values**.  GO TO CANVAS
+
+See the Canvas quiz.  For your favourite model, enter the values of each model coefficient and your final RMSE.  We will see the range of values obtained across the class.
+
+
+## "Show me something new", beyond MLR
+
+This is worth 4 marks as always.  
+
+One of the problems with Simple Linear Regression is that it tends to overfit to samples.   In this new world of powerful computers, there are now several new techniques that go beyond Classical Linear Regression, for example LASSO, Ridge Regression and Elastic Net.  These penalise variables that have a small effect.
+
+Here are two great tutorials about LASSO, ridge and elastic net. 
+ - https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net
+ - https://www.pluralsight.com/guides/linear-lasso-and-ridge-regression-with-r
+
+Here is the code to run LASSO on your training data.  Explain what LASSO is, see if you can get this up and running and write how it differs from the "best" model you found.  
+
+```{r, eval=FALSE}
+library(glmnet)
+
+#define response variable
+y <- TrainingData$quality
+
+#find predictor columns
+predictor_cols <- which(names(TrainingData) %in% c("alcohol" ,"fixed_acidity" ,
+                                 "citric_acid","residual_sugar" ,"chlorides" , 
+                                 "free_sulfur_dioxide" , "total_sulfur_dioxide","density", 
+                                 "pH"  ,"sulphates"  ))
+
+#define matrix of predictor variables
+x <- data.matrix(TrainingData[, predictor_cols])
+
+#perform k-fold cross-validation to find optimal lambda value
+cv_model <- cv.glmnet(x, y, alpha = 1)
+
+#find optimal lambda value that minimizes test MSE
+best_lambda <- cv_model$lambda.min
+
+#find coefficients of best model
+LASSO_best_model <- glmnet(x, y, alpha = 1, lambda = best_lambda)
+
+print("Lasso model coefficients")
+coef(LASSO_best_model)
+
+#predict
+predictor_cols <- which(names(TrainingData) %in% c("alcohol" ,"fixed_acidity" ,
+                                 "citric_acid","residual_sugar" ,"chlorides" , 
+                                 "free_sulfur_dioxide" , "total_sulfur_dioxide","density", 
+                                 "pH"  ,"sulphates"  ))
+
+testx <- data.matrix(TestData[, predictor_cols ])
+
+TestData$LASSOpredict <- predict(LASSO_best_model, s = best_lambda, newx = testx)
+TestData$ResidualLASOO <-TestData$quality - TestData$LASSOpredict
+
+RMSE <- sqrt(mean(TestData$ResidualLASOO^2))
+print("RMSE of test data")
+RMSE
+
+```
+
+
+<br>
+
+# Submitting your Lab
+
+Press the knit button for the final time.  If you have not made any mistakes in the code then R should create a html file in your lab 7 folder which includes your answers. If you look at your lab 8 folder, you should see this there - complete with a very recent time-stamp. In that folder, double click on the html file.  This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT.
+
+
+<br>
+
+# Grading Rubric/checklist
+
+See the table below for what this means - 100% is hard to get!
+
+**HTML FILE SUBMISSION - 10 marks**
+
+**RMD CODE SUBMISSION - 5 marks**
+
+**Professional report 15 MARKS** 
+
+Full marks for a report that _I_ would take into a job interview.  You have done things like fully labeled plots using words, tried more sophisticated plots than just the basics, written full paragraphs/sentences, used equation formats, sub-headings, used spell check, explained results in clear language, included units, used a theme and table of contents..  Lose marks for each thing that makes it look non-professional.
+
+**Describe the data and EDA - 15 MARKS** 
+
+You have explored the data using the guide, conducted quality control where you removed the observation that was clearly wrong and written up your results clearly.  You have created the correlation matrix plot and sensitively described the relationship between your response and your predictors.
+
+**Modelling - 30 MARKS** 
+
+You clearly created, summarised and assessed each model.  It was clear what your strategy was for a favourite. 
+
+**Favorite and comparison - 20 MARKS** 
+
+You properly compared the models, made your prediction and uploaded your results.
+
+**LASSO - 5 MARKS**
+
+You got the code running and explained what LASSO was and your results.
+
+See above
+ 
+[100 marks total]
+ 
+
+
+Overall, here is what your lab should correspond to:
+
+```{r, echo=FALSE}
+rubric <- readxl::read_excel("STAT462_22_LRubric.xlsx")
+knitr::kable(rubric) %>%   
+  kable_classic_2() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
+
+
+```
+
