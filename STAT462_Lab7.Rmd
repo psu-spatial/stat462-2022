@@ -329,7 +329,6 @@ print(AIC(fit.1,fit.2))
 | Variable Name       | Value                                       |
 |---------------------|---------------------------------------------|
 | _Name_              | "Hunt of the Killer Cactus"                 |
-| _TheatresOpenWeek_  | 100 weeks                                   |
 | _AudienceScore_     | 59%                                         |
 | _TheatersOpenWeek_  | 15 cinemas                                  |
 | _BOAverageOpenWeek_ | $5200                                       |
