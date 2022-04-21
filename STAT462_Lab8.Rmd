@@ -194,6 +194,14 @@ In the `Data Description` and `Study Aim` sections, use the first part of the [t
 
 Create a section called quality control.  There are issues and errors within your training dataset which you will find as you explore the data.  If you choose to remove any data points, summarise which ones you removed and why.  Run all your models below on the final clean data.
 
+*Note, your response variable is integer numeric (numbers from 1-10) making histograms a little weird.  There are a few ways to approach this dataset.  One would be to consider the data as categorical ordinal and to use a machine learning approach or ordinal logistic regression.  To consider this data for our type of classical regression, we need to satisfy a few things related to  LINE assumptions.*
+
+ - *There is equidistant spacing between the levels.  E.g. "bad" "medium" "good" is hard to quantify, but a scale from 1-10 is just about OK.*
+ - *Second, the distribution of the ordinal responses may be severely non-normal (e.g. people often chose 1 or 10 but never 5).  In this case, the data is approximately normal (it will fail the wilks-shapiro but should be approximately normal)*
+ - *There is approximately equal variance at each level. Essentially, looking at LINE assumptions is even more important* 
+ 
+*In our case, it would be reasonable to imagine our response as a sliding scale (e.g. slide the slider between 0 and 10) which would give a continuous number and it reasonably satisfies the assumptions above, so I am OK using this for regression. Other approaches are covered in the Cortez paper.*
+
 <br>
 
 **Step 5: EXPLORATORY ANALYSIS**. YOU SHOULD BE USING THE TRAINING DATASET. 
@@ -217,6 +225,7 @@ In your report, should include details of _at least two_ models.  For each model
 As an example, a report might look like
 
 Model 1:
+
  - I chose this model through my knowledge of the situation
  - model_code
  - Does it meet L.I.N.E.
@@ -225,6 +234,7 @@ Model 1:
  - State way forward: e.g "This model failed linearity, so I will try a transformation for model 2" | or "i wonder if there are variables I missed.."
  
 Model 2: 
+
  - I chose this model through [reason above]
  - model_code
  - Does it meet L.I.N.E.
@@ -339,11 +349,12 @@ See the Canvas quiz.  For your favourite model, enter the values of each model c
 
 ## "Show me something new", beyond MLR
 
-This is worth 4 marks as always.  
+This is worth 5 marks as always.  
 
 One of the problems with Simple Linear Regression is that it tends to overfit to samples.   In this new world of powerful computers, there are now several new techniques that go beyond Classical Linear Regression, for example LASSO, Ridge Regression and Elastic Net.  These penalise variables that have a small effect.
 
 Here are two great tutorials about LASSO, ridge and elastic net. 
+
  - https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net
  - https://www.pluralsight.com/guides/linear-lasso-and-ridge-regression-with-r
 

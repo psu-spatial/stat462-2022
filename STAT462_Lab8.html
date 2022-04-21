@@ -523,6 +523,13 @@ I have given you much of this, so you simply need to summarise in your own words
 <p><br></p>
 <p><strong>Step 4: QUALITY CONTROL</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
 <p>Create a section called quality control. There are issues and errors within your training dataset which you will find as you explore the data. If you choose to remove any data points, summarise which ones you removed and why. Run all your models below on the final clean data.</p>
+<p><em>Note, your response variable is integer numeric (numbers from 1-10) making histograms a little weird. There are a few ways to approach this dataset. One would be to consider the data as categorical ordinal and to use a machine learning approach or ordinal logistic regression. To consider this data for our type of classical regression, we need to satisfy a few things related to LINE assumptions.</em></p>
+<ul>
+<li><em>There is equidistant spacing between the levels. E.g. “bad” “medium” “good” is hard to quantify, but a scale from 1-10 is just about OK.</em></li>
+<li><em>Second, the distribution of the ordinal responses may be severely non-normal (e.g. people often chose 1 or 10 but never 5). In this case, the data is approximately normal (it will fail the wilks-shapiro but should be approximately normal)</em></li>
+<li><em>There is approximately equal variance at each level. Essentially, looking at LINE assumptions is even more important</em></li>
+</ul>
+<p><em>In our case, it would be reasonable to imagine our response as a sliding scale (e.g. slide the slider between 0 and 10) which would give a continuous number and it reasonably satisfies the assumptions above, so I am OK using this for regression. Other approaches are covered in the Cortez paper.</em></p>
 <p><br></p>
 <p><strong>Step 5: EXPLORATORY ANALYSIS</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
 <p>Now your data is clean, using the example from previous labs, explore your response variable and the predictors. You could look at the type of data, it distributions, and any correlations/relationships that you see. Any plots should look professional and you should explain any plots/results (e.g. explain to me what a correlation matrix is and any interesting results, don’t just put it in).</p>
@@ -538,8 +545,28 @@ I have given you much of this, so you simply need to summarise in your own words
 <li>Discuss if there are any spurious/confounding/lurking variables. E.g. are there things in your model that you don’t need, or is there something missing.</li>
 </ul>
 <p>As an example, a report might look like</p>
-<p>Model 1: - I chose this model through my knowledge of the situation - model_code - Does it meet L.I.N.E. + If not, what can I change? + If yes, how accurate is it? - State way forward: e.g “This model failed linearity, so I will try a transformation for model 2” | or “i wonder if there are variables I missed..”</p>
-<p>Model 2: - I chose this model through [reason above] - model_code - Does it meet L.I.N.E. + If not, what can I change? + If yes, how accurate is it and how does it compare to previous models. - State way forward for model 3…</p>
+<p>Model 1:</p>
+<ul>
+<li>I chose this model through my knowledge of the situation</li>
+<li>model_code</li>
+<li>Does it meet L.I.N.E.
+<ul>
+<li>If not, what can I change?</li>
+<li>If yes, how accurate is it?</li>
+</ul></li>
+<li>State way forward: e.g “This model failed linearity, so I will try a transformation for model 2” | or “i wonder if there are variables I missed..”</li>
+</ul>
+<p>Model 2:</p>
+<ul>
+<li>I chose this model through [reason above]</li>
+<li>model_code</li>
+<li>Does it meet L.I.N.E.
+<ul>
+<li>If not, what can I change?</li>
+<li>If yes, how accurate is it and how does it compare to previous models.</li>
+</ul></li>
+<li>State way forward for model 3…</li>
+</ul>
 <p>Repeat until you are happy. To help with this, here is a summary of the code I for each model. There are many options available. Feel free to edit/change! There are many more options in your past labs and the tutorials.</p>
 <pre class="r"><code># need to edit this each time. and I normally change &quot;mymodel&quot; a name that makes sense.
 mymodel &lt;- lm ( ResponseCol ~ PredictorCol1 + PredictorCol1,  data= tablename)</code></pre>
@@ -610,9 +637,13 @@ RMSE_training &lt;- sqrt(mean(TestData$residual^2))</code></pre>
 </div>
 <div id="show-me-something-new-beyond-mlr" class="section level2">
 <h2>“Show me something new”, beyond MLR</h2>
-<p>This is worth 4 marks as always.</p>
+<p>This is worth 5 marks as always.</p>
 <p>One of the problems with Simple Linear Regression is that it tends to overfit to samples. In this new world of powerful computers, there are now several new techniques that go beyond Classical Linear Regression, for example LASSO, Ridge Regression and Elastic Net. These penalise variables that have a small effect.</p>
-<p>Here are two great tutorials about LASSO, ridge and elastic net. - <a href="https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net" class="uri">https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net</a> - <a href="https://www.pluralsight.com/guides/linear-lasso-and-ridge-regression-with-r" class="uri">https://www.pluralsight.com/guides/linear-lasso-and-ridge-regression-with-r</a></p>
+<p>Here are two great tutorials about LASSO, ridge and elastic net.</p>
+<ul>
+<li><a href="https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net" class="uri">https://www.datacamp.com/community/tutorials/tutorial-ridge-lasso-elastic-net</a></li>
+<li><a href="https://www.pluralsight.com/guides/linear-lasso-and-ridge-regression-with-r" class="uri">https://www.pluralsight.com/guides/linear-lasso-and-ridge-regression-with-r</a></li>
+</ul>
 <p>Here is the code to run LASSO on your training data. Explain what LASSO is, see if you can get this up and running and write how it differs from the “best” model you found.</p>
 <pre class="r"><code>library(glmnet)
 

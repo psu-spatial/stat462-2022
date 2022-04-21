@@ -243,6 +243,7 @@ Follow the instructions below to answer their questions.
 library(corrplot)
 mat <- cor(bass[-2])
 corrplot(mat)
+ggstatsplot::ggcorrmat(bass)
 ```
 
 <br>
