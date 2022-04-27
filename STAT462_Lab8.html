@@ -614,7 +614,7 @@ ols_step_best_subset(mymodel)</code></pre>
 <li>A sentence or two to summarise whether it met the LINE assumptions.</li>
 <li>The adjusted R^2</li>
 </ul>
-<p><strong>Step 8b:</strong></p>
+<p><strong>Step 8b: SEE HOW GOOD YOUR MODEL IS AGAINST ITSELF (e.g. another way of plotting residuals)</strong></p>
 <p>We can see how good your model is by plotting your predicted quality against the actual quality.</p>
 <p>Add a column of the modelled values for your training data using this command, replacing ‘mymodel’ with the name of your favorite model.</p>
 <pre class="r"><code>TrainData$quality_predicted  &lt;- FINALMODEL$fitted.values
@@ -623,17 +623,21 @@ TrainData$residual           &lt;- TrainData$quality - TrainData$quality_predict
 RMSE_training &lt;- sqrt(mean(TrainData$residual^2))</code></pre>
 <p>Make a professional plot of quality vs predicted values.</p>
 <p><br></p>
-<p><strong>Step 8: PREDICTING THE NEW DATASET</strong>. YOU SHOULD BE USING THE TRAINING DATASET.</p>
-<p>As well as creating confidence and prediction intervals, we can use the predict command to predict many new values. We can summarise the size of the predictedresiduals using the Root Mean Squared Error of prediction (RMSE)..</p>
-<p>Assuming you read in your TestData in step 1</p>
+<div id="predicting-a-completely-independent-dataset" class="section level3">
+<h3>Predicting a completely independent dataset</h3>
+<p><strong>Step 9: PREDICTING AN INDEPENDENT DATASET</strong>. YOU SHOULD BE USING THE <strong>TEST</strong> DATASET.</p>
+<p>So we have withheld 200 values from your model, that I set aside in my “test data”. They come from the same population. We are now going to see how your model works on the new data.</p>
+<p>As well as creating confidence and prediction intervals, we can use the predict command to predict many new values. We can summarise the size of the predicted residuals using the Root Mean Squared Error of prediction (RMSE)..</p>
+<p>Assuming you read in your <strong>TestData</strong> in step 1</p>
 <pre class="r"><code># THIS IS FOR THE NEW TESTDATA
 TestData$quality_predicted &lt;- predict(FINALMODEL ,newdata=TestData)
 TestData$Residual   &lt;- TestData$quality - TestData$quality_predicted
 
-RMSE_training &lt;- sqrt(mean(TestData$residual^2))</code></pre>
+RMSE_test &lt;- sqrt(mean(TestData$residual^2))</code></pre>
 <p>Make a professional plot of quality vs predicted values and state the RMSE for your <strong>test dataset</strong>. Comment on how this model appears to fit on the test data.</p>
-<p><strong>Step 9: Upload values</strong>. GO TO CANVAS</p>
-<p>See the Canvas quiz. For your favourite model, enter the values of each model coefficient and your final RMSE. We will see the range of values obtained across the class.</p>
+<p><strong>Step 10: Upload values</strong>. GO TO CANVAS</p>
+<p>See the Canvas quiz. For your favourite model, enter the values of each model coefficient. Plus your final RMSE FOR THE TEST DATA. We will see the range of values obtained across the class.</p>
+</div>
 </div>
 <div id="show-me-something-new-beyond-mlr" class="section level2">
 <h2>“Show me something new”, beyond MLR</h2>

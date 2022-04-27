@@ -306,7 +306,7 @@ Finally, briefly summarise your final choice of model, including:
  - A sentence or two to summarise whether it met the LINE assumptions. 
  - The adjusted R^2
 
-**Step 8b:** 
+**Step 8b: SEE HOW GOOD YOUR MODEL IS AGAINST ITSELF (e.g. another way of plotting residuals)** 
 
 We can see how good your model is by plotting your predicted quality against the actual quality. 
 
@@ -324,27 +324,32 @@ Make a professional plot of quality vs predicted values.
 
 <br>
 
-**Step 8: PREDICTING THE NEW DATASET**.  YOU SHOULD BE USING THE TRAINING DATASET.  
+### Predicting a completely independent dataset
 
-As well as creating confidence and prediction intervals, we can use the predict command to predict many new values.  We can summarise the size of the predictedresiduals using the Root Mean Squared Error of prediction (RMSE)..
 
-Assuming you read in your TestData in step 1
+**Step 9: PREDICTING AN INDEPENDENT DATASET**.  YOU SHOULD BE USING THE **TEST** DATASET. 
+
+So we have withheld 200 values from your model, that I set aside in my "test data".  They come from the same population.  We are now going to see how your  model works on the new data.
+
+As well as creating confidence and prediction intervals, we can use the predict command to predict many new values.  We can summarise the size of the predicted residuals using the Root Mean Squared Error of prediction (RMSE)..
+
+Assuming you read in your **TestData** in step 1
 
 ```{r, eval=FALSE}
 # THIS IS FOR THE NEW TESTDATA
 TestData$quality_predicted <- predict(FINALMODEL ,newdata=TestData)
 TestData$Residual   <- TestData$quality - TestData$quality_predicted
 
-RMSE_training <- sqrt(mean(TestData$residual^2))
+RMSE_test <- sqrt(mean(TestData$residual^2))
 
 ```
 
 Make a professional plot of quality vs predicted values and state the RMSE for your **test dataset**.  Comment on how this model appears to fit on the test data.
 
 
-**Step 9: Upload values**.  GO TO CANVAS
+**Step 10: Upload values**.  GO TO CANVAS
 
-See the Canvas quiz.  For your favourite model, enter the values of each model coefficient and your final RMSE.  We will see the range of values obtained across the class.
+See the Canvas quiz.  For your favourite model, enter the values of each model coefficient.  Plus your final RMSE FOR THE TEST DATA.  We will see the range of values obtained across the class.
 
 
 ## "Show me something new", beyond MLR
